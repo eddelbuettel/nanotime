@@ -1,0 +1,13 @@
+#exportPattern("^[[:alpha:]]+")
+import("bit64", "RcppCCTZ")
+#importFrom("RcppCCTZ", "parseDouble", "formatDouble")
+
+export(nanotime)
+
+S3method(nanotime, default)
+S3method(nanotime, numeric)
+S3method(nanotime, character)
+
+S3method(print, nanotime)
+#S3method(show, nanotime)
+
