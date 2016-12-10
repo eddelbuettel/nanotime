@@ -1,3 +1,11 @@
+2016-12-10  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/nanotime.R (print.nanotime): Do not default to character
+	formating here, rather farm out to helper showNanotime
+	(showNanotime): Simple pretty printer
+
+	* tests/simpleTests.R: Added calls to snowNanotime()
+
 2016-12-09  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version): Very initial pre-release 0.0.0

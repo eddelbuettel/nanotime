@@ -70,23 +70,34 @@ nanotime.character <- function(x) {
 
 ##' @rdname nanotime
 print.nanotime <- function(x, ...) {
+    ##z <- as.double(x) * 1e-9
+    ##print(RcppCCTZ:::formatDouble(z))
+    ##
+    ## we get dispatched here from print.integer64 after its strips
+    ## its class off, we pretty much do the same, this ends up printing
+    ## the integer value(s) as character
+    a <- attributes(x)
+    ret <- as.character(x)
+    a$class <- minusclass(a$class, "nanotime")
+    attributes(ret) <- a
+    print(ret, ...)
+    invisible(x)
+}
+
+showNanotime <- function(x, ...) {
     z <- as.double(x) * 1e-9
     print(RcppCCTZ:::formatDouble(z))
 }
 
-#showNanotime <- function(x, ...) {
-#    z <- as.double(x) * 1e-9
-#    print(RcppCCTZ:::formatDouble(z))
-#}
 
-
-## from bit64
-print.integer64 <- function (x, quote = FALSE, ...) {
-    ## -- commented out:  cat("integer64\n")
-    a <- attributes(x)
-    ret <- as.character(x)
-    a$class <- minusclass(a$class, "integer64")
-    attributes(ret) <- a
-    print(ret, quote = quote, ...)
-    invisible(x)
-}
+## ## -- from bit64, but when class is c("integer64", "nanotime") we cannot override there
+##
+## print.iInteger64 <- function (x, quote = FALSE, ...) {
+##     ## -- commented out:  cat("integer64\n")
+##     a <- attributes(x)
+##     ret <- as.character(x)
+##     a$class <- minusclass(a$class, "integer64")
+##     attributes(ret) <- a
+##     print(ret, quote = quote, ...)
+##     invisible(x)
+## }

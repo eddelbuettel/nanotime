@@ -10,4 +10,4 @@ S3method(nanotime, character)
 
 S3method(print, nanotime)
 #S3method(show, nanotime)
-
+export(showNanotime)
