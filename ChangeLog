@@ -1,5 +1,7 @@
 2016-12-10  Dirk Eddelbuettel  <edd@debian.org>
 
+	* tests/zooTests.R: Simple tests for vectorised time operation
+
 	* R/nanotime.R (print.nanotime): Do not default to character
 	formating here, rather farm out to helper showNanotime
 	(showNanotime): Simple pretty printer
