@@ -27,4 +27,12 @@ print(y)
 showNanotime(y)
 
 print(x == y)
+
+
+y <- nanotime(1L)  # integer, should dispatch to nanotime.default
+print(y)
+
+y <- nanotime(1)   # numeric
+print(y)
+
 cat("Done\n")

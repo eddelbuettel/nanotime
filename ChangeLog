@@ -10,6 +10,8 @@
 	* .codecov.yml: Ditto
 	* .Rbuildignore: Adjusted accordingly
 
+	* tests/simpleTests.R: Two more conversions from integer and numeric
+
 2016-12-10  Dirk Eddelbuettel  <edd@debian.org>
 
 	* tests/zooTests.R: Simple tests for vectorised time operation
