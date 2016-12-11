@@ -1,7 +1,17 @@
 
 ##' Nanosecond resolution datetime functionality
 ##'
-##' Functions to operate on nanosecond time resolution.
+##' Functions to operate on nanosecond time resolution using integer64
+##' bit representation. Convertions functions for several standard R
+##' types are provided, and more will be added as needed.
+##'
+##' Notice that the conversion from POSIXct explicitly sets the last
+##' three digits to zero. Nanosecond time stored in a 64-bit integer
+##' has nineteen digits precision where doubles (which are used
+##' internally for POSIXct as well) only have sixteen digits.  So
+##' rather than showing three more (essentially \emph{random}) digits
+##' it is constructed such that these three additional digits are
+##' zeros.
 ##'
 ##' @section Caveats:
 ##'
@@ -34,6 +44,7 @@
 ##'
 ##' @param x The object which want to convert to class \code{nanotime}
 ##' @param ... Required for print method signatures but ignored here
+##' @return A nanotime object
 ##' @author Dirk Eddelbuettel
 ##' @examples
 ##' x <- nanotime("1970-01-01T00:00:00.000000001+00:00")
@@ -77,7 +88,7 @@ nanotime.matrix <- function(x) {
 
 ##' @rdname nanotime
 nanotime.POSIXct <- function(x) {
-    y <- as.integer64(as.numeric(x) * 1e9)
+    y <- as.integer64(as.numeric(x) * 1e6) * 1000 # force last three digits to be zero
     oldClass(y) <- c("integer64", "nanotime")
     y
 }
