@@ -102,7 +102,7 @@ print.nanotime <- function(x, ...) {
 ##' @rdname nanotime
 showNanotime <- function(x, ...) {
     secs  <- trunc(as.double(x/1e9))
-    nanos <- as.double(x - bod*1e9)
+    nanos <- as.double(x - secs*1e9)
     print(RcppCCTZ:::formatDouble(secs, nanos, ...))
 }
 
