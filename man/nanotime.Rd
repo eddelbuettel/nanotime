@@ -4,7 +4,9 @@
 \alias{format.nanotime}
 \alias{index2char.nanotime}
 \alias{nanotime}
+\alias{nanotime.Date}
 \alias{nanotime.POSIXct}
+\alias{nanotime.POSIXlt}
 \alias{nanotime.character}
 \alias{nanotime.default}
 \alias{nanotime.matrix}
@@ -23,6 +25,10 @@ nanotime(x)
 \method{nanotime}{matrix}(x)
 
 \method{nanotime}{POSIXct}(x)
+
+\method{nanotime}{POSIXlt}(x)
+
+\method{nanotime}{Date}(x)
 
 \method{print}{nanotime}(x, ...)
 
@@ -82,7 +88,8 @@ whereas R itself onky has 32 bit integers.  The
 provide such an integer using only the 64-bit double type and very
 clever (and efficient) transformations.
 
-The other is the CCTZ library in C++. It extending the C++11 standard
+The other is the CCTZ library in C++, which we access via the
+\code{\link{RcppCCTZ}} package. CCTZ extends the C++11 standard
 library type \code{chrono} type in very useful ways for time zones and
 localtime.  We use its formating and parsing features.
 }
@@ -91,8 +98,11 @@ x <- nanotime("1970-01-01T00:00:00.000000001+00:00")
 print(x)
 x <- x + 1
 print(x)
+format(x)
 x <- x + 10
 print(x)
+format(x)
+format(nanotime(Sys.time()) + 1:3)  # three elements each 1 ns apart
 }
 \author{
 Dirk Eddelbuettel

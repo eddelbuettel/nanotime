@@ -6,9 +6,11 @@ export(nanotime)
 
 S3method(nanotime, default)
 S3method(nanotime, character)
+S3method(nanotime, Date)
 S3method(nanotime, matrix)
 S3method(nanotime, numeric)
 S3method(nanotime, POSIXct)
+S3method(nanotime, POSIXlt)
 
 S3method(print, nanotime)
 S3method(format, nanotime)

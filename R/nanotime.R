@@ -38,7 +38,8 @@
 ##' provide such an integer using only the 64-bit double type and very
 ##' clever (and efficient) transformations.
 ##'
-##' The other is the CCTZ library in C++. It extending the C++11 standard
+##' The other is the CCTZ library in C++, which we access via the
+##' \code{\link{RcppCCTZ}} package. CCTZ extends the C++11 standard
 ##' library type \code{chrono} type in very useful ways for time zones and
 ##' localtime.  We use its formating and parsing features.
 ##'
@@ -52,8 +53,11 @@
 ##' print(x)
 ##' x <- x + 1
 ##' print(x)
+##' format(x)
 ##' x <- x + 10
 ##' print(x)
+##' format(x)
+##' format(nanotime(Sys.time()) + 1:3)  # three elements each 1 ns apart
 nanotime <- function(x) {
     ## generic function, converts an object to a raw
     UseMethod("nanotime")
@@ -94,6 +98,15 @@ nanotime.POSIXct <- function(x) {
     y
 }
 
+##' @rdname nanotime
+nanotime.POSIXlt <- function(x) {
+    nanotime(as.POSIXct(x))
+}
+
+##' @rdname nanotime
+nanotime.Date <- function(x) {
+    nanotime(as.POSIXct(x))
+}
 
 ##' @rdname nanotime
 print.nanotime <- function(x, ...) {
