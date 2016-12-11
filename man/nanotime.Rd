@@ -2,10 +2,13 @@
 % Please edit documentation in R/nanotime.R
 \name{nanotime}
 \alias{nanotime}
+\alias{nanotime.POSIXct}
 \alias{nanotime.character}
 \alias{nanotime.default}
+\alias{nanotime.matrix}
 \alias{nanotime.numeric}
 \alias{print.nanotime}
+\alias{showNanotime}
 \title{Nanosecond resolution datetime functionality}
 \usage{
 nanotime(x)
@@ -16,7 +19,13 @@ nanotime(x)
 
 \method{nanotime}{character}(x)
 
+\method{nanotime}{matrix}(x)
+
+\method{nanotime}{POSIXct}(x)
+
 \method{print}{nanotime}(x, ...)
+
+showNanotime(x, ...)
 }
 \arguments{
 \item{x}{The object which want to convert to class \code{nanotime}}

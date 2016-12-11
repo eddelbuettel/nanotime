@@ -11,4 +11,5 @@ Description: Full 64-bit resolution date and time support with resolution up
 SystemRequirements: (At least for now) RcppCCZT from GitHub is needed
 License: GPL (>= 2)
 Imports: bit64, RcppCCTZ (>= 0.0.5.4)
+Suggests: zoo
 RoxygenNote: 5.0.1

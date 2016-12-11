@@ -55,7 +55,7 @@ nanotime.default <- function(x) {
 
 ##' @rdname nanotime
 nanotime.numeric <- function(x) {
-    y <- as.integer64(x * 1e9)
+    y <- as.integer64(x)
     oldClass(y) <- c("integer64", "nanotime")
     y
 }
@@ -63,10 +63,25 @@ nanotime.numeric <- function(x) {
 ##' @rdname nanotime
 nanotime.character <- function(x) {
     d <- RcppCCTZ:::parseDouble(x)
-    y <- as.integer64(d * 1e9)
+    y <- as.integer64(d[,1]) * 1e9 + as.integer64(d[, 2])
     oldClass(y) <- c("integer64", "nanotime")
     y
 }
+
+##' @rdname nanotime
+nanotime.matrix <- function(x) {
+    y <- as.integer64(x[,1]) * 1e9 + as.integer64(x[, 2])
+    oldClass(y) <- c("integer64", "nanotime")
+    y
+}
+
+##' @rdname nanotime
+nanotime.POSIXct <- function(x) {
+    y <- as.integer64(as.numeric(x) * 1e9)
+    oldClass(y) <- c("integer64", "nanotime")
+    y
+}
+
 
 ##' @rdname nanotime
 print.nanotime <- function(x, ...) {
@@ -84,9 +99,11 @@ print.nanotime <- function(x, ...) {
     invisible(x)
 }
 
+##' @rdname nanotime
 showNanotime <- function(x, ...) {
-    z <- as.double(x) * 1e-9
-    print(RcppCCTZ:::formatDouble(z))
+    secs  <- trunc(as.double(x/1e9))
+    nanos <- as.double(x - bod*1e9)
+    print(RcppCCTZ:::formatDouble(secs, nanos, ...))
 }
 
 
