@@ -29,10 +29,13 @@ showNanotime(y)
 print(x == y)
 
 
-y <- nanotime(1L)  # integer, should dispatch to nanotime.default
+y <- nanotime(1L)  # integer, may dispatch via nanotime.numeric
 print(y)
 
 y <- nanotime(1)   # numeric
+print(y)
+
+y <- nanotime:::nanotime.default(1)     # forced call, gets imprecise value
 print(y)
 
 cat("Done\n")

@@ -26,15 +26,16 @@ nanotime(x)
 
 \method{print}{nanotime}(x, ...)
 
-\method{index2char}{nanotime}(x, frequency = NULL,
-  digits = getOption("digits") - 3, ...)
+\method{index2char}{nanotime}(x, frequency = NULL, ...)
 
 showNanotime(x, ...)
 }
 \arguments{
 \item{x}{The object which want to convert to class \code{nanotime}}
 
-\item{...}{Required for print method signatures but ignored here}
+\item{...}{Required for print method signature but ignored here}
+
+\item{frequency}{Required for \code{index2char} method but ignored here}
 }
 \value{
 A nanotime object

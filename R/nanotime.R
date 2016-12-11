@@ -43,7 +43,8 @@
 ##' localtime.  We use its formating and parsing features.
 ##'
 ##' @param x The object which want to convert to class \code{nanotime}
-##' @param ... Required for print method signatures but ignored here
+##' @param frequency Required for \code{index2char} method but ignored here
+##' @param ... Required for print method signature but ignored here
 ##' @return A nanotime object
 ##' @author Dirk Eddelbuettel
 ##' @examples
@@ -111,7 +112,7 @@ print.nanotime <- function(x, ...) {
 }
 
 ##' @rdname nanotime
-index2char.nanotime <- function(x, frequency = NULL, digits = getOption("digits") - 3, ...) {
+index2char.nanotime <- function(x, frequency = NULL, ...) {
     secs  <- trunc(as.double(x/1e9))
     nanos <- as.double(x - secs*1e9)
     RcppCCTZ:::formatDouble(secs, nanos, ...)
