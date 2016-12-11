@@ -122,10 +122,3 @@ index2char.nanotime <- function(x, frequency = NULL, ...) {
     nanos <- as.double(x - secs*1e9)
     RcppCCTZ:::formatDouble(secs, nanos, ...)
 }
-
-##' @rdname nanotime
-showNanotime <- function(x, ...) {
-    print(index2char(x, ...))
-}
-
-

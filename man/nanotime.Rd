@@ -10,7 +10,6 @@
 \alias{nanotime.matrix}
 \alias{nanotime.numeric}
 \alias{print.nanotime}
-\alias{showNanotime}
 \title{Nanosecond resolution datetime functionality}
 \usage{
 nanotime(x)
@@ -30,8 +29,6 @@ nanotime(x)
 \method{format}{nanotime}(x, ...)
 
 \method{index2char}{nanotime}(x, frequency = NULL, ...)
-
-showNanotime(x, ...)
 }
 \arguments{
 \item{x}{The object which want to convert to class \code{nanotime}}

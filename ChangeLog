@@ -5,6 +5,7 @@
 	(nanotime.default): Switch class order with integer64 last
 	(print.nanotime): Minor adjustment
 	(format.nanotime): Added
+	(showNanotime): Removed
 
 	* NAMESPACE: Register S3 methods index2char.nanotime, format.nanotime
 	* DESCRIPTION: Now Imports: rather than Suggests: zoo

@@ -15,5 +15,3 @@ S3method(format, nanotime)
 
 importFrom("zoo", "index2char")
 S3method(index2char, nanotime)
-
-export(showNanotime)
