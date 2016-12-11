@@ -17,6 +17,7 @@ z <- zoo(cbind(x, y), dv)
 z
 
 now <- nanotime(as.numeric(Sys.time()))                  
-dv <- now + 0:9
+dv <- now + 1000*(0:9)
 z <- zoo(cbind(x, y), dv)
 z
+showNanotime(dv)
