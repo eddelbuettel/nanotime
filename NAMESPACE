@@ -11,7 +11,7 @@ S3method(nanotime, numeric)
 S3method(nanotime, POSIXct)
 
 S3method(print, nanotime)
-#S3method(show, nanotime)
+S3method(format, nanotime)
 
 importFrom("zoo", "index2char")
 S3method(index2char, nanotime)

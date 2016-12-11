@@ -110,6 +110,13 @@ print.nanotime <- function(x, ...) {
 }
 
 ##' @rdname nanotime
+format.nanotime <- function(x, ...) {
+    secs  <- trunc(as.double(x/1e9))
+    nanos <- as.double(x - secs*1e9)
+    RcppCCTZ:::formatDouble(secs, nanos, ...)
+}
+
+##' @rdname nanotime
 index2char.nanotime <- function(x, frequency = NULL, ...) {
     secs  <- trunc(as.double(x/1e9))
     nanos <- as.double(x - secs*1e9)

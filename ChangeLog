@@ -3,9 +3,10 @@
 	* R/nanotime.R (index2char.nanotime): Added to have zoo() objects
 	print a nanotime index correctly
 	(nanotime.default): Switch class order with integer64 last
-	(print.nanotime): Minor adjustment 
+	(print.nanotime): Minor adjustment
+	(format.nanotime): Added
 
-	* NAMESPACE: Register S3 method for index2char.nanotime
+	* NAMESPACE: Register S3 methods index2char.nanotime, format.nanotime
 	* DESCRIPTION: Now Imports: rather than Suggests: zoo
 	* tests/zooTests.R: Small changes
 
