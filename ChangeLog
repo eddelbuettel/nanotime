@@ -6,6 +6,10 @@
 	* DESCRIPTION: Now Imports: rather than Suggests: zoo
 	* tests/zooTests.R: Small changes
 
+	* .travis.yml: Added
+	* .codecov.yml: Ditto
+	* .Rbuildignore: Adjusted accordingly
+
 2016-12-10  Dirk Eddelbuettel  <edd@debian.org>
 
 	* tests/zooTests.R: Simple tests for vectorised time operation
