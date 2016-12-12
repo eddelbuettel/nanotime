@@ -8,7 +8,8 @@
 	(showNanotime): Removed
 	(format.nanotime): Support global option for format
 
-	* NAMESPACE: Register S3 methods index2char.nanotime, format.nanotime
+	* NAMESPACE: Register S3 methods index2char.nanotime, format.nanotime;
+	import two functions from RcppCCTZ (which are now exported)
 	* DESCRIPTION: Now Imports: rather than Suggests: zoo
 	* tests/zooTests.R: Small changes
 

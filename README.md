@@ -11,7 +11,7 @@ representation in `POSIXlt`) are versatile, and a lot of useful tooling has been
 However, `POSIXct` is implemented as a `double` with fractional seconds since the epoch. Given the 53 bits
 accuracy, it leaves just a bit less than _microsecond_ resolution.  Which is good enough for most things.
 
-But more and more performance measurements, latency statistics etc pp are now measure mored finely, and we
+But more and more performance measurements, latency statistics, ... are now measured more finely, and we
 need _nanosecond_ resolution. For which commonly an `integer64` is used to represent nanoseconds since the
 epoch.
 
@@ -68,13 +68,14 @@ R>
 
 ```r
 R> z <- zoo(cbind(A=1:5, B=5:1), v)
+R> options("nanotimeFormat"="%d %b %H:%M:%E*S")  ## override default
 R> z
-                                    A B
-2016-12-12T01:22:04.483583001+00:00 1 5
-2016-12-12T01:22:04.483583002+00:00 2 4
-2016-12-12T01:22:04.483583003+00:00 3 3
-2016-12-12T01:22:04.483583004+00:00 4 2
-2016-12-12T01:22:04.483583005+00:00 5 1
+                          A B
+12 Dec 01:47:55.812513001 1 5
+12 Dec 01:47:55.812513002 2 4
+12 Dec 01:47:55.812513003 3 3
+12 Dec 01:47:55.812513004 4 2
+12 Dec 01:47:55.812513005 5 1
 R> 
 ```
 
@@ -84,7 +85,7 @@ The [bit64](https://cran.r-project.org/package=bit64) package (by
 [Jens Oehlschlägel](https://github.com/joehl)) supplies the `integer64` type used to store the nanosecond
 resolution time as (positive or negative) offsets to the epoch of January 1, 1970. The
 [RcppCCTZ](http://dirk.eddelbuettel.com/code/rcpp.cctz.html) package supplies the formatting and parsing
-routines based on the (modern C++) library [CCTZ](https://github.com/google/cctz) from Google.  
+routines based on the (modern C++) library [CCTZ](https://github.com/google/cctz) from Google.
 
 ### Status
 
