@@ -6,6 +6,7 @@
 	(print.nanotime): Minor adjustment
 	(format.nanotime): Added
 	(showNanotime): Removed
+	(format.nanotime): Support global option for format
 
 	* NAMESPACE: Register S3 methods index2char.nanotime, format.nanotime
 	* DESCRIPTION: Now Imports: rather than Suggests: zoo

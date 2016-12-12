@@ -78,7 +78,7 @@ nanotime.numeric <- function(x) {
 
 ##' @rdname nanotime
 nanotime.character <- function(x) {
-    d <- RcppCCTZ:::parseDouble(x)
+    d <- RcppCCTZ::parseDouble(x)
     y <- as.integer64(d[,1]) * 1e9 + as.integer64(d[, 2])
     oldClass(y) <- c("nanotime", "integer64")
     y
@@ -126,12 +126,16 @@ print.nanotime <- function(x, ...) {
 format.nanotime <- function(x, ...) {
     secs  <- trunc(as.double(x/1e9))
     nanos <- as.double(x - secs*1e9)
-    RcppCCTZ:::formatDouble(secs, nanos, ...)
+    RcppCCTZ::formatDouble(secs, nanos,
+                           fmt=getOption("nanotimeFormat", default="%Y-%m-%dT%H:%M:%E*S%Ez"),
+                           ...)
 }
 
 ##' @rdname nanotime
 index2char.nanotime <- function(x, frequency = NULL, ...) {
     secs  <- trunc(as.double(x/1e9))
     nanos <- as.double(x - secs*1e9)
-    RcppCCTZ:::formatDouble(secs, nanos, ...)
+    RcppCCTZ::formatDouble(secs, nanos,
+                           fmt=getOption("nanotimeFormat", default="%Y-%m-%dT%H:%M:%E*S%Ez"),
+                           ...)
 }
