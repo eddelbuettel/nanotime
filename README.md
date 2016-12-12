@@ -47,7 +47,7 @@ R>
 
 #### Vectorised
 
-```
+```r
 R> options("width"=60)
 R> v <- nanotime(Sys.time()) + 1:5
 R> v
