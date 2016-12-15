@@ -16,7 +16,7 @@ But more and more performance measurements, latency statistics, ... are now meas
 and we need _nanosecond_ resolution. For which commonly an `integer64` is used to represent
 nanoseconds since the epoch.
 
-And while R does not a _native_ type for this, the [bit64](https://cran.r-project.org/package=bit64)
+And while R does not a have _native_ type for this, the [bit64](https://cran.r-project.org/package=bit64)
 package by [Jens Oehlschlägel](https://github.com/joehl) offers a performant one implemented as a
 lightweight S3 class.  So this package uses this `integer64` class, along with two helper functions
 for parsing and formatting, respectively, at nano-second resolution from the
