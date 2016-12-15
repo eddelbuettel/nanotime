@@ -45,6 +45,9 @@
 ##'
 ##' @param x The object which want to convert to class \code{nanotime}
 ##' @param frequency Required for \code{index2char} method but ignored here
+##' @param justify Required for \code{format} method but ignored here
+##' @param tz Required for \code{as.POSIXct} and \code{as.POSIXlt},
+##' currently fixed to \sQuote{UTC} and ignored
 ##' @param ... Required for print method signature but ignored here
 ##' @return A nanotime object
 ##' @author Dirk Eddelbuettel
@@ -118,12 +121,12 @@ print.nanotime <- function(x, ...) {
     a$class <- minusclass(a$class, "nanotime")
     attributes(ret) <- a
     print(ret, ...)
-    
+
     invisible(x)
 }
 
 ##' @rdname nanotime
-format.nanotime <- function(x, ...) {
+format.nanotime <- function(x, justify="right", ...) {
     secs  <- trunc(as.double(x/1e9))
     nanos <- as.double(x - secs*1e9)
     RcppCCTZ::formatDouble(secs, nanos,
@@ -138,4 +141,21 @@ index2char.nanotime <- function(x, frequency = NULL, ...) {
     RcppCCTZ::formatDouble(secs, nanos,
                            fmt=getOption("nanotimeFormat", default="%Y-%m-%dT%H:%M:%E*S%Ez"),
                            ...)
+}
+
+##' @rdname nanotime
+as.POSIXct.nanotime <- function(x, tz="UTC", ...) {
+    #if (verbose) warning("Lossy conversion dropping precision")
+    pt <- as.POSIXct(as.double(x/1e9), origin="1970-01-01")
+    pt
+}
+
+##' @rdname nanotime
+as.POSIXlt.nanotime <- function(x, tz="UTC", ...) {
+    as.POSIXlt(as.POSIXct(x, tz=tz))
+}
+
+##' @rdname nanotime
+as.Date.nanotime <- function(x, ...) {
+    as.Date(as.POSIXct(x))
 }
