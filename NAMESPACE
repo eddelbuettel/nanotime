@@ -14,5 +14,7 @@ S3method(nanotime, POSIXlt)
 
 S3method(print, nanotime)
 S3method(format, nanotime)
-
 S3method(index2char, nanotime)
+S3method(as.POSIXct, nanotime)
+S3method(as.POSIXlt, nanotime)
+S3method(as.Date, nanotime)

@@ -28,6 +28,15 @@ format(y)
 
 print(x == y)
 
+od <- getOption("digits.secs")
+options("digits.secs"=6)
+as.POSIXct(x)
+as.POSIXct(x+1000)
+as.POSIXlt(x)
+as.POSIXlt(x+1000)
+as.Date(x)
+options("digits.secs"=od)
+
 
 y <- nanotime(1L)  # integer, may dispatch via nanotime.numeric
 print(y)
@@ -35,7 +44,7 @@ print(y)
 y <- nanotime(1)   # numeric
 print(y)
 
-y <- nanotime:::nanotime.default(1)     # forced call, gets imprecise value
-print(y)
+v <- nanotime:::nanotime.default(1)     # forced call, gets imprecise value
+print(v)
 
 cat("Done\n")
