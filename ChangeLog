@@ -1,3 +1,17 @@
+2016-12-15  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/nanotime.R (as.POSIXct.nanotime,as.POSIXlt.nanotime)
+	(as.Date.nanotime): New converters
+	(format.nanotime): Add 'justify' argument
+	* man/nanotime.Rd: Document new and updated methods
+	* NAMESPACE: Registered new converters
+
+	* tests/simpleTests.R: Additional calls to new functions
+
+	* inst/NEWS.Rd:  Added
+
+	* DESCRIPTION (SystemRequirements): State RcppCCTZ dependency
+
 2016-12-11  Dirk Eddelbuettel  <edd@debian.org>
 
 	* R/nanotime.R (index2char.nanotime): Added to have zoo() objects
