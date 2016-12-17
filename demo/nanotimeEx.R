@@ -2,26 +2,19 @@ library(nanotime)
 
 set.seed(42)
 N <- 300
-shine <- nanotime(Sys.time()) + cumsum(10*rpois(n=N+1, lambda=4))
-rain <- nanotime(Sys.time()) + cumsum(10*rpois(n=N+1, lambda=4) + round(runif(N+1)*25))
+rainyday <- ISOdatetime(2016,9,28,8,30,0) # made up
+shinyday <- ISOdatetime(2016,9,21,8,30,0) # made up too
+rdsent <- nanotime(rainyday) + cumsum(10*rpois(N, lambda=4)) 	# random sent time 
+sdsent <- nanotime(shinyday) + cumsum(10*rpois(N, lambda=4))	# identical sent process for both
+rdrecv <- rdsent + 10*rlnorm(N, 0.30, 0.25)                     # postulate higher mean and sd
+sdrecv <- sdsent + 10*rlnorm(N, 0.10, 0.20)		            	# for rainy than shiny
+raw <- data.table(rdsent, rdrecv, sdsent, sdrecv)
+raw[, `:=`(rainy=as.numeric(rdrecv-rdsent),
+           shiny=as.numeric(sdrecv-sdsent))]
 
-suppressMessages(library(data.table))
-suppressMessages(library(bit64))
-raw <- data.table(shine=shine, rain=rain)
-print(raw)
-## fwrite and fread also work
-
-df <- data.frame(val=as.numeric(c(diff(rain),diff(shine))), # need to cast to numeric after diffs
-                 key=rep(c("rain", "shine"), each=N))
-head(df)
-
-## now on differences
-ddf <- data.frame(val=as.numeric(c(diff(rain),diff(shine))), # need to cast to numeric after diffs
-                  key=rep(c("rain", "shine"), each=N))
-head(ddf)
-
-suppressMessages(library(ggplot2))
-ggplot(ddf, aes(key, val)) + geom_violin(aes(fill=key)) + coord_flip() + 
+plotdata <- melt(raw[,.(rainy,shiny)], measure.vars=1:2, variable.name="day", value.name="time")
+ggplot(plotdata, aes(day, time)) + geom_violin(aes(fill=time)) + coord_flip() + 
     ylab("Message Time (in nanoseconds)") + xlab("Weather") +
     ggtitle("Nanosecond Delay", "Under Different Weather Conditions.")
+
 
