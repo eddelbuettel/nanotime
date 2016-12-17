@@ -35,7 +35,8 @@ nanotime(x)
 
 \method{print}{nanotime}(x, ...)
 
-\method{format}{nanotime}(x, justify = "right", ...)
+\method{format}{nanotime}(x, justify = "right", digits = NULL,
+  na.encode = FALSE, trim = TRUE, ...)
 
 \method{index2char}{nanotime}(x, frequency = NULL, ...)
 
@@ -51,6 +52,12 @@ nanotime(x)
 \item{...}{Required for print method signature but ignored here}
 
 \item{justify}{Required for \code{format} method but ignored here}
+
+\item{digits}{Required for  \code{format} method but ignored here}
+
+\item{na.encode}{Required for  \code{format} method but ignored here}
+
+\item{trim}{Required for  \code{format} method but ignored here}
 
 \item{frequency}{Required for \code{index2char} method but ignored here}
 

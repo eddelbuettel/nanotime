@@ -46,6 +46,9 @@
 ##' @param x The object which want to convert to class \code{nanotime}
 ##' @param frequency Required for \code{index2char} method but ignored here
 ##' @param justify Required for \code{format} method but ignored here
+##' @param digits Required for  \code{format} method but ignored here
+##' @param na.encode Required for  \code{format} method but ignored here
+##' @param trim Required for  \code{format} method but ignored here
 ##' @param tz Required for \code{as.POSIXct} and \code{as.POSIXlt},
 ##' currently fixed to \sQuote{UTC} and ignored
 ##' @param ... Required for print method signature but ignored here
@@ -126,7 +129,12 @@ print.nanotime <- function(x, ...) {
 }
 
 ##' @rdname nanotime
-format.nanotime <- function(x, justify="right", ...) {
+format.nanotime <- function(x,
+                            justify="right",
+                            digits=NULL,
+                            na.encode=FALSE,
+                            trim=TRUE,
+                            ...) {
     secs  <- trunc(as.double(x/1e9))
     nanos <- as.double(x - secs*1e9)
     RcppCCTZ::formatDouble(secs, nanos,
@@ -158,4 +166,14 @@ as.POSIXlt.nanotime <- function(x, tz="UTC", ...) {
 ##' @rdname nanotime
 as.Date.nanotime <- function(x, ...) {
     as.Date(as.POSIXct(x))
+}
+
+as.data.frame.nanotime <- function(x, ...) {
+    cl <- oldClass(x)
+    on.exit(attr(x, "class") <- cl)
+    attr(x, "class") <- minusclass(cl, "nanotime")
+    ret <- as.data.frame(x, ...)
+    k <- length(ret)
+    for (i in 1:k) attr(ret[[i]], "class") <- cl
+    ret
 }
