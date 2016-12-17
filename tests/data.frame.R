@@ -1,3 +1,4 @@
+
 library(nanotime)
 
 set.seed(42)
@@ -8,20 +9,12 @@ rain <- nanotime(Sys.time()) + cumsum(10*rpois(n=N+1, lambda=4) + round(runif(N+
 suppressMessages(library(data.table))
 suppressMessages(library(bit64))
 raw <- data.table(shine=shine, rain=rain)
-print(raw)
-## fwrite and fread also work
 
-df <- data.frame(val=as.numeric(c(diff(rain),diff(shine))), # need to cast to numeric after diffs
-                 key=rep(c("rain", "shine"), each=N))
+df <- data.frame(val=c(rain,shine), key=rep(c("rain", "shine"), each=N+1))
 head(df)
 
 ## now on differences
 ddf <- data.frame(val=as.numeric(c(diff(rain),diff(shine))), # need to cast to numeric after diffs
                   key=rep(c("rain", "shine"), each=N))
 head(ddf)
-
-suppressMessages(library(ggplot2))
-ggplot(ddf, aes(key, val)) + geom_violin(aes(fill=key)) + coord_flip() + 
-    ylab("Message Time (in nanoseconds)") + xlab("Weather") +
-    ggtitle("Nanosecond Delay", "Under Different Weather Conditions.")
 

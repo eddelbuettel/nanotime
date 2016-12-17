@@ -1,3 +1,8 @@
+2016-12-17  Dirk Eddelbuettel  <edd@debian.org>
+
+	* tests/data.frame.R: Added simple data.{frame,table} test
+	* demo/nanotimeEx.R: Small changes
+
 2016-12-16  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): Rolled minor version
