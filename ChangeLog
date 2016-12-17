@@ -1,10 +1,16 @@
 2016-12-17  Dirk Eddelbuettel  <edd@debian.org>
 
+	* R/nanotime.R (as.data.frame.nanotime): Documented
+	* man/nanotime.Rd: Idem
+
 	* tests/data.frame.R: Added simple data.{frame,table} test
 	* demo/nanotimeEx.R: Small changes
 
-	* R/nanotime.R (as.data.frame.nanotime): Documented
-	* man/nanotime.Rd: Idem
+	* tests/data.frame.R: Added simple data.{frame,table} test
+	* demo/nanotimeEx.R: Small changes
+
+	* DESCRIPTION (Suggests): Added data.table
+	* .travis.yml: Added r-cran-data.table
 
 2016-12-16  Dirk Eddelbuettel  <edd@debian.org>
 
