@@ -9,6 +9,7 @@ Description: Full 64-bit resolution date and time support with resolution up
  to nanosecond granularity is provided, with easy transition to and from the
  standard 'POSIXct' type.
 Imports: bit64, RcppCCTZ (>= 0.1.0), zoo
+Suggests: data.table
 SystemRequirements: RcppCCTZ is needed making this (currently) non-Windows
 OS_type: unix
 License: GPL (>= 2)
