@@ -4,6 +4,7 @@
 \alias{as.Date.nanotime}
 \alias{as.POSIXct.nanotime}
 \alias{as.POSIXlt.nanotime}
+\alias{as.data.frame.nanotime}
 \alias{format.nanotime}
 \alias{index2char.nanotime}
 \alias{nanotime}
@@ -45,6 +46,8 @@ nanotime(x)
 \method{as.POSIXlt}{nanotime}(x, tz = "UTC", ...)
 
 \method{as.Date}{nanotime}(x, ...)
+
+\method{as.data.frame}{nanotime}(x, ...)
 }
 \arguments{
 \item{x}{The object which want to convert to class \code{nanotime}}

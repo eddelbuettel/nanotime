@@ -168,6 +168,7 @@ as.Date.nanotime <- function(x, ...) {
     as.Date(as.POSIXct(x))
 }
 
+##' @rdname nanotime
 as.data.frame.nanotime <- function(x, ...) {
     cl <- oldClass(x)
     on.exit(attr(x, "class") <- cl)

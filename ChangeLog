@@ -3,6 +3,9 @@
 	* tests/data.frame.R: Added simple data.{frame,table} test
 	* demo/nanotimeEx.R: Small changes
 
+	* R/nanotime.R (as.data.frame.nanotime): Documented
+	* man/nanotime.Rd: Idem
+
 2016-12-16  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): Rolled minor version
