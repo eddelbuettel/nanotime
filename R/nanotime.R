@@ -50,7 +50,8 @@
 ##' @param na.encode Required for  \code{format} method but ignored here
 ##' @param trim Required for  \code{format} method but ignored here
 ##' @param tz Required for \code{as.POSIXct} and \code{as.POSIXlt},
-##' currently fixed to \sQuote{UTC} and ignored
+##' can be set via \code{options("nanotimeFormat")} and uses \sQuote{UTC} as
+##' a default and fallback
 ##' @param ... Required for print method signature but ignored here
 ##' @return A nanotime object
 ##' @author Dirk Eddelbuettel
@@ -84,7 +85,9 @@ nanotime.numeric <- function(x) {
 
 ##' @rdname nanotime
 nanotime.character <- function(x) {
-    d <- RcppCCTZ::parseDouble(x)
+    fmt <- getOption("nanotimeFormat", default="%Y-%m-%dT%H:%M:%E*S%Ez")
+    tz <- getOption("nanotimeTz", default="UTC")
+    d <- RcppCCTZ::parseDouble(x, fmt=fmt, tz=tz)
     y <- as.integer64(d[,1]) * 1e9 + as.integer64(d[, 2])
     oldClass(y) <- c("nanotime", "integer64")
     y
@@ -129,17 +132,17 @@ print.nanotime <- function(x, ...) {
 }
 
 ##' @rdname nanotime
-format.nanotime <- function(x,
+format.nanotime <- function(x, 
                             justify="right",
                             digits=NULL,
                             na.encode=FALSE,
                             trim=TRUE,
                             ...) {
+    fmt <- getOption("nanotimeFormat", default="%Y-%m-%dT%H:%M:%E*S%Ez")
+    tz <- getOption("nanotimeTz", default="UTC")
     secs  <- trunc(as.double(x/1e9))
     nanos <- as.double(x - secs*1e9)
-    RcppCCTZ::formatDouble(secs, nanos,
-                           fmt=getOption("nanotimeFormat", default="%Y-%m-%dT%H:%M:%E*S%Ez"),
-                           ...)
+    RcppCCTZ::formatDouble(secs, nanos, fmt=fmt, tgttzstr=tz)
 }
 
 ##' @rdname nanotime
@@ -148,18 +151,20 @@ index2char.nanotime <- function(x, frequency = NULL, ...) {
     nanos <- as.double(x - secs*1e9)
     RcppCCTZ::formatDouble(secs, nanos,
                            fmt=getOption("nanotimeFormat", default="%Y-%m-%dT%H:%M:%E*S%Ez"),
-                           ...)
+                           tgttzstr=getOption("nanotimeTz", default="UTC"))
 }
 
 ##' @rdname nanotime
-as.POSIXct.nanotime <- function(x, tz="UTC", ...) {
+as.POSIXct.nanotime <- function(x, tz, ...) {
+    if (missing(tz)) tz <- getOption("nanotimeTz", default="UTC")
     #if (verbose) warning("Lossy conversion dropping precision")
-    pt <- as.POSIXct(as.double(x/1e9), origin="1970-01-01")
+    pt <- as.POSIXct(as.double(x/1e9), tz=tz, origin="1970-01-01")
     pt
 }
 
 ##' @rdname nanotime
-as.POSIXlt.nanotime <- function(x, tz="UTC", ...) {
+as.POSIXlt.nanotime <- function(x, tz, ...) {
+    if (missing(tz)) tz <- getOption("nanotimeTz", default="UTC")
     as.POSIXlt(as.POSIXct(x, tz=tz))
 }
 

@@ -16,7 +16,7 @@ raw[, `:=`(rainy=as.numeric(rdrecv-rdsent),
 plotdata <- melt(raw[,.(rainy,shiny)], measure.vars=1:2, variable.name="day", value.name="time")
 ## and plot
 ggplot(plotdata, aes(day, time)) + geom_violin(aes(fill=day)) + coord_flip() + 
-    ylab("Message Time (in nanoseconds)") + xlab("Weather Conditions") +
+    ylab("Message Time in Nanoseconds") + xlab("Weather Conditions") +
     ggtitle("Nanosecond Delay", "Under Different Weather Conditions")
 
 

@@ -1,13 +1,18 @@
 2016-12-17  Dirk Eddelbuettel  <edd@debian.org>
 
 	* R/nanotime.R (as.data.frame.nanotime): Documented
+	(nanotime.character): Support tz and fmt options
+	(format.nanotime): Idem
+	(index2char.nanotime): Idem
+	(as.POSIXct.nanotime): Idem
+	(as.POSIXlt.nanotime): Idem
+
 	* man/nanotime.Rd: Idem
 
 	* tests/data.frame.R: Added simple data.{frame,table} test
-	* demo/nanotimeEx.R: Small changes
+	* tests/simpleTests.R: Added simple format tests
 
-	* tests/data.frame.R: Added simple data.{frame,table} test
-	* demo/nanotimeEx.R: Small changes
+	* demo/nanotimeEx.R: Extended somewhat
 
 	* DESCRIPTION (Suggests): Added data.table
 	* .travis.yml: Added r-cran-data.table

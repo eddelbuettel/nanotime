@@ -41,9 +41,9 @@ nanotime(x)
 
 \method{index2char}{nanotime}(x, frequency = NULL, ...)
 
-\method{as.POSIXct}{nanotime}(x, tz = "UTC", ...)
+\method{as.POSIXct}{nanotime}(x, tz, ...)
 
-\method{as.POSIXlt}{nanotime}(x, tz = "UTC", ...)
+\method{as.POSIXlt}{nanotime}(x, tz, ...)
 
 \method{as.Date}{nanotime}(x, ...)
 
@@ -65,7 +65,8 @@ nanotime(x)
 \item{frequency}{Required for \code{index2char} method but ignored here}
 
 \item{tz}{Required for \code{as.POSIXct} and \code{as.POSIXlt},
-currently fixed to \sQuote{UTC} and ignored}
+can be set via \code{options("nanotimeFormat")} and uses \sQuote{UTC} as
+a default and fallback}
 }
 \value{
 A nanotime object

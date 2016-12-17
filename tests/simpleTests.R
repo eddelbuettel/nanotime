@@ -47,4 +47,13 @@ print(y)
 v <- nanotime:::nanotime.default(1)     # forced call, gets imprecise value
 print(v)
 
+
+options("nanotimeFormat"="%Y-%m-%d %H:%M:%S")
+format(x <- nanotime("1970-01-01 00:00:00"))
+
+options("nanotimeFormat"="%Y-%m-%d %H:%M:%E*S")
+format(x <- nanotime("1970-01-01 00:00:00.123456789"))
+
+options("nanotimeFormat"="%Y-%m-%d %H:%M:%E*S%Ez")   # default
+
 cat("Done\n")
