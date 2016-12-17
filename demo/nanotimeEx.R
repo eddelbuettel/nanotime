@@ -12,9 +12,11 @@ raw <- data.table(rdsent, rdrecv, sdsent, sdrecv)
 raw[, `:=`(rainy=as.numeric(rdrecv-rdsent),
            shiny=as.numeric(sdrecv-sdsent))]
 
+## melt into long format
 plotdata <- melt(raw[,.(rainy,shiny)], measure.vars=1:2, variable.name="day", value.name="time")
-ggplot(plotdata, aes(day, time)) + geom_violin(aes(fill=time)) + coord_flip() + 
-    ylab("Message Time (in nanoseconds)") + xlab("Weather") +
-    ggtitle("Nanosecond Delay", "Under Different Weather Conditions.")
+## and plot
+ggplot(plotdata, aes(day, time)) + geom_violin(aes(fill=day)) + coord_flip() + 
+    ylab("Message Time (in nanoseconds)") + xlab("Weather Conditions") +
+    ggtitle("Nanosecond Delay", "Under Different Weather Conditions")
 
 
