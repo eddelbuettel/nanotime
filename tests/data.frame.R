@@ -18,3 +18,6 @@ ddf <- data.frame(val=as.numeric(c(diff(rain),diff(shine))), # need to cast to n
                   key=rep(c("rain", "shine"), each=N))
 head(ddf)
 
+## simpler data.frame, inserts 'formatted'
+newdf <- data.frame(rain=rain, shine=shine)
+head(newdf)
