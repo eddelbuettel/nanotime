@@ -24,6 +24,13 @@ for parsing and formatting, respectively, at nano-second resolution from the
 [CCTZ library](https://github.com/google/cctz) from Google.  CCTZ is a modern C++11 library
 extending the (C++11-native) `chrono` type.
 
+### Demo
+
+See the included demo script [nanosecondDelayExample.R](https://github.com/eddelbuettel/nanotime/blob/master/demo/nanosecondDelayExample.R) 
+for a (completely simulated and hence made-up) study of network latency measured 
+in nanoseconds resulting in the figure below
+
+![](https://eddelbuettel.github.io/nanotime/local/images/nanotimeDelayDemo.png "network delay demo image")
 
 ### Examples
 
