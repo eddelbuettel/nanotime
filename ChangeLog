@@ -1,3 +1,8 @@
+2016-12-18  Dirk Eddelbuettel  <edd@debian.org>
+
+	* demo/00Index: New file, demo now in package
+	* demo/nanosecondDelayExample.R: Renamed demo
+
 2016-12-17  Dirk Eddelbuettel  <edd@debian.org>
 
 	* R/nanotime.R (as.data.frame.nanotime): Documented
