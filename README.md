@@ -128,7 +128,7 @@ remotes::install_github("eddelbuettel/nanotime")  # dev version
 ```
 
 should suffice. 
-```
+
 
 ### Author
 
