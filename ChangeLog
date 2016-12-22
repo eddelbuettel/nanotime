@@ -1,3 +1,7 @@
+2016-12-22  Dirk Eddelbuettel  <edd@debian.org>
+
+	* README.md: Updated to reflect CRAN status
+
 2016-12-18  Dirk Eddelbuettel  <edd@debian.org>
 
 	* demo/00Index: New file, demo now in package

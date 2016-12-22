@@ -114,17 +114,20 @@ See the [issue tickets](https://github.com/eddelbuettel/nanotime/issues) for an 
 
 ### Installation
 
-Once on [CRAN](https://cran.r-project.org) you will be able to do 
+The package is on [CRAN](https://cran.r-project.org) and can be installed
+via a standard
 
 ```r
 install.packages("nanotime")
 ```
 
-Until then, or to install development versions, it can also be installed via a standard
+whereas in order to install development versions a
 
 ```r
-install.packages("RcppCCTZ")   # need 0.1.0 or later
-remotes::install_github("eddelbuettel/nanotime")  
+remotes::install_github("eddelbuettel/nanotime")  # dev version
+```
+
+should suffice. 
 ```
 
 ### Author
