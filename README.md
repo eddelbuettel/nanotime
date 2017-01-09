@@ -94,6 +94,8 @@ R> library(bit64)   # register some print methods for integer64
 R> raw <- data.table(cbind(A=1:5, B=5:1), v)
 R> fwrite(raw, file="/tmp/raw.csv")
 R> cooked <- fread("/tmp/raw.csv")
+R> ## csv files are not 'typed' so need to recover type explicitly
+R> cooked[, `:=`(rdsent=nanotime(rdsent), rdrecv=nanotime(rdrecv), sdsent=nanotime(sdsent), sdrecv=nanotime(sdrecv))]
 ```
 
 ### Technical Details
