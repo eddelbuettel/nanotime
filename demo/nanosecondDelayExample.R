@@ -1,4 +1,6 @@
 library(nanotime)
+suppressMessages(library(data.table))
+suppressMessages(library(ggplot2))
 
 set.seed(42)
 N <- 300
