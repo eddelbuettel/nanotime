@@ -21,4 +21,14 @@ ggplot(plotdata, aes(day, time)) + geom_violin(aes(fill=day)) + coord_flip() +
     ylab("Message Time in Nanoseconds") + xlab("Weather Conditions") +
     ggtitle("Nanosecond Delay", "Under Different Weather Conditions")
 
+tfile <- tempfile(pattern="raw", fileext=".csv")
+fwrite(raw, file=tfile)
+cooked <- fread(tfile)
+## csv files are not 'typed' so need to recover types explicitly
+cooked[, `:=`(rdsent=nanotime(rdsent),
+              rdrecv=nanotime(rdrecv),
+              sdsent=nanotime(sdsent),
+              sdrecv=nanotime(sdrecv))]
+## now saved and restrored data are identical
+all.equal(raw, cooked)
 
