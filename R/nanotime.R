@@ -131,7 +131,7 @@ format.nanotime <- function(x,
                             na.encode=FALSE,
                             trim=TRUE,
                             ...) {
-    fmt <- getOption("nanotimeFormat", default="%Y-%m-%dT%H:%M:%E*S%Ez")
+    fmt <- getOption("nanotimeFormat", default="%Y-%m-%dT%H:%M:%E9S%Ez")
     tz <- getOption("nanotimeTz", default="UTC")
     secs  <- trunc(as.double(x/1e9))
     nanos <- as.double(x - secs*1e9)

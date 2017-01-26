@@ -91,11 +91,18 @@ R>
 ```r
 R> library(data.table)
 R> library(bit64)   # register some print methods for integer64
-R> raw <- data.table(cbind(A=1:5, B=5:1), v)
-R> fwrite(raw, file="/tmp/raw.csv")
-R> cooked <- fread("/tmp/raw.csv")
-R> ## csv files are not 'typed' so need to recover type explicitly
-R> cooked[, `:=`(rdsent=nanotime(rdsent), rdrecv=nanotime(rdrecv), sdsent=nanotime(sdsent), sdrecv=nanotime(sdrecv))]
+R> dt <- data.table(cbind(A=1:5, B=5:1), v)
+R> fwrite(dt, file="datatableTest.csv")  # write out
+R> dtcheck <- fread("datatableTest.csv") # read back, need to re-set class
+R> dtcheck[, v:=nanotime(v)]             # need to re-class as nanotime
+```
+
+#### Use with data.frame 
+
+This requires version 0.0.2 or later.
+
+```r
+R> df <- data.frame(cbind(A=1:5, B=5:1), v=v)
 ```
 
 ### Technical Details

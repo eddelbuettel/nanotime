@@ -1,3 +1,16 @@
+2017-01-25  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): Roll minor version and date
+
+	* R/nanotime.R (nanotime.character): Display of nine dec digits
+	(format.nanotime): Idem
+	(print.nanotime): Dispatch to format.nanotime (thanks, Matt!)
+	(as.integer64.nanotime): New converter to integer64
+	(Ops.nanotime): Explicit definition with some casts
+
+	* NAMESPACE: Corresponding exports
+	* man/nanotime.Rd: Corresponding documentation
+
 2017-01-10  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): Release 0.1.0
