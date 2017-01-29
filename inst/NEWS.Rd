@@ -7,7 +7,10 @@
   \itemize{
     \item The default display format now always shows nine digits
     (\ghpr{10} closing \ghpr{9})
-    \item The default print method was updated to use formated output
+    \item The default print method was updated to use formated output,
+    and a new new converter \code{as.integer64} was added.
+    \item Several 'Ops' method are now explicitly defined allowing
+    casting of results (rather than falling back on bit64 behaviour)
   }
 }
 

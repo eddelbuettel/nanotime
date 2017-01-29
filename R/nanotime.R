@@ -43,6 +43,19 @@
 ##' library type \code{chrono} type in very useful ways for time zones and
 ##' localtime.  We use its formating and parsing features.
 ##'
+##' @section Output Format:
+##'
+##' Formatting and character conversion for \code{nanotime} objects is
+##' done by functions from the \code{\link{RcppCCTZ}} package relying
+##' on code from its embedded \code{CCTZ} library. The default format
+##' is ISO3339 compliant: \code{\%Y-\%m-\%dT\%H:\%M:\%E9S\%Ez}. It
+##' specifies a standard ISO 8601 part for date and time --- as well
+##' as nine digits of precision for fractional seconds (down to
+##' nanoseconds) and on offset (typically zero as we default to UTC).
+##' It can be overriden by using \code{options()} with the key of
+##' \code{nanotimeFormat} and a suitable value. Similarly,
+##' \code{nanotimeTz} can be used to select a different timezone.
+##' 
 ##' @param x The object which want to convert to class \code{nanotime}
 ##' @param frequency Required for \code{index2char} method but ignored here
 ##' @param justify Required for \code{format} method but ignored here
