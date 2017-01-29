@@ -52,6 +52,8 @@
 ##' @param tz Required for \code{as.POSIXct} and \code{as.POSIXlt},
 ##' can be set via \code{options("nanotimeFormat")} and uses \sQuote{UTC} as
 ##' a default and fallback
+##' @param e1 Operand of class \code{nanotime}
+##' @param e2 Operand of class \code{nanotime}
 ##' @param ... Required for print method signature but ignored here
 ##' @return A nanotime object
 ##' @author Dirk Eddelbuettel
@@ -66,8 +68,7 @@
 ##' format(x)
 ##' format(nanotime(Sys.time()) + 1:3)  # three elements each 1 ns apart
 nanotime <- function(x) {
-    ## generic function, converts an object to a raw
-    UseMethod("nanotime")
+    UseMethod("nanotime")    	# generic function,
 }
 
 ##' @rdname nanotime
@@ -85,7 +86,7 @@ nanotime.numeric <- function(x) {
 
 ##' @rdname nanotime
 nanotime.character <- function(x) {
-    fmt <- getOption("nanotimeFormat", default="%Y-%m-%dT%H:%M:%E*S%Ez")
+    fmt <- getOption("nanotimeFormat", default="%Y-%m-%dT%H:%M:%E9S%Ez")
     tz <- getOption("nanotimeTz", default="UTC")
     d <- RcppCCTZ::parseDouble(x, fmt=fmt, tz=tz)
     y <- as.integer64(d[,1]) * 1e9 + as.integer64(d[, 2])
@@ -119,26 +120,18 @@ nanotime.Date <- function(x) {
 
 ##' @rdname nanotime
 print.nanotime <- function(x, ...) {
-    ##NextMethod()	# cleaner ?
-
-    ## the following borrows from bit64::print.integer64
-    a <- attributes(x)
-    ret <- x
-    a$class <- minusclass(a$class, "nanotime")
-    attributes(ret) <- a
-    print(ret, ...)
-
+    print(format.nanotime(x, ...))
     invisible(x)
 }
 
 ##' @rdname nanotime
-format.nanotime <- function(x, 
+format.nanotime <- function(x,
                             justify="right",
                             digits=NULL,
                             na.encode=FALSE,
                             trim=TRUE,
                             ...) {
-    fmt <- getOption("nanotimeFormat", default="%Y-%m-%dT%H:%M:%E*S%Ez")
+    fmt <- getOption("nanotimeFormat", default="%Y-%m-%dT%H:%M:%E9S%Ez")
     tz <- getOption("nanotimeTz", default="UTC")
     secs  <- trunc(as.double(x/1e9))
     nanos <- as.double(x - secs*1e9)
@@ -182,4 +175,25 @@ as.data.frame.nanotime <- function(x, ...) {
     k <- length(ret)
     for (i in 1:k) attr(ret[[i]], "class") <- cl
     ret
+}
+
+##' @rdname nanotime
+as.integer64.nanotime <- function(x, ...) {
+    a <- attributes(x)
+    ret <- x
+    a$class <- minusclass(a$class, "nanotime")
+    attributes(ret) <- a
+    ret
+}
+
+##' @rdname nanotime
+Ops.nanotime <- function(e1, e2) {
+    res <- get(.Generic)(as.integer64(e1), as.integer64(e2))
+    op <- .Generic[[1]]
+    if (op %in% c("<=", "<", "!=", "==", ">=", ">>")) {
+        res <- as.logical(res)          # want comparison as bool
+    } else if (op %in% c("+", "-")) {
+        res <- nanotime(res)       	# want +/- as nanotime
+    }
+    res
 }
