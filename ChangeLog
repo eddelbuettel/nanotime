@@ -1,3 +1,7 @@
+2017-01-29  Dirk Eddelbuettel  <edd@debian.org>
+
+	* .travis.yml: Use https to fetch script via curl
+
 2017-01-25  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): Roll minor version and date
