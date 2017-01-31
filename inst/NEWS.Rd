@@ -11,6 +11,8 @@
     and a new new converter \code{as.integer64} was added.
     \item Several 'Ops' method are now explicitly defined allowing
     casting of results (rather than falling back on bit64 behaviour)
+    \item The format routine is now more careful about not loosing
+    precision (\ghit{12})
   }
 }
 

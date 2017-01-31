@@ -146,16 +146,18 @@ format.nanotime <- function(x,
                             ...) {
     fmt <- getOption("nanotimeFormat", default="%Y-%m-%dT%H:%M:%E9S%Ez")
     tz <- getOption("nanotimeTz", default="UTC")
-    secs  <- trunc(as.double(x/1e9))
-    nanos <- as.double(x - secs*1e9)
-    RcppCCTZ::formatDouble(secs, nanos, fmt=fmt, tgttzstr=tz)
+    bigint <- as.integer64(x)
+    secs  <- as.integer64(bigint / as.integer64(1000000000))
+    nanos <- bigint - secs * as.integer64(1000000000)
+    RcppCCTZ::formatDouble(as.double(secs), as.double(nanos), fmt=fmt, tgttzstr=tz)
 }
 
 ##' @rdname nanotime
-index2char.nanotime <- function(x, frequency = NULL, ...) {
-    secs  <- trunc(as.double(x/1e9))
-    nanos <- as.double(x - secs*1e9)
-    RcppCCTZ::formatDouble(secs, nanos,
+index2char.nanotimeo <- function(x, frequency = NULL, ...) {
+    bigint <- as.integer64(x)
+    secs  <- as.integer64(bigint / as.integer64(1000000000))
+    nanos <- bigint - secs * as.integer64(1000000000)
+    RcppCCTZ::formatDouble(as.double(secs), as.double(nanos),
                            fmt=getOption("nanotimeFormat", default="%Y-%m-%dT%H:%M:%E*S%Ez"),
                            tgttzstr=getOption("nanotimeTz", default="UTC"))
 }
