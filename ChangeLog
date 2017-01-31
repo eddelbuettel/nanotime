@@ -1,3 +1,8 @@
+2017-01-30  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/nanotime.R (format.nanotime): Saver transformation to double
+	(index2char.nanotime): Idem
+
 2017-01-29  Dirk Eddelbuettel  <edd@debian.org>
 
 	* R/nanotime.R: Additional documentation section on default output
