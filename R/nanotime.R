@@ -158,7 +158,7 @@ index2char.nanotime <- function(x, frequency = NULL, ...) {
     secs  <- as.integer64(bigint / as.integer64(1000000000))
     nanos <- bigint - secs * as.integer64(1000000000)
     RcppCCTZ::formatDouble(as.double(secs), as.double(nanos),
-                           fmt=getOption("nanotimeFormat", default="%Y-%m-%dT%H:%M:%E*S%Ez"),
+                           fmt=getOption("nanotimeFormat", default="%Y-%m-%dT%H:%M:%E9S%Ez"),
                            tgttzstr=getOption("nanotimeTz", default="UTC"))
 }
 
