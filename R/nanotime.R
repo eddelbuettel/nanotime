@@ -153,7 +153,7 @@ format.nanotime <- function(x,
 }
 
 ##' @rdname nanotime
-index2char.nanotimeo <- function(x, frequency = NULL, ...) {
+index2char.nanotime <- function(x, frequency = NULL, ...) {
     bigint <- as.integer64(x)
     secs  <- as.integer64(bigint / as.integer64(1000000000))
     nanos <- bigint - secs * as.integer64(1000000000)
