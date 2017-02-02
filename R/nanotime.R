@@ -139,13 +139,23 @@ print.nanotime <- function(x, ...) {
 
 ##' @rdname nanotime
 format.nanotime <- function(x,
+                            tz="",
                             justify="right",
                             digits=NULL,
                             na.encode=FALSE,
                             trim=TRUE,
                             ...) {
     fmt <- getOption("nanotimeFormat", default="%Y-%m-%dT%H:%M:%E9S%Ez")
-    tz <- getOption("nanotimeTz", default="UTC")
+    if (missing(tz) && !is.null(tzone <- attr(x, "tzone")))
+      tz <- tzone
+    else {
+      tz <- getOption("nanotimeTz")
+      if (is.null(tz)) {
+        tz <- Sys.timezone()
+        if (is.na(tz))  
+          tz="UTC"
+      }
+    }
     bigint <- as.integer64(x)
     secs  <- as.integer64(bigint / as.integer64(1000000000))
     nanos <- bigint - secs * as.integer64(1000000000)
