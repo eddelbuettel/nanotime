@@ -1,18 +1,18 @@
 \name{NEWS}
-\title{News for Package \pkg{RcppCCTZ}}
+\title{News for Package \pkg{nanotime}}
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/nanotime/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/nanotime/issues/#1}{##1}}
 
-\section{Changes in version 0.1.1 (2017-xx-yy)}{
+\section{Changes in version 0.1.1 (2017-02-04)}{
   \itemize{
     \item The default display format now always shows nine digits
     (\ghpr{10} closing \ghpr{9})
     \item The default print method was updated to use formated output,
-    and a new new converter \code{as.integer64} was added.
+    and a new new converter \code{as.integer64} was added
     \item Several 'Ops' method are now explicitly defined allowing
     casting of results (rather than falling back on bit64 behaviour)
     \item The format routine is now more careful about not loosing
-    precision (\ghit{12})
+    precision (\ghit{13} closing \ghit{12})
   }
 }
 

@@ -3,4 +3,4 @@
 ^\.travis.yml$
 ^tests/.*\.Rout.save
 ^\.codecov\.yml$
-^local/
+^local

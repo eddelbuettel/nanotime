@@ -1,10 +1,14 @@
+2017-02-04  Dirk Eddelbuettel  <edd@max.eddelbuettel.com>
+
+	* DESCRIPTION (Version, Date): Release 0.1.1
+
 2017-01-31  Dirk Eddelbuettel  <edd@debian.org>
 
 	* R/nanotime.R: One more updated format string
 
 2017-01-30  Dirk Eddelbuettel  <edd@debian.org>
 
-	* R/nanotime.R (format.nanotime): Saver transformation to double
+	* R/nanotime.R (format.nanotime): Safer transformation to double
 	(index2char.nanotime): Idem
 
 2017-01-29  Dirk Eddelbuettel  <edd@debian.org>
