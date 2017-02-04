@@ -80,139 +80,208 @@
 ##' print(x)
 ##' format(x)
 ##' format(nanotime(Sys.time()) + 1:3)  # three elements each 1 ns apart
+## nanotime <- function(x) {
+##     UseMethod("nanotime")    	# generic function,
+## }
+
+##' @import bit64
+##' @importFrom RcppCCTZ parseDouble formatDouble
+##' @importFrom zoo index2char
+
+
+##' @export
+setClass("nanotime", contains = "integer64")
+
+##' @export nanotime
+
+##' @rdname nanotime
+##' @export
 nanotime <- function(x) {
-    UseMethod("nanotime")    	# generic function,
+  new("nanotime", as.integer64(x))
 }
 
-##' @rdname nanotime
-nanotime.default <- function(x) {
-    oldClass(x) <- c("nanotime", "integer64")
-    x
-}
+setGeneric("nanotime")
 
 ##' @rdname nanotime
-nanotime.numeric <- function(x) {
-    y <- as.integer64(x)
-    oldClass(y) <- c("nanotime", "integer64")
-    y
-}
+##' @export
+setMethod("nanotime",
+          "character",
+          function(x) {
+            fmt <- getOption("nanotimeFormat", default="%Y-%m-%dT%H:%M:%E9S%Ez")
+            tz <- getOption("nanotimeTz", default="UTC")
+            d <- RcppCCTZ::parseDouble(x, fmt=fmt, tz=tz)
+            new("nanotime", as.integer64(d[,1]) * 1e9 + as.integer64(d[, 2]))
+          })
+
+## ##' @rdname nanotime
+## nanotime.matrix <- function(x) {
+##     y <- as.integer64(x[,1]) * 1e9 + as.integer64(x[, 2])
+##     oldClass(y) <- c("nanotime", "integer64")
+##     y
+## }
 
 ##' @rdname nanotime
-nanotime.character <- function(x) {
-    fmt <- getOption("nanotimeFormat", default="%Y-%m-%dT%H:%M:%E9S%Ez")
+##' @export
+setMethod("nanotime",
+          "POSIXct",
+          function(x) {
+            ## force last three digits to be zero
+            new("nanotime", as.integer64(as.numeric(x) * 1e6) * 1000)
+          })
+
+##' @rdname nanotime
+##' @export
+setMethod("nanotime",
+          "POSIXlt",
+          function(x) {
+            nanotime(as.POSIXct(x))
+          })
+
+##' @rdname nanotime
+##' @export
+setMethod("nanotime",
+          "Date",
+          function(x) {
+            nanotime(as.POSIXct(x))
+          })
+
+##' @rdname nanotime
+##' @export
+print <- function(x, ...) {
+  print(format.nanotime(x, ...))
+  invisible(x)
+}
+
+##' @export
+setMethod("show",
+          signature("nanotime"),
+          function(object) print(format(object)))
+
+
+##' @rdname nanotime
+##' @export
+format.nanotime <- function(x, tz="", ...)
+{
+  if (missing(tz) && !is.null(tzone <- attr(x, "tzone")))
+    tz <- tzone
+  else
     tz <- getOption("nanotimeTz", default="UTC")
-    d <- RcppCCTZ::parseDouble(x, fmt=fmt, tz=tz)
-    y <- as.integer64(d[,1]) * 1e9 + as.integer64(d[, 2])
-    oldClass(y) <- c("nanotime", "integer64")
-    y
+  fmt <- getOption("nanotimeFormat", default="%Y-%m-%dT%H:%M:%E9S%Ez")
+  bigint <- as.integer64(x)
+  secs  <- as.integer64(bigint / as.integer64(1000000000))
+  nanos <- bigint - secs * as.integer64(1000000000)
+  RcppCCTZ::formatDouble(as.double(secs), as.double(nanos), fmt=fmt, tgttzstr=tz)
 }
 
-##' @rdname nanotime
-nanotime.matrix <- function(x) {
-    y <- as.integer64(x[,1]) * 1e9 + as.integer64(x[, 2])
-    oldClass(y) <- c("nanotime", "integer64")
-    y
-}
 
 ##' @rdname nanotime
-nanotime.POSIXct <- function(x) {
-    y <- as.integer64(as.numeric(x) * 1e6) * 1000 # force last three digits to be zero
-    oldClass(y) <- c("nanotime", "integer64")
-    y
-}
-
-##' @rdname nanotime
-nanotime.POSIXlt <- function(x) {
-    nanotime(as.POSIXct(x))
-}
-
-##' @rdname nanotime
-nanotime.Date <- function(x) {
-    nanotime(as.POSIXct(x))
-}
-
-##' @rdname nanotime
-print.nanotime <- function(x, ...) {
-    print(format.nanotime(x, ...))
-    invisible(x)
-}
-
-##' @rdname nanotime
-format.nanotime <- function(x,
-                            justify="right",
-                            digits=NULL,
-                            na.encode=FALSE,
-                            trim=TRUE,
-                            tz="",
-                            ...) {
-    if (missing(tz) && !is.null(tzone <- attr(x, "tzone")))
-      tz <- tzone
-    else
-      tz <- getOption("nanotimeTz", default="UTC")
-    fmt <- getOption("nanotimeFormat", default="%Y-%m-%dT%H:%M:%E9S%Ez")
-    bigint <- as.integer64(x)
-    secs  <- as.integer64(bigint / as.integer64(1000000000))
-    nanos <- bigint - secs * as.integer64(1000000000)
-    RcppCCTZ::formatDouble(as.double(secs), as.double(nanos), fmt=fmt, tgttzstr=tz)
-}
-
-##' @rdname nanotime
+##' @export
 index2char.nanotime <- function(x, frequency = NULL, ...) {
-    bigint <- as.integer64(x)
-    secs  <- as.integer64(bigint / as.integer64(1000000000))
-    nanos <- bigint - secs * as.integer64(1000000000)
-    RcppCCTZ::formatDouble(as.double(secs), as.double(nanos),
-                           fmt=getOption("nanotimeFormat", default="%Y-%m-%dT%H:%M:%E9S%Ez"),
-                           tgttzstr=getOption("nanotimeTz", default="UTC"))
+  bigint <- as.integer64(x)
+  secs  <- as.integer64(bigint / as.integer64(1000000000))
+  nanos <- bigint - secs * as.integer64(1000000000)
+  RcppCCTZ::formatDouble(as.double(secs), as.double(nanos),
+                         fmt=getOption("nanotimeFormat", default="%Y-%m-%dT%H:%M:%E9S%Ez"),
+                         tgttzstr=getOption("nanotimeTz", default="UTC"))
 }
 
 ##' @rdname nanotime
+##' @export
 as.POSIXct.nanotime <- function(x, tz, ...) {
-    if (missing(tz)) tz <- getOption("nanotimeTz", default="UTC")
-    #if (verbose) warning("Lossy conversion dropping precision")
-    pt <- as.POSIXct(as.double(x/1e9), tz=tz, origin="1970-01-01")
-    pt
+  if (missing(tz)) tz <- getOption("nanotimeTz", default="UTC")
+  ## if (verbose) warning("Lossy conversion dropping precision")
+  pt <- as.POSIXct(as.double(x/1e9), tz=tz, origin="1970-01-01")
+  pt
 }
 
 ##' @rdname nanotime
+##' @export
 as.POSIXlt.nanotime <- function(x, tz, ...) {
-    if (missing(tz)) tz <- getOption("nanotimeTz", default="UTC")
-    as.POSIXlt(as.POSIXct(x, tz=tz))
+  if (missing(tz)) tz <- getOption("nanotimeTz", default="UTC")
+  as.POSIXlt(as.POSIXct(x, tz=tz))
 }
 
 ##' @rdname nanotime
+##' @export
 as.Date.nanotime <- function(x, ...) {
-    as.Date(as.POSIXct(x))
+  as.Date(as.POSIXct(x))
 }
 
-##' @rdname nanotime
-as.data.frame.nanotime <- function(x, ...) {
-    cl <- oldClass(x)
-    on.exit(attr(x, "class") <- cl)
-    attr(x, "class") <- minusclass(cl, "nanotime")
-    ret <- as.data.frame(x, ...)
-    k <- length(ret)
-    for (i in 1:k) attr(ret[[i]], "class") <- cl
-    ret
-}
+## ##' @rdname nanotime
+## as.data.frame.nanotime <- function(x, ...) {
+##     cl <- oldClass(x)
+##     on.exit(attr(x, "class") <- cl)
+##     attr(x, "class") <- minusclass(cl, "nanotime")
+##     ret <- as.data.frame(x, ...)
+##     k <- length(ret)
+##     for (i in 1:k) attr(ret[[i]], "class") <- cl
+##     ret
+## }
 
 ##' @rdname nanotime
+##' @export
 as.integer64.nanotime <- function(x, ...) {
-    a <- attributes(x)
-    ret <- x
-    a$class <- minusclass(a$class, "nanotime")
-    attributes(ret) <- a
-    ret
+  S3Part(x, strictS3=TRUE)
 }
 
-##' @rdname nanotime
-Ops.nanotime <- function(e1, e2) {
-    res <- get(.Generic)(as.integer64(e1), as.integer64(e2))
-    op <- .Generic[[1]]
-    if (op %in% c("<=", "<", "!=", "==", ">=", ">>")) {
-        res <- as.logical(res)          # want comparison as bool
-    } else if (op %in% c("+", "-")) {
-        res <- nanotime(res)       	# want +/- as nanotime
-    }
-    res
-}
+## ##' @rdname nanotime
+## Ops.nanotime <- function(e1, e2) {
+##     res <- get(.Generic)(as.integer64(e1), as.integer64(e2))
+##     op <- .Generic[[1]]
+##     if (op %in% c("<=", "<", "!=", "==", ">=", ">>")) {
+##         res <- as.logical(res)          # want comparison as bool
+##     } else if (op %in% c("+", "-")) {
+##         res <- nanotime(res)       	# want +/- as nanotime
+##     }
+##     res
+## }
+
+##' @export
+setMethod("-", c("nanotime", "nanotime"),
+          function(e1, e2) {
+            S3Part(e1, strictS3=TRUE) - S3Part(e2, strictS3=TRUE)
+          })
+
+##' @export
+setMethod("-", c("nanotime", "integer64"),
+          function(e1, e2) {
+            S3Part(e1, strictS3=TRUE) - e2
+          })
+
+##' @export
+setMethod("+", c("nanotime", "integer64"),
+          function(e1, e2) {
+            new("nanotime", S3Part(e1, strictS3=TRUE) + e2)
+          })
+
+##' @export
+setMethod("[",
+          signature("nanotime"),
+          function (x, i, j, ..., drop=FALSE) {
+            new("nanotime", callNextMethod())              
+          })
+
+##' @export
+setMethod("c",
+          signature("nanotime"),
+          function (x, ..., recursive=FALSE) {
+            new("nanotime", callNextMethod())
+          })
+
+## the following doesn't work...
+##' @export
+setMethod("array",
+          signature("nanotime"),
+          function (data, dim = length(data), dimnames = NULL) {
+            new("nanotime", callNextMethod())              
+          })
+
+## the following doesn't work...
+##' @export
+setMethod("matrix",
+          signature(data = "nanotime"),
+          function (data = NA, nrow = 1, ncol = 1, byrow = FALSE, dimnames = NULL) 
+          {
+            new("nanotime", callNextMethod())              
+          })
+ 
