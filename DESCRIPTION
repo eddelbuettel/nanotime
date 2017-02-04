@@ -11,4 +11,4 @@ Description: Full 64-bit resolution date and time support with resolution up
 Imports: bit64, RcppCCTZ (>= 0.2.0), zoo
 Suggests: data.table
 License: GPL (>= 2)
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.0
