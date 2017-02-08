@@ -431,7 +431,11 @@ setMethod("c",
           signature("nanotime"),
           function (x, ..., recursive=FALSE) {
             ## this leaves names==c("x", ...), TODO: can we do better?
-            new("nanotime", callNextMethod())
+            new("nanotime", callNextMethod(S3Part(x, strict=TRUE), ..., recursive=FALSE))
+            ## originally had the following, and for some reason it's
+            ## about one order of magnitude slower with a corresponding
+            ## increase in memory usage:
+            ## new("nanotime", callNextMethod())
           })
 
 ## TODO: figure out if we need rbind/cbind... POSIXct doesn't provide them...
