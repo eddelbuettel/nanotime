@@ -212,3 +212,14 @@ Ops.nanotime <- function(e1, e2) {
     }
     res
 }
+
+#' \code{as.integer64} conversion helper returning the underlying
+#' \code{integer64} representation
+#'
+#' @name as.integer64
+#' @usage
+#' as.integer64(x, ...)
+#'
+#' @rdname nanotime
+NULL
+

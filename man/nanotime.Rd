@@ -18,6 +18,7 @@
 \alias{as.data.frame.nanotime}
 \alias{as.integer64.nanotime}
 \alias{Ops.nanotime}
+\alias{as.integer64}
 \title{Nanosecond resolution datetime functionality}
 \usage{
 nanotime(x)
@@ -54,6 +55,8 @@ nanotime(x)
 \method{as.integer64}{nanotime}(x, ...)
 
 \method{Ops}{nanotime}(e1, e2)
+
+as.integer64(x, ...)
 }
 \arguments{
 \item{x}{The object which want to convert to class \code{nanotime}}
@@ -85,6 +88,9 @@ A nanotime object
 Functions to operate on nanosecond time resolution using integer64
 bit representation. Convertions functions for several standard R
 types are provided, and more will be added as needed.
+
+\code{as.integer64} conversion helper returning the underlying
+\code{integer64} representation
 }
 \details{
 Notice that the conversion from POSIXct explicitly sets the last
