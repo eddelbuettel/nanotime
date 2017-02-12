@@ -8,7 +8,7 @@ Maintainer: Dirk Eddelbuettel <edd@debian.org>
 Description: Full 64-bit resolution date and time support with resolution up
  to nanosecond granularity is provided, with easy transition to and from the
  standard 'POSIXct' type.
-Imports: bit64, RcppCCTZ (>= 0.2.0), zoo
-Suggests: RUnit, data.table
+Imports: methods, bit64, RcppCCTZ (>= 0.2.0), zoo
+Suggests: RUnit, data.table, xts
 License: GPL (>= 2)
-RoxygenNote: 6.0.0
+RoxygenNote: 6.0.1

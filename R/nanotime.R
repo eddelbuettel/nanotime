@@ -1,8 +1,9 @@
 ##' @import bit64
 ##' @importFrom RcppCCTZ parseDouble formatDouble
 ##' @importFrom zoo index2char
+##' @import methods
 
-
+##' @rdname nanotime
 ##' @export
 setClass("nanotime", contains = "integer64")
 
@@ -64,17 +65,22 @@ setClass("nanotime", contains = "integer64")
 ##' \code{nanotimeTz} can be used to select a different timezone.
 ##' 
 ##' @param x The object which want to convert to class \code{nanotime}
-##' @param frequency Required for \code{index2char} method but ignored here
-##' @param justify Required for \code{format} method but ignored here
-##' @param digits Required for  \code{format} method but ignored here
-##' @param na.encode Required for  \code{format} method but ignored here
-##' @param trim Required for  \code{format} method but ignored here
 ##' @param tz Required for \code{as.POSIXct} and \code{as.POSIXlt},
 ##' can be set via \code{options("nanotimeFormat")} and uses \sQuote{UTC} as
 ##' a default and fallback
-##' @param e1 Operand of class \code{nanotime}
-##' @param e2 Operand of class \code{nanotime}
-##' @param ... Required for print method signature but ignored here
+##' @param ... further arguments passed to or from methods.
+##' @param e1 left operand object 
+##' @param e2 rigt operand object 
+##' @param digits Required for \code{Math2} signature but ignored here
+##' @param recursive argument for method \code{c}
+##' @param object argument for method \code{show}
+##' @param na.rm a logical indicating whether missing values should be removed.
+##' @param i index specifying elements to extract or replace.
+##' @param j Required for \code{[} signature but ignored here
+##' @param drop Required for \code{[} signature but ignored here
+##' @param z Required for \code{Complex} signature but ignored here
+##' @param deparse.level argument for methods \code{rbind} and \code{cbind}
+##' @param value argument for \code{nanotime-class} 
 ##' @return A nanotime object
 ##' @author Dirk Eddelbuettel
 ##' @examples
@@ -149,8 +155,8 @@ setMethod("print",
             invisible(x)
           })
 
+##' @rdname nanotime
 ##' @export
-##' @noRd
 setMethod("show",
           signature("nanotime"),
           function(object) print(format(object)))
@@ -176,7 +182,7 @@ format.nanotime <- function(x, tz="", ...)
 
 ##' @rdname nanotime
 ##' @export
-index2char.nanotime <- function(x, frequency = NULL, ...) {
+index2char.nanotime <- function(x, ...) {
   bigint <- as.integer64(x)
   secs  <- as.integer64(bigint / as.integer64(1000000000))
   nanos <- bigint - secs * as.integer64(1000000000)
@@ -214,10 +220,10 @@ as.Date.nanotime <- function(x, ...) {
 ##' @rdname nanotime
 ##' @export
 as.data.frame.nanotime <- function(x, ...) {
-  ret <- as.data.frame(S3Part(x, strict=TRUE), ...)
+  ret <- as.data.frame(S3Part(x, strictS3=TRUE), ...)
   ## this works, but see if there's a more idiomatic and efficient way
   ## of doing this:
-  ret[] <- nanotime(S3Part(x, strict=TRUE))
+  ret[] <- nanotime(S3Part(x, strictS3=TRUE))
   ret
 }
 
@@ -229,35 +235,35 @@ as.integer64.nanotime <- function(x, ...) {
 
 
 ## ------------ `-`
+##' @rdname nanotime
 ##' @export
-##' @noRd
 setMethod("-", c("nanotime", "character"),
           function(e1, e2) {
             stop("invalid operand types")
           })
 
+##' @rdname nanotime
 ##' @export
-##' @noRd
 setMethod("-", c("nanotime", "nanotime"),
           function(e1, e2) {
             S3Part(e1, strictS3=TRUE) - S3Part(e2, strictS3=TRUE)
           })
 
+##' @rdname nanotime
 ##' @export
-##' @noRd
 setMethod("-", c("nanotime", "integer64"),
           function(e1, e2) {
             new("nanotime", S3Part(e1, strictS3=TRUE) - e2)
           })
 
+##' @rdname nanotime
 ##' @export
-##' @noRd
 setMethod("-", c("nanotime", "numeric"),
           function(e1, e2) {
             new("nanotime", S3Part(e1, strictS3=TRUE) - e2)
           })
+##' @rdname nanotime
 ##' @export
-##' @noRd
 setMethod("-", c("ANY", "nanotime"),
           function(e1, e2) {
             stop("invalid operand types")
@@ -266,48 +272,49 @@ setMethod("-", c("ANY", "nanotime"),
 
 
 ## ----------- `+`
+##' @rdname nanotime
 ##' @export
 setMethod("+", c("nanotime", "ANY"),
           function(e1, e2) {
             stop("invalid operand types")
           })
 
+##' @rdname nanotime
 ##' @export
-##' @noRd
 setMethod("+", c("nanotime", "integer64"),
           function(e1, e2) {
             new("nanotime", S3Part(e1, strictS3=TRUE) + e2)
           })
 
+##' @rdname nanotime
 ##' @export
-##' @noRd
 setMethod("+", c("nanotime", "numeric"),
           function(e1, e2) {
             new("nanotime", S3Part(e1, strictS3=TRUE) + e2)
           })
 
+##' @rdname nanotime
 ##' @export
-##' @noRd
 setMethod("+", c("ANY", "nanotime"),
           function(e1, e2) {
             stop("invalid operand types")
           })
 
+##' @rdname nanotime
 ##' @export
-##' @noRd
 setMethod("+", c("integer64", "nanotime"),
           function(e1, e2) {
             new("nanotime", e1 + S3Part(e2, strictS3=TRUE))
           })
 
+##' @rdname nanotime
 ##' @export
-##' @noRd
 setMethod("+", c("numeric", "nanotime"),
           function(e1, e2) {
             new("nanotime", e1 + S3Part(e2, strictS3=TRUE))
           })
+##' @rdname nanotime
 ##' @export
-##' @noRd
 setMethod("+", c("nanotime", "nanotime"),
           function(e1, e2) {
             stop("invalid operand types")
@@ -315,84 +322,84 @@ setMethod("+", c("nanotime", "nanotime"),
 
 ## ---------- other ops
 
+##' @rdname nanotime
 ##' @export
-##' @noRd
 setMethod("Arith", c("nanotime", "ANY"),
           function(e1, e2) {
             callNextMethod(S3Part(e1, strictS3=TRUE), e2)
           })
 
+##' @rdname nanotime
 ##' @export
-##' @noRd
 setMethod("Compare", c("nanotime", "ANY"),
           function(e1, e2) {
             callNextMethod(S3Part(e1, strictS3=TRUE), e2)
           })
 
+##' @rdname nanotime
 ##' @export
-##' @noRd
 setMethod("Logic", c("nanotime", "ANY"),
           function(e1, e2) {
             ## this is the same error message that R gives for "A" | "A"
             stop("operations are possible only for numeric, logical or complex types")
           })
 
+##' @rdname nanotime
 ##' @export
-##' @noRd
 setMethod("Logic", c("ANY", "nanotime"),
           function(e1, e2) {
             ## this is the same error message that R gives for "A" | "A"
             stop("operations are possible only for numeric, logical or complex types")
           })
 
+##' @rdname nanotime
 ##' @export
-##' @noRd
 setMethod("Math", c("nanotime"),
           function(x) {
             ## this is the same error message that R gives for abs("A")
             stop("non-numeric argument to mathematical function")
           })
 
+##' @rdname nanotime
 ##' @export
-##' @noRd
 setMethod("Math2", c("nanotime"),
           function(x, digits) {
             ## this is the same error message that R gives for round("A")
             stop("non-numeric argument to mathematical function")
           })
 
+##' @rdname nanotime
 ##' @export
-##' @noRd
 setMethod("Summary", c("nanotime"),
           function(x, ..., na.rm = FALSE) {
             ## this is the same error message that R gives for sum("A")
             stop("invalid 'type' (nanotime) of argument")
           })
 
+##' @rdname nanotime
 ##' @export
-##' @noRd
 setMethod("min", c("nanotime"),
           function(x, ..., na.rm = FALSE) {
             new("nanotime", callNextMethod())
           })
 
+##' @rdname nanotime
 ##' @export
-##' @noRd
 setMethod("max", c("nanotime"),
           function(x, ..., na.rm = FALSE) {
             new("nanotime", callNextMethod())
           })
 
+##' @rdname nanotime
 ##' @export
-##' @noRd
 setMethod("range", c("nanotime"),
           function(x, ..., na.rm = FALSE) {
             new("nanotime", callNextMethod())
           })
 
 
+##' @rdname nanotime
 ##' @export
-##' @noRd
 setMethod("Complex", c("nanotime"),
           function(z) {
             ## this is the same error message that R gives for Arg("A")
@@ -401,37 +408,29 @@ setMethod("Complex", c("nanotime"),
 
 ## ----------- non ops
 
+##' @rdname nanotime
 ##' @export
-##' @noRd
 setMethod("[",
           signature("nanotime"),
           function (x, i, j, ..., drop=FALSE) {
             new("nanotime", callNextMethod())              
           })
 
+##' @rdname nanotime
 ##' @export
-##' @noRd
 setMethod("[<-",
           signature("nanotime"),
           function (x, i, j, ...) {
             new("nanotime", callNextMethod())              
           })
 
+##' @rdname nanotime
 ##' @export
-##' @noRd
-setMethod("[",
-          signature("nanotime"),
-          function (x, i, j, ..., drop=FALSE) {
-            new("nanotime", callNextMethod())              
-          })
-
-##' @export
-##' @noRd
 setMethod("c",
           signature("nanotime"),
           function (x, ..., recursive=FALSE) {
             ## this leaves names==c("x", ...), TODO: can we do better?
-            new("nanotime", callNextMethod(S3Part(x, strict=TRUE), ..., recursive=FALSE))
+            new("nanotime", callNextMethod(S3Part(x, strictS3=TRUE), ..., recursive=FALSE))
             ## originally had the following, and for some reason it's
             ## about one order of magnitude slower with a corresponding
             ## increase in memory usage:
@@ -443,28 +442,30 @@ setMethod("c",
 ## can't use 'rbind2' because 'nanotime' is derived from 'integer64'
 ## and the S3 method will be called instead:
 ## TODO, check that the "masked" message this produces is harmless...
+##' @rdname nanotime
 setGeneric("rbind",
     function(..., deparse.level = 1) standardGeneric("rbind"),
     signature = "...")
 
+##' @rdname nanotime
 ##' @export
-##' @noRd
 setMethod("rbind",
           signature("nanotime"),
           function (x, ..., deparse.level = 1) {
-            new("nanotime", rbind(S3Part(x, strict=TRUE), ..., deparse.level=deparse.level))
+            new("nanotime", rbind(S3Part(x, strictS3=TRUE), ..., deparse.level=deparse.level))
           })
 
+##' @rdname nanotime
 setGeneric("cbind",
     function(..., deparse.level = 1) standardGeneric("cbind"),
     signature = "...")
 
+##' @rdname nanotime
 ##' @export
-##' @noRd
 setMethod("cbind",
           signature("nanotime"),
           function (x, ..., deparse.level = 1) {
-            new("nanotime", cbind(S3Part(x, strict=TRUE), ..., deparse.level=deparse.level))
+            new("nanotime", cbind(S3Part(x, strictS3=TRUE), ..., deparse.level=deparse.level))
           })
 
 ## -------- conversions TODO: figure out if we need conversions
