@@ -1,8 +1,3 @@
-##' @import bit64
-##' @importFrom RcppCCTZ parseDouble formatDouble
-##' @importFrom zoo index2char
-##' @import methods
-
 ##' @rdname nanotime
 ##' @export
 setClass("nanotime", contains = "integer64")
@@ -10,7 +5,7 @@ setClass("nanotime", contains = "integer64")
 ##' Nanosecond resolution datetime functionality
 ##'
 ##' Functions to operate on nanosecond time resolution using integer64
-##' bit representation. Convertions functions for several standard R
+##' bit representation. Conversion functions for several standard R
 ##' types are provided, and more will be added as needed.
 ##'
 ##' Notice that the conversion from POSIXct explicitly sets the last
@@ -40,8 +35,8 @@ setClass("nanotime", contains = "integer64")
 ##' similar to \code{POSIXct} which uses fractional seconds since the
 ##' epoch---so here we are essentially having the same values, but
 ##' multiplied by 10 to the power 9 and stored as integers.  We need
-##' to rely on the external package as we require 64 bit integers
-##' whereas R itself onky has 32 bit integers.  The
+##' to rely on the external package as we require 64-bit integers
+##' whereas R itself only has 32-bit integers.  The
 ##' \code{\link{bit64}} package is clever about how it manages to
 ##' provide such an integer using only the 64-bit double type and very
 ##' clever (and efficient) transformations.
@@ -69,8 +64,8 @@ setClass("nanotime", contains = "integer64")
 ##' can be set via \code{options("nanotimeFormat")} and uses \sQuote{UTC} as
 ##' a default and fallback
 ##' @param ... further arguments passed to or from methods.
-##' @param e1 left operand object 
-##' @param e2 rigt operand object 
+##' @param e1 Operand of class \code{nanotime}
+##' @param e2 Operand of class \code{nanotime}
 ##' @param digits Required for \code{Math2} signature but ignored here
 ##' @param recursive argument for method \code{c}
 ##' @param object argument for method \code{show}
@@ -233,6 +228,15 @@ as.integer64.nanotime <- function(x, ...) {
   S3Part(x, strictS3=TRUE)
 }
 
+#' \code{as.integer64} conversion helper returning the underlying
+#' \code{integer64} representation
+#'
+#' @name as.integer64
+#' @usage
+#' as.integer64(x, ...)
+#'
+#' @rdname nanotime
+NULL
 
 ## ------------ `-`
 ##' @rdname nanotime
@@ -480,6 +484,3 @@ setMethod("cbind",
 ##  [4] "4"                     "5"                     "6"                    
 ##  [7] "7"                     "8"                     "9"                    
 ## [10] "10"                   
-
-
-

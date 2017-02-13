@@ -1,3 +1,11 @@
+2017-02-08  Dirk Eddelbuettel  <edd@max.eddelbuettel.com>
+
+	* DESCRIPTION (Version, Date): Roll minor version and date
+
+	* NAMESPACE: Also (re-)export as.integer64
+	* R/nanotime.R: Added roxygen2 snippet for as.integer64
+	* man/nanotime.Rd: Documentation
+
 2017-02-04  Dirk Eddelbuettel  <edd@max.eddelbuettel.com>
 
 	* DESCRIPTION (Version, Date): Release 0.1.1

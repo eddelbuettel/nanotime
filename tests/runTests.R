@@ -33,9 +33,9 @@ if (!require("RUnit", quietly = TRUE)) {
   if (require("zoo", quietly = TRUE)) {
     results[["test_zoo.R"]] <- runTestFile(paste0(path, "test_zoo.R"))
   }
-  if (require("xts", quietly = TRUE)) {
-    results[["test_xts.R"]] <- runTestFile(paste0(path, "test_xts.R"))
-  }
+##  if (require("xts", quietly = TRUE)) {
+##    results[["test_xts.R"]] <- runTestFile(paste0(path, "test_xts.R"))
+##  }
     
   checkForErrors(results)
 }

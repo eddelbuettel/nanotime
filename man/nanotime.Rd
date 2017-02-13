@@ -18,6 +18,7 @@
 \alias{as.Date.nanotime}
 \alias{as.data.frame.nanotime}
 \alias{as.integer64.nanotime}
+\alias{as.integer64}
 \alias{-,nanotime,character-method}
 \alias{-,nanotime,nanotime-method}
 \alias{-,nanotime,integer64-method}
@@ -79,6 +80,8 @@ nanotime.matrix(x)
 \method{as.data.frame}{nanotime}(x, ...)
 
 \method{as.integer64}{nanotime}(x, ...)
+
+as.integer64(x, ...)
 
 \S4method{-}{nanotime,character}(e1, e2)
 
@@ -151,9 +154,9 @@ cbind(..., deparse.level = 1)
 can be set via \code{options("nanotimeFormat")} and uses \sQuote{UTC} as
 a default and fallback}
 
-\item{e1}{left operand object}
+\item{e1}{Operand of class \code{nanotime}}
 
-\item{e2}{rigt operand object}
+\item{e2}{Operand of class \code{nanotime}}
 
 \item{digits}{Required for \code{Math2} signature but ignored here}
 
@@ -178,8 +181,11 @@ A nanotime object
 }
 \description{
 Functions to operate on nanosecond time resolution using integer64
-bit representation. Convertions functions for several standard R
+bit representation. Conversions functions for several standard R
 types are provided, and more will be added as needed.
+
+\code{as.integer64} conversion helper returning the underlying
+\code{integer64} representation
 }
 \details{
 Notice that the conversion from POSIXct explicitly sets the last
@@ -212,8 +218,8 @@ types to represent nanoseconds relative to the epoch.  This is
 similar to \code{POSIXct} which uses fractional seconds since the
 epoch---so here we are essentially having the same values, but
 multiplied by 10 to the power 9 and stored as integers.  We need
-to rely on the external package as we require 64 bit integers
-whereas R itself onky has 32 bit integers.  The
+to rely on the external package as we require 64-bit integers
+whereas R itself only has 32-bit integers.  The
 \code{\link{bit64}} package is clever about how it manages to
 provide such an integer using only the 64-bit double type and very
 clever (and efficient) transformations.
