@@ -45,10 +45,6 @@
 \alias{[,nanotime-method}
 \alias{[<-,nanotime-method}
 \alias{c,nanotime-method}
-\alias{rbind}
-\alias{rbind,nanotime-method}
-\alias{cbind}
-\alias{cbind,nanotime-method}
 \title{Nanosecond resolution datetime functionality}
 \usage{
 nanotime(x)
@@ -134,14 +130,6 @@ as.integer64(x, ...)
 \S4method{[}{nanotime}(x, i, j, ...) <- value
 
 \S4method{c}{nanotime}(x, ..., recursive = FALSE)
-
-rbind(..., deparse.level = 1)
-
-\S4method{rbind}{nanotime}(x, ..., deparse.level = 1)
-
-cbind(..., deparse.level = 1)
-
-\S4method{cbind}{nanotime}(x, ..., deparse.level = 1)
 }
 \arguments{
 \item{x}{The object which want to convert to class \code{nanotime}}
@@ -173,8 +161,6 @@ a default and fallback}
 \item{value}{argument for \code{nanotime-class}}
 
 \item{recursive}{argument for method \code{c}}
-
-\item{deparse.level}{argument for methods \code{rbind} and \code{cbind}}
 }
 \value{
 A nanotime object

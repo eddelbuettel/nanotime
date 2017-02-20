@@ -74,7 +74,6 @@ setClass("nanotime", contains = "integer64")
 ##' @param j Required for \code{[} signature but ignored here
 ##' @param drop Required for \code{[} signature but ignored here
 ##' @param z Required for \code{Complex} signature but ignored here
-##' @param deparse.level argument for methods \code{rbind} and \code{cbind}
 ##' @param value argument for \code{nanotime-class} 
 ##' @return A nanotime object
 ##' @author Dirk Eddelbuettel
@@ -430,47 +429,11 @@ setMethod("[<-",
 
 ##' @rdname nanotime
 ##' @export
-setMethod("c",
-          signature("nanotime"),
-          function (x, ..., recursive=FALSE) {
-            ## this leaves names==c("x", ...), TODO: can we do better?
-            new("nanotime", callNextMethod(S3Part(x, strictS3=TRUE), ..., recursive=FALSE))
-            ## originally had the following, and for some reason it's
-            ## about one order of magnitude slower with a corresponding
-            ## increase in memory usage:
-            ## new("nanotime", callNextMethod())
-          })
+c.nanotime <- function(...) {
+  print("called")
+  nanotime((c(unlist(lapply(list(...), unclass)))))
+}
 
-## TODO: figure out if we need rbind/cbind... POSIXct doesn't provide them...
-
-## can't use 'rbind2' because 'nanotime' is derived from 'integer64'
-## and the S3 method will be called instead:
-## TODO, check that the "masked" message this produces is harmless...
-##' @rdname nanotime
-setGeneric("rbind",
-    function(..., deparse.level = 1) standardGeneric("rbind"),
-    signature = "...")
-
-##' @rdname nanotime
-##' @export
-setMethod("rbind",
-          signature("nanotime"),
-          function (x, ..., deparse.level = 1) {
-            new("nanotime", rbind(S3Part(x, strictS3=TRUE), ..., deparse.level=deparse.level))
-          })
-
-##' @rdname nanotime
-setGeneric("cbind",
-    function(..., deparse.level = 1) standardGeneric("cbind"),
-    signature = "...")
-
-##' @rdname nanotime
-##' @export
-setMethod("cbind",
-          signature("nanotime"),
-          function (x, ..., deparse.level = 1) {
-            new("nanotime", cbind(S3Part(x, strictS3=TRUE), ..., deparse.level=deparse.level))
-          })
 
 ## -------- conversions TODO: figure out if we need conversions
 ## maybe we can do something for this:
