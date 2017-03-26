@@ -3,6 +3,7 @@ pkg <- "nanotime"
 
 doTest <- function(results, path, file) {
   results[[file]] <- runTestFile(paste0(path, file))
+  results
 }
 
 
@@ -18,7 +19,7 @@ checkForErrors <- function(l) {
 if (!require("RUnit", quietly = TRUE)) {
   cat("R package 'RUnit' cannot be loaded -- no unit tests run for package", pkg, "\n")
 } else if (!require("nanotime", quietly = TRUE)) {
-  cat("R package 'bit64' cannot be loaded -- no unit tests run for package", pkg, "\n")
+  cat("R package 'nanotime' cannot be loaded -- no unit tests run for package", pkg, "\n")
 } else if (!require("bit64", quietly = TRUE)) {
   cat("R package 'bit64' cannot be loaded -- no unit tests run for package", pkg, "\n")
 } else {
@@ -26,15 +27,15 @@ if (!require("RUnit", quietly = TRUE)) {
   path <- paste0("../", pkg, "/unitTests/")
 
   results <- list()
-  results[["test_nanotime.R"]]   <- runTestFile(paste0(path, "test_nanotime.R"))
-  results[["test_ops.R"]]        <- runTestFile(paste0(path, "test_ops.R"))
-  results[["test_data.frame.R"]] <- runTestFile(paste0(path, "test_data.frame.R"))
+  results <- doTest(results, path, "test_nanotime.R")
+  results <- doTest(results, path, "test_ops.R")
+  results <- doTest(results, path, "test_data.frame.R")
 
   if (require("zoo", quietly = TRUE)) {
-    results[["test_zoo.R"]] <- runTestFile(paste0(path, "test_zoo.R"))
+    results <- doTest(results, path, "test_zoo.R")
   }
 ##  if (require("xts", quietly = TRUE)) {
-##    results[["test_xts.R"]] <- runTestFile(paste0(path, "test_xts.R"))
+##    results <- doTest(results, path, "test_xts.R")
 ##  }
     
   checkForErrors(results)
