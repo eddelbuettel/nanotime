@@ -3,6 +3,12 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/nanotime/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/nanotime/issues/#1}{##1}}
 
+\section{Changes in version 0.1.2 (2017-03-27)}{
+  \itemize{
+    \item The \code{as.integer64} function is now exported as well.
+  }
+}
+
 \section{Changes in version 0.1.1 (2017-02-04)}{
   \itemize{
     \item The default display format now always shows nine digits
