@@ -4,3 +4,4 @@
 ^tests/.*\.Rout.save
 ^\.codecov\.yml$
 ^local
+^LICENSE$
