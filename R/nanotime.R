@@ -67,7 +67,6 @@ setClass("nanotime", contains = "integer64")
 ##' @param e1 Operand of class \code{nanotime}
 ##' @param e2 Operand of class \code{nanotime}
 ##' @param digits Required for \code{Math2} signature but ignored here
-##' @param recursive argument for method \code{c}
 ##' @param object argument for method \code{show}
 ##' @param na.rm a logical indicating whether missing values should be removed.
 ##' @param i index specifying elements to extract or replace.
@@ -92,7 +91,7 @@ setClass("nanotime", contains = "integer64")
 ## }
 ##' @export
 nanotime <- function(x) {
-  new("nanotime", as.integer64(x))
+    new("nanotime", as.integer64(x))
 }
 
 setGeneric("nanotime")
@@ -102,17 +101,17 @@ setGeneric("nanotime")
 setMethod("nanotime",
           "character",
           function(x) {
-            fmt <- getOption("nanotimeFormat", default="%Y-%m-%dT%H:%M:%E9S%Ez")
-            tz <- getOption("nanotimeTz", default="UTC")
-            d <- RcppCCTZ::parseDouble(x, fmt=fmt, tz=tz)
-            new("nanotime", as.integer64(d[,1]) * 1e9 + as.integer64(d[, 2]))
+              fmt <- getOption("nanotimeFormat", default="%Y-%m-%dT%H:%M:%E9S%Ez")
+              tz <- getOption("nanotimeTz", default="UTC")
+              d <- RcppCCTZ::parseDouble(x, fmt=fmt, tz=tz)
+              new("nanotime", as.integer64(d[,1]) * 1e9 + as.integer64(d[, 2]))
           })
 
 ##' @rdname nanotime
 ##' @export
 ## This does not lead to S3 dispatch, the call must be 'nanotime.matrix'
 nanotime.matrix <- function(x) {
-  new("nanotime", as.integer64(x[,1]) * 1e9 + as.integer64(x[, 2]))
+    new("nanotime", as.integer64(x[,1]) * 1e9 + as.integer64(x[, 2]))
 }
 
 ##' @rdname nanotime
@@ -120,8 +119,8 @@ nanotime.matrix <- function(x) {
 setMethod("nanotime",
           "POSIXct",
           function(x) {
-            ## force last three digits to be zero
-            new("nanotime", as.integer64(as.numeric(x) * 1e6) * 1000)
+              ## force last three digits to be zero
+              new("nanotime", as.integer64(as.numeric(x) * 1e6) * 1000)
           })
 
 ##' @rdname nanotime
@@ -129,7 +128,7 @@ setMethod("nanotime",
 setMethod("nanotime",
           "POSIXlt",
           function(x) {
-            nanotime(as.POSIXct(x))
+              nanotime(as.POSIXct(x))
           })
 
 ##' @rdname nanotime
@@ -137,7 +136,7 @@ setMethod("nanotime",
 setMethod("nanotime",
           "Date",
           function(x) {
-            nanotime(as.POSIXct(x))
+              nanotime(as.POSIXct(x))
           })
 
 ##' @rdname nanotime
@@ -145,8 +144,8 @@ setMethod("nanotime",
 setMethod("print",
           "nanotime",
           function(x, ...) {
-            print(format(x, ...))
-            invisible(x)
+              print(format(x, ...))
+              invisible(x)
           })
 
 ##' @rdname nanotime
@@ -160,71 +159,71 @@ setMethod("show",
 ##' @export
 format.nanotime <- function(x, tz="", ...)
 {
-  if (missing(tz)) {
-    if (!is.null(tzone <- attr(x, "tzone")))
-      tz <- tzone
-    else
-      tz <- getOption("nanotimeTz", default="UTC")
-  }
-  fmt <- getOption("nanotimeFormat", default="%Y-%m-%dT%H:%M:%E9S%Ez")
-  bigint <- as.integer64(x)
-  secs  <- as.integer64(bigint / as.integer64(1000000000))
-  nanos <- bigint - secs * as.integer64(1000000000)
-  RcppCCTZ::formatDouble(as.double(secs), as.double(nanos), fmt=fmt, tgttzstr=tz)
+    if (missing(tz)) {
+        if (!is.null(tzone <- attr(x, "tzone")))
+            tz <- tzone
+        else
+            tz <- getOption("nanotimeTz", default="UTC")
+    }
+    fmt <- getOption("nanotimeFormat", default="%Y-%m-%dT%H:%M:%E9S%Ez")
+    bigint <- as.integer64(x)
+    secs  <- as.integer64(bigint / as.integer64(1000000000))
+    nanos <- bigint - secs * as.integer64(1000000000)
+    RcppCCTZ::formatDouble(as.double(secs), as.double(nanos), fmt=fmt, tgttzstr=tz)
 }
 
 
 ##' @rdname nanotime
 ##' @export
 index2char.nanotime <- function(x, ...) {
-  bigint <- as.integer64(x)
-  secs  <- as.integer64(bigint / as.integer64(1000000000))
-  nanos <- bigint - secs * as.integer64(1000000000)
-  RcppCCTZ::formatDouble(as.double(secs), as.double(nanos),
-                         fmt=getOption("nanotimeFormat", default="%Y-%m-%dT%H:%M:%E9S%Ez"),
-                         tgttzstr=getOption("nanotimeTz", default="UTC"))
+    bigint <- as.integer64(x)
+    secs  <- as.integer64(bigint / as.integer64(1000000000))
+    nanos <- bigint - secs * as.integer64(1000000000)
+    RcppCCTZ::formatDouble(as.double(secs), as.double(nanos),
+                           fmt=getOption("nanotimeFormat", default="%Y-%m-%dT%H:%M:%E9S%Ez"),
+                           tgttzstr=getOption("nanotimeTz", default="UTC"))
 }
 
 ##' @rdname nanotime
 ##' @export
 as.POSIXct.nanotime <- function(x, tz, ...) {
-  if (missing(tz)) {
-    if (!is.null(tzone <- attr(x, "tzone")))
-      tz <- tzone
-    else
-      tz <- getOption("nanotimeTz", default="UTC")
-  }
-  ## if (verbose) warning("Lossy conversion dropping precision")
-  pt <- as.POSIXct(as.double(x/1e9), tz=tz, origin="1970-01-01")
-  pt
+    if (missing(tz)) {
+        if (!is.null(tzone <- attr(x, "tzone")))
+            tz <- tzone
+        else
+            tz <- getOption("nanotimeTz", default="UTC")
+    }
+    ## if (verbose) warning("Lossy conversion dropping precision")
+    pt <- as.POSIXct(as.double(x/1e9), tz=tz, origin="1970-01-01")
+    pt
 }
 
 ##' @rdname nanotime
 ##' @export
 as.POSIXlt.nanotime <- function(x, tz, ...) {
-  as.POSIXlt(as.POSIXct(x, tz=tz))
+    as.POSIXlt(as.POSIXct(x, tz=tz))
 }
 
 ##' @rdname nanotime
 ##' @export
 as.Date.nanotime <- function(x, ...) {
-  as.Date(as.POSIXct(x))
+    as.Date(as.POSIXct(x))
 }
 
 ##' @rdname nanotime
 ##' @export
 as.data.frame.nanotime <- function(x, ...) {
-  ret <- as.data.frame(S3Part(x, strictS3=TRUE), ...)
-  ## this works, but see if there's a more idiomatic and efficient way
-  ## of doing this:
-  ret[] <- nanotime(S3Part(x, strictS3=TRUE))
-  ret
+    ret <- as.data.frame(S3Part(x, strictS3=TRUE), ...)
+    ## this works, but see if there's a more idiomatic and efficient way
+    ## of doing this:
+    ret[] <- nanotime(S3Part(x, strictS3=TRUE))
+    ret
 }
 
 ##' @rdname nanotime
 ##' @export
 as.integer64.nanotime <- function(x, ...) {
-  S3Part(x, strictS3=TRUE)
+    S3Part(x, strictS3=TRUE)
 }
 
 #' \code{as.integer64} conversion helper returning the underlying
@@ -242,34 +241,34 @@ NULL
 ##' @export
 setMethod("-", c("nanotime", "character"),
           function(e1, e2) {
-            stop("invalid operand types")
+              stop("invalid operand types")
           })
 
 ##' @rdname nanotime
 ##' @export
 setMethod("-", c("nanotime", "nanotime"),
           function(e1, e2) {
-            S3Part(e1, strictS3=TRUE) - S3Part(e2, strictS3=TRUE)
+              S3Part(e1, strictS3=TRUE) - S3Part(e2, strictS3=TRUE)
           })
 
 ##' @rdname nanotime
 ##' @export
 setMethod("-", c("nanotime", "integer64"),
           function(e1, e2) {
-            new("nanotime", S3Part(e1, strictS3=TRUE) - e2)
+              new("nanotime", S3Part(e1, strictS3=TRUE) - e2)
           })
 
 ##' @rdname nanotime
 ##' @export
 setMethod("-", c("nanotime", "numeric"),
           function(e1, e2) {
-            new("nanotime", S3Part(e1, strictS3=TRUE) - e2)
+              new("nanotime", S3Part(e1, strictS3=TRUE) - e2)
           })
 ##' @rdname nanotime
 ##' @export
 setMethod("-", c("ANY", "nanotime"),
           function(e1, e2) {
-            stop("invalid operand types")
+              stop("invalid operand types")
           })
 
 
@@ -279,48 +278,48 @@ setMethod("-", c("ANY", "nanotime"),
 ##' @export
 setMethod("+", c("nanotime", "ANY"),
           function(e1, e2) {
-            stop("invalid operand types")
+              stop("invalid operand types")
           })
 
 ##' @rdname nanotime
 ##' @export
 setMethod("+", c("nanotime", "integer64"),
           function(e1, e2) {
-            new("nanotime", S3Part(e1, strictS3=TRUE) + e2)
+              new("nanotime", S3Part(e1, strictS3=TRUE) + e2)
           })
 
 ##' @rdname nanotime
 ##' @export
 setMethod("+", c("nanotime", "numeric"),
           function(e1, e2) {
-            new("nanotime", S3Part(e1, strictS3=TRUE) + e2)
+              new("nanotime", S3Part(e1, strictS3=TRUE) + e2)
           })
 
 ##' @rdname nanotime
 ##' @export
 setMethod("+", c("ANY", "nanotime"),
           function(e1, e2) {
-            stop("invalid operand types")
+              stop("invalid operand types")
           })
 
 ##' @rdname nanotime
 ##' @export
 setMethod("+", c("integer64", "nanotime"),
           function(e1, e2) {
-            new("nanotime", e1 + S3Part(e2, strictS3=TRUE))
+              new("nanotime", e1 + S3Part(e2, strictS3=TRUE))
           })
 
 ##' @rdname nanotime
 ##' @export
 setMethod("+", c("numeric", "nanotime"),
           function(e1, e2) {
-            new("nanotime", e1 + S3Part(e2, strictS3=TRUE))
+              new("nanotime", e1 + S3Part(e2, strictS3=TRUE))
           })
 ##' @rdname nanotime
 ##' @export
 setMethod("+", c("nanotime", "nanotime"),
           function(e1, e2) {
-            stop("invalid operand types")
+              stop("invalid operand types")
           })
 
 ## ---------- other ops
@@ -329,75 +328,75 @@ setMethod("+", c("nanotime", "nanotime"),
 ##' @export
 setMethod("Arith", c("nanotime", "ANY"),
           function(e1, e2) {
-            callNextMethod(S3Part(e1, strictS3=TRUE), e2)
+              callNextMethod(S3Part(e1, strictS3=TRUE), e2)
           })
 
 ##' @rdname nanotime
 ##' @export
 setMethod("Compare", c("nanotime", "ANY"),
           function(e1, e2) {
-            callNextMethod(S3Part(e1, strictS3=TRUE), e2)
+              callNextMethod(S3Part(e1, strictS3=TRUE), e2)
           })
 
 ##' @rdname nanotime
 ##' @export
 setMethod("Logic", c("nanotime", "ANY"),
           function(e1, e2) {
-            ## this is the same error message that R gives for "A" | "A"
-            stop("operations are possible only for numeric, logical or complex types")
+              ## this is the same error message that R gives for "A" | "A"
+              stop("operations are possible only for numeric, logical or complex types")
           })
 
 ##' @rdname nanotime
 ##' @export
 setMethod("Logic", c("ANY", "nanotime"),
           function(e1, e2) {
-            ## this is the same error message that R gives for "A" | "A"
-            stop("operations are possible only for numeric, logical or complex types")
+              ## this is the same error message that R gives for "A" | "A"
+              stop("operations are possible only for numeric, logical or complex types")
           })
 
 ##' @rdname nanotime
 ##' @export
 setMethod("Math", c("nanotime"),
           function(x) {
-            ## this is the same error message that R gives for abs("A")
-            stop("non-numeric argument to mathematical function")
+              ## this is the same error message that R gives for abs("A")
+              stop("non-numeric argument to mathematical function")
           })
 
 ##' @rdname nanotime
 ##' @export
 setMethod("Math2", c("nanotime"),
           function(x, digits) {
-            ## this is the same error message that R gives for round("A")
-            stop("non-numeric argument to mathematical function")
+              ## this is the same error message that R gives for round("A")
+              stop("non-numeric argument to mathematical function")
           })
 
 ##' @rdname nanotime
 ##' @export
 setMethod("Summary", c("nanotime"),
           function(x, ..., na.rm = FALSE) {
-            ## this is the same error message that R gives for sum("A")
-            stop("invalid 'type' (nanotime) of argument")
+              ## this is the same error message that R gives for sum("A")
+              stop("invalid 'type' (nanotime) of argument")
           })
 
 ##' @rdname nanotime
 ##' @export
 setMethod("min", c("nanotime"),
           function(x, ..., na.rm = FALSE) {
-            new("nanotime", callNextMethod())
+              new("nanotime", callNextMethod())
           })
 
 ##' @rdname nanotime
 ##' @export
 setMethod("max", c("nanotime"),
           function(x, ..., na.rm = FALSE) {
-            new("nanotime", callNextMethod())
+              new("nanotime", callNextMethod())
           })
 
 ##' @rdname nanotime
 ##' @export
 setMethod("range", c("nanotime"),
           function(x, ..., na.rm = FALSE) {
-            new("nanotime", callNextMethod())
+              new("nanotime", callNextMethod())
           })
 
 
@@ -405,8 +404,8 @@ setMethod("range", c("nanotime"),
 ##' @export
 setMethod("Complex", c("nanotime"),
           function(z) {
-            ## this is the same error message that R gives for Arg("A")
-            stop("non-numeric argument to function")
+              ## this is the same error message that R gives for Arg("A")
+              stop("non-numeric argument to function")
           })
 
 ## ----------- non ops
@@ -416,7 +415,7 @@ setMethod("Complex", c("nanotime"),
 setMethod("[",
           signature("nanotime"),
           function (x, i, j, ..., drop=FALSE) {
-            new("nanotime", callNextMethod())
+              new("nanotime", callNextMethod())
           })
 
 ##' @rdname nanotime
@@ -424,14 +423,14 @@ setMethod("[",
 setMethod("[<-",
           signature("nanotime"),
           function (x, i, j, ...) {
-            new("nanotime", callNextMethod())
+              new("nanotime", callNextMethod())
           })
 
 ##' @rdname nanotime
 ##' @export
 c.nanotime <- function(...) {
-  print("called")
-  nanotime((c(unlist(lapply(list(...), unclass)))))
+    print("called")
+    nanotime((c(unlist(lapply(list(...), unclass)))))
 }
 
 ##' @rdname nanotime

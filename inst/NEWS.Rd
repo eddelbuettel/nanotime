@@ -5,7 +5,7 @@
 
 \section{Changes in version 0.2.0 (2017-xx-yy)}{
   \itemize{
-    \item Rewritten in S4 to provide more robust operations (\ghpt{17}
+    \item Rewritten in S4 to provide more robust operations (\ghpr{17}
     by Leonardo)
   }
 }

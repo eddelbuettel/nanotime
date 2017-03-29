@@ -160,8 +160,6 @@ a default and fallback}
 \item{drop}{Required for \code{[} signature but ignored here}
 
 \item{value}{argument for \code{nanotime-class}}
-
-\item{recursive}{argument for method \code{c}}
 }
 \value{
 A nanotime object
