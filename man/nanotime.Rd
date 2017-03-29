@@ -44,7 +44,7 @@
 \alias{Complex,nanotime-method}
 \alias{[,nanotime-method}
 \alias{[<-,nanotime-method}
-\alias{c,nanotime-method}
+\alias{c.nanotime}
 \title{Nanosecond resolution datetime functionality}
 \usage{
 nanotime(x)
@@ -129,7 +129,7 @@ as.integer64(x, ...)
 
 \S4method{[}{nanotime}(x, i, j, ...) <- value
 
-\S4method{c}{nanotime}(x, ..., recursive = FALSE)
+\method{c}{nanotime}(...)
 }
 \arguments{
 \item{x}{The object which want to convert to class \code{nanotime}}
@@ -167,7 +167,7 @@ A nanotime object
 }
 \description{
 Functions to operate on nanosecond time resolution using integer64
-bit representation. Conversions functions for several standard R
+bit representation. Conversion functions for several standard R
 types are provided, and more will be added as needed.
 
 \code{as.integer64} conversion helper returning the underlying

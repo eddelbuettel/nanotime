@@ -1,3 +1,29 @@
+2017-03-29  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): Roll minor version
+
+	* man/nanotime.Rd: Minor update
+
+	* nanotime.Rproj: Use devtools::document to work around a roxygen2
+	bug with S4 and setOldClass
+
+2017-03-29  Leonardo Silvestri  <lsilvestri@ztsdb.org>
+
+	[ The following is summary of changes made over several weeks ]
+	* DESCRIPTION: Convert to S4 class
+	* NAMESPACE: Idem
+	* R/nanotime.R: Idem
+	* inst/unitTests/test_data.frame.R: Idem
+	* inst/unitTests/test_nanotime.R: Idem
+	* inst/unitTests/test_ops.R: Idem
+	* inst/unitTests/test_xts.R: Idem
+	* inst/unitTests/test_zoo.R: Idem
+	* man/nanotime-class.Rd: Idem
+	* man/nanotime-package.Rd: Idem
+	* man/nanotime.Rd: Idem
+	* tests/runTests.R: Idem
+	* tests/simpleTests.R: Idem
+
 2017-03-27  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): Release 0.1.2
