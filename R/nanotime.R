@@ -58,7 +58,7 @@ setClass("nanotime", contains = "integer64")
 ##' It can be overriden by using \code{options()} with the key of
 ##' \code{nanotimeFormat} and a suitable value. Similarly,
 ##' \code{nanotimeTz} can be used to select a different timezone.
-##' 
+##'
 ##' @param x The object which want to convert to class \code{nanotime}
 ##' @param tz Required for \code{as.POSIXct} and \code{as.POSIXlt},
 ##' can be set via \code{options("nanotimeFormat")} and uses \sQuote{UTC} as
@@ -74,7 +74,7 @@ setClass("nanotime", contains = "integer64")
 ##' @param j Required for \code{[} signature but ignored here
 ##' @param drop Required for \code{[} signature but ignored here
 ##' @param z Required for \code{Complex} signature but ignored here
-##' @param value argument for \code{nanotime-class} 
+##' @param value argument for \code{nanotime-class}
 ##' @return A nanotime object
 ##' @author Dirk Eddelbuettel
 ##' @examples
@@ -416,7 +416,7 @@ setMethod("Complex", c("nanotime"),
 setMethod("[",
           signature("nanotime"),
           function (x, i, j, ..., drop=FALSE) {
-            new("nanotime", callNextMethod())              
+            new("nanotime", callNextMethod())
           })
 
 ##' @rdname nanotime
@@ -424,7 +424,7 @@ setMethod("[",
 setMethod("[<-",
           signature("nanotime"),
           function (x, i, j, ...) {
-            new("nanotime", callNextMethod())              
+            new("nanotime", callNextMethod())
           })
 
 ##' @rdname nanotime
@@ -434,16 +434,20 @@ c.nanotime <- function(...) {
   nanotime((c(unlist(lapply(list(...), unclass)))))
 }
 
+##' @rdname nanotime
+##' @name nanotime-package
+NULL
 
 ## -------- conversions TODO: figure out if we need conversions
 ## maybe we can do something for this:
-                                
+
 ## > a <- as.character(1:10)
 ## > a
 ##  [1] "1"  "2"  "3"  "4"  "5"  "6"  "7"  "8"  "9"  "10"
 ## > a[1] <- nanotime(1)
 ## > a
-##  [1] "4.94065645841247e-324" "2"                     "3"                    
-##  [4] "4"                     "5"                     "6"                    
-##  [7] "7"                     "8"                     "9"                    
-## [10] "10"                   
+##  [1] "4.94065645841247e-324" "2"                     "3"
+##  [4] "4"                     "5"                     "6"
+##  [7] "7"                     "8"                     "9"
+## [10] "10"
+

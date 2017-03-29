@@ -45,6 +45,7 @@
 \alias{[,nanotime-method}
 \alias{[<-,nanotime-method}
 \alias{c.nanotime}
+\alias{nanotime-package}
 \title{Nanosecond resolution datetime functionality}
 \usage{
 nanotime(x)
