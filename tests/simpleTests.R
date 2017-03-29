@@ -44,8 +44,8 @@ print(y)
 y <- nanotime(1)   # numeric
 print(y)
 
-v <- nanotime:::nanotime.default(1)     # forced call, gets imprecise value
-print(v)
+## v <- nanotime:::nanotime.default(1)     # forced call, gets imprecise value
+## print(v)
 
 
 options("nanotimeFormat"="%Y-%m-%d %H:%M:%S")

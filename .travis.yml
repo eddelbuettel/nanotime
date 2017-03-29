@@ -13,7 +13,7 @@ before_install:
   - ./run.sh bootstrap
 
 install:
-  - ./run.sh install_aptget r-cran-rcppcctz r-cran-bit64 r-cran-zoo r-cran-data.table
+  - ./run.sh install_aptget r-cran-rcppcctz r-cran-bit64 r-cran-zoo r-cran-data.table r-cran-runit
 
 script:
   - ./run.sh run_tests
