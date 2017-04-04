@@ -429,7 +429,6 @@ setMethod("[<-",
 ##' @rdname nanotime
 ##' @export
 c.nanotime <- function(...) {
-    print("called")
     nanotime((c(unlist(lapply(list(...), unclass)))))
 }
 
