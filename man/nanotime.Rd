@@ -68,9 +68,9 @@ nanotime.matrix(x)
 
 \method{index2char}{nanotime}(x, ...)
 
-\method{as.POSIXct}{nanotime}(x, tz, ...)
+\method{as.POSIXct}{nanotime}(x, tz = "", ...)
 
-\method{as.POSIXlt}{nanotime}(x, tz, ...)
+\method{as.POSIXlt}{nanotime}(x, tz = "", ...)
 
 \method{as.Date}{nanotime}(x, ...)
 
