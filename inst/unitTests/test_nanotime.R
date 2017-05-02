@@ -43,17 +43,19 @@ test_format_tz <- function() {
   oldTz <- getOption("nanotimeTz")
   options(nanotimeFormat=NULL)
 
-  a <- nanotime("1970-01-01T00:00:00.000000000+00:00")
+  a_utc = "1970-01-01T00:00:00.000000000+00:00"
+  nt <- nanotime(a_utc)
   a_ny <- "1969-12-31T19:00:00.000000000-05:00"
   
   options(nanotimeTz=NULL)
-  checkEquals(format(a, tz="America/New_York"), a_ny)
+  checkEquals(format(nt, tz="America/New_York"), a_ny)
 
   options(nanotimeTz="UTC")
-  checkEquals(format(a, tz="America/New_York"), a_ny)
+  checkEquals(format(nt, tz="America/New_York"), a_ny)
 
-  attr(a, "tzone") <- "UTC"
-  checkEquals(format(a, tz="America/New_York"), a_ny)
+  attr(nt, "tzone") <- "UTC"
+  checkEquals(format(nt, tz="America/New_York"), a_ny)
+  checkEquals(format(nt, tz=""), a_utc)
 
   options(nanotimeFormat=oldFormat)
   options(nanotimeTz=oldTz)

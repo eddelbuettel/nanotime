@@ -159,7 +159,7 @@ setMethod("show",
 ##' @export
 format.nanotime <- function(x, tz="", ...)
 {
-    if (missing(tz)) {
+    if (tz=="") {
         if (!is.null(tzone <- attr(x, "tzone")))
             tz <- tzone
         else
@@ -186,8 +186,8 @@ index2char.nanotime <- function(x, ...) {
 
 ##' @rdname nanotime
 ##' @export
-as.POSIXct.nanotime <- function(x, tz, ...) {
-    if (missing(tz)) {
+as.POSIXct.nanotime <- function(x, tz="", ...) {
+    if (tz=="") {
         if (!is.null(tzone <- attr(x, "tzone")))
             tz <- tzone
         else
@@ -200,7 +200,7 @@ as.POSIXct.nanotime <- function(x, tz, ...) {
 
 ##' @rdname nanotime
 ##' @export
-as.POSIXlt.nanotime <- function(x, tz, ...) {
+as.POSIXlt.nanotime <- function(x, tz="", ...) {
     as.POSIXlt(as.POSIXct(x, tz=tz))
 }
 
