@@ -96,7 +96,7 @@ nanotime <- function(x, ...) {
 setGeneric("nanotime")
 
 
-.getTz <- function(x, tz) {
+.getTz <- function(x, tz="") {
     if (tz=="") {
         if (!is.null(tzone <- attr(x, "tzone")))
             tz <- tzone
@@ -106,7 +106,7 @@ setGeneric("nanotime")
     tz
 }
 
-.getFormat <- function(format) {
+.getFormat <- function(format="") {
     if (format=="") {
         format <- getOption("nanotimeFormat", default="%Y-%m-%dT%H:%M:%E9S%Ez")
     }
