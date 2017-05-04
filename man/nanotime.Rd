@@ -48,9 +48,9 @@
 \alias{nanotime-package}
 \title{Nanosecond resolution datetime functionality}
 \usage{
-nanotime(x)
+nanotime(x, ...)
 
-\S4method{nanotime}{character}(x)
+\S4method{nanotime}{character}(x, format = "", tz = "")
 
 nanotime.matrix(x)
 
@@ -60,11 +60,11 @@ nanotime.matrix(x)
 
 \S4method{nanotime}{Date}(x)
 
-\S4method{print}{nanotime}(x, ...)
+\S4method{print}{nanotime}(x, format = "", tz = "", ...)
 
 \S4method{show}{nanotime}(object)
 
-\method{format}{nanotime}(x, tz = "", ...)
+\method{format}{nanotime}(x, format = "", tz = "", ...)
 
 \method{index2char}{nanotime}(x, ...)
 
@@ -137,11 +137,14 @@ as.integer64(x, ...)
 
 \item{...}{further arguments passed to or from methods.}
 
-\item{object}{argument for method \code{show}}
+\item{format}{A character string. Can also be set via \code{options("nanotimeFormat")}
+and uses \sQuote{\%Y-\%m-\%dT\%H:\%M:\%E9S\%Ez} as a default and fallback}
 
 \item{tz}{Required for \code{as.POSIXct} and \code{as.POSIXlt},
-can be set via \code{options("nanotimeFormat")} and uses \sQuote{UTC} as
+can be set via \code{options("nanotimeTz")} and uses \sQuote{UTC} as
 a default and fallback}
+
+\item{object}{argument for method \code{show}}
 
 \item{e1}{Operand of class \code{nanotime}}
 

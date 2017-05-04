@@ -61,11 +61,13 @@ setClass("nanotime", contains = "integer64")
 ##'
 ##' @param x The object which want to convert to class \code{nanotime}
 ##' @param tz Required for \code{as.POSIXct} and \code{as.POSIXlt},
-##' can be set via \code{options("nanotimeFormat")} and uses \sQuote{UTC} as
+##' can be set via \code{options("nanotimeTz")} and uses \sQuote{UTC} as
 ##' a default and fallback
 ##' @param ... further arguments passed to or from methods.
 ##' @param e1 Operand of class \code{nanotime}
 ##' @param e2 Operand of class \code{nanotime}
+##' @param format A character string. Can also be set via \code{options("nanotimeFormat")}
+##' and uses \sQuote{\%Y-\%m-\%dT\%H:\%M:\%E9S\%Ez} as a default and fallback
 ##' @param digits Required for \code{Math2} signature but ignored here
 ##' @param object argument for method \code{show}
 ##' @param na.rm a logical indicating whether missing values should be removed.
@@ -86,24 +88,41 @@ setClass("nanotime", contains = "integer64")
 ##' print(x)
 ##' format(x)
 ##' format(nanotime(Sys.time()) + 1:3)  # three elements each 1 ns apart
-## nanotime <- function(x) {
-##     UseMethod("nanotime")    	# generic function,
-## }
 ##' @export
-nanotime <- function(x) {
+nanotime <- function(x, ...) {
     new("nanotime", as.integer64(x))
 }
 
 setGeneric("nanotime")
 
+
+.getTz <- function(x, tz="") {
+    if (tz=="") {
+        if (!is.null(tzone <- attr(x, "tzone")))
+            tz <- tzone
+        else
+            tz <- getOption("nanotimeTz", default="UTC")
+    }
+    tz
+}
+
+.getFormat <- function(format="") {
+    if (format=="") {
+        format <- getOption("nanotimeFormat", default="%Y-%m-%dT%H:%M:%E9S%Ez")
+    }
+    format
+}
+
+
+
 ##' @rdname nanotime
 ##' @export
 setMethod("nanotime",
           "character",
-          function(x) {
-              fmt <- getOption("nanotimeFormat", default="%Y-%m-%dT%H:%M:%E9S%Ez")
-              tz <- getOption("nanotimeTz", default="UTC")
-              d <- RcppCCTZ::parseDouble(x, fmt=fmt, tz=tz)
+          function(x, format="", tz="") {
+              format <- .getFormat(format)
+              tz <- .getTz(x, tz)
+              d <- RcppCCTZ::parseDouble(x, fmt=format, tz=tz)
               new("nanotime", as.integer64(d[,1]) * 1e9 + as.integer64(d[, 2]))
           })
 
@@ -143,8 +162,10 @@ setMethod("nanotime",
 ##' @export
 setMethod("print",
           "nanotime",
-          function(x, ...) {
-              print(format(x, ...))
+          function(x, format="", tz="", ...) {
+              format <- .getFormat(format)
+              tz <- .getTz(x, tz)
+              print(format(x, format, tz, ...))
               invisible(x)
           })
 
@@ -157,19 +178,14 @@ setMethod("show",
 
 ##' @rdname nanotime
 ##' @export
-format.nanotime <- function(x, tz="", ...)
+format.nanotime <- function(x, format="", tz="", ...)
 {
-    if (tz=="") {
-        if (!is.null(tzone <- attr(x, "tzone")))
-            tz <- tzone
-        else
-            tz <- getOption("nanotimeTz", default="UTC")
-    }
-    fmt <- getOption("nanotimeFormat", default="%Y-%m-%dT%H:%M:%E9S%Ez")
+    format <- .getFormat(format)
+    tz <- .getTz(x, tz)
     bigint <- as.integer64(x)
     secs  <- as.integer64(bigint / as.integer64(1000000000))
     nanos <- bigint - secs * as.integer64(1000000000)
-    RcppCCTZ::formatDouble(as.double(secs), as.double(nanos), fmt=fmt, tgttzstr=tz)
+    RcppCCTZ::formatDouble(as.double(secs), as.double(nanos), fmt=format, tgttzstr=tz)
 }
 
 
@@ -187,12 +203,6 @@ index2char.nanotime <- function(x, ...) {
 ##' @rdname nanotime
 ##' @export
 as.POSIXct.nanotime <- function(x, tz="", ...) {
-    if (tz=="") {
-        if (!is.null(tzone <- attr(x, "tzone")))
-            tz <- tzone
-        else
-            tz <- getOption("nanotimeTz", default="UTC")
-    }
     ## if (verbose) warning("Lossy conversion dropping precision")
     pt <- as.POSIXct(as.double(x/1e9), tz=tz, origin="1970-01-01")
     pt

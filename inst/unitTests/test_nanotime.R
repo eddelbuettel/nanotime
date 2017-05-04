@@ -5,6 +5,17 @@ test_nanotime_generic <- function() {
 }
 test_nanotime_character <- function() {
   checkEquals(nanotime("1970-01-01T00:00:00.000000001+00:00"), nanotime(1))
+  oldFormat <- getOption("nanotimeFormat")
+  oldTz <- getOption("nanotimeTz")
+  ## check that the format and time zone is picked up from the global options:
+  options(nanotimeFormat="%Y-%m-%d %H:%M")
+  options(nanotimeTz="America/New_York")
+  checkEquals(nanotime("1970-01-01 00:00"), nanotime(18000000000000))
+  ## check they are overridden by the parameters:
+  checkEquals(nanotime("1970-01-01 00:00:01", format="%Y-%m-%d %H:%M:%S", tz="Europe/Paris"),
+              nanotime(-3599000000000))
+  options(nanotimeFormat=oldFormat)
+  options(nanotimeTz=oldTz)
 }
 test_nanotime_matrix <- function() {
   m <- matrix(c(10*24*3600+0:9, 9897654321+0:9), 10, 2)
@@ -119,6 +130,21 @@ test_format_fmt_from_options <- function() {
   options(nanotimeFormat=oldFormat)
   options(nanotimeTz=oldTz)
 }
+test_format_fmt_from_parameter <- function() {
+  oldFormat <- getOption("nanotimeFormat")
+  oldTz <- getOption("nanotimeTz")
+  options(nanotimeFormat="%Y/%m/%dT%H:%M:%E9S%Ez")
+  options(nanotimeTz="America/New_York")
+
+  a <- nanotime("1970-01-01 00:00:00.000000000+00:00", format="%Y-%m-%d %H:%M:%E9S%Ez")
+  # the result of format on a is taken from the global option:
+  a_ny <- "1969/12/31T19:00:00.000000000-05:00"
+
+  checkEquals(format(a), a_ny)
+
+  options(nanotimeFormat=oldFormat)
+  options(nanotimeTz=oldTz)
+}
 
 ## conversions
 test_as_POSIXct <- function() {
@@ -185,3 +211,4 @@ test_subsassign <- function() {
   a[1:10] <- nanotime(10:1)
   checkEquals(a[1:10], nanotime(10:1))
 }
+
