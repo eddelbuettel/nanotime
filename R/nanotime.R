@@ -180,7 +180,16 @@ setMethod("print",
           function(x, format="", tz="", ...) {
               format <- .getFormat(format)
               tz <- .getTz(x, tz)
-              print(format(x, format, tz, ...))
+              max.print <- options()$max.print
+              if (length(x) > max.print) {
+                  f <- head(x, max.print)
+                  print(format(f, format, tz, ...))
+                  cat(paste(' [ reached getOption("max.print") -- omitted',
+                            length(x) - max.print, "entries ]\n"))
+              }
+              else {
+                  print(format(x, format, tz, ...))
+              }
               invisible(x)
           })
 
@@ -188,7 +197,7 @@ setMethod("print",
 ##' @export
 setMethod("show",
           signature("nanotime"),
-          function(object) print(format(object)))
+          function(object) print(object))
 
 
 ##' @rdname nanotime
