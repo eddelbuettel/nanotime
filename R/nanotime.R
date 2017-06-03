@@ -90,7 +90,7 @@ setClass("nanotime", contains = "integer64")
 ##' format(nanotime(Sys.time()) + 1:3)  # three elements each 1 ns apart
 ##' @export
 nanotime <- function(x, ...) {
-    new("nanotime", as.integer64(x))
+    new("nanotime", as.integer64(x, keep.names=TRUE))
 }
 
 setGeneric("nanotime")
@@ -122,15 +122,25 @@ setMethod("nanotime",
           function(x, format="", tz="") {
               format <- .getFormat(format)
               tz <- .getTz(x, tz)
+              n = names(x)
               d <- RcppCCTZ::parseDouble(x, fmt=format, tz=tz)
-              new("nanotime", as.integer64(d[,1]) * 1e9 + as.integer64(d[, 2]))
+              res <- new("nanotime", as.integer64(d[,1]) * 1e9 + as.integer64(d[, 2]))
+              if (!is.null(n)) {
+                  names(S3Part(res, strictS3=TRUE)) <- n
+              }
+              res
           })
 
 ##' @rdname nanotime
 ##' @export
 ## This does not lead to S3 dispatch, the call must be 'nanotime.matrix'
 nanotime.matrix <- function(x) {
-    new("nanotime", as.integer64(x[,1]) * 1e9 + as.integer64(x[, 2]))
+    n = names(x)
+    res <- new("nanotime", as.integer64(x[,1]) * 1e9 + as.integer64(x[, 2]))
+    if (!is.null(n)) {
+        names(res) <- n
+    }
+    res    
 }
 
 ##' @rdname nanotime
@@ -139,7 +149,12 @@ setMethod("nanotime",
           "POSIXct",
           function(x) {
               ## force last three digits to be zero
-              new("nanotime", as.integer64(as.numeric(x) * 1e6) * 1000)
+              n = names(x)
+              res <- new("nanotime", as.integer64(as.numeric(x) * 1e6) * 1000)
+              if (!is.null(n)) {
+                  names(S3Part(res, strictS3=TRUE)) <- n
+              }
+              res
           })
 
 ##' @rdname nanotime
@@ -185,7 +200,12 @@ format.nanotime <- function(x, format="", tz="", ...)
     bigint <- as.integer64(x)
     secs  <- as.integer64(bigint / as.integer64(1000000000))
     nanos <- bigint - secs * as.integer64(1000000000)
-    RcppCCTZ::formatDouble(as.double(secs), as.double(nanos), fmt=format, tgttzstr=tz)
+    n = names(x)
+    res <- RcppCCTZ::formatDouble(as.double(secs), as.double(nanos), fmt=format, tgttzstr=tz)
+    if (!is.null(n)) {
+      names(res) <- n
+    }
+    res
 }
 
 

@@ -33,6 +33,24 @@ test_nanotime_Date <- function() {
   d <- as.Date(10, origin="1970-01-01")
   checkEquals(nanotime(d), nanotime("1970-01-11T00:00:00.000000000-05:00"))
 }
+test_nanotime_numeric_keep_names <- function() {
+  n <- nanotime(c(a=1, b=2))
+  checkEquals(names(n), c("a","b"))
+}
+test_nanotime_character_keep_names <- function() {
+  n <- nanotime(c(a="1970-01-01T00:00:00.000000001+00:00", b="1970-01-01T00:00:00.000000001+00:00"))
+  checkEquals(names(n), c("a","b"))
+}  
+test_nanotime_POSIXct_keep_names <- function() {
+  p <- as.POSIXct("1970-01-01 00:00:00", tz="America/New_York")
+  n <- nanotime(c(a=p, b=p))
+  checkEquals(names(n), c("a","b"))
+}  
+test_nanotime_POSIXlt_keep_names <- function() {
+  l <- as.POSIXlt("1970-01-01 00:00:00", tz="America/New_York")
+  n <- nanotime(c(a=l, b=l))
+  checkEquals(names(n), c("a","b"))
+}  
 
 ## format
 test_format_default <- function() {
@@ -192,11 +210,9 @@ test_as_Date <- function() {
 ## c, subset, subassign and binds
 test_c <- function() {
   a <- c(nanotime(1), nanotime(2))
-  names(a) <- NULL                      # 'c' will leave a spurious name
   checkEquals(a, nanotime(1:2))
 
   a <- c(nanotime(1:2), nanotime(3:4))
-  names(a) <- NULL                      # 'c' will leave a spurious name
   checkEquals(a, nanotime(1:4))
 }
 test_subset <- function() {
