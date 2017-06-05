@@ -212,7 +212,7 @@ format.nanotime <- function(x, format="", tz="", ...)
     n = names(x)
     res <- RcppCCTZ::formatDouble(as.double(secs), as.double(nanos), fmt=format, tgttzstr=tz)
     if (!is.null(n)) {
-      names(res) <- n
+        names(res) <- n
     }
     res
 }
@@ -468,12 +468,22 @@ setMethod("[<-",
 ##' @rdname nanotime
 ##' @export
 c.nanotime <- function(...) {
-    nanotime((c(unlist(lapply(list(...), unclass)))))
+    nanotime(c.integer64(...))
 }
 
 ##' @rdname nanotime
 ##' @name nanotime-package
 NULL
+
+##' @rdname nanotime
+##' @export
+setMethod("names<-",
+          signature("nanotime"),
+          function(x, value) {
+              names(S3Part(x, strictS3=TRUE)) <- value
+              x
+          })
+
 
 ## -------- conversions TODO: figure out if we need conversions
 ## maybe we can do something for this:
