@@ -227,6 +227,8 @@ test_subsassign <- function() {
     a[1:10] <- nanotime(10:1)
     checkEquals(a[1:10], nanotime(10:1))
 }
+
+## summary
 test_summary <- function() {
     expected <- nanotime(c(1,2,2,2,3,4))
     names(expected) <- c("Min.", "1st Qu.", "Median", "Mean", "3rd Qu.", "Max.")
@@ -236,3 +238,57 @@ test_summary <- function() {
     names(expected) <- c("Min.", "1st Qu.", "Median", "Mean", "3rd Qu.", "Max.")
     checkEquals(summary(nanotime(1:5)), expected)
 }
+
+## operation exceptions
+test_unary_minus <- function() {
+    checkException(-nanotime(1),
+                   msg="-nanotime(1) : unary '-' is not defined for \"nanotime\" objects")    
+}
+test_unary_plus <- function() {
+    checkException(-nanotime(1),
+                   msg="+nanotime(1) : unary '+' is not defined for \"nanotime\" objects")    
+}
+test_binary_mul <- function() {
+    checkException(nanotime(1) * nanotime(2),
+                   msg="operation is not defined for \"nanotime\" objects")    
+}
+test_ANY_minus_nano <- function() {
+    checkException(1 - nanotime(2), msg="invalid operand types")    
+}
+test_nano_minus_ANY <- function() {
+    checkException(nanotime(1) - "a", msg="invalid operand types")    
+}
+test_ANY_plus_nano <- function() {
+    checkException("a" + nanotime(2), msg="invalid operand types")    
+}
+test_nano_plus_ANY <- function() {
+    checkException(nanotime(1) + "a", msg="invalid operand types")    
+}
+test_nano_mul_nano <- function() {
+    checkException(nanotime(1) * nanotime(1),
+                   msg="operation not defined for \"nanotime\" objects")    
+}
+test_nano_mul_ANY <- function() {
+    checkException(nanotime(1) * 1, msg="operation not defined for \"nanotime\" objects")
+}
+test_nano_div_ANY <- function() {
+    ## div is in the same 'Arith' group as mul:
+    checkException(nanotime(1) / 1, msg="operation not defined for \"nanotime\" objects")
+}
+test_nano_Logic_ANY <- function() {
+    checkException(nanotime(1) | 1,
+                   msg="operations are possible only for numeric, logical or complex types")
+}
+test_ANY_Logic_nano <- function() {
+    checkException(1 | nanotime(1),
+                   msg="operations are possible only for numeric, logical or complex types")
+}
+test_Math_nano <- function() {
+    checkException(sin(nanotime(1)),
+                   msg="non-numeric argument to mathematical function")
+}
+test_Math2_nano <- function() {
+    checkException(round(nanotime(1)),
+                   msg="non-numeric argument to mathematical function")
+}
+    

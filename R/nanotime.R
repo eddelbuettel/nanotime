@@ -233,7 +233,7 @@ index2char.nanotime <- function(x, ...) {
 ##' @export
 as.POSIXct.nanotime <- function(x, tz="", ...) {
     ## if (verbose) warning("Lossy conversion dropping precision")
-    pt <- as.POSIXct(as.double(x/1e9), tz=tz, origin="1970-01-01")
+    pt <- as.POSIXct(as.double(S3Part(x, strictS3=TRUE)/1e9), tz=tz, origin="1970-01-01")
     pt
 }
 
@@ -303,6 +303,7 @@ setMethod("-", c("nanotime", "numeric"),
           function(e1, e2) {
               new("nanotime", S3Part(e1, strictS3=TRUE) - e2)
           })
+
 ##' @rdname nanotime
 ##' @export
 setMethod("-", c("ANY", "nanotime"),
@@ -311,13 +312,30 @@ setMethod("-", c("ANY", "nanotime"),
           })
 
 
+##' @rdname nanotime
+##' @export
+setMethod("-", c("nanotime", "ANY"),
+          function(e1, e2) {
+              if (missing(e2)) {
+                 stop("unary '-' is not defined for \"nanotime\" objects")
+              }
+              else {
+                  stop("invalid operand types")
+              }
+          })
+
 
 ## ----------- `+`
 ##' @rdname nanotime
 ##' @export
 setMethod("+", c("nanotime", "ANY"),
           function(e1, e2) {
-              stop("invalid operand types")
+              if (missing(e2)) {
+                 stop("unary '+' is not defined for \"nanotime\" objects")
+              }
+              else {
+                  stop("invalid operand types")
+              }
           })
 
 ##' @rdname nanotime
@@ -367,7 +385,14 @@ setMethod("+", c("nanotime", "nanotime"),
 ##' @export
 setMethod("Arith", c("nanotime", "ANY"),
           function(e1, e2) {
-              callNextMethod(S3Part(e1, strictS3=TRUE), e2)
+              stop("operation not defined for \"nanotime\" objects")        
+          })
+
+##' @rdname nanotime
+##' @export
+setMethod("Arith", c("ANY", "nanotime"),
+          function(e1, e2) {
+              stop("operation not defined for \"nanotime\" objects")        
           })
 
 ##' @rdname nanotime

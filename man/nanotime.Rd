@@ -24,6 +24,7 @@
 \alias{-,nanotime,integer64-method}
 \alias{-,nanotime,numeric-method}
 \alias{-,ANY,nanotime-method}
+\alias{-,nanotime,ANY-method}
 \alias{+,nanotime,ANY-method}
 \alias{+,nanotime,integer64-method}
 \alias{+,nanotime,numeric-method}
@@ -32,6 +33,7 @@
 \alias{+,numeric,nanotime-method}
 \alias{+,nanotime,nanotime-method}
 \alias{Arith,nanotime,ANY-method}
+\alias{Arith,ANY,nanotime-method}
 \alias{Compare,nanotime,ANY-method}
 \alias{Logic,nanotime,ANY-method}
 \alias{Logic,ANY,nanotime-method}
@@ -91,6 +93,8 @@ as.integer64(x, ...)
 
 \S4method{-}{ANY,nanotime}(e1, e2)
 
+\S4method{-}{nanotime,ANY}(e1, e2)
+
 \S4method{+}{nanotime,ANY}(e1, e2)
 
 \S4method{+}{nanotime,integer64}(e1, e2)
@@ -106,6 +110,8 @@ as.integer64(x, ...)
 \S4method{+}{nanotime,nanotime}(e1, e2)
 
 \S4method{Arith}{nanotime,ANY}(e1, e2)
+
+\S4method{Arith}{ANY,nanotime}(e1, e2)
 
 \S4method{Compare}{nanotime,ANY}(e1, e2)
 
