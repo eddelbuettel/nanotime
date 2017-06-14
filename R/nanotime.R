@@ -199,7 +199,6 @@ setMethod("show",
           signature("nanotime"),
           function(object) print(object))
 
-
 ##' @rdname nanotime
 ##' @export
 format.nanotime <- function(x, format="", tz="", ...)
@@ -209,14 +208,14 @@ format.nanotime <- function(x, format="", tz="", ...)
     bigint <- as.integer64(x)
     secs  <- as.integer64(bigint / as.integer64(1000000000))
     nanos <- bigint - secs * as.integer64(1000000000)
-    n = names(x)
     res <- RcppCCTZ::formatDouble(as.double(secs), as.double(nanos), fmt=format, tgttzstr=tz)
+    res[is.na(x)] <- as.character(NA)
+    n = names(x)
     if (!is.null(n)) {
         names(res) <- n
     }
     res
 }
-
 
 ##' @rdname nanotime
 ##' @export
@@ -233,7 +232,7 @@ index2char.nanotime <- function(x, ...) {
 ##' @export
 as.POSIXct.nanotime <- function(x, tz="", ...) {
     ## if (verbose) warning("Lossy conversion dropping precision")
-    pt <- as.POSIXct(as.double(x/1e9), tz=tz, origin="1970-01-01")
+    pt <- as.POSIXct(as.double(S3Part(x, strictS3=TRUE)/1e9), tz=tz, origin="1970-01-01")
     pt
 }
 
@@ -303,6 +302,7 @@ setMethod("-", c("nanotime", "numeric"),
           function(e1, e2) {
               new("nanotime", S3Part(e1, strictS3=TRUE) - e2)
           })
+
 ##' @rdname nanotime
 ##' @export
 setMethod("-", c("ANY", "nanotime"),
@@ -311,13 +311,30 @@ setMethod("-", c("ANY", "nanotime"),
           })
 
 
+##' @rdname nanotime
+##' @export
+setMethod("-", c("nanotime", "ANY"),
+          function(e1, e2) {
+              if (missing(e2)) {
+                 stop("unary '-' is not defined for \"nanotime\" objects")
+              }
+              else {
+                  stop("invalid operand types")
+              }
+          })
+
 
 ## ----------- `+`
 ##' @rdname nanotime
 ##' @export
 setMethod("+", c("nanotime", "ANY"),
           function(e1, e2) {
-              stop("invalid operand types")
+              if (missing(e2)) {
+                 stop("unary '+' is not defined for \"nanotime\" objects")
+              }
+              else {
+                  stop("invalid operand types")
+              }
           })
 
 ##' @rdname nanotime
@@ -367,7 +384,14 @@ setMethod("+", c("nanotime", "nanotime"),
 ##' @export
 setMethod("Arith", c("nanotime", "ANY"),
           function(e1, e2) {
-              callNextMethod(S3Part(e1, strictS3=TRUE), e2)
+              stop("operation not defined for \"nanotime\" objects")        
+          })
+
+##' @rdname nanotime
+##' @export
+setMethod("Arith", c("ANY", "nanotime"),
+          function(e1, e2) {
+              stop("operation not defined for \"nanotime\" objects")        
           })
 
 ##' @rdname nanotime
@@ -482,6 +506,14 @@ setMethod("names<-",
           function(x, value) {
               names(S3Part(x, strictS3=TRUE)) <- value
               x
+          })
+
+##' @rdname nanotime
+##' @export
+setMethod("is.na",
+          signature("nanotime"),
+          function(x) {
+              callNextMethod(S3Part(x, strictS3=TRUE))
           })
 
 
