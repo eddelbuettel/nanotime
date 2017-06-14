@@ -163,6 +163,14 @@ test_format_fmt_from_parameter <- function() {
     options(nanotimeFormat=oldFormat)
     options(nanotimeTz=oldTz)
 }
+test_format_na <- function() {
+    f <- format(nanotime(c(1, NA, 2, NaN)))
+    exp <- c("1970-01-01T00:00:00.000000001+00:00",
+             as.character(NA),
+             "1970-01-01T00:00:00.000000002+00:00",
+             as.character(NA))
+    checkEquals(f, exp)
+}
 
 ## conversions
 test_as_POSIXct <- function() {
@@ -292,3 +300,8 @@ test_Math2_nano <- function() {
                    msg="non-numeric argument to mathematical function")
 }
     
+## miscellaneous
+test_is.na <- function() {
+    checkEquals(is.na(nanotime(NA)), TRUE)
+    checkEquals(is.na(nanotime(NaN)), TRUE)
+}

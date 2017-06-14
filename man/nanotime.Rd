@@ -49,6 +49,7 @@
 \alias{c.nanotime}
 \alias{nanotime-package}
 \alias{names<-,nanotime-method}
+\alias{is.na,nanotime-method}
 \title{Nanosecond resolution datetime functionality}
 \usage{
 nanotime(x, ...)
@@ -140,6 +141,8 @@ as.integer64(x, ...)
 \method{c}{nanotime}(...)
 
 \S4method{names}{nanotime}(x) <- value
+
+\S4method{is.na}{nanotime}(x)
 }
 \arguments{
 \item{x}{The object which want to convert to class \code{nanotime}}

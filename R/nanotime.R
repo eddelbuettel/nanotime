@@ -199,7 +199,6 @@ setMethod("show",
           signature("nanotime"),
           function(object) print(object))
 
-
 ##' @rdname nanotime
 ##' @export
 format.nanotime <- function(x, format="", tz="", ...)
@@ -209,14 +208,14 @@ format.nanotime <- function(x, format="", tz="", ...)
     bigint <- as.integer64(x)
     secs  <- as.integer64(bigint / as.integer64(1000000000))
     nanos <- bigint - secs * as.integer64(1000000000)
-    n = names(x)
     res <- RcppCCTZ::formatDouble(as.double(secs), as.double(nanos), fmt=format, tgttzstr=tz)
+    res[is.na(x)] <- as.character(NA)
+    n = names(x)
     if (!is.null(n)) {
         names(res) <- n
     }
     res
 }
-
 
 ##' @rdname nanotime
 ##' @export
@@ -507,6 +506,14 @@ setMethod("names<-",
           function(x, value) {
               names(S3Part(x, strictS3=TRUE)) <- value
               x
+          })
+
+##' @rdname nanotime
+##' @export
+setMethod("is.na",
+          signature("nanotime"),
+          function(x) {
+              callNextMethod(S3Part(x, strictS3=TRUE))
           })
 
 
