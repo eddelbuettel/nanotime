@@ -1,3 +1,36 @@
+2017-06-14  Leonardo Silvestri  <lsilvestri@ztsdb.org>
+
+	* R/nanotime.R: Error on ops not meaningful for type,
+	also fix handling of NA, NAN, Inf, -Inf
+
+	* man/nanotime.Rd: Corresponding documentation
+	* inst/unitTests/test_nanotime.R: corresponding test
+
+2017-06-05  Leonardo Silvestri  <lsilvestri@ztsdb.org>
+
+	* R/nanotime.R: Correct summary() by defining 'names<-'; fix 'c'
+
+	* man/nanotime.Rd: Corresponding documentation
+	* inst/unitTests/test_nanotime.R: corresponding test
+
+2017-06-03  Leonardo Silvestri  <lsilvestri@ztsdb.org>
+
+	* R/nanotime.R: Prevent print from printing more than
+	options()$max.print
+
+2017-06-02  Leonardo Silvestri  <lsilvestri@ztsdb.org>
+
+	* R/nanotime.R: Ensure names are kept for nanotime vectors
+	* inst/unitTests/test_nanotime.R: corresponding test
+
+2017-05-02  Leonardo Silvestri  <lsilvestri@ztsdb.org>
+
+	* R/nanotime.R: Ensure 'tz=""' is treated as missing
+
+2017-04-04  Leonardo Silvestri  <lsilvestri@ztsdb.org>
+
+	* R/nanotime.R: Remove spurious debug output
+
 2017-03-29  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): Roll minor version

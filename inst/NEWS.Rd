@@ -7,6 +7,17 @@
   \itemize{
     \item Rewritten in S4 to provide more robust operations (\ghpr{17}
     by Leonardo)
+    \item Ensure \code{tz=""} is treated as unset (Leonardo in \ghpr{20})
+    \item Added \code{format} and \code{tz} arguments to
+    \code{nanotime}, \code{format}, \code{print} (\ghpr{22} by Leonardo
+    and Dirk)
+    \item Ensure printing respect \code{options()$max.print}, ensure
+    names are kept with vector (\ghpr{23} by Leonardo)
+    \item Correct \code{summary()} by defining \code{names<-} (Leonardo
+    in \ghpr{25} fixing \ghit{24})
+    \item Report error on operations that are meaningful for type;
+    handled NA, NaN, Inf, -Inf correctly (Leonardo in \ghpr{27} fixing
+    \ghit{26})   
   }
 }
   
