@@ -1,6 +1,8 @@
+
+notWindows <- .Platform$OS.type != "windows"
+
 test_zoo <- function() {
-    if (requireNamespace("zoo", quietly = TRUE) &&
-        .Platform$OS.type != "windows") {
+    if (requireNamespace("zoo", quietly = TRUE) && notWindows) {
         library(zoo)
         set.seed(42)
         x <- 100 + cumsum(rnorm(10))

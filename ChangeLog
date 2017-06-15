@@ -5,10 +5,13 @@
 	* tests/runTests.R: Rewritten test runner
 
 	* inst/unitTests/test_zoo.R (test_zoo): Condition on zoo present, and
-	test not running on Windows
+	test not running under Windows
 
-	* inst/unitTests/test_xts.R (.setUp): Condition on 'future' xts
-	version present as we really xts to be nanotime aware for these tests
+	* inst/unitTests/test_xts.R (.setUp): Condition on a 'future' xts
+	version present as we really nedd xts to be nanotime aware for these tests
+
+	* inst/unitTests/test_nanotime.R: Condition a number of tests on not
+	running under Windows
 
 	* DESCRIPTION (Suggests): Added 'xts'
 	* .travis.yml (install): Ditto
