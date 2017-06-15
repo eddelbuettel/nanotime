@@ -1,5 +1,4 @@
-## nanotime [![Build Status](https://travis-ci.org/eddelbuettel/nanotime.svg)](https://travis-ci.org/eddelbuettel/nanotime) [![License](http://img.shields.io/badge/license-GPL%20%28%3E=%202%29-brightgreen.svg?style=flat)](http://www.gnu.org/licenses/gpl-2.0.html) [![CRAN](http://www.r-pkg.org/badges/version/nanotime)](https://cran.r-project.org/package=nanotime) [![Downloads](http://cranlogs.r-pkg.org/badges/nanotime?color=brightgreen)](http://www.r-pkg.org/pkg/nanotime) [![Code Coverage](https://codecov.io/gh/eddelbuettel/nanotime/graph/badge.svg)](https://codecov.io/gh/eddelbuettel/nanotime)
-
+## nanotime [![Build Status](https://travis-ci.org/eddelbuettel/nanotime.svg)](https://travis-ci.org/eddelbuettel/nanotime) [![License](https://eddelbuettel.github.io/badges/GPL2+.svg)](http://www.gnu.org/licenses/gpl-2.0.html) [![CRAN](http://www.r-pkg.org/badges/version/nanotime)](https://cran.r-project.org/package=nanotime) [![Downloads](http://cranlogs.r-pkg.org/badges/nanotime?color=brightgreen)](http://www.r-pkg.org/pkg/nanotime) [![Code Coverage](https://codecov.io/gh/eddelbuettel/nanotime/graph/badge.svg)](https://codecov.io/gh/eddelbuettel/nanotime)
 
 Nanosecond Time Resolution for R
 
@@ -141,7 +140,7 @@ should suffice.
 
 ### Author
 
-Dirk Eddelbuettel
+Dirk Eddelbuettel and Leonardo Silvestri
 
 ### License
 
