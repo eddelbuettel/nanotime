@@ -11,6 +11,7 @@
 	version present as we really xts to be nanotime aware for these tests
 
 	* DESCRIPTION (Suggests): Added 'xts'
+	* .travis.yml (install): Ditto
 
 2017-06-14  Leonardo Silvestri  <lsilvestri@ztsdb.org>
 
