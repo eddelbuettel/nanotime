@@ -1,3 +1,17 @@
+2017-06-15  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): New minor version
+
+	* tests/runTests.R: Rewritten test runner
+
+	* inst/unitTests/test_zoo.R (test_zoo): Condition on zoo present, and
+	test not running on Windows
+
+	* inst/unitTests/test_xts.R (.setUp): Condition on 'future' xts
+	version present as we really xts to be nanotime aware for these tests
+
+	* DESCRIPTION (Suggests): Added 'xts'
+
 2017-06-14  Leonardo Silvestri  <lsilvestri@ztsdb.org>
 
 	* R/nanotime.R: Error on ops not meaningful for type,

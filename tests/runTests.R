@@ -1,43 +1,43 @@
+
 pkg <- "nanotime"
 
-
-doTest <- function(results, path, file) {
-  results[[file]] <- runTestFile(paste0(path, file))
-  results
-}
-
-
-checkForErrors <- function(l) {
-  for (nm in names(l)) {
-    if (getErrors(l[[nm]])$nErr || getErrors(l[[nm]])$nFail) {
-      stop(paste("error or failure in", nm, ": ", l[[nm]]))
-    }
-  }
-}
-
-    
-if (!require("RUnit", quietly = TRUE)) {
-  cat("R package 'RUnit' cannot be loaded -- no unit tests run for package", pkg, "\n")
-} else if (!require("nanotime", quietly = TRUE)) {
-  cat("R package 'nanotime' cannot be loaded -- no unit tests run for package", pkg, "\n")
-} else if (!require("bit64", quietly = TRUE)) {
-  cat("R package 'bit64' cannot be loaded -- no unit tests run for package", pkg, "\n")
+if (!requireNamespace("RUnit", quietly = TRUE)) {
+    cat("R package 'RUnit' cannot be loaded -- no unit tests run for package", pkg, "\n")
+} else if (!requireNamespace("nanotime", quietly = TRUE)) {
+    cat("R package 'nanotime' cannot be loaded -- no unit tests run for package", pkg, "\n")
+} else if (!requireNamespace("bit64", quietly = TRUE)) {
+    cat("R package 'bit64' cannot be loaded -- no unit tests run for package", pkg, "\n")
 } else {
 
-  path <- paste0("../", pkg, "/unitTests/")
+    library(RUnit)
+    library(nanotime)
+    library(bit64)
 
-  results <- list()
-  results <- doTest(results, path, "test_nanotime.R")
-  results <- doTest(results, path, "test_ops.R")
-  results <- doTest(results, path, "test_data.frame.R")
+    ## Define tests
+    testSuite <- defineTestSuite(name=paste(pkg, "Unit Tests"),
+                                 dirs=system.file("unitTests", package=pkg),
+                                 testFileRegexp = "^test_.+\\.[rR]$",
+                                 testFuncRegexp = "^[Tt]est+")
 
-  if (require("zoo", quietly = TRUE)) {
-    results <- doTest(results, path, "test_zoo.R")
-  }
-##  if (require("xts", quietly = TRUE)) {
-##    results <- doTest(results, path, "test_xts.R")
-##  }
-    
-  checkForErrors(results)
+    ## Run tests
+    tests <- runTestSuite(testSuite)
+
+    ## Print results
+    printTextProtocol(tests)
+
+    ## Return success or failure to R CMD CHECK
+    if (getErrors(tests)$nFail > 0) {
+        print(getErrors(tests)$nFail)
+        stop("TEST FAILED!")
+    }
+    if (getErrors(tests)$nErr > 0) {
+        print(getErrors(tests)$nErr)
+        stop("TEST HAD ERRORS!")
+    }
+    if (getErrors(tests)$nTestFunc < 1) {
+        print(getErrors(tests)$nTestFunc)
+        stop("NO TEST FUNCTIONS RUN!")
+    }
+
 }
 
