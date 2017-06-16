@@ -138,9 +138,9 @@ nanotime.matrix <- function(x) {
     n = names(x)
     res <- new("nanotime", as.integer64(x[,1]) * 1e9 + as.integer64(x[, 2]))
     if (!is.null(n)) {
-        names(res) <- n
+        names(res) <- n 						## #nocov
     }
-    res    
+    res
 }
 
 ##' @rdname nanotime
@@ -181,12 +181,12 @@ setMethod("print",
               format <- .getFormat(format)
               tz <- .getTz(x, tz)
               max.print <- options()$max.print
-              if (length(x) > max.print) {
+              if (length(x) > max.print) {                   		## #nocov start
                   f <- head(x, max.print)
                   print(format(f, format, tz, ...))
                   cat(paste(' [ reached getOption("max.print") -- omitted',
                             length(x) - max.print, "entries ]\n"))
-              }
+              }                                              		## #nocov end
               else {
                   print(format(x, format, tz, ...))
               }
@@ -197,7 +197,7 @@ setMethod("print",
 ##' @export
 setMethod("show",
           signature("nanotime"),
-          function(object) print(object))
+          function(object) print(object))  				## #nocov
 
 ##' @rdname nanotime
 ##' @export
@@ -212,7 +212,7 @@ format.nanotime <- function(x, format="", tz="", ...)
     res[is.na(x)] <- as.character(NA)
     n = names(x)
     if (!is.null(n)) {
-        names(res) <- n
+        names(res) <- n  						## #nocov
     }
     res
 }
@@ -319,7 +319,7 @@ setMethod("-", c("nanotime", "ANY"),
                  stop("unary '-' is not defined for \"nanotime\" objects")
               }
               else {
-                  stop("invalid operand types")
+                  stop("invalid operand types")    			## #nocov
               }
           })
 
@@ -330,7 +330,7 @@ setMethod("-", c("nanotime", "ANY"),
 setMethod("+", c("nanotime", "ANY"),
           function(e1, e2) {
               if (missing(e2)) {
-                 stop("unary '+' is not defined for \"nanotime\" objects")
+                 stop("unary '+' is not defined for \"nanotime\" objects")  ## #nocov
               }
               else {
                   stop("invalid operand types")
@@ -362,7 +362,7 @@ setMethod("+", c("ANY", "nanotime"),
 ##' @export
 setMethod("+", c("integer64", "nanotime"),
           function(e1, e2) {
-              new("nanotime", e1 + S3Part(e2, strictS3=TRUE))
+              new("nanotime", e1 + S3Part(e2, strictS3=TRUE))  		## #nocov
           })
 
 ##' @rdname nanotime
@@ -384,14 +384,14 @@ setMethod("+", c("nanotime", "nanotime"),
 ##' @export
 setMethod("Arith", c("nanotime", "ANY"),
           function(e1, e2) {
-              stop("operation not defined for \"nanotime\" objects")        
+              stop("operation not defined for \"nanotime\" objects")
           })
 
 ##' @rdname nanotime
 ##' @export
 setMethod("Arith", c("ANY", "nanotime"),
           function(e1, e2) {
-              stop("operation not defined for \"nanotime\" objects")        
+              stop("operation not defined for \"nanotime\" objects")    ## #nocov
           })
 
 ##' @rdname nanotime

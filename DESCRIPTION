@@ -1,14 +1,14 @@
 Package: nanotime
 Type: Package
 Title: Nanosecond-Resolution Time for R
-Version: 0.1.2.2
-Date: 2017-06-14
+Version: 0.1.2.3
+Date: 2017-06-15
 Author: Dirk Eddelbuettel and Leonardo Silvestri
 Maintainer: Dirk Eddelbuettel <edd@debian.org>
 Description: Full 64-bit resolution date and time support with resolution up
  to nanosecond granularity is provided, with easy transition to and from the
  standard 'POSIXct' type.
 Imports: methods, bit64, RcppCCTZ (>= 0.2.0), zoo
-Suggests: RUnit, data.table
+Suggests: RUnit, data.table, xts
 License: GPL (>= 2)
 RoxygenNote: 6.0.1
