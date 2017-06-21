@@ -39,12 +39,12 @@
 ## xtsInternals . . .
 ## [.xts . . . . . .
 
-.setUp <- function() {
-    library(xts)
-}
-
 if (requireNamespace("xts", quietly=TRUE) &&
     packageVersion("xts") >= "0.11.0") {   		# hypothetical future version with nanotime support
+
+    .setUp <- function() {
+        library(xts)
+    }
 
     test_coredata.xts <- function() {
         i1 <- nanotime(Sys.time()) + as.integer64(1:10)
