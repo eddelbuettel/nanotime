@@ -1,8 +1,12 @@
+2017-06-22  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): Release 0.2.0
+
 2017-06-21  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): Roll minor version
 
-	* DESCRIPTION (Imports): Require RcppCCTZ (>= 0.2.3) 
+	* DESCRIPTION (Imports): Require RcppCCTZ (>= 0.2.3)
 
 	* inst/unitTests/test_nanotime.R: No longer condition out Windows
 	* inst/unitTests/test_nanotime.R: Ditto

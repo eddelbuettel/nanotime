@@ -3,7 +3,7 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/nanotime/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/nanotime/issues/#1}{##1}}
 
-\section{Changes in version 0.2.0 (2017-xx-yy)}{
+\section{Changes in version 0.2.0 (2017-06-22)}{
   \itemize{
     \item Rewritten in S4 to provide more robust operations (\ghpr{17}
     by Leonardo)
