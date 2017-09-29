@@ -286,7 +286,7 @@ setMethod("-", c("nanotime", "character"),
 ##' @export
 setMethod("-", c("nanotime", "nanotime"),
           function(e1, e2) {
-              S3Part(e1, strictS3=TRUE) - S3Part(e2, strictS3=TRUE)
+              new("duration", S3Part(e1, strictS3=TRUE) - S3Part(e2, strictS3=TRUE))
           })
 
 ##' @rdname nanotime
@@ -299,6 +299,13 @@ setMethod("-", c("nanotime", "integer64"),
 ##' @rdname nanotime
 ##' @export
 setMethod("-", c("nanotime", "numeric"),
+          function(e1, e2) {
+              new("nanotime", S3Part(e1, strictS3=TRUE) - e2)
+          })
+
+##' @rdname nanotime
+##' @export
+setMethod("-", c("nanotime", "duration"),
           function(e1, e2) {
               new("nanotime", S3Part(e1, strictS3=TRUE) - e2)
           })
