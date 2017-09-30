@@ -23,6 +23,7 @@
 \alias{-,nanotime,nanotime-method}
 \alias{-,nanotime,integer64-method}
 \alias{-,nanotime,numeric-method}
+\alias{-,nanotime,duration-method}
 \alias{-,ANY,nanotime-method}
 \alias{-,nanotime,ANY-method}
 \alias{+,nanotime,ANY-method}
@@ -44,8 +45,8 @@
 \alias{max,nanotime-method}
 \alias{range,nanotime-method}
 \alias{Complex,nanotime-method}
-\alias{[,nanotime-method}
-\alias{[<-,nanotime-method}
+\alias{[,nanotime,ANY-method}
+\alias{[<-,nanotime,ANY,ANY,ANY-method}
 \alias{c.nanotime}
 \alias{nanotime-package}
 \alias{names<-,nanotime-method}
@@ -92,6 +93,8 @@ as.integer64(x, ...)
 
 \S4method{-}{nanotime,numeric}(e1, e2)
 
+\S4method{-}{nanotime,duration}(e1, e2)
+
 \S4method{-}{ANY,nanotime}(e1, e2)
 
 \S4method{-}{nanotime,ANY}(e1, e2)
@@ -134,9 +137,9 @@ as.integer64(x, ...)
 
 \S4method{Complex}{nanotime}(z)
 
-\S4method{[}{nanotime}(x, i, j, ..., drop = FALSE)
+\S4method{[}{nanotime,ANY}(x, i, j, ..., drop = FALSE)
 
-\S4method{[}{nanotime}(x, i, j, ...) <- value
+\S4method{[}{nanotime,ANY,ANY,ANY}(x, i, j, ...) <- value
 
 \method{c}{nanotime}(...)
 

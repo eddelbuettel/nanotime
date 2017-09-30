@@ -1,7 +1,7 @@
 ## ------------ `-`
 "test_nanotime-nanotime" <- function() {
-  checkEquals(nanotime(2)  - nanotime(1),  as.integer64(1))
-  checkEquals(nanotime(-1) - nanotime(-2), as.integer64(1))
+  checkEquals(nanotime(2)  - nanotime(1),  as.duration(1))
+  checkEquals(nanotime(-1) - nanotime(-2), as.duration(1))
 }
 "test_nanotime-integer64" <- function() {
   checkEquals(nanotime(2)  - as.integer64(1),  nanotime(1))
