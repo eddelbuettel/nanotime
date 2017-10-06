@@ -4,12 +4,8 @@
 
 #include <chrono>
 #include <cstdint>
+#include "globals.hpp"
 
-
-namespace Global {
-  using dtime = std::chrono::system_clock::time_point;
-  using duration = dtime::duration;
-}
 
 struct interval {
  

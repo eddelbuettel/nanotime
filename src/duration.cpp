@@ -5,47 +5,14 @@
 #include <regex>
 #include <stdexcept>
 #include <tuple>
-#include <cctype>
 #include <Rcpp.h>
+#include "duration.hpp"
 
 
 using namespace std::literals;
 
 
-namespace Global {
-  using dtime = std::chrono::system_clock::time_point;
-  using duration = dtime::duration;
-}
-
-
-static bool readNumber(const char*& s, const char* e, int& n, bool dosign) {
-  n = 1;
-  auto sorig = s;
-  int sign = 1;
-  if (dosign && *s == '-') {
-    sign = -1;
-    ++s;
-  }
-  if (s == e || !isdigit(*s)) {
-    s = sorig;
-    return false;
-  }
-  else {
-    n *= *s - '0';
-    s++;
-  }
-   
-  while (s < e && *s >= '0' && *s <= '9') {
-    n = 10*n + (*s - '0');
-    ++s;
-  } 
-
-  n *= sign;
-  return true;
-}
-
-
-static Global::duration from_string(const std::string& str) {
+Global::duration from_string(const std::string& str) {
   Global::duration d = 0s;
   const char* s = str.c_str();
   const char* e = s + str.size();
@@ -57,7 +24,7 @@ static Global::duration from_string(const std::string& str) {
   }
 
   int n;
-  if (!readNumber(s, e, n, false)) throw std::range_error("cannot parse duration");
+  if (!Global::readNumber(s, e, n, false)) throw std::range_error("cannot parse duration");
 
   if (s < e && *s == ':') {
     // we've got HHH:MM:SS format
@@ -97,7 +64,7 @@ static Global::duration from_string(const std::string& str) {
 }
 
 
-static std::string to_string(Global::duration d) {
+std::string to_string(Global::duration d) {
   std::stringstream ss;
 
   // handle hh:mm:ss
