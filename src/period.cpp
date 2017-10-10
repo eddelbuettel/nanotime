@@ -5,17 +5,38 @@
 #include "duration.hpp"
 #include "date.h"
 
+// for debug reasons...
+// the following code from: https://stackoverflow.com/a/16692519
+template<typename Clock, typename Duration>
+std::ostream &operator<<(std::ostream &stream,
+                         const std::chrono::time_point<Clock, Duration> &time_point) {
+  const time_t time = Clock::to_time_t(time_point);
+#if __GNUC__ > 4 || \
+   ((__GNUC__ == 4) && __GNUC_MINOR__ > 8 && __GNUC_REVISION__ > 1)
+    // Maybe the put_time will be implemented later?
+    struct tm tm;
+  localtime_r(&time, &tm);
+  return stream << std::put_time(&tm, "%c"); // Print standard date&time
+#else
+  char buffer[26];
+  ctime_r(&time, buffer);
+  buffer[24] = '\0';  // Removes the newline that is added
+  return stream << buffer;
+#endif
+}
+
 
 extern "C" int getOffset(long long s, const char* tzstr);
 
-static inline Global::duration getOffsetCnv(const Global::dtime& dt, const std::string& z) {
-  typedef int SUBSET_DT_FUN(long long, const char*); 
-  SUBSET_DT_FUN *subsetDT = (SUBSET_DT_FUN *) R_GetCCallable("rcppcctz", "getOffset" );
-
-  return Global::duration(subsetDT(dt.time_since_epoch().count(), z.c_str()));
-}
-
 using namespace std::chrono_literals;
+
+static inline Global::duration getOffsetCnv(const Global::dtime& dt, const std::string& z) {
+  typedef int GET_OFFSET_FUN(long long, const char*); 
+  GET_OFFSET_FUN *getOffset = (GET_OFFSET_FUN *) R_GetCCallable("RcppCCTZ", "getOffset" );
+
+  auto offset = getOffset(std::chrono::duration_cast<std::chrono::seconds>(dt.time_since_epoch()).count(), z.c_str());
+  return Global::duration(offset).count() * 1s;
+}
 
 period::period() : months(0), days(0), dur(0s) { }
 
@@ -101,8 +122,6 @@ std::string to_string(const period& p) {
 
 
 Global::dtime plus(const Global::dtime& dt, const period& p, const std::string& z) {
-  int pos = -1;
-  int direction = 1;            // unimportant, it's a fresh start
   auto offset = getOffsetCnv(dt, z);
   auto res = dt;
   if (p.getMonths()) {
@@ -115,7 +134,6 @@ Global::dtime plus(const Global::dtime& dt, const period& p, const std::string& 
   offset = getOffsetCnv(dt, z);
   res += p.getDays()*24h;
   res += p.getDuration();
-  direction = res >= dt ? 1 : -1;
   auto newoffset = getOffsetCnv(res, z);
   if (newoffset != offset) {
     res += offset - newoffset; // adjust for DST or any other event that changed the TZ
@@ -249,6 +267,57 @@ RcppExport SEXP period_to_string(SEXP p) {
       pu.dbl2.d1 = prd[i];
       pu.dbl2.d2 = prd[i+1];
       res[i] = to_string(*reinterpret_cast<period*>(&pu.prd));
+    }
+    return res;
+  } catch(std::exception &ex) {	
+    forward_exception_to_r(ex);
+  } catch(...) { 
+    ::Rf_error("c++ exception (unknown reason)"); 
+  }
+  return R_NilValue;             // not reached
+}
+
+
+RcppExport SEXP plus_nanotime_period(SEXP e1_p, SEXP e2_p, SEXP tz_p) {
+  try {
+    const Rcpp::NumericVector e1_n(e1_p);
+    const Rcpp::NumericVector e2_n(e2_p);
+    Rcpp::NumericVector res(e1_n.size());
+    Rcpp::CharacterVector tz(tz_p);
+    for (size_t i=0; i<e1_n.size(); i += 2) {
+      period_union pu2;
+      pu2.dbl2.d1 = e2_n[i];
+      pu2.dbl2.d2 = e2_n[i+1];
+      auto dt = plus(*reinterpret_cast<const Global::dtime*>(&e1_n[i]),
+                     *reinterpret_cast<period*>(&pu2.prd),
+                     Rcpp::as<std::string>(tz[0]));
+      res[i] = *reinterpret_cast<double*>(&dt);
+      Rcpp::Rcout << dt << std::endl;
+    }
+    return res;
+  } catch(std::exception &ex) {	
+    forward_exception_to_r(ex);
+  } catch(...) { 
+    ::Rf_error("c++ exception (unknown reason)"); 
+  }
+  return R_NilValue;             // not reached
+}
+
+
+RcppExport SEXP minus_nanotime_period(SEXP e1_p, SEXP e2_p, SEXP tz_p) {
+  try {
+    const Rcpp::NumericVector e1_n(e1_p);
+    const Rcpp::NumericVector e2_n(e2_p);
+    Rcpp::NumericVector res(e1_n.size());
+    Rcpp::CharacterVector tz(tz_p);
+    for (size_t i=0; i<e1_n.size(); i += 2) {
+      period_union pu2;
+      pu2.dbl2.d1 = e2_n[i];
+      pu2.dbl2.d2 = e2_n[i+1];
+      auto dt = minus(*reinterpret_cast<const Global::dtime*>(&e1_n[i]),
+                      *reinterpret_cast<period*>(&pu2.prd),
+                      Rcpp::as<std::string>(tz[0]));
+      res[i] = *reinterpret_cast<double*>(&dt);
     }
     return res;
   } catch(std::exception &ex) {	

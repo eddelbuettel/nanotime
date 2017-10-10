@@ -687,14 +687,3 @@ setMethod("is.unsorted", "nanoival",
 setMethod("sort", c("nanoival"),
           function(x, decreasing=FALSE, ...) .Call('_nanoival_sort', x, decreasing))
 
-
-## seq for nanotime should be in the "nanotime" package; put it here for the moment so
-## we can demo nanoival without forcing folks to upgrade nanotime:
-##' @rdname nanoival
-##' @export
-setMethod("seq", c("nanotime"),
-          function(from, to=NULL, by=NULL, length.out = NULL, along.with = NULL, ...) {
-              nanotime(seq(S3Part(from, strictS3=TRUE),
-                           S3Part(to, strictS3=TRUE),
-                           by, length.out, along.with, ...))                           
-          })

@@ -284,6 +284,14 @@ setMethod("-", c("nanotime", "character"),
 
 ##' @rdname nanotime
 ##' @export
+setMethod("-", c("nanotime", "period"),
+          function(e1, e2) {
+              stop(paste0("binary '-' is not defined for \"nanotime\" and \"period\"",
+                          "objects; instead use \"minus(e1, e2, tz)\""))
+          })
+
+##' @rdname nanotime
+##' @export
 setMethod("-", c("nanotime", "nanotime"),
           function(e1, e2) {
               new("duration", S3Part(e1, strictS3=TRUE) - S3Part(e2, strictS3=TRUE))
@@ -330,6 +338,18 @@ setMethod("-", c("nanotime", "ANY"),
               }
           })
 
+setGeneric("minus", function(e1, e2, tz) standardGeneric("minus"))
+
+##' @rdname nanotime
+##' @export
+setMethod("minus", c("nanotime", "period"),
+          function(e1, e2, tz) {
+              res <- .Call('minus_nanotime_period', e1, e2, tz)
+              oldClass(res) <- "integer64"
+              new("nanotime", res)
+          })
+
+
 
 ## ----------- `+`
 ##' @rdname nanotime
@@ -342,6 +362,14 @@ setMethod("+", c("nanotime", "ANY"),
               else {
                   stop("invalid operand types")
               }
+          })
+
+##' @rdname nanotime
+##' @export
+setMethod("+", c("nanotime", "period"),
+          function(e1, e2) {
+              stop(paste0("binary '+' is not defined for \"nanotime\" and \"period\"",
+                          "objects; instead use \"plus(e1, e2, tz)\""))
           })
 
 ##' @rdname nanotime
@@ -378,12 +406,26 @@ setMethod("+", c("numeric", "nanotime"),
           function(e1, e2) {
               new("nanotime", e1 + S3Part(e2, strictS3=TRUE))
           })
+
 ##' @rdname nanotime
 ##' @export
 setMethod("+", c("nanotime", "nanotime"),
           function(e1, e2) {
               stop("invalid operand types")
           })
+
+
+setGeneric("plus", function(e1, e2, tz) standardGeneric("plus"))
+
+##' @rdname nanotime
+##' @export
+setMethod("plus", c("nanotime", "period"),
+          function(e1, e2, tz) {
+              res <- .Call('plus_nanotime_period', e1, e2, tz)
+              oldClass(res) <- "integer64"
+              new("nanotime", res)
+          })
+
 
 ## ---------- other ops
 
@@ -523,6 +565,15 @@ setMethod("is.na",
               callNextMethod(S3Part(x, strictS3=TRUE))
           })
 
+
+##' @rdname nanotime
+##' @export
+setMethod("seq", c("nanotime"),
+          function(from, to=NULL, by=NULL, length.out = NULL, along.with = NULL, ...) {
+              nanotime(seq(S3Part(from, strictS3=TRUE),
+                           S3Part(to, strictS3=TRUE),
+                           by, length.out, along.with, ...))                           
+          })
 
 ## -------- conversions TODO: figure out if we need conversions
 ## maybe we can do something for this:

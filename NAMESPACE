@@ -40,6 +40,9 @@ exportMethods(is.na)
 exportMethods(as.duration)
 exportMethods(show)
 exportMethods(print)
+exportMethods(plus)
+exportMethods(minus)
+
 
 exportMethods(intersect.idx)
 exportMethods(intersect)
@@ -70,7 +73,7 @@ exportMethods(is.unsorted)
 exportMethods(sort)
 exportMethods(seq)
 
-exportMethods("as.period")
+exportMethods(as.period)
 
 S3method(as.integer64,duration)
 exportMethods(as.duration)
