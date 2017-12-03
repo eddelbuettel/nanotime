@@ -306,3 +306,7 @@ test_is.na <- function() {
     checkEquals(is.na(nanotime(NA)), TRUE)
     checkEquals(is.na(nanotime(NaN)), TRUE)
 }
+
+## duration
+
+## period

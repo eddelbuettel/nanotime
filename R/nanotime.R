@@ -534,7 +534,7 @@ setMethod("[",
 ##' @export
 setMethod("[<-",
           signature("nanotime"),
-          function (x, i, j, ...) {
+          function (x, i, j, ..., value) {
               new("nanotime", callNextMethod())
           })
 

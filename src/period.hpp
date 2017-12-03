@@ -33,10 +33,6 @@ private:
   Global::duration dur;
 };
 
-
-// move this block out so period doesn't have a dependency on
-// interval and timezone, or can we consider it's a natural
-// dependency? LLL
 Global::dtime plus (const Global::dtime& dt, const period& p,         const std::string& z);
 Global::dtime plus (const period& p,         const Global::dtime& dt, const std::string& z);
 Global::dtime minus(const Global::dtime& dt, const period& p,         const std::string& z);

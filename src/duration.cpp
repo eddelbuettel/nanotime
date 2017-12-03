@@ -132,6 +132,9 @@ RcppExport SEXP duration_to_string(SEXP d) {
       const auto dur_i = reinterpret_cast<const Global::duration*>(&dur[i]);
       res[i] = to_string(*dur_i);
     }
+    if (dur.hasAttribute("names")) {
+      res.names() = dur.names();
+    } 
     return res;
   } catch(std::exception &ex) {	
     forward_exception_to_r(ex);
