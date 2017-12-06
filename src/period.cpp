@@ -346,7 +346,8 @@ Rcpp::CharacterVector getNames(const Rcpp::CharacterVector& nm1, int typesz1, bo
 }
 
 
-RcppExport SEXP plus_period_period(SEXP e1_p, SEXP e2_p) {
+template <typename OP>
+SEXP op_period_period(SEXP e1_p, SEXP e2_p, const OP& op) {
   try {
     const Rcpp::NumericVector e1_nv(e1_p);
     const Rcpp::NumericVector e2_nv(e2_p);
@@ -360,14 +361,67 @@ RcppExport SEXP plus_period_period(SEXP e1_p, SEXP e2_p) {
       period_union pu2;
       pu2.dbl2.d1 = e2_n[i];
       pu2.dbl2.d2 = e2_n[i+1];
-      auto prd = *reinterpret_cast<period*>(&pu1.prd) + *reinterpret_cast<period*>(&pu2.prd);
+      auto prd = op(*reinterpret_cast<period*>(&pu1.prd), *reinterpret_cast<period*>(&pu2.prd));
       period_union prdu;
       memcpy(&prdu, &prd, sizeof(prd)); 
       res[i] = prdu.dbl2.d1;
       res[i+1] = prdu.dbl2.d2;
     }
-    auto resnames = getNames(Rcpp::CharacterVector(e1_nv.names()), PRDSZ, e1_n.isScalar(),
-                             Rcpp::CharacterVector(e2_nv.names()), PRDSZ, e2_n.isScalar());
+    auto nm1 = e1_nv.hasAttribute("names") ?
+      Rcpp::CharacterVector(e1_nv.names()) : Rcpp::CharacterVector(0);
+    auto nm2 = e2_nv.hasAttribute("names") ?
+      Rcpp::CharacterVector(e2_nv.names()) : Rcpp::CharacterVector(0);
+    auto resnames = getNames(nm1, PRDSZ, e1_n.isScalar(), nm2, PRDSZ, e2_n.isScalar());
+    if (resnames.size()) {
+      res.names() = resnames;
+    }
+    Rcpp::CharacterVector cl = Rcpp::CharacterVector::create("period");
+    cl.attr("package") = "nanotime";
+    res.attr(".S3Class") = "integer64";
+    res.attr("class") = cl;
+    SET_S4_OBJECT(res);
+    return Rcpp::S4(res);
+  } catch(std::exception &ex) {	
+    forward_exception_to_r(ex);
+  } catch(...) { 
+    ::Rf_error("c++ exception (unknown reason)"); 
+  }
+  return R_NilValue;             // not reached
+}
+
+
+RcppExport SEXP plus_period_period(SEXP e1_p, SEXP e2_p) {
+  return op_period_period(e1_p, e2_p, std::plus<period>());
+}
+
+
+RcppExport SEXP minus_period_period(SEXP e1_p, SEXP e2_p) {
+  return op_period_period(e1_p, e2_p, std::minus<period>());
+}
+
+
+template <typename OP>
+SEXP op_period_integer64(SEXP e1_p, SEXP e2_p, const OP& op) {
+  try {
+    const Rcpp::NumericVector e1_nv(e1_p);
+    const Rcpp::NumericVector e2_nv(e2_p);
+    const PseudoNumericVectorPrd e1_n(e1_nv, get_res_sz<REALSXP,REALSXP,PRDSZ,INT64SZ>(e1_nv, e2_nv));
+    const PseudoNumericVectorInt64 
+      e2_n(e2_nv, get_res_sz<REALSXP,REALSXP,INT64SZ,PRDSZ>(e2_nv, e1_nv));
+    Rcpp::NumericVector res(e1_n.size());
+    for (size_t i=0; i<e1_n.size(); i += 2) {
+      period_union pu1;
+      pu1.dbl2.d1 = e1_n[i];
+      pu1.dbl2.d2 = e1_n[i+1];
+      pu1.prd.i3 = op(pu1.prd.i3, e2_n[i / 2]);
+      period_union prdu;
+      memcpy(&res[i], &pu1, sizeof(pu1)); 
+    }
+    auto nm1 = e1_nv.hasAttribute("names") ?
+      Rcpp::CharacterVector(e1_nv.names()) : Rcpp::CharacterVector(0);
+    auto nm2 = e2_nv.hasAttribute("names") ?
+      Rcpp::CharacterVector(e2_nv.names()) : Rcpp::CharacterVector(0);
+    auto resnames = getNames(nm1, PRDSZ, e1_n.isScalar(), nm2, 1, e2_n.isScalar());
     if (resnames.size()) {
       res.names() = resnames;
     }
@@ -387,27 +441,40 @@ RcppExport SEXP plus_period_period(SEXP e1_p, SEXP e2_p) {
 
 
 RcppExport SEXP plus_period_integer64(SEXP e1_p, SEXP e2_p) {
+  return op_period_integer64(e1_p, e2_p, std::plus<int64_t>());
+}
+
+  
+RcppExport SEXP minus_period_integer64(SEXP e1_p, SEXP e2_p) {
+  return op_period_integer64(e1_p, e2_p, std::minus<int64_t>());
+}
+
+  
+template <typename OP>
+SEXP op_integer64_period(SEXP e1_p, SEXP e2_p, const OP& op) {
   try {
     const Rcpp::NumericVector e1_nv(e1_p);
     const Rcpp::NumericVector e2_nv(e2_p);
-    const PseudoNumericVectorPrd e1_n(e1_nv, get_res_sz<REALSXP,REALSXP,PRDSZ,INT64SZ>(e1_nv, e2_nv));
+    const PseudoNumericVectorPrd e2_n(e2_nv, get_res_sz<REALSXP,REALSXP,PRDSZ,INT64SZ>(e2_nv, e1_nv));
     const PseudoNumericVectorInt64 
-      e2_n(e2_nv, get_res_sz<REALSXP,REALSXP,INT64SZ,PRDSZ>(e2_nv, e1_nv));
-    Rcpp::NumericVector res(e1_n.size());
-    for (size_t i=0; i<e1_n.size(); i += 2) {
-      period_union pu1;
-      pu1.dbl2.d1 = e1_n[i];
-      pu1.dbl2.d2 = e1_n[i+1];
+      e1_n(e2_nv, get_res_sz<REALSXP,REALSXP,INT64SZ,PRDSZ>(e1_nv, e2_nv));
+    Rcpp::NumericVector res(e2_n.size());
+    for (size_t i=0; i<e2_n.size(); i += 2) {
       period_union pu2;
       pu2.dbl2.d1 = e2_n[i];
       pu2.dbl2.d2 = e2_n[i+1];
-      auto prd = *reinterpret_cast<period*>(&pu1.prd) + *reinterpret_cast<period*>(&pu2.prd);
+      pu2.prd.i3 = op(e1_n[i / 2], pu2.prd.i3);
       period_union prdu;
-      memcpy(&prdu, &prd, sizeof(prd)); 
-      res[i] = prdu.dbl2.d1;
-      res[i+1] = prdu.dbl2.d2;
+      memcpy(&res[i], &pu2, sizeof(pu2)); 
     }
-
+    auto nm1 = e1_nv.hasAttribute("names") ?
+      Rcpp::CharacterVector(e1_nv.names()) : Rcpp::CharacterVector(0);
+    auto nm2 = e2_nv.hasAttribute("names") ?
+      Rcpp::CharacterVector(e2_nv.names()) : Rcpp::CharacterVector(0);
+    auto resnames = getNames(nm1, 1, e1_n.isScalar(), nm2, PRDSZ, e2_n.isScalar());
+    if (resnames.size()) {
+      res.names() = resnames;
+    }
     Rcpp::CharacterVector cl = Rcpp::CharacterVector::create("period");
     cl.attr("package") = "nanotime";
     res.attr(".S3Class") = "integer64";
@@ -423,7 +490,18 @@ RcppExport SEXP plus_period_integer64(SEXP e1_p, SEXP e2_p) {
 }
 
 
-RcppExport SEXP plus_nanotime_period(SEXP e1_p, SEXP e2_p, SEXP tz_p) {
+RcppExport SEXP plus_integer64_period(SEXP e1_p, SEXP e2_p) {
+  return op_integer64_period(e1_p, e2_p, std::plus<int64_t>());
+}
+
+  
+RcppExport SEXP minus_integer64_period(SEXP e1_p, SEXP e2_p) {
+  return op_integer64_period(e1_p, e2_p, std::minus<int64_t>());
+}
+
+
+template <typename OP>
+SEXP op_nanotime_period(SEXP e1_p, SEXP e2_p, SEXP tz_p, const OP& op) {
   try {
     const Rcpp::NumericVector e1_nv(e1_p);
     const Rcpp::NumericVector e2_nv(e2_p);
@@ -436,11 +514,19 @@ RcppExport SEXP plus_nanotime_period(SEXP e1_p, SEXP e2_p, SEXP tz_p) {
       period_union pu2;
       pu2.dbl2.d1 = e2_n[i];
       pu2.dbl2.d2 = e2_n[i+1];
-      auto dt = plus(*reinterpret_cast<const Global::dtime*>(&e1_n[i]),
-                     *reinterpret_cast<period*>(&pu2.prd),
-                     Rcpp::as<std::string>(tz[0]));
+      auto dt = op(*reinterpret_cast<const Global::dtime*>(&e1_n[i]),
+                   *reinterpret_cast<period*>(&pu2.prd),
+                   Rcpp::as<std::string>(tz[0]));
       res[i] = *reinterpret_cast<double*>(&dt);
       Rcpp::Rcout << dt << std::endl;
+    }
+    auto nm1 = e1_nv.hasAttribute("names") ?
+      Rcpp::CharacterVector(e1_nv.names()) : Rcpp::CharacterVector(0);
+    auto nm2 = e2_nv.hasAttribute("names") ?
+      Rcpp::CharacterVector(e2_nv.names()) : Rcpp::CharacterVector(0);
+    auto resnames = getNames(nm1, PRDSZ, e1_n.isScalar(), nm2, PRDSZ, e2_n.isScalar());
+    if (resnames.size()) {
+      res.names() = resnames;
     }
     return res;
   } catch(std::exception &ex) {	
@@ -452,31 +538,27 @@ RcppExport SEXP plus_nanotime_period(SEXP e1_p, SEXP e2_p, SEXP tz_p) {
 }
 
 
-RcppExport SEXP minus_nanotime_period(SEXP e1_p, SEXP e2_p, SEXP tz_p) {
-  try {
-    const Rcpp::NumericVector e1_nv(e1_p);
-    const Rcpp::NumericVector e2_nv(e2_p);
-    const PseudoNumericVectorNano 
-      e1_n(e1_nv, get_res_sz<REALSXP,REALSXP,NANOSZ,PRDSZ>(e1_nv, e2_nv));
-    const PseudoNumericVectorPrd e2_n(e2_nv, get_res_sz<REALSXP,REALSXP,NANOSZ,PRDSZ>(e2_nv, e1_nv));
-    Rcpp::NumericVector res(e1_n.size());
-    Rcpp::CharacterVector tz(tz_p);
-    for (size_t i=0; i<e1_n.size(); i += 2) {
-      period_union pu2;
-      pu2.dbl2.d1 = e2_n[i];
-      pu2.dbl2.d2 = e2_n[i+1];
-      auto dt = minus(*reinterpret_cast<const Global::dtime*>(&e1_n[i]),
-                      *reinterpret_cast<period*>(&pu2.prd),
-                      Rcpp::as<std::string>(tz[0]));
-      res[i] = *reinterpret_cast<double*>(&dt);
-    }
-    return res;
-  } catch(std::exception &ex) {	
-    forward_exception_to_r(ex);
-  } catch(...) { 
-    ::Rf_error("c++ exception (unknown reason)"); 
+template<typename T, typename U>
+struct pplus {
+  constexpr T operator()(const T& t, const U& u, const std::string& tz) const {
+    return plus(t, u, tz);
   }
-  return R_NilValue;             // not reached
+};
+
+RcppExport SEXP plus_nanotime_period(SEXP e1_p, SEXP e2_p, SEXP tz_p) {
+  return op_nanotime_period(e1_p, e2_p, tz_p, pplus<Global::dtime, period>());
+}
+
+
+template<class T, typename U>
+struct pminus {
+  constexpr T operator()(const T& t, const U& u, const std::string& tz) const {
+    return minus(t, u, tz);
+  }
+};
+
+RcppExport SEXP minus_nanotime_period(SEXP e1_p, SEXP e2_p, SEXP tz_p) {
+  return op_nanotime_period(e1_p, e2_p, tz_p, pminus<Global::dtime, period>());
 }
 
 
@@ -490,7 +572,10 @@ RcppExport SEXP period_month(SEXP e_p) {
       pu.dbl2.d2 = e_n[i+1];
       res[i/2] = reinterpret_cast<period*>(&pu.prd)->getMonths();
     }
-
+    if (e_n.hasAttribute("names")) {
+      res.names() = getNames(Rcpp::CharacterVector(0), PRDSZ, false,
+                             Rcpp::CharacterVector(e_n.names()), PRDSZ, false);
+    }
     return res;
   } catch(std::exception &ex) {	
     forward_exception_to_r(ex);
@@ -511,7 +596,10 @@ RcppExport SEXP period_day(SEXP e_p) {
       pu.dbl2.d2 = e_n[i+1];
       res[i/2] = reinterpret_cast<period*>(&pu.prd)->getDays();
     }
-
+    if (e_n.hasAttribute("names")) {
+      res.names() = getNames(Rcpp::CharacterVector(0), PRDSZ, false,
+                             Rcpp::CharacterVector(e_n.names()), PRDSZ, false);
+    }
     return res;
   } catch(std::exception &ex) {	
     forward_exception_to_r(ex);
@@ -532,6 +620,10 @@ RcppExport SEXP period_duration(SEXP e_p) {
       pu.dbl2.d2 = e_n[i+1];
       auto dur = reinterpret_cast<period*>(&pu.prd)->getDuration();
       res[i/2] = *reinterpret_cast<double*>(&dur);
+    }
+    if (e_n.hasAttribute("names")) {
+      res.names() = getNames(Rcpp::CharacterVector(0), PRDSZ, false,
+                             Rcpp::CharacterVector(e_n.names()), PRDSZ, false);
     }
     Rcpp::CharacterVector cl = Rcpp::CharacterVector::create("duration");
     cl.attr("package") = "nanotime";

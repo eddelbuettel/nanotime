@@ -127,39 +127,72 @@ setMethod("names<-",
 
 ## ------------ `-`
 
-setMethod("-", c("period", "period"),
-          function(e1, e2) {
-              new("period", S3Part(e1, strictS3=TRUE) - S3Part(e2, strictS3=TRUE))
-          })
-
-setMethod("-", c("period", "duration"),
-          function(e1, e2) {
-              new("period", S3Part(e1, strictS3=TRUE) - e2)
-          })
-
-setMethod("-", c("period", "integer64"),
-          function(e1, e2) {
-              new("period", S3Part(e1, strictS3=TRUE) - e2)
-          })
-
-setMethod("-", c("period", "integer"),
-          function(e1, e2) {
-              new("period", S3Part(e1, strictS3=TRUE) - e2)
-          })
-
-setMethod("-", c("period", "numeric"),
-          function(e1, e2) {
-              new("period", S3Part(e1, strictS3=TRUE) - e2)
-          })
-
 setMethod("-", c("period", "ANY"),
           function(e1, e2) {
               if (missing(e2)) {
+                  ## incorrect LLL
                   new("period", -S3Part(e1, strictS3=TRUE))
               }
               else {
                   stop("invalid operand types")
               }
+          })
+
+setMethod("-", c("period", "period"),
+          function(e1, e2) {
+              .Call("minus_period_period", e1, e2)
+          })
+
+## --
+setMethod("-", c("period", "ANY"),
+          function(e1, e2) {
+              stop("invalid operand types")
+          })
+
+setMethod("-", c("period", "duration"),
+          function(e1, e2) {
+              .Call("minus_period_integer64", e1, e1)
+          })
+
+setMethod("-", c("period", "integer64"),
+          function(e1, e2) {
+              .Call("minus_period_integer64", e1, e2)
+          })
+
+## setMethod("-", c("period", "integer"),
+##           function(e1, e2) {
+##               .Call("minus_period_integer64", e1, as.integer64(e2))
+##           })
+
+setMethod("-", c("period", "numeric"),
+          function(e1, e2) {
+              .Call("minus_period_integer64", e1, as.integer64(e2))
+          })
+
+## --
+setMethod("-", c("ANY", "period"),
+          function(e1, e2) {
+              stop("invalid operand types")
+          })
+
+setMethod("-", c("duration", "period"),
+          function(e1, e2) {
+              .Call("minus_integer64_period", e1, e2)
+          })
+
+setMethod("-", c("integer64", "period"),
+          function(e1, e2) {
+              .Call("minus_integer64_period", as.integer64(e1), e2)
+          })
+
+## setMethod("-", c("integer", "period"),
+##           function(e1, e2) {
+##               .Call("minus_integer64_period", as.integer64(e1), e2)
+##           })
+
+setMethod("-", c("numeric", "period"),
+          function(e1, e2) {
+              .Call("minus_integer64_period", as.integer64(e1), e2)
           })
 
 ## ----------- `+`
@@ -179,6 +212,17 @@ setMethod("+", c("period", "period"),
               .Call("plus_period_period", e1, e2)
           })
 
+## --
+setMethod("+", c("ANY", "period"),
+          function(e1, e2) {
+              stop("invalid operand types")
+          })
+
+setMethod("+", c("period", "duration"),
+          function(e1, e2) {
+              .Call("plus_period_integer64", e1, S3Part(e2, strictS3=TRUE))
+          })
+
 setMethod("+", c("period", "integer64"),
           function(e1, e2) {
               .Call("plus_period_integer64", e1, e2)
@@ -189,19 +233,25 @@ setMethod("+", c("period", "numeric"),
               .Call("plus_period_integer64", e1, as.integer64(e2))
           })
 
-setMethod("+", c("ANY", "period"),
+## --
+setMethod("+", c("period", "ANY"),
           function(e1, e2) {
               stop("invalid operand types")
           })
 
+setMethod("+", c("duration", "period"),
+          function(e1, e2) {
+              .Call("plus_integer64_period", S3Part(e1, strictS3=TRUE), e2)
+          })
+
 setMethod("+", c("integer64", "period"),
           function(e1, e2) {
-              .Call("plus_period_integer64", e2, e1)
+              .Call("plus_integer64_period", e1, e2)
           })
 
 setMethod("+", c("numeric", "period"),
           function(e1, e2) {
-              .Call("plus_period_integer64", e2, as.integer64(e1))
+              .Call("plus_integer64_period", as.integer64(e1), e2)
           })
 
 ## ----------- `*`

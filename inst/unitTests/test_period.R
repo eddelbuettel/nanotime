@@ -79,6 +79,9 @@ test_subset_logical <- function() {
 }
 
 
+## names
+
+
 ## ops
 ## -
 test_period_minus_period <- function() {
@@ -94,13 +97,19 @@ test_period_minus_period_vector <- function() {
 }
 
 test_period_minus_numeric <- function() {
+    checkEquals(as.period("2m2d") - 1, as.period("2m2d/-00:00:00.000_000_001"))
 }
 test_period_minus_integer64 <- function() {
+    checkEquals(as.period("2m2d") - as.integer(1), as.period("2m2d/-00:00:00.000_000_001"))
 }
 test_numeric_minus_period <- function() {
+    checkEquals(1 - as.period("1m1d"), as.period("1m1d/00:00:00.000_000_001"))
 }
 ## +
 test_period_plus_period <- function() {
+    checkEquals(as.period("2m2d") +as.period("1m1d"), as.period("3m3d"))
+    checkEquals(as.period("-1m-1d/00:00:01") + as.period("1m1d/00:00:01"),
+                as.period("0m0d/00:00:02"))
 }
 test_integer64_plus_period <- function() {
 }

@@ -20,6 +20,9 @@ test_as.integer64 <- function() {
     checkEquals(as.integer64(as.duration(hour)), as.integer64(hour))
 }
 
+## test names LLL
+## test scalar/vector mix LLL
+
 ## ops
 ## -
 test_duration_minus_duration <- function() {
