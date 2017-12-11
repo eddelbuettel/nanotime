@@ -14,8 +14,8 @@ struct period {
   period(int32_t months_p, int32_t days_p, Global::duration dur_p);
   period(const std::string& s);
 
-  inline int32_t getMonths() const { return months; }
-  inline int32_t getDays()   const { return days; }
+  inline month_t getMonths() const { return months; }
+  inline day_t   getDays()   const { return days; }
   inline Global::duration getDuration() const { return dur; }
   inline void setMonths(int64_t m) { months = m;  }
   inline void setDays(int64_t d)   { days   = d;  }
@@ -43,9 +43,11 @@ interval      minus(const interval& i,       const period& p,         const std:
 period operator-(const period& p);
 period operator+(const period& p1, const period& p2);
 period operator-(const period& p1, const period& p2);
-period operator*(const period& p1, double d);
-period operator*(double d,         const period& p1);
-period operator/(const period& p1, double d);
+
+template <typename T>
+period operator*(const period& p, T d);
+template <typename T>
+period operator/(const period& p, T d);
 
 bool operator==(const period& p1, const period& p2);
 bool operator!=(const period& p1, const period& p2);

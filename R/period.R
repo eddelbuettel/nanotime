@@ -71,6 +71,21 @@ setMethod("[",
               i <- sapply(i, function(k) c(k, k+1))
               new("period", x[i])
           })
+          
+setMethod("[",
+          signature("period", "character"),
+          function (x, i, j, ..., drop=FALSE) {
+              idx <- sapply(i,
+                            function(k) {
+                                res <- grep(k, names(x))
+                                if (length(res)==0) NA
+                                else head(res, 1)
+                            })
+              idx[idx==integer(0)] <- NA
+              ## verify ... is empty LLL
+              x <- S3Part(x, strictS3=TRUE)
+              new("period", x[c(sapply(idx, function(x) c((x-1)*2+1, x*2)))])
+          })
 
 setMethod("[<-",
           signature("period", "logical", "ANY", "period"),
@@ -241,39 +256,49 @@ setMethod("+", c("period", "ANY"),
 
 setMethod("+", c("duration", "period"),
           function(e1, e2) {
-              .Call("plus_integer64_period", S3Part(e1, strictS3=TRUE), e2)
+              .Call("plus_period_integer64", e2, e1)
           })
 
 setMethod("+", c("integer64", "period"),
           function(e1, e2) {
-              .Call("plus_integer64_period", e1, e2)
+              .Call("plus_period_integer64", e2, e1)
           })
 
 setMethod("+", c("numeric", "period"),
           function(e1, e2) {
-              .Call("plus_integer64_period", as.integer64(e1), e2)
+              .Call("plus_period_integer64", e2, as.integer64(e1))
           })
 
 ## ----------- `*`
 
 setMethod("*", c("period", "integer64"),
           function(e1, e2) {
-              new("period", S3Part(e1, strictS3=TRUE) * e2)
+              .Call("multiplies_period_integer64", e1, e2)
           })
 
 setMethod("*", c("period", "numeric"),
           function(e1, e2) {
-              new("period", S3Part(e1, strictS3=TRUE) * e2)
+              .Call("multiplies_period_double", e1, e2)
+          })
+
+setMethod("*", c("integer64", "period"),
+          function(e1, e2) {
+              .Call("multiplies_period_integer64", e2, e1)
+          })
+
+setMethod("*", c("numeric", "period"),
+          function(e1, e2) {
+              .Call("multiplies_period_double", e2, e1)
           })
 
 ## ----------- `/`
 
 setMethod("/", c("period", "integer64"),
           function(e1, e2) {
-              new("period", S3Part(e1, strictS3=TRUE) / e2)
+              .Call("divides_period_integer64", e1, e2)
           })
 
 setMethod("/", c("period", "numeric"),
           function(e1, e2) {
-              new("period", S3Part(e1, strictS3=TRUE) / e2)
+              .Call("divides_period_double", e1, e2)
           })

@@ -37,7 +37,21 @@ namespace Global {
   }
 
 
+  template<typename T, typename U, typename R>
+  struct multiplies {
+    inline R operator()(const T& t, const U& u) const {
+      return t * u;
+    }
+  };  
 
+  template<typename T, typename U, typename R>
+  struct divides {
+    inline R operator()(const T& t, const U& u) const {
+      return t / u;
+    }
+  }; 
+
+  
 }
 
 

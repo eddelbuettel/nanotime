@@ -1,8 +1,8 @@
 ## constructors
 test_as.period_character <- function() {
-    p1 <- as.period("1d")
+    p1 <- as.period("1m1d")
     checkEquals(period.day(p1), 1)
-    checkEquals(period.month(p1), 0)
+    checkEquals(period.month(p1), 1)
     checkEquals(period.duration(p1), as.duration(0))
 
     checkEquals(as.period("1y"), as.period("12m"))
@@ -78,8 +78,16 @@ test_subset_logical <- function() {
     checkEquals(pp[c(F,T,T,F)], c(p2,p3))
 }
 
+test_subset_character <- function() {
+    pp <- c(x=as.period(1), y=as.period(2))
+    checkEquals(pp["x"], c(x=as.period(1)))
+    checkEquals(pp["y"], c(y=as.period(2)))
+    ## checkEquals(pp["a"], as.period(as.integer64(NA)))    
+}
 
-## names
+
+## subassign: LLL
+
 
 
 ## ops
@@ -112,21 +120,32 @@ test_period_plus_period <- function() {
                 as.period("0m0d/00:00:02"))
 }
 test_integer64_plus_period <- function() {
+    checkEquals(as.integer64(1) + as.period(1), as.period(2))
 }
 test_period_plus_integer64 <- function() {
+    checkEquals(as.period(1) + as.integer64(1), as.period(2))
+    checkEquals(as.period("2m2d") + as.integer(1), as.period("2m2d/00:00:00.000_000_001"))
 }
 test_numeric_plus_period <- function() {
+    checkEquals(as.period(1) + 1, as.period(2))
+    checkEquals(as.period("2m2d") + 1, as.period("2m2d/00:00:00.000_000_001"))
 }
 test_character_plus_period <- function() {
 }
 ## *
 test_period_times_numeric <- function() {
+    checkEquals(as.period(1) * 3, as.period(3))
+    checkEquals(as.period("1m1d") * 3, as.period("3m3d"))
 }
 test_period_times_integer64 <- function() {
+    checkEquals(as.period(1) * as.integer64(3), as.period(3))
 }
 test_numeric_times_period <- function() {
+    checkEquals(3 * as.period(1), as.period(3))
 }
 test_integer64_times_period <- function() {
+    checkEquals(as.integer64(3) * as.period(1), as.period(3))
+    checkEquals(as.integer64(3) * as.period("1m1d"), as.period("3m3d"))
 }
 test_character_times_period <- function() {
 }
@@ -140,4 +159,21 @@ test_period_div_integer64 <- function() {
 test_period_div_integer <- function() {
 }
 test_numeric_div_period <- function() {
+}
+
+## names (in general)
+test_period_names <- function() {
+    a <- as.period(1:10)
+    names(a) <- "b"
+    checkEquals(names(a), c("b", rep(as.character(NA), 9)))
+}    
+
+test_period_c <- function() {
+    pp <- c(x=as.period(1), y=as.period(2))
+    checkEquals(names(pp), c("x","y"))
+    checkEquals(pp[1], c(x=as.period(1)))
+    checkEquals(pp[2], c(y=as.period(1)))
+
+    pp <- c(as.period(1:10), as.period(11:20))
+    checkEquals(pp, as.period(1:20))
 }
