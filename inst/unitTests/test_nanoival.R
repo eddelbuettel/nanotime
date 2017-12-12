@@ -439,6 +439,8 @@ test_subsassign <- function() {
   a[1:10] <- nanotime(10:1)
   checkEquals(a[1:10], nanotime(10:1))
 }
+## test subassign numeric and character LLL
+
 
 ## set operations
 

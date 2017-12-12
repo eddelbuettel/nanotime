@@ -95,6 +95,31 @@ setMethod("[<-",
               new("period", x)
           })
 
+setMethod("[<-",
+          signature("period", "numeric", "ANY", "period"),
+          function (x, i, j, ..., value) {
+              ## verify ... is empty LLL
+              x <- S3Part(x, strictS3=TRUE)
+              i <- (i-1)*2 + 1
+              i <- sapply(i, function(k) c(k, k+1))
+              x[i] <- S3Part(value, strictS3=TRUE)
+              new("period", x)
+          })
+
+setMethod("[<-",
+          signature("period", "character", "ANY", "period"),
+          function (x, i, j, ..., value) {
+              idx <- sapply(i,
+                            function(k) {
+                                res <- grep(k, names(x))
+                                if (length(res)==0) NA
+                                else head(res, 1)
+                            })
+              idx[idx==integer(0)] <- NA
+              x[c(sapply(idx, function(x) c((x-1)*2+1, x*2)))] <- S3Part(value, strictS3=TRUE)
+              new("period", x)
+          })
+
 c.period <- function(...) {
     res <- do.call(c.integer64, list(...))
     names <- names(res)
@@ -140,8 +165,50 @@ setMethod("names<-",
           })
 
 
-## ------------ `-`
+## ----------- make sure ops that don't make sense error out
+setMethod("Ops", c("period", "ANY"),
+          function(e1, e2) {
+              stop("operation not defined for \"period\" objects")
+          })
+setMethod("Ops", c("ANY", "period"),
+          function(e1, e2) {
+              stop("operation not defined for \"period\" objects")
+          })
 
+setMethod("Math", c("period", "ANY"),
+          function(e1, e2) {
+              stop("operation not defined for \"period\" objects")
+          })
+setMethod("Math", c("ANY", "period"),
+          function(e1, e2) {
+              stop("operation not defined for \"period\" objects")
+          })
+
+setMethod("Math2", c("period", "ANY"),
+          function(e1, e2) {
+              stop("operation not defined for \"period\" objects")
+          })
+setMethod("Math2", c("ANY", "period"),
+          function(e1, e2) {
+              stop("operation not defined for \"period\" objects")
+          })
+
+setMethod("Summary", c("period"),
+          function(x, ..., na.rm = FALSE) {
+              stop("invalid 'type' (nanoival) of argument")
+          })
+
+setMethod("Complex", c("period", "ANY"),
+          function(e1, e2) {
+              stop("operation not defined for \"period\" objects")
+          })
+
+setMethod("Complex", c("ANY", "period"),
+          function(e1, e2) {
+              stop("operation not defined for \"period\" objects")
+          })
+
+## ------------ `-`
 setMethod("-", c("period", "ANY"),
           function(e1, e2) {
               if (missing(e2)) {
@@ -210,6 +277,7 @@ setMethod("-", c("numeric", "period"),
               .Call("minus_integer64_period", as.integer64(e1), e2)
           })
 
+
 ## ----------- `+`
 
 setMethod("+", c("period", "ANY"),
@@ -271,6 +339,16 @@ setMethod("+", c("numeric", "period"),
 
 ## ----------- `*`
 
+setMethod("*", c("ANY", "period"),
+          function(e1, e2) {
+              stop("invalid operand types")
+          })
+
+setMethod("*", c("period", "ANY"),
+          function(e1, e2) {
+              stop("invalid operand types")
+          })
+
 setMethod("*", c("period", "integer64"),
           function(e1, e2) {
               .Call("multiplies_period_integer64", e1, e2)
@@ -293,6 +371,16 @@ setMethod("*", c("numeric", "period"),
 
 ## ----------- `/`
 
+setMethod("/", c("ANY", "period"),
+          function(e1, e2) {
+              stop("invalid operand types")
+          })
+
+setMethod("/", c("period", "ANY"),
+          function(e1, e2) {
+              stop("invalid operand types")
+          })
+
 setMethod("/", c("period", "integer64"),
           function(e1, e2) {
               .Call("divides_period_integer64", e1, e2)
@@ -302,3 +390,35 @@ setMethod("/", c("period", "numeric"),
           function(e1, e2) {
               .Call("divides_period_double", e1, e2)
           })
+
+## Compare
+## -------
+
+setMethod("Compare", c("ANY", "period"),
+          function(e1, e2) {
+              stop("operation not defined for \"period\" objects")
+          })
+setMethod("Compare", c("period", "ANY"),
+          function(e1, e2) {
+              stop("operation not defined for \"period\" objects")
+          })
+
+setMethod("==", c("ANY", "period"),
+          function(e1, e2) {
+              stop("invalid operand types")
+          })
+setMethod("==", c("period", "ANY"),
+          function(e1, e2) {
+              stop("invalid operand types")
+          })
+setMethod("!=", c("ANY", "period"),
+          function(e1, e2) {
+              stop("invalid operand types")
+          })
+setMethod("!=", c("period", "ANY"),
+          function(e1, e2) {
+              stop("invalid operand types")
+          })
+
+setMethod("==", c("period", "period"), function(e1, e2) .Call("eq_period_period", e1, e2))
+setMethod("!=", c("period", "period"), function(e1, e2) .Call("ne_period_period", e1, e2))

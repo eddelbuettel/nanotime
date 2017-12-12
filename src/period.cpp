@@ -344,12 +344,12 @@ static Rcpp::CharacterVector getNames(const Rcpp::CharacterVector& nm1, int type
 }
 
 
-template <int I1, int I2>
+template <int I1, int I2, int R>
 void copyNames(const Rcpp::NumericVector& e1_nv,
                const Rcpp::NumericVector& e2_nv,
                const ConstPseudoVector<REALSXP, double, I1>& e1_n,
                const ConstPseudoVector<REALSXP, double, I2>& e2_n,
-               Rcpp::NumericVector& res) {
+               Rcpp::Vector<R>& res) {
   auto nm1 = e1_nv.hasAttribute("names") ?
     Rcpp::CharacterVector(e1_nv.names()) : Rcpp::CharacterVector(0);
   auto nm2 = e2_nv.hasAttribute("names") ?
@@ -404,12 +404,11 @@ RcppExport SEXP minus_period_period(SEXP e1_p, SEXP e2_p) {
     const ConstPseudoNumericVectorPrd e1_n(e1_nv);
     const ConstPseudoNumericVectorPrd e2_n(e2_nv);
     Rcpp::NumericVector res(std::max(e1_nv.size(), e2_nv.size()));
-    PseudoNumericVectorPrd pres(res);
     for (size_t i=0; i<res.size(); ++i) {
       period pu1; memcpy(&pu1, &e1_n[i], sizeof(period));
       period pu2; memcpy(&pu2, &e2_n[i], sizeof(period));
       auto prd = pu1 - pu2;
-      memcpy(&pres[i], &prd, sizeof(prd)); 
+      memcpy(&res[i], &prd, sizeof(prd)); 
     }
     copyNames(e1_nv, e2_nv, e1_n, e2_n, res);    
     return assignS4("period", res);
@@ -419,6 +418,38 @@ RcppExport SEXP minus_period_period(SEXP e1_p, SEXP e2_p) {
     ::Rf_error("c++ exception (unknown reason)"); 
   }
   return R_NilValue;             // not reached
+}
+
+
+template <typename OP>
+SEXP compare_period_period(SEXP e1_p, SEXP e2_p, const OP& op) {
+  try {
+    const Rcpp::NumericVector e1_nv(e1_p);
+    const Rcpp::NumericVector e2_nv(e2_p);
+    const ConstPseudoNumericVectorPrd e1_n(e1_nv);
+    const ConstPseudoNumericVectorPrd e2_n(e2_nv);
+    Rcpp::LogicalVector res(std::max(e1_n.size(), e2_n.size()));
+    for (size_t i=0; i<res.size(); ++i) {
+      period pu1; memcpy(&pu1, &e1_n[i], sizeof(period));
+      period pu2; memcpy(&pu2, &e2_n[i], sizeof(period));
+      res[i] = op(pu1, pu2);
+    }
+    copyNames(e1_nv, e2_nv, e1_n, e2_n, res);    
+    return res;
+  } catch(std::exception &ex) {	
+    forward_exception_to_r(ex);
+  } catch(...) { 
+    ::Rf_error("c++ exception (unknown reason)"); 
+  }
+  return R_NilValue;             // not reached
+}
+
+RcppExport SEXP eq_period_period(SEXP e1_p, SEXP e2_p) {
+  return compare_period_period(e1_p, e2_p, std::equal_to<period>());
+}
+
+RcppExport SEXP ne_period_period(SEXP e1_p, SEXP e2_p) {
+  return compare_period_period(e1_p, e2_p, std::not_equal_to<period>());
 }
 
 
