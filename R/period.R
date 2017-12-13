@@ -153,15 +153,14 @@ setMethod("period.duration",
 setMethod("names",
           signature("period"),
           function(x) {
-              oldClass(x) <- "integer64"
-              names(S3Part(x, strictS3=TRUE))[c(TRUE, FALSE)]
+              callNextMethod()[c(TRUE, FALSE)]
           })
 
 setMethod("names<-",
           signature("period"),
           function(x, value) {
               names(S3Part(x, strictS3=TRUE)) <- rep(value, each=2)
-              x
+              new("period", x)
           })
 
 
@@ -175,21 +174,13 @@ setMethod("Ops", c("ANY", "period"),
               stop("operation not defined for \"period\" objects")
           })
 
-setMethod("Math", c("period", "ANY"),
-          function(e1, e2) {
-              stop("operation not defined for \"period\" objects")
-          })
-setMethod("Math", c("ANY", "period"),
-          function(e1, e2) {
+setMethod("Math", c("period"),
+          function(x) {
               stop("operation not defined for \"period\" objects")
           })
 
-setMethod("Math2", c("period", "ANY"),
-          function(e1, e2) {
-              stop("operation not defined for \"period\" objects")
-          })
-setMethod("Math2", c("ANY", "period"),
-          function(e1, e2) {
+setMethod("Math2", c("period"),
+          function(x, digits) {
               stop("operation not defined for \"period\" objects")
           })
 
@@ -198,13 +189,8 @@ setMethod("Summary", c("period"),
               stop("invalid 'type' (nanoival) of argument")
           })
 
-setMethod("Complex", c("period", "ANY"),
-          function(e1, e2) {
-              stop("operation not defined for \"period\" objects")
-          })
-
-setMethod("Complex", c("ANY", "period"),
-          function(e1, e2) {
+setMethod("Complex", c("period"),
+          function(z) {
               stop("operation not defined for \"period\" objects")
           })
 

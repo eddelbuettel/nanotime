@@ -80,7 +80,7 @@ test_subset_character <- function() {
     pp <- c(x=as.period(1), y=as.period(2))
     checkEquals(pp["x"], c(x=as.period(1)))
     checkEquals(pp["y"], c(y=as.period(2)))
-    ## checkEquals(pp["a"], as.period(as.integer64(NA)))    
+    ## checkEquals(pp["a"], as.period(as.integer64(NA)))    LLL
 }
 
 ## subassign
@@ -212,10 +212,18 @@ test_period_ne_period <- function() {
 }
 
 ## names (in general)
-test_period_names <- function() {
+test_period_get_names <- function() {
     a <- as.period(1:10)
     names(a) <- "b"
     checkEquals(names(a), c("b", rep(as.character(NA), 9)))
+}    
+test_period_set_names <- function() {
+    names <- c("a","b","c","d")
+    pp <- as.period(1:4)
+    names(pp) <- names
+    checkEquals(names(pp), names)
+    names(pp)[1] <- "x"
+    checkEquals(names(pp), c("x","b","c","d"))
 }    
 
 test_period_c <- function() {

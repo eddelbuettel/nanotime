@@ -172,35 +172,28 @@ setMethod("/", c("ANY", "duration"),
           })
 
 
-## subset
+## subset/subassign
 
 setMethod("[",
-          signature("duration", "logical"),
+          signature("duration"),
           function (x, i, j, ..., drop=FALSE) {
-              ## verify ... is empty LLL
-              x <- S3Part(x, strictS3=TRUE)
-              new("duration", x[rep(i, each=2)])
-          })
-
-setMethod("[",
-          signature("duration", "numeric"),
-          function (x, i, j, ..., drop=FALSE) {
-              ## verify ... is empty LLL
-              x <- S3Part(x, strictS3=TRUE)
-              i <- (i-1)*2 + 1
-              i <- sapply(i, function(k) c(k, k+1))
-              new("duration", x[i])
+              new("duration", callNextMethod())
           })
 
 setMethod("[<-",
-          signature("duration", "logical", "ANY", "duration"),
+          signature("duration"),
           function (x, i, j, ..., value) {
-              x <- S3Part(x, strictS3=TRUE)
-              x[rep(i, each=2)] <- S3Part(value, strictS3=TRUE)
-              new("duration", x)
+              new("duration", callNextMethod())
           })
 
 c.duration <- function(...) {
     res <- do.call(c.integer64, list(...))
     new("duration", res)
 }
+
+setMethod("names<-",
+          signature("duration"),
+          function(x, value) {
+              names(S3Part(x, strictS3=TRUE)) <- value
+              x
+          })

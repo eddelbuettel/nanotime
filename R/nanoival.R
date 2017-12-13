@@ -198,8 +198,7 @@ setMethod("show",
 setMethod("names",
           signature("nanoival"),
           function(x) {
-              oldClass(x) <- "integer64"
-              names(S3Part(x, strictS3=TRUE))[c(TRUE, FALSE, FALSE)]
+              callNextMethod()[c(TRUE, FALSE, FALSE)]
           })
 
 ##' @rdname nanoival
@@ -208,7 +207,7 @@ setMethod("names<-",
           signature("nanoival"),
           function(x, value) {
               names(S3Part(x, strictS3=TRUE)) <- rep(value, each=3)
-              x
+              new("nanoival", x)
           })
 
 setGeneric("as.nanoival", function(x, format="", tz="") standardGeneric("as.nanoival"))
