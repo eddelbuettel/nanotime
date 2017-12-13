@@ -113,8 +113,8 @@ setClass("nanoival", contains="integer64")
 ##'
 ##' ## Finally, \code{intersect.idx} which gives back the indices of the intersection is
 ##' ## defined:
-##' a <- seq(nanotime("2012-12-12 12:12:12"), length.out=10, by=one_second)      
-##' idx <- as.nanoival("+2012-12-12 12:12:14 -> 2012-12-12 12:12:19+")           
+##' a <- seq(nanotime("2012-12-12 12:12:12", fmt), length.out=10, by=one_second)      
+##' idx <- as.nanoival("+2012-12-12 12:12:14 -> 2012-12-12 12:12:19+", fmt)
 ##' intersect.idx(a, idx)                                                        
 ##' ## which gives back:                                                               
 ##' ## $x                                                                        

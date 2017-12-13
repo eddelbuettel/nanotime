@@ -56,7 +56,6 @@
 \alias{setdiff.idx,nanotime,nanoival-method}
 \alias{is.unsorted,nanoival-method}
 \alias{sort,nanoival-method}
-\alias{seq,nanotime-method}
 \title{Interval type with nanosecond precision}
 \usage{
 nanoival(start, end, sopen = FALSE, eopen = TRUE)
@@ -164,9 +163,6 @@ nanoival(start, end, sopen = FALSE, eopen = TRUE)
 \S4method{is.unsorted}{nanoival}(x, na.rm = FALSE, strictly = FALSE)
 
 \S4method{sort}{nanoival}(x, decreasing = FALSE, ...)
-
-\S4method{seq}{nanotime}(from, to = NULL, by = NULL, length.out = NULL,
-  along.with = NULL, ...)
 }
 \arguments{
 \item{start}{\code{nanotime} start of interval}
@@ -291,8 +287,8 @@ union(i1, i2)
 
 ## Finally, \\code{intersect.idx} which gives back the indices of the intersection is
 ## defined:
-a <- seq(nanotime("2012-12-12 12:12:12"), length.out=10, by=one_second)      
-idx <- as.nanoival("+2012-12-12 12:12:14 -> 2012-12-12 12:12:19+")           
+a <- seq(nanotime("2012-12-12 12:12:12", fmt), length.out=10, by=one_second)      
+idx <- as.nanoival("+2012-12-12 12:12:14 -> 2012-12-12 12:12:19+", fmt)
 intersect.idx(a, idx)                                                        
 ## which gives back:                                                               
 ## $x                                                                        

@@ -404,11 +404,12 @@ RcppExport SEXP minus_period_period(SEXP e1_p, SEXP e2_p) {
     const ConstPseudoNumericVectorPrd e1_n(e1_nv);
     const ConstPseudoNumericVectorPrd e2_n(e2_nv);
     Rcpp::NumericVector res(std::max(e1_nv.size(), e2_nv.size()));
+    PseudoNumericVectorPrd pres(res); // wrap it to get correct indexing
     for (size_t i=0; i<res.size(); ++i) {
       period pu1; memcpy(&pu1, &e1_n[i], sizeof(period));
       period pu2; memcpy(&pu2, &e2_n[i], sizeof(period));
       auto prd = pu1 - pu2;
-      memcpy(&res[i], &prd, sizeof(prd)); 
+      memcpy(&pres[i], &prd, sizeof(prd)); 
     }
     copyNames(e1_nv, e2_nv, e1_n, e2_n, res);    
     return assignS4("period", res);
@@ -615,7 +616,7 @@ RcppExport SEXP minus_integer64_period(SEXP e1_p, SEXP e2_p) {
       period pu2; memcpy(&pu2, &e2_n[i], sizeof(pu2));
       Global::duration dur; memcpy(&dur, &e1_n[i], sizeof(dur));
       pu2.setDuration(dur - pu2.getDuration());
-      memcpy(&res[i], &pu2, sizeof(pu2));
+      memcpy(&pres[i], &pu2, sizeof(pu2));
     }
     copyNames(e1_nv, e2_nv, e1_n, e2_n, res);    
     return assignS4("period", res);
@@ -641,7 +642,7 @@ RcppExport SEXP plus_nanotime_period(SEXP e1_p, SEXP e2_p, SEXP tz_p) {
       Global::dtime nano; memcpy(&nano, &e1_n[i], sizeof(nano));
       period prd; memcpy(&prd, &e2_n[i], sizeof(prd));      
       auto dt = plus(nano, prd, Rcpp::as<std::string>(tz[i % tz.size()]));
-      memcpy(&res[i], &dt, sizeof(dt));
+      memcpy(&pres[i], &dt, sizeof(dt));
     }
     copyNames(e1_nv, e2_nv, e1_n, e2_n, res);    
     return assignS4("nanotime", res);
@@ -667,7 +668,7 @@ RcppExport SEXP minus_nanotime_period(SEXP e1_p, SEXP e2_p, SEXP tz_p) {
       Global::dtime nano; memcpy(&nano, &e1_n[i], sizeof(nano));
       period prd; memcpy(&prd, &e2_n[i], sizeof(prd));      
       auto dt = minus(nano, prd, Rcpp::as<std::string>(tz[i % tz.size()]));
-      memcpy(&res[i], &dt, sizeof(dt));
+      memcpy(&pres[i], &dt, sizeof(dt));
     }
     copyNames(e1_nv, e2_nv, e1_n, e2_n, res);    
     return assignS4("nanotime", res);

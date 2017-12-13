@@ -20,19 +20,23 @@
 \alias{as.integer64.nanotime}
 \alias{as.integer64}
 \alias{-,nanotime,character-method}
+\alias{-,nanotime,period-method}
 \alias{-,nanotime,nanotime-method}
 \alias{-,nanotime,integer64-method}
 \alias{-,nanotime,numeric-method}
 \alias{-,nanotime,duration-method}
 \alias{-,ANY,nanotime-method}
 \alias{-,nanotime,ANY-method}
+\alias{minus,nanotime,period-method}
 \alias{+,nanotime,ANY-method}
+\alias{+,nanotime,period-method}
 \alias{+,nanotime,integer64-method}
 \alias{+,nanotime,numeric-method}
 \alias{+,ANY,nanotime-method}
 \alias{+,integer64,nanotime-method}
 \alias{+,numeric,nanotime-method}
 \alias{+,nanotime,nanotime-method}
+\alias{plus,nanotime,period-method}
 \alias{Arith,nanotime,ANY-method}
 \alias{Arith,ANY,nanotime-method}
 \alias{Compare,nanotime,ANY-method}
@@ -51,6 +55,7 @@
 \alias{nanotime-package}
 \alias{names<-,nanotime-method}
 \alias{is.na,nanotime-method}
+\alias{seq,nanotime-method}
 \title{Nanosecond resolution datetime functionality}
 \usage{
 nanotime(x, ...)
@@ -87,6 +92,8 @@ as.integer64(x, ...)
 
 \S4method{-}{nanotime,character}(e1, e2)
 
+\S4method{-}{nanotime,period}(e1, e2)
+
 \S4method{-}{nanotime,nanotime}(e1, e2)
 
 \S4method{-}{nanotime,integer64}(e1, e2)
@@ -99,7 +106,11 @@ as.integer64(x, ...)
 
 \S4method{-}{nanotime,ANY}(e1, e2)
 
+\S4method{minus}{nanotime,period}(e1, e2, tz)
+
 \S4method{+}{nanotime,ANY}(e1, e2)
+
+\S4method{+}{nanotime,period}(e1, e2)
 
 \S4method{+}{nanotime,integer64}(e1, e2)
 
@@ -112,6 +123,8 @@ as.integer64(x, ...)
 \S4method{+}{numeric,nanotime}(e1, e2)
 
 \S4method{+}{nanotime,nanotime}(e1, e2)
+
+\S4method{plus}{nanotime,period}(e1, e2, tz)
 
 \S4method{Arith}{nanotime,ANY}(e1, e2)
 
@@ -146,6 +159,9 @@ as.integer64(x, ...)
 \S4method{names}{nanotime}(x) <- value
 
 \S4method{is.na}{nanotime}(x)
+
+\S4method{seq}{nanotime}(from, to = NULL, by = NULL, length.out = NULL,
+  along.with = NULL, ...)
 }
 \arguments{
 \item{x}{The object which want to convert to class \code{nanotime}}
