@@ -19,13 +19,23 @@ setMethod("as.duration",
 setMethod("as.duration",
           "numeric",
           function(x) {
-              new("duration", as.integer64(x))
+              nm <- names(x)
+              res <- new("duration", as.integer64(x))
+              if (!is.null(nm)) {
+                  names(res) <- nm
+              }
+              res
           })
 
 setMethod("as.duration",
           "integer",
           function(x) {
-              new("duration", as.integer64(x))
+              nm <- names(x)
+              res <- new("duration", as.integer64(x))
+              if (!is.null(nm)) {
+                  names(res) <- nm
+              }
+              res
           })
 
 setMethod("show",
@@ -52,6 +62,7 @@ setMethod("as.character",
 
 ## ------------ `-`
 
+## duration - other
 setMethod("-", c("duration", "duration"),
           function(e1, e2) {
               new("duration", S3Part(e1, strictS3=TRUE) - S3Part(e2, strictS3=TRUE))
@@ -82,6 +93,23 @@ setMethod("-", c("duration", "ANY"),
               }
           })
 
+## other - duration
+
+setMethod("-", c("integer64", "duration"),
+          function(e1, e2) {
+              new("duration", e1 - S3Part(e2, strictS3=TRUE))
+          })
+
+setMethod("-", c("integer", "duration"),
+          function(e1, e2) {
+              new("duration", e1 - S3Part(e2, strictS3=TRUE))
+          })
+
+setMethod("-", c("numeric", "duration"),
+          function(e1, e2) {
+              new("duration", e1 - S3Part(e2, strictS3=TRUE))
+          })
+
 setMethod("-", c("ANY", "duration"),
           function(e1, e2) {
               stop("invalid operand types")
@@ -92,7 +120,7 @@ setMethod("-", c("ANY", "duration"),
 setMethod("+", c("duration", "ANY"),
           function(e1, e2) {
               if (missing(e2)) {
-                  e2
+                  e1
               }
               else {
                   stop("invalid operand types")

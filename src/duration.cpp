@@ -5,6 +5,7 @@
 #include <regex>
 #include <stdexcept>
 #include <tuple>
+#include <limits>
 #include <Rcpp.h>
 #include "duration.hpp"
 
@@ -67,41 +68,46 @@ Global::duration from_string(const std::string& str) {
 std::string to_string(Global::duration d) {
   std::stringstream ss;
 
-  // handle hh:mm:ss
-  if (d < 0s) {
-    ss << '-';
-    d *= -1;
+  if (d == Global::duration::min()) {
+    ss << "NA";
   }
-  auto h = d / 1h;
-  d -= h * 3600s;
-  auto min = d / 1min;
-  d -= min * 60s;
-  auto s = d / 1s;
-  d -= s * 1s;
-  ss << std::setfill ('0') 
-     << std::setw(2) << h  << ':' 
-     << std::setw(2) << min  << ':' 
-     << std::setw(2) << s;
+  else {
+    // handle hh:mm:ss
+    if (d < 0s) {
+      ss << '-';
+      d *= -1;
+    }
+    auto h = d / 1h;
+    d -= h * 3600s;
+    auto min = d / 1min;
+    d -= min * 60s;
+    auto s = d / 1s;
+    d -= s * 1s;
+    ss << std::setfill ('0') 
+       << std::setw(2) << h  << ':' 
+       << std::setw(2) << min  << ':' 
+       << std::setw(2) << s;
   
-  // now handle nanoseconds 000_000_000
-  auto ms = d / 1ms;
-  d -= ms * 1ms;
-  auto us = d / 1us;
-  d -= us * 1us;
-  auto ns = d / 1ns;
-  d -= ns * 1ns;
+    // now handle nanoseconds 000_000_000
+    auto ms = d / 1ms;
+    d -= ms * 1ms;
+    auto us = d / 1us;
+    d -= us * 1us;
+    auto ns = d / 1ns;
+    d -= ns * 1ns;
 
-  if (ms || us || ns) {
-    ss << '.';
-    ss << std::setfill ('0') << std::setw(3) << ms;
-    if (us || ns) {
-      ss << '_' << std::setfill('0') << std::setw(3) << us;
-      if (ns) {
-        ss << '_' << std::setfill('0') << std::setw(3) << ns;
+    if (ms || us || ns) {
+      ss << '.';
+      ss << std::setfill ('0') << std::setw(3) << ms;
+      if (us || ns) {
+        ss << '_' << std::setfill('0') << std::setw(3) << us;
+        if (ns) {
+          ss << '_' << std::setfill('0') << std::setw(3) << ns;
+        }
       }
     }
   }
-
+  
   return ss.str();
 }
 

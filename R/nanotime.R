@@ -1,6 +1,7 @@
 ##' @rdname nanotime
 ##' @export
 setClass("nanotime", contains = "integer64")
+## setClass("nanotime", contains = "numeric") also possible if we don't want integer64
 
 ##' Nanosecond resolution datetime functionality
 ##'
@@ -112,8 +113,6 @@ setGeneric("nanotime")
     }
     format
 }
-
-
 
 ##' @rdname nanotime
 ##' @export
@@ -245,7 +244,8 @@ as.POSIXlt.nanotime <- function(x, tz="", ...) {
 ##' @rdname nanotime
 ##' @export
 as.Date.nanotime <- function(x, ...) {
-    as.Date(as.POSIXct(x))
+    ret <- as.Date(as.POSIXct(x))
+    ret
 }
 
 ##' @rdname nanotime
@@ -448,6 +448,13 @@ setMethod("Arith", c("ANY", "nanotime"),
 setMethod("Compare", c("nanotime", "ANY"),
           function(e1, e2) {
               callNextMethod(S3Part(e1, strictS3=TRUE), e2)
+          })
+
+##' @rdname nanotime
+##' @export
+setMethod("Compare", c("nanotime", "nanotime"),
+          function(e1, e2) {
+              callNextMethod(S3Part(e1, strictS3=TRUE), S3Part(e2, strictS3=TRUE))
           })
 
 ##' @rdname nanotime
