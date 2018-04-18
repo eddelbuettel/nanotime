@@ -35,6 +35,7 @@
 \alias{Arith,nanotime,ANY-method}
 \alias{Arith,ANY,nanotime-method}
 \alias{Compare,nanotime,ANY-method}
+\alias{Compare,nanotime,nanotime-method}
 \alias{Logic,nanotime,ANY-method}
 \alias{Logic,ANY,nanotime-method}
 \alias{Math,nanotime-method}
@@ -115,6 +116,8 @@ as.integer64(x, ...)
 \S4method{Arith}{ANY,nanotime}(e1, e2)
 
 \S4method{Compare}{nanotime,ANY}(e1, e2)
+
+\S4method{Compare}{nanotime,nanotime}(e1, e2)
 
 \S4method{Logic}{nanotime,ANY}(e1, e2)
 
