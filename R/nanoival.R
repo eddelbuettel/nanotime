@@ -203,6 +203,104 @@ setMethod("names",
 
 ##' @rdname nanoival
 ##' @export
+setMethod("length",
+          signature("nanoival"),
+          function(x) {
+              callNextMethod() / 3})
+
+## ##' @rdname nanoival
+## ##' @export
+## setMethod("as.data.frame.nanoival",
+##           signature("nanoival"),
+##           function(x, row.names=NULL, optional=FALSE, ...)
+##           {
+##               if (is.null(row.names))
+##                   row.names <- seq_len(length(x))
+##               value <- list(x)
+##               attr(value, "names") <- "1"
+##               attr(value, "row.names") <- row.names
+##               class(value) <- "data.frame"
+##               value
+##           })
+
+
+as.data.frame.nanoival <- 
+          function(x, row.names=NULL, optional=FALSE, ...)
+          {
+              if (is.null(row.names))
+                  row.names <- seq_len(length(x))
+              value <- list(x)
+              attr(value, "names") <- "1"
+              attr(value, "row.names") <- row.names
+              class(value) <- "data.frame"
+              value
+          }
+
+format.nanoival <- 
+          function(x, ..., justify = "none") {
+              ## like in nanotime, we must prevent the conversion to printout to be too large LLL
+              oldClass(x) <- "integer64"
+              j <- 1
+              s <- character(0)
+              while (j < length(x)) {
+                  s <- c(s, 
+                         paste0(ifelse(x[j+2] > 1, "-", "+"),
+                                format(nanotime(x[j])), " -> ",
+                                format(nanotime(x[j+1])),
+                                ifelse(x[j+2]==1 | x[j+2]==4294967297, "-", "+")))
+                  j <- j + 3
+              }
+              if (!is.null(attr(x, "names", exact=TRUE))) {
+                  names(s) <- names(x)[c(TRUE, FALSE, FALSE)]
+              }
+              s
+          }
+
+
+## setMethod("format",
+##           signature("nanoival"),
+##           function(x, ..., justify = "none") {
+##               ## like in nanotime, we must prevent the conversion to printout to be too large LLL
+##               oldClass(x) <- "integer64"
+##               j <- 1
+##               s <- character(0)
+##               while (j < length(x)) {
+##                   s <- c(s, 
+##                          paste0(ifelse(x[j+2] > 1, "-", "+"),
+##                                 format(nanotime(x[j])), " -> ",
+##                                 format(nanotime(x[j+1])),
+##                                 ifelse(x[j+2]==1 | x[j+2]==4294967297, "-", "+")))
+##                   j <- j + 3
+##               }
+##               if (!is.null(attr(x, "names", exact=TRUE))) {
+##                   names(s) <- names(x)[c(TRUE, FALSE, FALSE)]
+##               }
+##               s
+##           })
+
+format.nanoival <- 
+          function(x, ..., justify = "none") {
+              ## like in nanotime, we must prevent the conversion to printout to be too large LLL
+              oldClass(x) <- "integer64"
+              j <- 1
+              s <- character(0)
+              while (j < length(x)) {
+                  s <- c(s, 
+                         paste0(ifelse(x[j+2] > 1, "-", "+"),
+                                format(nanotime(x[j])), " -> ",
+                                format(nanotime(x[j+1])),
+                                ifelse(x[j+2]==1 | x[j+2]==4294967297, "-", "+")))
+                  j <- j + 3
+              }
+              if (!is.null(attr(x, "names", exact=TRUE))) {
+                  names(s) <- names(x)[c(TRUE, FALSE, FALSE)]
+              }
+              s
+          }
+
+
+##' @rdname nanoival
+##' @export
 setMethod("names<-",
           signature("nanoival"),
           function(x, value) {
@@ -686,3 +784,11 @@ setMethod("is.unsorted", "nanoival",
 setMethod("sort", c("nanoival"),
           function(x, decreasing=FALSE, ...) .Call('_nanoival_sort', x, decreasing))
 
+## need to override this one in order to get correct number of rows:
+dim.data.table <- function(x)
+{
+    if (class(x[[1]]) == "nanoival")
+        dim.data.frame(x)
+    else
+        .Call(Cdim, x)
+}
