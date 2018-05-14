@@ -460,9 +460,9 @@ RcppExport SEXP plus_period_integer64(SEXP e1_p, SEXP e2_p) {
     const Rcpp::NumericVector e2_nv(e2_p);
     const ConstPseudoNumericVectorPrd   e1_n(e1_nv);
     const ConstPseudoNumericVectorInt64 e2_n(e2_nv);
-    Rcpp::NumericVector res(std::max(e1_nv.size(), e2_nv.size()));
+    Rcpp::NumericVector res(std::max(e1_n.size(), e2_n.size()) * PRDSZ);
     PseudoNumericVectorPrd pres(res);
-    for (size_t i=0; i<e1_n.size(); ++i) {
+    for (size_t i=0; i<pres.size(); ++i) {
       period pu1; memcpy(&pu1, &e1_n[i], sizeof(period));
       Global::duration dur; memcpy(&dur, &e2_n[i], sizeof(dur));
       pu1.setDuration(pu1.getDuration() + dur);
@@ -485,9 +485,9 @@ RcppExport SEXP minus_period_integer64(SEXP e1_p, SEXP e2_p) {
     const Rcpp::NumericVector e2_nv(e2_p);
     const ConstPseudoNumericVectorPrd   e1_n(e1_nv);
     const ConstPseudoNumericVectorInt64 e2_n(e2_nv);
-    Rcpp::NumericVector res(std::max(e1_nv.size(), e2_nv.size()));
+    Rcpp::NumericVector res(std::max(e1_n.size(), e2_n.size()) * PRDSZ);
     PseudoNumericVectorPrd pres(res);
-    for (size_t i=0; i<e1_n.size(); ++i) {
+    for (size_t i=0; i<pres.size(); ++i) {
       period pu1; memcpy(&pu1, &e1_n[i], sizeof(period));
       Global::duration dur; memcpy(&dur, &e2_n[i], sizeof(dur));
       pu1.setDuration(pu1.getDuration() - dur);
@@ -510,9 +510,9 @@ RcppExport SEXP multiplies_period_integer64(SEXP e1_p, SEXP e2_p) {
     const Rcpp::NumericVector e2_nv(e2_p);
     const ConstPseudoNumericVectorPrd   e1_n(e1_nv);
     const ConstPseudoNumericVectorInt64 e2_n(e2_nv);
-    Rcpp::NumericVector res(std::max(e1_nv.size(), e2_nv.size()));
+    Rcpp::NumericVector res(std::max(e1_n.size(), e2_n.size()) * PRDSZ);
     PseudoNumericVectorPrd pres(res);
-    for (size_t i=0; i<e1_n.size(); ++i) {
+    for (size_t i=0; i<pres.size(); ++i) {
       period pu1; memcpy(&pu1, &e1_n[i], sizeof(period));
       uint64_t m; memcpy(&m, &e2_n[i], sizeof(m));
       pu1 = pu1 * m;
@@ -535,9 +535,9 @@ RcppExport SEXP divides_period_integer64(SEXP e1_p, SEXP e2_p) {
     const Rcpp::NumericVector e2_nv(e2_p);
     const ConstPseudoNumericVectorPrd   e1_n(e1_nv);
     const ConstPseudoNumericVectorInt64 e2_n(e2_nv);
-    Rcpp::NumericVector res(std::max(e1_nv.size(), e2_nv.size()));
+    Rcpp::NumericVector res(std::max(e1_n.size(), e2_n.size()) * PRDSZ);
     PseudoNumericVectorPrd pres(res);
-    for (size_t i=0; i<e1_n.size(); ++i) {
+    for (size_t i=0; i<pres.size(); ++i) {
       period pu1; memcpy(&pu1, &e1_n[i], sizeof(period));
       uint64_t m; memcpy(&m, &e2_n[i], sizeof(m));
       pu1 = pu1 / m;
@@ -560,9 +560,9 @@ RcppExport SEXP multiplies_period_double(SEXP e1_p, SEXP e2_p) {
     const Rcpp::NumericVector e2_nv(e2_p);
     const ConstPseudoNumericVectorPrd e1_n(e1_nv);
     const ConstPseudoNumericVector    e2_n(e2_nv);
-    Rcpp::NumericVector res(std::max(e1_nv.size(), e2_nv.size()));
+    Rcpp::NumericVector res(std::max(e1_n.size(), e2_n.size()) * PRDSZ);
     PseudoNumericVectorPrd pres(res);
-    for (size_t i=0; i<e1_n.size(); ++i) {
+    for (size_t i=0; i<pres.size(); ++i) {
       period pu1; memcpy(&pu1, &e1_n[i], sizeof(period));
       double m; memcpy(&m, &e2_n[i], sizeof(m));
       pu1 = pu1 * m;
@@ -585,9 +585,9 @@ RcppExport SEXP divides_period_double(SEXP e1_p, SEXP e2_p) {
     const Rcpp::NumericVector e2_nv(e2_p);
     const ConstPseudoNumericVectorPrd e1_n(e1_nv);
     const ConstPseudoNumericVector    e2_n(e2_nv);
-    Rcpp::NumericVector res(std::max(e1_nv.size(), e2_nv.size()));
+    Rcpp::NumericVector res(std::max(e1_n.size(), e2_n.size()) * PRDSZ);
     PseudoNumericVectorPrd pres(res);
-    for (size_t i=0; i<e1_n.size(); ++i) {
+    for (size_t i=0; i<pres.size(); ++i) {
       period pu1; memcpy(&pu1, &e1_n[i], sizeof(period));
       double m; memcpy(&m, &e2_n[i], sizeof(m));
       pu1 = pu1 / m;
@@ -610,9 +610,9 @@ RcppExport SEXP minus_integer64_period(SEXP e1_p, SEXP e2_p) {
     const Rcpp::NumericVector e2_nv(e2_p);
     const ConstPseudoNumericVectorPrd   e2_n(e2_nv);
     const ConstPseudoNumericVectorInt64 e1_n(e1_nv);
-    Rcpp::NumericVector res(std::max(e1_nv.size(), e2_nv.size()));
+    Rcpp::NumericVector res(std::max(e1_n.size(), e2_n.size()) * PRDSZ);
     PseudoNumericVectorPrd pres(res);
-    for (size_t i=0; i<e2_n.size(); ++i) {
+    for (size_t i=0; i<pres.size(); ++i) {
       period pu2; memcpy(&pu2, &e2_n[i], sizeof(pu2));
       Global::duration dur; memcpy(&dur, &e1_n[i], sizeof(dur));
       pu2.setDuration(dur - pu2.getDuration());
@@ -635,10 +635,10 @@ RcppExport SEXP plus_nanotime_period(SEXP e1_p, SEXP e2_p, SEXP tz_p) {
     const Rcpp::NumericVector e2_nv(e2_p);
     const ConstPseudoNumericVectorNano e1_n(e1_nv);
     const ConstPseudoNumericVectorPrd  e2_n(e2_nv);
-    Rcpp::NumericVector res(e1_n.size());
-    PseudoNumericVectorPrd pres(res);
+    Rcpp::NumericVector res(std::max(e1_n.size(), e2_n.size()) * NANOSZ);
+    PseudoNumericVectorNano pres(res);
     const Rcpp::CharacterVector tz(tz_p);
-    for (size_t i=0; i<e1_n.size(); ++i) {
+    for (size_t i=0; i<pres.size(); ++i) {
       Global::dtime nano; memcpy(&nano, &e1_n[i], sizeof(nano));
       period prd; memcpy(&prd, &e2_n[i], sizeof(prd));      
       auto dt = plus(nano, prd, Rcpp::as<std::string>(tz[i % tz.size()]));
@@ -661,10 +661,10 @@ RcppExport SEXP minus_nanotime_period(SEXP e1_p, SEXP e2_p, SEXP tz_p) {
     const Rcpp::NumericVector e2_nv(e2_p);
     const ConstPseudoNumericVectorNano e1_n(e1_nv);
     const ConstPseudoNumericVectorPrd  e2_n(e2_nv);
-    Rcpp::NumericVector res(e1_n.size());
+    Rcpp::NumericVector res(std::max(e1_n.size(), e2_n.size()) * NANOSZ);
     PseudoNumericVectorPrd pres(res);
     const Rcpp::CharacterVector tz(tz_p);
-    for (size_t i=0; i<e1_n.size(); ++i) {
+    for (size_t i=0; i<pres.size(); ++i) {
       Global::dtime nano; memcpy(&nano, &e1_n[i], sizeof(nano));
       period prd; memcpy(&prd, &e2_n[i], sizeof(prd));      
       auto dt = minus(nano, prd, Rcpp::as<std::string>(tz[i % tz.size()]));
