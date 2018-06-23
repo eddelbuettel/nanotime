@@ -1,3 +1,9 @@
+2018-06-23  Dirk Eddelbuettel  <edd@debian.org>
+
+ 	* DESCRIPTION (Version, Date): Roll minor version
+
+	* R/nanotime.R: Two extras casts to integer64 in constructors
+
 2018-04-19  Dirk Eddelbuettel  <edd@debian.org>
 
  	* DESCRIPTION (Version, Date): Roll minor version
