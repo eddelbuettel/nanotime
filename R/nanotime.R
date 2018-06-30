@@ -120,9 +120,10 @@ setGeneric("nanotime")
 setMethod("nanotime",
           "character",
           function(x, format="", tz="") {
+    	      if (length(x) == 0) return(character(0))
               format <- .getFormat(format)
               tz <- .getTz(x, tz)
-              n = names(x)
+              n <- names(x)
               d <- RcppCCTZ::parseDouble(x, fmt=format, tz=tz)
               res <- new("nanotime", as.integer64(d[,1]) * 1e9 + as.integer64(d[, 2]))
               if (!is.null(n)) {

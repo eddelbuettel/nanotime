@@ -1,6 +1,7 @@
 2018-06-30  Dirk Eddelbuettel  <edd@debian.org>
 
-	* R/nanotime.R (format.nanotime): Protect from empty argument
+	* R/nanotime.R (format.nanotime, .getFormat): Protect from empty
+	argument
 
 2018-04-19  Dirk Eddelbuettel  <edd@debian.org>
 
