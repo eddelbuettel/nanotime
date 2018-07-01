@@ -5,3 +5,4 @@
 ^\.codecov\.yml$
 ^local
 ^LICENSE$
+.*\.tar\.gz

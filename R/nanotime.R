@@ -207,7 +207,7 @@ format.nanotime <- function(x, format="", tz="", ...)
     format <- .getFormat(format)
     tz <- .getTz(x, tz)
     if (length(x) == 0) {
-        return(character(0))
+        return(character(0))						## #nocov
     }
     bigint <- as.integer64(x)
     secs  <- as.integer64(bigint / as.integer64(1000000000))

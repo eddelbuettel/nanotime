@@ -3,9 +3,12 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/nanotime/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/nanotime/issues/#1}{##1}}
 
-\section{Changes in version 0.2.1 (2018-04-xx)}{
+\section{Changes in version 0.2.1 (2018-07-01)}{
   \itemize{
     \item Added attribute-preserving comparison (Leonard in \ghpr{33}).
+    \item Added two \code{integer64} casts in constructors (Dirk in
+    \ghpr{36}).
+    \item Added two checks for empty arguments (Dirk in \ghpr{37}).
   }
 }
 
