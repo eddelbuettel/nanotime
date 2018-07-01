@@ -1,8 +1,8 @@
 Package: nanotime
 Type: Package
 Title: Nanosecond-Resolution Time for R
-Version: 0.2.0.1
-Date: 2018-04-19
+Version: 0.2.0.2
+Date: 2018-06-23
 Author: Dirk Eddelbuettel and Leonardo Silvestri
 Maintainer: Dirk Eddelbuettel <edd@debian.org>
 Description: Full 64-bit resolution date and time support with resolution up

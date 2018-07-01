@@ -124,7 +124,7 @@ setMethod("nanotime",
               tz <- .getTz(x, tz)
               n = names(x)
               d <- RcppCCTZ::parseDouble(x, fmt=format, tz=tz)
-              res <- new("nanotime", as.integer64(d[,1]) * 1e9 + as.integer64(d[, 2]))
+              res <- new("nanotime", as.integer64(d[,1]) * as.integer64(1e9) + as.integer64(d[, 2]))
               if (!is.null(n)) {
                   names(S3Part(res, strictS3=TRUE)) <- n
               }
@@ -136,7 +136,7 @@ setMethod("nanotime",
 ## This does not lead to S3 dispatch, the call must be 'nanotime.matrix'
 nanotime.matrix <- function(x) {
     n = names(x)
-    res <- new("nanotime", as.integer64(x[,1]) * 1e9 + as.integer64(x[, 2]))
+    res <- new("nanotime", as.integer64(x[,1]) * as.integer64(1e9) + as.integer64(x[, 2]))
     if (!is.null(n)) {
         names(res) <- n 						## #nocov
     }
