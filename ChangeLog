@@ -1,3 +1,11 @@
+2018-07-01  Dirk Eddelbuettel  <edd@debian.org>
+
+ 	* DESCRIPTION (Version, Date): Roll minor version
+
+2018-06-30  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/nanotime.R (format.nanotime): Protect from empty argument
+
 2018-06-23  Dirk Eddelbuettel  <edd@debian.org>
 
  	* DESCRIPTION (Version, Date): Roll minor version

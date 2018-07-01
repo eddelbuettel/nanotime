@@ -120,9 +120,10 @@ setGeneric("nanotime")
 setMethod("nanotime",
           "character",
           function(x, format="", tz="") {
+    	      if (length(x) == 0) return(character(0))
               format <- .getFormat(format)
               tz <- .getTz(x, tz)
-              n = names(x)
+              n <- names(x)
               d <- RcppCCTZ::parseDouble(x, fmt=format, tz=tz)
               res <- new("nanotime", as.integer64(d[,1]) * as.integer64(1e9) + as.integer64(d[, 2]))
               if (!is.null(n)) {
@@ -135,7 +136,7 @@ setMethod("nanotime",
 ##' @export
 ## This does not lead to S3 dispatch, the call must be 'nanotime.matrix'
 nanotime.matrix <- function(x) {
-    n = names(x)
+    n <- names(x)
     res <- new("nanotime", as.integer64(x[,1]) * as.integer64(1e9) + as.integer64(x[, 2]))
     if (!is.null(n)) {
         names(res) <- n 						## #nocov
@@ -149,7 +150,7 @@ setMethod("nanotime",
           "POSIXct",
           function(x) {
               ## force last three digits to be zero
-              n = names(x)
+              n <- names(x)
               res <- new("nanotime", as.integer64(as.numeric(x) * 1e6) * 1000)
               if (!is.null(n)) {
                   names(S3Part(res, strictS3=TRUE)) <- n
@@ -205,12 +206,15 @@ format.nanotime <- function(x, format="", tz="", ...)
 {
     format <- .getFormat(format)
     tz <- .getTz(x, tz)
+    if (length(x) == 0) {
+        return(character(0))
+    }
     bigint <- as.integer64(x)
     secs  <- as.integer64(bigint / as.integer64(1000000000))
     nanos <- bigint - secs * as.integer64(1000000000)
     res <- RcppCCTZ::formatDouble(as.double(secs), as.double(nanos), fmt=format, tgttzstr=tz)
     res[is.na(x)] <- as.character(NA)
-    n = names(x)
+    n <- names(x)
     if (!is.null(n)) {
         names(res) <- n  						## #nocov
     }
