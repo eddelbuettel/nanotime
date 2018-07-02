@@ -5,7 +5,7 @@
 
 \section{Changes in version 0.2.1 (2018-07-01)}{
   \itemize{
-    \item Added attribute-preserving comparison (Leonard in \ghpr{33}).
+    \item Added attribute-preserving comparison (Leonardo in \ghpr{33}).
     \item Added two \code{integer64} casts in constructors (Dirk in
     \ghpr{36}).
     \item Added two checks for empty arguments (Dirk in \ghpr{37}).
