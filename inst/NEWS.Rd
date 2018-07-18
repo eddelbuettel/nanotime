@@ -3,9 +3,10 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/nanotime/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/nanotime/issues/#1}{##1}}
 
-\section{Changes in version 0.2.2 (2018-07-xx)}{
+\section{Changes in version 0.2.2 (2018-07-18)}{
   \itemize{
-    \item Unit tests depending on future \CRANpkg{xts} behaviour remain disabled.
+    \item Unit tests depending on future \CRANpkg{xts} behaviour remain
+    disabled (Dirk in \ghpr{41}).
   }
 }
 
