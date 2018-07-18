@@ -39,8 +39,9 @@
 ## xtsInternals . . .
 ## [.xts . . . . . .
 
-if (requireNamespace("xts", quietly=TRUE) &&
-    packageVersion("xts") >= "0.11.0") {   		# hypothetical future version with nanotime support
+if (FALSE &&                            	# for now, never use this
+    requireNamespace("xts", quietly=TRUE) &&
+    packageVersion("xts") >= "0.12.0") {   	# hypothetical future version with nanotime support
 
     .setUp <- function() {
         library(xts)
