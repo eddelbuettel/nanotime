@@ -1,26 +1,32 @@
 
+isSolaris <- Sys.info()[["sysname"]] == "SunOS"
+
 ## nanotime constructors
 test_nanotime_generic <- function() {
     checkEquals(S3Part(nanotime(1), strict=TRUE), as.integer64(1))
     checkEquals(nanotime(1), new("nanotime", as.integer64(1)))
 }
 test_nanotime_character <- function() {
-    checkEquals(nanotime("1970-01-01T00:00:00.000000001+00:00"), nanotime(1))
-    oldFormat <- getOption("nanotimeFormat")
-    oldTz <- getOption("nanotimeTz")
-    ## check that the format and time zone is picked up from the global options:
-    options(nanotimeFormat="%Y-%m-%d %H:%M")
-    options(nanotimeTz="America/New_York")
-    checkEquals(nanotime("1970-01-01 00:00"), nanotime(18000000000000))
-    ## check they are overridden by the parameters:
-    checkEquals(nanotime("1970-01-01 00:00:01", format="%Y-%m-%d %H:%M:%S", tz="Europe/Paris"),
-                nanotime(-3599000000000))
-    options(nanotimeFormat=oldFormat)
-    options(nanotimeTz=oldTz)
+    if (!isSolaris) {
+        checkEquals(nanotime("1970-01-01T00:00:00.000000001+00:00"), nanotime(1))
+        oldFormat <- getOption("nanotimeFormat")
+        oldTz <- getOption("nanotimeTz")
+        ## check that the format and time zone is picked up from the global options:
+        options(nanotimeFormat="%Y-%m-%d %H:%M")
+        options(nanotimeTz="America/New_York")
+        checkEquals(nanotime("1970-01-01 00:00"), nanotime(18000000000000))
+        ## check they are overridden by the parameters:
+        checkEquals(nanotime("1970-01-01 00:00:01", format="%Y-%m-%d %H:%M:%S", tz="Europe/Paris"),
+                    nanotime(-3599000000000))
+        options(nanotimeFormat=oldFormat)
+        options(nanotimeTz=oldTz)
+    }
 }
 test_nanotime_matrix <- function() {
-    m <- matrix(c(10*24*3600+0:9, 9897654321+0:9), 10, 2)
-    checkEquals(nanotime.matrix(m), nanotime("1970-01-11T00:00:00.987654321+00:00")+0:9)
+    if (!isSolaris) {
+        m <- matrix(c(10*24*3600+0:9, 9897654321+0:9), 10, 2)
+        checkEquals(nanotime.matrix(m), nanotime("1970-01-11T00:00:00.987654321+00:00")+0:9)
+    }
 }
 test_nanotime_POSIXct <- function() {
     p <- as.POSIXct("1970-01-01 00:00:00", tz="America/New_York")
@@ -39,8 +45,11 @@ test_nanotime_numeric_keep_names <- function() {
     checkEquals(names(n), c("a","b"))
 }
 test_nanotime_character_keep_names <- function() {
-    n <- nanotime(c(a="1970-01-01T00:00:00.000000001+00:00", b="1970-01-01T00:00:00.000000001+00:00"))
-    checkEquals(names(n), c("a","b"))
+    if (!isSolaris) {
+        n <- nanotime(c(a="1970-01-01T00:00:00.000000001+00:00",
+                        b="1970-01-01T00:00:00.000000001+00:00"))
+        checkEquals(names(n), c("a","b"))
+    }
 }
 test_nanotime_POSIXct_keep_names <- function() {
     p <- as.POSIXct("1970-01-01 00:00:00", tz="America/New_York")
@@ -69,57 +78,63 @@ test_format_default <- function() {
     options(nanotimeTz=oldTz)
 }
 test_format_tz <- function() {
-    oldFormat <- getOption("nanotimeFormat")
-    oldTz <- getOption("nanotimeTz")
-    options(nanotimeFormat=NULL)
+    if (!isSolaris) {
+        oldFormat <- getOption("nanotimeFormat")
+        oldTz <- getOption("nanotimeTz")
+        options(nanotimeFormat=NULL)
 
-    a_utc = "1970-01-01T00:00:00.000000000+00:00"
-    nt <- nanotime(a_utc)
-    a_ny <- "1969-12-31T19:00:00.000000000-05:00"
+        a_utc = "1970-01-01T00:00:00.000000000+00:00"
+        nt <- nanotime(a_utc)
+        a_ny <- "1969-12-31T19:00:00.000000000-05:00"
 
-    options(nanotimeTz=NULL)
-    checkEquals(format(nt, tz="America/New_York"), a_ny)
+        options(nanotimeTz=NULL)
+        checkEquals(format(nt, tz="America/New_York"), a_ny)
 
-    options(nanotimeTz="UTC")
-    checkEquals(format(nt, tz="America/New_York"), a_ny)
+        options(nanotimeTz="UTC")
+        checkEquals(format(nt, tz="America/New_York"), a_ny)
 
-    attr(nt, "tzone") <- "UTC"
-    checkEquals(format(nt, tz="America/New_York"), a_ny)
-    checkEquals(format(nt, tz=""), a_utc)
+        attr(nt, "tzone") <- "UTC"
+        checkEquals(format(nt, tz="America/New_York"), a_ny)
+        checkEquals(format(nt, tz=""), a_utc)
 
-    options(nanotimeFormat=oldFormat)
-    options(nanotimeTz=oldTz)
+        options(nanotimeFormat=oldFormat)
+        options(nanotimeTz=oldTz)
+    }
 }
 test_format_tzone <- function() {
-    oldFormat <- getOption("nanotimeFormat")
-    oldTz <- getOption("nanotimeTz")
-    options(nanotimeFormat=NULL)
+    if (!isSolaris) {
+        oldFormat <- getOption("nanotimeFormat")
+        oldTz <- getOption("nanotimeTz")
+        options(nanotimeFormat=NULL)
 
-    a <- nanotime("1970-01-01T00:00:00.000000000+00:00")
-    attr(a, "tzone") <- "America/New_York"
-    a_ny <- "1969-12-31T19:00:00.000000000-05:00"
+        a <- nanotime("1970-01-01T00:00:00.000000000+00:00")
+        attr(a, "tzone") <- "America/New_York"
+        a_ny <- "1969-12-31T19:00:00.000000000-05:00"
 
-    checkEquals(format(a), a_ny)
+        checkEquals(format(a), a_ny)
 
-    options(nanotimeTz="UTC")
-    checkEquals(format(a), a_ny)
+        options(nanotimeTz="UTC")
+        checkEquals(format(a), a_ny)
 
-    options(nanotimeFormat=oldFormat)
-    options(nanotimeTz=oldTz)
+        options(nanotimeFormat=oldFormat)
+        options(nanotimeTz=oldTz)
+    }
 }
 test_format_tz_from_options <- function() {
-    oldFormat <- getOption("nanotimeFormat")
-    oldTz <- getOption("nanotimeTz")
-    options(nanotimeFormat=NULL)
-    options(nanotimeTz="America/New_York")
+    if (!isSolaris) {
+        oldFormat <- getOption("nanotimeFormat")
+        oldTz <- getOption("nanotimeTz")
+        options(nanotimeFormat=NULL)
+        options(nanotimeTz="America/New_York")
 
-    a <- nanotime("1970-01-01T00:00:00.000000000+00:00")
-    a_ny <- "1969-12-31T19:00:00.000000000-05:00"
+        a <- nanotime("1970-01-01T00:00:00.000000000+00:00")
+        a_ny <- "1969-12-31T19:00:00.000000000-05:00"
 
-    checkEquals(format(a), a_ny)
+        checkEquals(format(a), a_ny)
 
-    options(nanotimeFormat=oldFormat)
-    options(nanotimeTz=oldTz)
+        options(nanotimeFormat=oldFormat)
+        options(nanotimeTz=oldTz)
+    }
 }
 test_format_fmt_default <- function() {
     oldFormat <- getOption("nanotimeFormat")
@@ -136,41 +151,47 @@ test_format_fmt_default <- function() {
     options(nanotimeTz=oldTz)
 }
 test_format_fmt_from_options <- function() {
-    oldFormat <- getOption("nanotimeFormat")
-    oldTz <- getOption("nanotimeTz")
-    options(nanotimeFormat="%Y/%m/%dT%H:%M:%E9S%Ez")
-    options(nanotimeTz="America/New_York")
+    if (!isSolaris) {
+        oldFormat <- getOption("nanotimeFormat")
+        oldTz <- getOption("nanotimeTz")
+        options(nanotimeFormat="%Y/%m/%dT%H:%M:%E9S%Ez")
+        options(nanotimeTz="America/New_York")
 
-    a <- nanotime("1970/01/01T00:00:00.000000000+00:00")
-    a_ny <- "1969/12/31T19:00:00.000000000-05:00"
+        a <- nanotime("1970/01/01T00:00:00.000000000+00:00")
+        a_ny <- "1969/12/31T19:00:00.000000000-05:00"
 
-    checkEquals(format(a), a_ny)
+        checkEquals(format(a), a_ny)
 
-    options(nanotimeFormat=oldFormat)
-    options(nanotimeTz=oldTz)
+        options(nanotimeFormat=oldFormat)
+        options(nanotimeTz=oldTz)
+    }
 }
 test_format_fmt_from_parameter <- function() {
-    oldFormat <- getOption("nanotimeFormat")
-    oldTz <- getOption("nanotimeTz")
-    options(nanotimeFormat="%Y/%m/%dT%H:%M:%E9S%Ez")
-    options(nanotimeTz="America/New_York")
+    if (!isSolaris) {
+        oldFormat <- getOption("nanotimeFormat")
+        oldTz <- getOption("nanotimeTz")
+        options(nanotimeFormat="%Y/%m/%dT%H:%M:%E9S%Ez")
+        options(nanotimeTz="America/New_York")
 
-    a <- nanotime("1970-01-01 00:00:00.000000000+00:00", format="%Y-%m-%d %H:%M:%E9S%Ez")
+        a <- nanotime("1970-01-01 00:00:00.000000000+00:00", format="%Y-%m-%d %H:%M:%E9S%Ez")
                                         # the result of format on a is taken from the global option:
-    a_ny <- "1969/12/31T19:00:00.000000000-05:00"
+        a_ny <- "1969/12/31T19:00:00.000000000-05:00"
 
-    checkEquals(format(a), a_ny)
+        checkEquals(format(a), a_ny)
 
-    options(nanotimeFormat=oldFormat)
-    options(nanotimeTz=oldTz)
+        options(nanotimeFormat=oldFormat)
+        options(nanotimeTz=oldTz)
+    }
 }
 test_format_na <- function() {
-    f <- format(nanotime(c(1, NA, 2, NaN)))
-    exp <- c("1970-01-01T00:00:00.000000001+00:00",
-             as.character(NA),
-             "1970-01-01T00:00:00.000000002+00:00",
-             as.character(NA))
-    checkEquals(f, exp)
+    if (!isSolaris) {
+        f <- format(nanotime(c(1, NA, 2, NaN)))
+        exp <- c("1970-01-01T00:00:00.000000001+00:00",
+                 as.character(NA),
+                 "1970-01-01T00:00:00.000000002+00:00",
+                 as.character(NA))
+        checkEquals(f, exp)
+    }
 }
 
 ## conversions
