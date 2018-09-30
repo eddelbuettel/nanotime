@@ -3,6 +3,14 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/nanotime/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/nanotime/issues/#1}{##1}}
 
+\section{Changes in version 0.2.3 (2018-09-30)}{
+  \itemize{
+    \item Skip some tests on Solaris which seems borked with
+    timezones. As we have no real, no fixed possible (Dirk in \ghpr{42}).
+    \item Update Travis setup
+  }
+}
+
 \section{Changes in version 0.2.2 (2018-07-18)}{
   \itemize{
     \item Unit tests depending on future \CRANpkg{xts} behaviour remain
