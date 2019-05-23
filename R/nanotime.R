@@ -482,6 +482,14 @@ setMethod("Complex", c("nanotime"),
 
 ##' @rdname nanotime
 ##' @export
+setMethod("[[",
+          signature("nanotime"),
+          function (x, i, j, ..., drop=FALSE) {
+              new("nanotime", callNextMethod())
+})
+
+##' @rdname nanotime
+##' @export
 setMethod("[",
           signature("nanotime"),
           function (x, i, j, ..., drop=FALSE) {
@@ -536,4 +544,3 @@ setMethod("is.na",
 ##  [4] "4"                     "5"                     "6"
 ##  [7] "7"                     "8"                     "9"
 ## [10] "10"
-

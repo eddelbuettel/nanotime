@@ -327,3 +327,13 @@ test_is.na <- function() {
     checkEquals(is.na(nanotime(NA)), TRUE)
     checkEquals(is.na(nanotime(NaN)), TRUE)
 }
+
+## test square bracket (#44)
+test_square_bracket <- function() {
+    times <- c(nanotime('2011-12-05 08:30:00.000',format ="%Y-%m-%d %H:%M:%E9S",  tz ="GMT"),
+               nanotime('2011-12-05 08:30:00.100',format ="%Y-%m-%d %H:%M:%E9S",  tz ="GMT"),
+               nanotime('2011-12-05 08:30:00.825',format ="%Y-%m-%d %H:%M:%E9S",  tz ="GMT"))
+    checkEquals(times[1], times[[1]])
+    checkEquals(times[2], times[[2]])
+    checkEquals(times[3], times[[3]])
+}

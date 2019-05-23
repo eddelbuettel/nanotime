@@ -35,7 +35,6 @@
 \alias{Arith,nanotime,ANY-method}
 \alias{Arith,ANY,nanotime-method}
 \alias{Compare,nanotime,ANY-method}
-\alias{Compare,nanotime,nanotime-method}
 \alias{Logic,nanotime,ANY-method}
 \alias{Logic,ANY,nanotime-method}
 \alias{Math,nanotime-method}
@@ -45,6 +44,7 @@
 \alias{max,nanotime-method}
 \alias{range,nanotime-method}
 \alias{Complex,nanotime-method}
+\alias{[[,nanotime-method}
 \alias{[,nanotime-method}
 \alias{[<-,nanotime-method}
 \alias{c.nanotime}
@@ -117,8 +117,6 @@ as.integer64(x, ...)
 
 \S4method{Compare}{nanotime,ANY}(e1, e2)
 
-\S4method{Compare}{nanotime,nanotime}(e1, e2)
-
 \S4method{Logic}{nanotime,ANY}(e1, e2)
 
 \S4method{Logic}{ANY,nanotime}(e1, e2)
@@ -136,6 +134,8 @@ as.integer64(x, ...)
 \S4method{range}{nanotime}(x, ..., na.rm = FALSE)
 
 \S4method{Complex}{nanotime}(z)
+
+\S4method{[[}{nanotime}(x, i, j, ..., drop = FALSE)
 
 \S4method{[}{nanotime}(x, i, j, ..., drop = FALSE)
 
@@ -186,9 +186,6 @@ A nanotime object
 Functions to operate on nanosecond time resolution using integer64
 bit representation. Conversion functions for several standard R
 types are provided, and more will be added as needed.
-
-\code{as.integer64} conversion helper returning the underlying
-\code{integer64} representation
 }
 \details{
 Notice that the conversion from POSIXct explicitly sets the last
