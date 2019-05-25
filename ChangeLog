@@ -1,3 +1,11 @@
+2019-05-23  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): Roll minor version
+
+	* R/nanotime.R (as.integer64.nanotime): Define [[ accessor
+	* inst/unitTests/test_nanotime.R (test_square_bracket): Add test
+	* man/nanotime.Rd: Add alias
+
 2019-04-03  Dirk Eddelbuettel  <edd@debian.org>
 
 	* README.md: Add dependencies badge
