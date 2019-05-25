@@ -1,3 +1,7 @@
+2019-05-25  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Date, Version): Release 0.2.4
+
 2019-05-23  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): Roll minor version

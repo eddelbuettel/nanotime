@@ -3,10 +3,16 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/nanotime/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/nanotime/issues/#1}{##1}}
 
+\section{Changes in version 0.2.4 (2019-05-25)}{
+  \itemize{
+    \item Define [[ method (Dirk in \ghpr{45} fixing \ghit{44}).
+  }
+}
+
 \section{Changes in version 0.2.3 (2018-09-30)}{
   \itemize{
-    \item Skip some tests on Solaris which seems borked with
-    timezones. As we have no real, no fixed possible (Dirk in \ghpr{42}).
+    \item Skip some tests on Solaris which seems borked with timezones.
+    As we have no real access, no real fix possible (Dirk in \ghpr{42}).
     \item Update Travis setup
   }
 }
