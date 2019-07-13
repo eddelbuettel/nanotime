@@ -124,7 +124,7 @@ setMethod("nanotime",
               format <- .getFormat(format)
               tz <- .getTz(x, tz)
               n <- names(x)
-              d <- RcppCCTZ::parseDouble(x, fmt=format, tz=tz)
+              d <- RcppCCTZ::parseDouble(x, fmt=format, tzstr=tz)
               res <- new("nanotime", as.integer64(d[,1]) * as.integer64(1e9) + as.integer64(d[, 2]))
               if (!is.null(n)) {
                   names(S3Part(res, strictS3=TRUE)) <- n
