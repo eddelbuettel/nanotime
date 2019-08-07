@@ -454,6 +454,9 @@ setMethod("Arith", c("ANY", "nanotime"),
 ##' @export
 setMethod("Compare", c("nanotime", "ANY"),
           function(e1, e2) {
+              if (class(e2) == "nanotime") {
+                  e2 <- S3Part(e2, strictS3=TRUE)
+              }
               callNextMethod(S3Part(e1, strictS3=TRUE), e2)
           })
 
