@@ -32,6 +32,11 @@ test_as.period_numeric <- function() {
     p1 <- as.period(1.0:10)
     checkEquals(period.duration(p1), as.duration(1:10), tolerance=0)
 }
+test_period <- function() {
+    checkEquals(period(0,0,1), as.period(1), tolerance=0)
+    checkEquals(period(0,0,1:10), as.period(1:10), tolerance=0)
+    checkEquals(period(1,1,0:9), as.period(paste0("1m1d/00:00:00.000_000_00", 0:9)), tolerance=0)
+}
 
 ## accessors:
 
@@ -127,10 +132,6 @@ test_period_minus_period_vector <- function() {
 test_period_minus_numeric <- function() {
     checkEquals(as.period("2m2d") - 1,
                 as.period("2m2d/-00:00:00.000_000_001"), tolerance=0)
-}
-test_period_minus_numeric <- function() {
-    checkEquals(as.period("2m2d") - 1,
-                as.period("2m2d/-00:00:00.000_000_001"), tolerance=0)
     checkEquals(as.period(paste0(1:10,"m2d")) - 1,
                 as.period(paste0(1:10, "m2d/-00:00:00.000_000_001")), tolerance=0)
     checkEquals(as.period("12m2d") - 1:9.0,
@@ -145,47 +146,62 @@ test_period_minus_integer64 <- function() {
 }
 test_numeric_minus_period <- function() {
     checkEquals(1 - as.period("1m1d"), as.period("1m1d/00:00:00.000_000_001"), tolerance=0)
+    checkEquals(1:10 - as.period("1m1d"), period(1,1,1:10), tolerance=0)
+    checkEquals(1 - period(1:10,1,1), period(1:10, 1, 0), tolerance=0)
 }
-## test vectors LLL
-
 
 ## +
 test_period_plus_period <- function() {
-    checkEquals(as.period("2m2d") +as.period("1m1d"), as.period("3m3d"), tolerance=0)
+    checkEquals(as.period("2m2d") + as.period("1m1d"), as.period("3m3d"), tolerance=0)
     checkEquals(as.period("-1m-1d/00:00:01") + as.period("1m1d/00:00:01"),
                 as.period("0m0d/00:00:02"), tolerance=0)
+    checkEquals(period(1,1,1:10) + period(1,1,0), period(1,1,1:10))
+    checkEquals(period(1,1,0) + period(1,1,1:10), period(1,1,1:10))
 }
 test_integer64_plus_period <- function() {
     checkEquals(as.integer64(1) + as.period(1), as.period(2), tolerance=0)
+    checkEquals(as.integer64(0:9) + as.period(1), as.period(1:10), tolerance=0)
+    checkEquals(as.integer64(1) + period(1:10,1,0), period(1:10,1,1), tolerance=0)
 }
 test_period_plus_integer64 <- function() {
     checkEquals(as.period(1) + as.integer64(1), as.period(2), tolerance=0)
     checkEquals(as.period("2m2d") + as.integer(1), as.period("2m2d/00:00:00.000_000_001"), tolerance=0)
+    checkEquals(as.period(1) + as.integer64(0:9), as.period(1:10), tolerance=0)
+    checkEquals(period(1:10,1,0) + as.integer64(1), period(1:10,1,1), tolerance=0)
 }
 test_numeric_plus_period <- function() {
     checkEquals(as.period(1) + 1, as.period(2), tolerance=0)
     checkEquals(as.period("2m2d") + 1, as.period("2m2d/00:00:00.000_000_001"), tolerance=0)
+    checkEquals(0.0:9.0 + as.period(1), as.period(1:10), tolerance=0)
+    checkEquals(1.0 + period(1:10,1,0), period(1:10,1,1), tolerance=0)
 }
 test_character_plus_period <- function() {
     checkException("a" + as.period(1), "invalid operand types")
 }
-## test vectors LLL
 
 ## *
 test_period_times_numeric <- function() {
     checkEquals(as.period(1) * 3, as.period(3), tolerance=0)
     checkEquals(as.period("1m1d") * 3, as.period("3m3d"), tolerance=0)
+    checkEquals(period(1,1,1) * 1:10, period(1:10,1:10,1:10), tolerance=0)
+    checkEquals(period(1:10,1,1) * 3, period(1:10 * 3, 3, 3), tolerance=0)
 }
 test_period_times_integer64 <- function() {
     checkEquals(as.period(1) * as.integer64(3), as.period(3), tolerance=0)
+    checkEquals(period(1,1,1) * as.integer64(1:10), period(1:10,1:10,1:10), tolerance=0)
+    checkEquals(period(1:10,1,1) * as.integer64(3), period(1:10 * 3, 3, 3), tolerance=0)
 }
 test_numeric_times_period <- function() {
     checkEquals(3 * as.period(1), as.period(3), tolerance=0)
     checkEquals(4.5 * as.period("10d"), as.period("45d"), tolerance=0)
+    checkEquals(1:10.0 * as.period(1), as.period(1:10), tolerance=0)
+    checkEquals(1 * as.period(1:10), as.period(1:10), tolerance=0)
 }
 test_integer64_times_period <- function() {
     checkEquals(as.integer64(3) * as.period(1), as.period(3), tolerance=0)
     checkEquals(as.integer64(3) * as.period("1m1d"), as.period("3m3d"), tolerance=0)
+    checkEquals(as.integer64(1:10) * as.period(1), as.period(1:10), tolerance=0)
+    checkEquals(as.integer64(1) * as.period(1:10), as.period(1:10), tolerance=0)
 }
 test_character_times_period <- function() {
     checkException("a"   * as.period(1), "invalid operand types")
@@ -195,25 +211,29 @@ test_period_times_character <- function() {
     checkException(as.period(1) * "a",   "invalid operand types")
     checkException(as.period(1) * "123", "invalid operand types")
 }
-## test vectors LLL
 
 ## /
 test_period_div_numeric <- function() {
     checkEquals(as.period(4) / 3, as.period(1), tolerance=0)
     checkEquals(as.period("5m5d") / 2.5, as.period("2m2d"), tolerance=0)
+    checkEquals(as.period(4) / c(4,2,1), as.period(c(1,2,4)), tolerance=0)
+    checkEquals(as.period(4:2) / c(4,2,1), as.period(c(1,1,2)), tolerance=0)
 }
 test_period_div_integer64 <- function() {
     checkEquals(as.period(4) / as.integer64(3), as.period(1), tolerance=0)
     checkEquals(as.period("5m5d") / as.integer64(2), as.period("2m2d"), tolerance=0)
+    checkEquals(as.period(4) / as.integer64(c(4,2,1)), as.period(c(1,2,4)), tolerance=0)
+    checkEquals(as.period(4:2) / as.integer64(c(4,2,1)), as.period(c(1,1,2)), tolerance=0)
 }
 test_period_div_integer <- function() {
     checkEquals(as.period(4) / as.integer(3), as.period(1), tolerance=0)
     checkEquals(as.period("5m5d") / as.integer(2), as.period("2m2d"), tolerance=0)
+    checkEquals(as.period(4) / as.integer(c(4,2,1)), as.period(c(1,2,4)), tolerance=0)
+    checkEquals(as.period(4:2) / as.integer(c(4,2,1)), as.period(c(1,1,2)), tolerance=0)
 }
 test_numeric_div_period <- function() {
     checkException(as.period(1) * "a", "operation not defined for \"period\" objects")
 }
-## test vectors LLL
 
 ## Compare
 ## ----------
@@ -256,3 +276,6 @@ test_period_c <- function() {
     pp <- c(as.period(1:10), as.period(11:20))
     checkEquals(pp, as.period(1:20), tolerance=0)
 }
+
+
+## test min, max, comparison LLL

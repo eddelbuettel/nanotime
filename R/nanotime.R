@@ -372,6 +372,13 @@ setMethod("+", c("nanotime", "period"),
                           "objects; instead use \"plus(e1, e2, tz)\""))
           })
 
+##' @rdname period
+##' @export
+setMethod("+", c("period", "nanotime"),
+          function(e1, e2) {
+              stop("invalid operand types")
+          })
+
 ##' @rdname nanotime
 ##' @export
 setMethod("+", c("nanotime", "integer64"),

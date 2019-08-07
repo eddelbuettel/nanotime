@@ -11,6 +11,7 @@
 \alias{print,nanoival-method}
 \alias{show,nanoival-method}
 \alias{names,nanoival-method}
+\alias{length,nanoival-method}
 \alias{names<-,nanoival-method}
 \alias{as.nanoival,character-method}
 \alias{<,nanoival,nanoival-method}
@@ -73,6 +74,8 @@ nanoival(start, end, sopen = FALSE, eopen = TRUE)
 \S4method{show}{nanoival}(object)
 
 \S4method{names}{nanoival}(x)
+
+\S4method{length}{nanoival}(x)
 
 \S4method{names}{nanoival}(x) <- value
 

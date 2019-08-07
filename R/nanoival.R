@@ -785,10 +785,10 @@ setMethod("sort", c("nanoival"),
           function(x, decreasing=FALSE, ...) .Call('_nanoival_sort', x, decreasing))
 
 ## need to override this one in order to get correct number of rows:
-dim.data.table <- function(x)
-{
-    if (class(x[[1]]) == "nanoival")
-        dim.data.frame(x)
-    else
-        .Call(Cdim, x)
-}
+## dim.data.table <- function(x)
+## {
+##     if (class(x[[1]]) == "nanoival")
+##         dim.data.frame(x)
+##     else
+##         .Call(Cdim, x)
+## }

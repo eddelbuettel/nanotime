@@ -40,6 +40,7 @@
 \alias{Arith,nanotime,ANY-method}
 \alias{Arith,ANY,nanotime-method}
 \alias{Compare,nanotime,ANY-method}
+\alias{Compare,nanotime,nanotime-method}
 \alias{Logic,nanotime,ANY-method}
 \alias{Logic,ANY,nanotime-method}
 \alias{Math,nanotime-method}
@@ -74,7 +75,7 @@ nanotime.matrix(x)
 
 \S4method{show}{nanotime}(object)
 
-\method{format}{nanotime}(x, format = "", tz = "", ...)
+format.nanotime(x, format = "", tz = "", ...)
 
 \method{index2char}{nanotime}(x, ...)
 
@@ -131,6 +132,8 @@ as.integer64(x, ...)
 \S4method{Arith}{ANY,nanotime}(e1, e2)
 
 \S4method{Compare}{nanotime,ANY}(e1, e2)
+
+\S4method{Compare}{nanotime,nanotime}(e1, e2)
 
 \S4method{Logic}{nanotime,ANY}(e1, e2)
 
