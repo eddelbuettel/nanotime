@@ -3,6 +3,36 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/nanotime/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/nanotime/issues/#1}{##1}}
 
+\section{Changes in version 0.2.4 (2019-05-25)}{
+  \itemize{
+    \item Define [[ method (Dirk in \ghpr{45} fixing \ghit{44}).
+  }
+}
+
+\section{Changes in version 0.2.3 (2018-09-30)}{
+  \itemize{
+    \item Skip some tests on Solaris which seems borked with timezones.
+    As we have no real access, no real fix possible (Dirk in \ghpr{42}).
+    \item Update Travis setup
+  }
+}
+
+\section{Changes in version 0.2.2 (2018-07-18)}{
+  \itemize{
+    \item Unit tests depending on future \CRANpkg{xts} behaviour remain
+    disabled (Dirk in \ghpr{41}).
+  }
+}
+
+\section{Changes in version 0.2.1 (2018-07-01)}{
+  \itemize{
+    \item Added attribute-preserving comparison (Leonardo in \ghpr{33}).
+    \item Added two \code{integer64} casts in constructors (Dirk in
+    \ghpr{36}).
+    \item Added two checks for empty arguments (Dirk in \ghpr{37}).
+  }
+}
+
 \section{Changes in version 0.2.0 (2017-06-22)}{
   \itemize{
     \item Rewritten in S4 to provide more robust operations (\ghpr{17}

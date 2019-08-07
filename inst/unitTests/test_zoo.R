@@ -1,6 +1,8 @@
 
+isSolaris <- Sys.info()[["sysname"]] == "SunOS"
+
 test_zoo <- function() {
-    if (requireNamespace("zoo", quietly = TRUE)) {
+    if (!isSolaris && requireNamespace("zoo", quietly = TRUE)) {
         library(zoo)
         set.seed(42)
         x <- 100 + cumsum(rnorm(10))
