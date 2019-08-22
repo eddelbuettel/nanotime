@@ -129,28 +129,24 @@ setMethod("-", c("duration", "duration"),
           function(e1, e2) {
               new("duration", S3Part(e1, strictS3=TRUE) - S3Part(e2, strictS3=TRUE))
           })
-
 ##' @rdname duration
 ##' @export
 setMethod("-", c("duration", "integer64"),
           function(e1, e2) {
               new("duration", S3Part(e1, strictS3=TRUE) - e2)
           })
-
 ##' @rdname duration
 ##' @export
 setMethod("-", c("duration", "integer"),
           function(e1, e2) {
               new("duration", S3Part(e1, strictS3=TRUE) - e2)
           })
-
 ##' @rdname duration
 ##' @export
 setMethod("-", c("duration", "numeric"),
           function(e1, e2) {
               new("duration", S3Part(e1, strictS3=TRUE) - e2)
           })
-
 ##' @rdname duration
 ##' @export
 setMethod("-", c("duration", "ANY"),
@@ -171,21 +167,18 @@ setMethod("-", c("integer64", "duration"),
           function(e1, e2) {
               new("duration", e1 - S3Part(e2, strictS3=TRUE))
           })
-
 ##' @rdname duration
 ##' @export
 setMethod("-", c("integer", "duration"),
           function(e1, e2) {
               new("duration", e1 - S3Part(e2, strictS3=TRUE))
           })
-
 ##' @rdname duration
 ##' @export
 setMethod("-", c("numeric", "duration"),
           function(e1, e2) {
               new("duration", e1 - S3Part(e2, strictS3=TRUE))
           })
-
 ##' @rdname duration
 ##' @export
 setMethod("-", c("ANY", "duration"),
@@ -206,35 +199,36 @@ setMethod("+", c("duration", "ANY"),
                   stop("invalid operand types")
               }
           })
-
+##' @rdname duration
+##' @export
+setMethod("+", c("duration", "duration"),
+          function(e1, e2) {
+              new("duration", S3Part(e1, strictS3=TRUE) + e2)
+          })
 ##' @rdname duration
 ##' @export
 setMethod("+", c("duration", "integer64"),
           function(e1, e2) {
               new("duration", S3Part(e1, strictS3=TRUE) + e2)
           })
-
 ##' @rdname duration
 ##' @export
 setMethod("+", c("duration", "numeric"),
           function(e1, e2) {
               new("duration", S3Part(e1, strictS3=TRUE) + e2)
           })
-
 ##' @rdname duration
 ##' @export
 setMethod("+", c("ANY", "duration"),
           function(e1, e2) {
               stop("invalid operand types")
           })
-
 ##' @rdname duration
 ##' @export
 setMethod("+", c("integer64", "duration"),
           function(e1, e2) {
               new("duration", e1 + S3Part(e2, strictS3=TRUE))
           })
-
 ##' @rdname duration
 ##' @export
 setMethod("+", c("numeric", "duration"),
@@ -244,6 +238,12 @@ setMethod("+", c("numeric", "duration"),
 
 ## ----------- `*`
 
+##' @rdname duration
+##' @export
+setMethod("*", c("duration", "duration"),
+          function(e1, e2) {
+              new("duration", S3Part(e1, strictS3=TRUE) * e2)
+          })
 ##' @rdname duration
 ##' @export
 setMethod("*", c("duration", "numeric"),
@@ -256,7 +256,6 @@ setMethod("*", c("duration", "integer64"),
           function(e1, e2) {
               new("duration", S3Part(e1, strictS3=TRUE) * e2)
           })
-
 ##' @rdname duration
 ##' @export
 setMethod("*", c("numeric", "duration"),
@@ -286,6 +285,12 @@ setMethod("*", c("ANY", "duration"),
 
 ##' @rdname duration
 ##' @export
+setMethod("/", c("duration", "duration"),
+          function(e1, e2) {
+              new("duration", as.integer64(S3Part(e1, strictS3=TRUE) / e2))
+          })
+##' @rdname duration
+##' @export
 setMethod("/", c("duration", "integer64"),
           function(e1, e2) {
               new("duration", as.integer64(S3Part(e1, strictS3=TRUE) / e2))
@@ -308,7 +313,6 @@ setMethod("/", c("ANY", "duration"),
           function(e1, e2) {
               stop("invalid operand types")
           })
-
 
 ## ---------- other ops
 
@@ -344,6 +348,14 @@ setMethod("Logic", c("ANY", "duration"),
 
 ##' @rdname duration
 ##' @export
+setMethod("abs", c("duration"),
+          function(x) {
+              new("duration", S3Part(x, strictS3=TRUE))
+          })
+
+
+##' @rdname duration
+##' @export
 setMethod("Math", c("duration"),
           function(x) {
               ## this is the same error message that R gives for abs("A")
@@ -368,9 +380,15 @@ setMethod("Summary", c("duration"),
 
 ##' @rdname duration
 ##' @export
+setMethod("sum", c("duration"),
+          function(x, ..., na.rm = FALSE) {
+              new("duration", callNextMethod())
+          })
+
+##' @rdname duration
+##' @export
 setMethod("min", c("duration"),
           function(x, ..., na.rm = FALSE) {
-              ## LLL
               new("duration", callNextMethod())
           })
 
@@ -378,7 +396,6 @@ setMethod("min", c("duration"),
 ##' @export
 setMethod("max", c("duration"),
           function(x, ..., na.rm = FALSE) {
-              ## LLL
               new("duration", callNextMethod())
           })
 

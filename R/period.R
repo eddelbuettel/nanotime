@@ -1,6 +1,6 @@
 ##' @rdname period
 ##' @export
-setClass("period", contains = "integer64")
+setClass("period", contains = "complex")
 
 ##' Period type with nanosecond precision
 ##'
@@ -58,9 +58,7 @@ setGeneric("as.period", function(x) standardGeneric("as.period"))
 setMethod("as.period",
           "character",
           function(x) {
-              res <- .Call('period_from_string', x)
-              oldClass(res) <- "integer64"
-              new("period", res)
+              new("period", .Call('period_from_string', x))
           })
 
 ##' @rdname period
@@ -68,7 +66,7 @@ setMethod("as.period",
 setMethod("as.period",
           "integer64",
           function(x) {
-              new("period", c(rbind(rep(as.integer64(0), length(x)), x)))
+              new("period", .Call('period_from_integer64', x))
           })
 
 ##' @rdname period
@@ -76,7 +74,7 @@ setMethod("as.period",
 setMethod("as.period",
           "numeric",
           function(x) {
-              new("period", c(rbind(rep(as.integer64(0), length(x)), as.integer64(x))))
+              new("period", .Call('period_from_double', x))
           })
 
 ##' @rdname period
@@ -84,7 +82,7 @@ setMethod("as.period",
 setMethod("as.period",
           "integer",
           function(x) {
-              new("period", c(rbind(rep(as.integer64(0), length(x)), as.integer64(x))))
+              new("period", .Call('period_from_integer', x))
           })
 
 ##' @rdname period
@@ -92,7 +90,7 @@ setMethod("as.period",
 setMethod("as.period",
           "duration",
           function(x) {
-              new("period", c(rbind(rep(as.integer64(0), length(x)), as.integer64(x))))
+              new("period", .Call('period_from_integer64', x))
           })
 
 ##' @rdname period
@@ -124,89 +122,26 @@ setMethod("as.character",
 ##' @rdname period
 ##' @export
 setMethod("[",
-          signature("period", "logical"),
+          signature("period", "ANY"),
           function (x, i, j, ..., drop=FALSE) {
-              ## verify ... is empty LLL
-              x <- S3Part(x, strictS3=TRUE)
-              new("period", x[rep(i, each=2)])
-          })
-
-##' @rdname period
-##' @export
-setMethod("[",
-          signature("period", "numeric"),
-          function (x, i, j, ..., drop=FALSE) {
-              ## verify ... is empty LLL
-              x <- S3Part(x, strictS3=TRUE)
-              i <- (i-1)*2 + 1
-              i <- sapply(i, function(k) c(k, k+1))
-              new("period", x[i])
-          })
-          
-##' @rdname period
-##' @export
-setMethod("[",
-          signature("period", "character"),
-          function (x, i, j, ..., drop=FALSE) {
-              idx <- sapply(i,
-                            function(k) {
-                                res <- grep(k, names(x))
-                                if (length(res)==0) NA
-                                else head(res, 1)
-                            })
-              idx[idx==integer(0)] <- NA
-              ## verify ... is empty LLL
-              x <- S3Part(x, strictS3=TRUE)
-              new("period", x[c(sapply(idx, function(x) c((x-1)*2+1, x*2)))])
+              new("period", callNextMethod())
           })
 
 ##' @rdname period
 ##' @export
 setMethod("[<-",
-          signature("period", "logical", "ANY", "period"),
+          signature("period", "ANY", "ANY", "ANY"),
           function (x, i, j, ..., value) {
-              x <- S3Part(x, strictS3=TRUE)
-              x[rep(i, each=2)] <- S3Part(value, strictS3=TRUE)
-              new("period", x)
-          })
-
-##' @rdname period
-##' @export
-setMethod("[<-",
-          signature("period", "numeric", "ANY", "period"),
-          function (x, i, j, ..., value) {
-              ## verify ... is empty LLL
-              x <- S3Part(x, strictS3=TRUE)
-              i <- (i-1)*2 + 1
-              i <- sapply(i, function(k) c(k, k+1))
-              x[i] <- S3Part(value, strictS3=TRUE)
-              new("period", x)
-          })
-
-##' @rdname period
-##' @export
-setMethod("[<-",
-          signature("period", "character", "ANY", "period"),
-          function (x, i, j, ..., value) {
-              idx <- sapply(i,
-                            function(k) {
-                                res <- grep(k, names(x))
-                                if (length(res)==0) NA
-                                else head(res, 1)
-                            })
-              idx[idx==integer(0)] <- NA
-              x[c(sapply(idx, function(x) c((x-1)*2+1, x*2)))] <- S3Part(value, strictS3=TRUE)
-              new("period", x)
+              new("period", callNextMethod())
           })
 
 ##' @rdname period
 ##' @export
 c.period <- function(...) {
-    res <- do.call(c.integer64, list(...))
-    names <- names(res)
-    if (!is.null(names)) {
-        names(res) <- substr(names, 1, nchar(names)-1)
-    }
+    args <- list(...)
+    s3args <- lapply(args, function (x) S3Part(x, strictS3=TRUE))
+    res <- do.call(c, s3args)
+    names(res) <- names(args)
     new("period", res)
 }
 
@@ -236,7 +171,7 @@ setMethod("period.duration",
 setMethod("names",
           signature("period"),
           function(x) {
-              callNextMethod()[c(TRUE, FALSE)]
+              callNextMethod()
           })
 
 ##' @rdname period
@@ -244,7 +179,7 @@ setMethod("names",
 setMethod("names<-",
           signature("period"),
           function(x, value) {
-              names(S3Part(x, strictS3=TRUE)) <- rep(value, each=2)
+              names(S3Part(x, strictS3=TRUE)) <- value
               new("period", x)
           })
 

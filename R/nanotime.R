@@ -604,6 +604,25 @@ setMethod("seq", c("nanotime"),
                            by, length.out, along.with, ...))                           
           })
 
+
+all.equal.nanotime <- function(target, current, ...) all.equal(S3Part(target, strictS3=TRUE),
+                                                   S3Part(current, strictS3=TRUE), ...)
+
+##' @rdname nanotime
+##' @export
+setMethod("all.equal", c(target = "nanotime", current = "nanotime"), all.equal.nanotime)
+
+##' @rdname nanotime
+##' @export
+setMethod("all.equal", c(target = "nanotime", current = "ANY"),
+          function(target, current, ...) callNextMethod())
+
+##' @rdname nanotime
+##' @export
+setMethod("all.equal", c(target = "ANY", current = "nanotime"),
+          function(target, current, ...) callNextMethod())
+
+
 ## -------- conversions TODO: figure out if we need conversions
 ## maybe we can do something for this:
 

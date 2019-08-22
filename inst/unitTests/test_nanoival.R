@@ -29,13 +29,13 @@ test_as.nanoival_vector <- function() {
     checkEquals(start(ni),  c(nanotime("2013-01-01 00:00:00"),
                               nanotime("2014-01-01 00:00:00"),
                               nanotime("2015-01-01 00:00:00"),
-                              nanotime("2014-01-01 00:00:00"))) &
-        checkEquals(end(ni),  c(nanotime("2014-01-01 00:00:00"),
-                                nanotime("2015-01-01 00:00:00"),
-                                nanotime("2016-01-01 00:00:00"),
-                                nanotime("2017-01-01 00:00:00"))) &
-        checkEquals(sopen(ni), c(FALSE, FALSE, TRUE, TRUE)) &
-        checkEquals(eopen(ni), c(TRUE, FALSE, TRUE, FALSE))
+                              nanotime("2016-01-01 00:00:00"))) &
+      checkEquals(end(ni),  c(nanotime("2014-01-01 00:00:00"),
+                              nanotime("2015-01-01 00:00:00"),
+                              nanotime("2016-01-01 00:00:00"),
+                              nanotime("2017-01-01 00:00:00"))) &
+      checkEquals(sopen(ni), c(FALSE, FALSE, TRUE, TRUE)) &
+      checkEquals(eopen(ni), c(TRUE, FALSE, TRUE, FALSE))
 }
 test_nanoival <- function() {
     checkEquals(nanoival(nanotime("2013-01-01 00:00:00"), nanotime("2014-01-01 00:00:00"), TRUE, TRUE),
@@ -403,7 +403,7 @@ test_is_unsorted_strictly <- function() {
 
 
 ## c, subset, subassign and binds
-test_c <- function() {
+test_c <- function() {                  # LLL
   a <- c(nanotime(1), nanotime(2))
   checkEquals(a, nanotime(1:2))
 
@@ -793,4 +793,11 @@ RUnit_setdiff_interval_interval_cc_co_oc_3rd <- function() {
             as.nanoival("-2015-01-01 12:00:08 -> 2015-01-01 12:00:10-"))
     checkEquals(setdiff(i1, i2), r)
 }
+
+
+
+options(nanotimeFormat="%Y-%m-%d %H:%M:%S")
+i1 <- as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05+")
+i2 <- as.nanoival("-2015-01-01 12:00:03 -> 2015-01-01 12:00:05-")
+c(a=i1,b=i2)
 

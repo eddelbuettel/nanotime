@@ -116,7 +116,7 @@ RcppExport SEXP duration_from_string(SEXP s) {
   try {
     Rcpp::CharacterVector str(s);
     Rcpp::NumericVector res(str.size());
-    for (size_t i=0; i<str.size(); ++i) {
+    for (R_xlen_t i=0; i<str.size(); ++i) {
       auto dur = from_string(Rcpp::as<std::string>(str[i]));
       res[i] = *reinterpret_cast<double*>(&dur);
     }
@@ -134,7 +134,7 @@ RcppExport SEXP duration_to_string(SEXP d) {
   try {
     Rcpp::NumericVector dur(d);
     Rcpp::CharacterVector res(dur.size());
-    for (size_t i=0; i<dur.size(); ++i) {
+    for (R_xlen_t i=0; i<dur.size(); ++i) {
       const auto dur_i = reinterpret_cast<const Global::duration*>(&dur[i]);
       res[i] = to_string(*dur_i);
     }

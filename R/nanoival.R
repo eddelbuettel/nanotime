@@ -10,7 +10,7 @@
 
 ##' @rdname nanoival
 ##' @export
-setClass("nanoival", contains="integer64")
+setClass("nanoival", contains="complex")
 
 ##' Interval type with nanosecond precision
 ##'
@@ -127,9 +127,11 @@ setClass("nanoival", contains="integer64")
 ##' @rdname nanoival
 ##' @export
 nanoival <- function(start, end, sopen=FALSE, eopen=TRUE) {
-    ## probably have to check that start/end are nanotime or integer64
-    v <- cbind(start, end, ifelse(sopen, 4294967296, 0) + ifelse(eopen, 1, 0))
-    new("nanoival", c(t(v)))  
+  new("nanoival", .Call('_nanoival_new',
+                        as.integer64(start),
+                        as.integer64(end),
+                        as.logical(sopen),
+                        as.logical(eopen)))
 }
 
 setGeneric("start", function(x) standardGeneric("start"))
@@ -137,54 +139,52 @@ setGeneric("start", function(x) standardGeneric("start"))
 ##' @export
 setMethod("start",
           "nanoival",
-          function(x) { oldClass(x) <- "integer64"; nanotime(x[c(TRUE,FALSE,FALSE)]) })
+          function(x) {
+            res <- .Call("_nanoival_get_start", x)
+            oldClass(res)  <- "integer64"
+            new("nanotime", res)
+          })
 
 setGeneric("end", function(x) standardGeneric("end"))
 ##' @rdname nanoival
 ##' @export
 setMethod("end",
           "nanoival",
-          function(x) { oldClass(x) <- "integer64"; nanotime(x[c(FALSE,TRUE,FALSE)]) })
+          function(x) {
+            res <- .Call("_nanoival_get_end", x)
+            oldClass(res)  <- "integer64"
+            new("nanotime", res)
+          })
 
 setGeneric("sopen", function(x) standardGeneric("sopen"))
 ##' @rdname nanoival
 ##' @export
 setMethod("sopen",
           "nanoival",
-          function(x) { oldClass(x) <- "integer64"; x[c(FALSE,FALSE,TRUE)] > 1 })
+          function(x) { .Call("_nanoival_get_sopen", x) })
 
 setGeneric("eopen", function(x) standardGeneric("eopen"))
 ##' @rdname nanoival
 ##' @export
 setMethod("eopen",
           "nanoival",
-          function(x) {
-              oldClass(x) <- "integer64";
-              x[c(FALSE,FALSE,TRUE)]==1 | x[c(FALSE,FALSE,TRUE)]==4294967297
-          })
+          function(x) { .Call("_nanoival_get_eopen", x) })
 
 ##' @rdname nanoival
 ##' @export
 setMethod("print",
           "nanoival",
           function(x, ...) {
-              ## like in nanotime, we must prevent the conversion to printout to be too large LLL
-              oldClass(x) <- "integer64"
-              j <- 1
-              s <- character(0)
-              while (j < length(x)) {
-                  s <- c(s, 
-                         paste0(ifelse(x[j+2] > 1, "-", "+"),
-                                format(nanotime(x[j])), " -> ",
-                                format(nanotime(x[j+1])),
-                                ifelse(x[j+2]==1 | x[j+2]==4294967297, "-", "+")))
-                  j <- j + 3
-              }
-              if (!is.null(attr(x, "names", exact=TRUE))) {
-                  names(s) <- names(x)[c(TRUE, FALSE, FALSE)]
-              }
-              print(s)
-              invisible(s)
+            ## like in nanotime, we must prevent the conversion to printout to be too large LLL
+            s  <- paste0(ifelse(sopen(x), "-", "+"),
+                   format(start(x)), " -> ",
+                   format(end(x)),
+                   ifelse(eopen(x), "-", "+"))
+            if (!is.null(attr(x, "names", exact=TRUE))) {
+              names(s) <- names(x)
+            }
+            print(s)
+            invisible(s)
           })
 
 ##' @rdname nanoival
@@ -198,15 +198,14 @@ setMethod("show",
 setMethod("names",
           signature("nanoival"),
           function(x) {
-              callNextMethod()[c(TRUE, FALSE, FALSE)]
+              callNextMethod()
           })
 
 ##' @rdname nanoival
 ##' @export
 setMethod("length",
           signature("nanoival"),
-          function(x) {
-              callNextMethod() / 3})
+          function(x) { callNextMethod() })
 
 ## ##' @rdname nanoival
 ## ##' @export
@@ -237,24 +236,17 @@ as.data.frame.nanoival <-
           }
 
 format.nanoival <- 
-          function(x, ..., justify = "none") {
-              ## like in nanotime, we must prevent the conversion to printout to be too large LLL
-              oldClass(x) <- "integer64"
-              j <- 1
-              s <- character(0)
-              while (j < length(x)) {
-                  s <- c(s, 
-                         paste0(ifelse(x[j+2] > 1, "-", "+"),
-                                format(nanotime(x[j])), " -> ",
-                                format(nanotime(x[j+1])),
-                                ifelse(x[j+2]==1 | x[j+2]==4294967297, "-", "+")))
-                  j <- j + 3
-              }
-              if (!is.null(attr(x, "names", exact=TRUE))) {
-                  names(s) <- names(x)[c(TRUE, FALSE, FALSE)]
-              }
-              s
-          }
+  function(x, ..., justify = "none") {
+    ## like in nanotime, we must prevent the conversion to printout to be too large LLL
+    s  <- paste0(ifelse(sopen(x), "-", "+"),
+                 format(start(x)), " -> ",
+                 format(end(x)),
+                 ifelse(eopen(x), "-", "+"))
+    if (!is.null(attr(x, "names", exact=TRUE))) {
+      names(s) <- names(x)
+    }
+    s
+  }
 
 
 ## setMethod("format",
@@ -278,33 +270,12 @@ format.nanoival <-
 ##               s
 ##           })
 
-format.nanoival <- 
-          function(x, ..., justify = "none") {
-              ## like in nanotime, we must prevent the conversion to printout to be too large LLL
-              oldClass(x) <- "integer64"
-              j <- 1
-              s <- character(0)
-              while (j < length(x)) {
-                  s <- c(s, 
-                         paste0(ifelse(x[j+2] > 1, "-", "+"),
-                                format(nanotime(x[j])), " -> ",
-                                format(nanotime(x[j+1])),
-                                ifelse(x[j+2]==1 | x[j+2]==4294967297, "-", "+")))
-                  j <- j + 3
-              }
-              if (!is.null(attr(x, "names", exact=TRUE))) {
-                  names(s) <- names(x)[c(TRUE, FALSE, FALSE)]
-              }
-              s
-          }
-
-
 ##' @rdname nanoival
 ##' @export
 setMethod("names<-",
           signature("nanoival"),
           function(x, value) {
-              names(S3Part(x, strictS3=TRUE)) <- rep(value, each=3)
+              names(S3Part(x, strictS3=TRUE)) <- value
               new("nanoival", x)
           })
 
@@ -560,7 +531,7 @@ setMethod("[",
           function (x, i, j, ..., drop=FALSE) {
               ## verify ... is empty LLL
               x <- S3Part(x, strictS3=TRUE)
-              new("nanoival", x[rep(i, each=3)])
+              new("nanoival", x[i])
           })
 
 ##' @rdname nanoival
@@ -570,8 +541,6 @@ setMethod("[",
           function (x, i, j, ..., drop=FALSE) {
               ## verify ... is empty LLL
               x <- S3Part(x, strictS3=TRUE)
-              i <- (i-1)*3 + 1
-              i <- sapply(i, function(k) k:(k+2))
               new("nanoival", x[i])
           })
 
@@ -581,20 +550,34 @@ setMethod("[<-",
           signature("nanoival", "logical", "ANY", "nanoival"),
           function (x, i, j, ..., value) {
               x <- S3Part(x, strictS3=TRUE)
-              x[rep(i, each=3)] <- S3Part(value, strictS3=TRUE)
+              x[i] <- S3Part(value, strictS3=TRUE)
               new("nanoival", x)
           })
 
 ##' @rdname nanoival
 ##' @export
 c.nanoival <- function(...) {
-    res <- do.call(c.integer64, list(...))
-    names <- names(res)
-    if (!is.null(names)) {
-        names(res) <- substr(names, 1, nchar(names)-1)
-    }
+    args <- list(...)
+    s3args <- lapply(args, function (x) S3Part(x, strictS3=TRUE))
+    res <- do.call(c, s3args)
+    names(res) <- names(args)
     new("nanoival", res)
 }
+
+## S4 'c' doesn't handle names correctly, and couldn't find a way to rectify that:
+
+## ##' @rdname nanoival
+## ##' @export
+## setMethod("c",
+##           signature("nanoival"),
+##           function(x, ...) {
+##               print("method ccc")
+##               args <- list(...)
+##               res <- callNextMethod()
+##               names(res) <- names(args)
+##               print(names(args))
+##               new("nanoival", res)
+##           })
 
 ##' @rdname nanoival
 ##' @export
@@ -603,15 +586,6 @@ setMethod("t", c("nanoival"),
               ## identity, like POSIXct, because nanoival doesn't support arrays
               x
           })
-
-
-
-## setMethod("c",
-##           signature("nanoival"),
-##           function(x, ..., recursive=FALSE) {
-##               print("method c")
-##               new("nanoival", callNextMethod())
-##           })
 
 
 ## ##' @rdname nanoival
@@ -668,7 +642,6 @@ setMethod("intersect",
               x <- sort(x)
               y <- sort(y)
               res <- .Call('_nanoival_intersect', x, y)
-              class(res) <- "integer64"
               new("nanoival", res)
           })
 
@@ -680,7 +653,6 @@ setMethod("union",
               x <- sort(x)
               y <- sort(y)
               res <- .Call('_nanoival_union', x, y)
-              class(res) <- "integer64"
               new("nanoival", res)
           })
 
@@ -692,7 +664,6 @@ setMethod("setdiff",
               x <- sort(x)
               y <- sort(y)
               res <- .Call('_nanoival_setdiff', x, y)
-              class(res) <- "integer64"
               new("nanoival", res)
           })
 
@@ -708,7 +679,6 @@ setMethod("[",
               if (is.unsorted(x)) stop("x must be sorted")
               i <- sort(i)
               res <- .Call('_nanoival_intersect_time_interval', x, i)
-              class(res) <- "integer64"
               new("nanotime", res)            
           })
 
@@ -737,7 +707,6 @@ setMethod("intersect",
               x <- sort(x)
               y <- sort(y)
               res <- .Call('_nanoival_intersect_time_interval', x, y)
-              class(res) <- "integer64"
               new("nanotime", res)
           })
 
@@ -749,7 +718,6 @@ setMethod("setdiff",
               x <- sort(x)
               y <- sort(y)
               res <- .Call('_nanoival_setdiff_time_interval', x, y)
-              class(res) <- "integer64"
               new("nanotime", res)
           })
 
@@ -782,7 +750,8 @@ setMethod("is.unsorted", "nanoival",
 ##' @rdname nanoival
 ##' @export
 setMethod("sort", c("nanoival"),
-          function(x, decreasing=FALSE, ...) .Call('_nanoival_sort', x, decreasing))
+          function(x, decreasing=FALSE, ...)
+            new("nanoival", .Call('_nanoival_sort', x, decreasing)))
 
 ## need to override this one in order to get correct number of rows:
 ## dim.data.table <- function(x)
