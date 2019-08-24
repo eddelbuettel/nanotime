@@ -10,11 +10,9 @@
 #include "duration.hpp"
 
 
-using namespace std::literals;
-
 
 Global::duration from_string(const std::string& str) {
-  Global::duration d = 0s;
+  Global::duration d = std::chrono::seconds(0);
   const char* s = str.c_str();
   const char* e = s + str.size();
 
@@ -29,27 +27,27 @@ Global::duration from_string(const std::string& str) {
 
   if (s < e && *s == ':') {
     // we've got HHH:MM:SS format
-    d += n * 1h;
+    d += n * std::chrono::hours(1);
     ++s;
     if (s + 5 > e || !isdigit(s[0]) || !isdigit(s[1]) || 
         s[2] != ':' || !isdigit(s[3]) || !isdigit(s[4])) {
       throw std::range_error("cannot parse duration");
     }
-    d += ((s[0] - '0')*10 + (s[1] - '0'))*1min;
+    d += ((s[0] - '0')*10 + (s[1] - '0'))*std::chrono::minutes(1);
 
     // treat seconds in the general way:
     n = (s[3] - '0')*10 + (s[4] - '0');
     s += 5;
   }
 
-  d += n * 1s;
+  d += n * std::chrono::seconds(1);
   if (s == e) return sign*d;
 
   if (*s++ != '.') throw std::range_error("cannot parse duration");
-  Global::duration mul = 100ms;
+  Global::duration mul = std::chrono::milliseconds(100);
   unsigned i = 0;
   while (s < e) {
-    if (mul < 1ns) throw std::range_error("cannot parse duration");
+    if (mul < std::chrono::nanoseconds(1)) throw std::range_error("cannot parse duration");
     if ((i == 3 || i == 6) && *s == '_') { ++s; continue; }
     ++i;
     if (!isdigit(*s)) throw std::range_error("cannot parse duration");
@@ -73,28 +71,28 @@ std::string to_string(Global::duration d) {
   }
   else {
     // handle hh:mm:ss
-    if (d < 0s) {
+    if (d < std::chrono::seconds(0)) {
       ss << '-';
       d *= -1;
     }
-    auto h = d / 1h;
-    d -= h * 3600s;
-    auto min = d / 1min;
-    d -= min * 60s;
-    auto s = d / 1s;
-    d -= s * 1s;
+    auto h = d / std::chrono::hours(1);
+    d -= h * std::chrono::seconds(3600);
+    auto min = d / std::chrono::minutes(1);
+    d -= min * std::chrono::seconds(60);
+    auto s = d / std::chrono::seconds(1);
+    d -= s * std::chrono::seconds(1);
     ss << std::setfill ('0') 
        << std::setw(2) << h  << ':' 
        << std::setw(2) << min  << ':' 
        << std::setw(2) << s;
   
     // now handle nanoseconds 000_000_000
-    auto ms = d / 1ms;
-    d -= ms * 1ms;
-    auto us = d / 1us;
-    d -= us * 1us;
-    auto ns = d / 1ns;
-    d -= ns * 1ns;
+    auto ms = d / std::chrono::milliseconds(1);
+    d -= ms * std::chrono::milliseconds(1);
+    auto us = d / std::chrono::microseconds(1);
+    d -= us * std::chrono::microseconds(1);
+    auto ns = d / std::chrono::nanoseconds(1);
+    d -= ns * std::chrono::nanoseconds(1);
 
     if (ms || us || ns) {
       ss << '.';
