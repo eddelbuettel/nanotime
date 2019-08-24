@@ -28,30 +28,27 @@ std::ostream &operator<<(std::ostream &stream,
 
 extern "C" int getOffset(long long s, const char* tzstr);
 
-using namespace std::chrono_literals;
-
 static inline Global::duration getOffsetCnv(const Global::dtime& dt, const std::string& z) {
   typedef int GET_OFFSET_FUN(long long, const char*); 
   GET_OFFSET_FUN *getOffset = (GET_OFFSET_FUN *) R_GetCCallable("RcppCCTZ", "getOffset" );
 
   auto offset = getOffset(std::chrono::duration_cast<std::chrono::seconds>(dt.time_since_epoch()).count(), z.c_str());
-  return Global::duration(offset).count() * 1s;
+  return Global::duration(offset).count() * std::chrono::seconds(1);
 }
 
-period::period() : months(0), days(0), dur(0s) { }
+period::period() : months(0), days(0), dur(std::chrono::seconds(0)) { }
 
 period::period(int32_t months_p, int32_t days_p, Global::duration dur_p) : 
   months(months_p), days(days_p), dur(dur_p) { }
 
 
 period::period(const std::string& str) {
-  using namespace std::string_literals;
   const char* s = str.c_str();
   const char* e = s + str.size();
 
   months = 0;
   days   = 0;
-  dur    = 0s;
+  dur    = std::chrono::seconds(0);
 
   int n;
   if (s < e && (*s == '/' || (s+2 < e && s[2] == ':'))) goto getduration;
@@ -133,7 +130,7 @@ std::int64_t plus(const std::int64_t& dt, const period& p, const std::string& z)
     res = date::sys_days(dt_ymd) - offset + timeofday_offset;
   }
   offset = getOffsetCnv(dtt, z);
-  res += p.getDays()*24h;
+  res += p.getDays()*std::chrono::hours(24);
   res += p.getDuration();
   auto newoffset = getOffsetCnv(res, z);
   if (newoffset != offset) {
