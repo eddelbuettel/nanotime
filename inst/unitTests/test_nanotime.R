@@ -24,8 +24,9 @@ test_nanotime_character <- function() {
 }
 test_nanotime_matrix <- function() {
     if (!isSolaris) {
-        m <- matrix(c(10*24*3600+0:9, 9897654321+0:9), 10, 2)
-        checkEquals(nanotime.matrix(m), nanotime("1970-01-11T00:00:00.987654321+00:00")+0:9)
+        m <- matrix(c(10*24*3600+0:9, 987654321+0:9), 10, 2)
+        checkEquals(nanotime.matrix(m),
+                    nanotime("1970-01-11T00:00:00.987654321+00:00") + seq(0, 9e9, by=1e9) + 0:9)
     }
 }
 test_nanotime_POSIXct <- function() {
@@ -38,7 +39,7 @@ test_nanotime_POSIXlt <- function() {
 }
 test_nanotime_Date <- function() {
     d <- as.Date(10, origin="1970-01-01")
-    checkEquals(nanotime(d), nanotime("1970-01-11T00:00:00.000000000-05:00"))
+    checkEquals(nanotime(d), nanotime("1970-01-11T00:00:00.000000000-00:00"))
 }
 test_nanotime_numeric_keep_names <- function() {
     n <- nanotime(c(a=1, b=2))

@@ -679,6 +679,7 @@ setMethod("[",
               if (is.unsorted(x)) stop("x must be sorted")
               i <- sort(i)
               res <- .Call('_nanoival_intersect_time_interval', x, i)
+              oldClass(res) <- "integer64"
               new("nanotime", res)            
           })
 
@@ -707,6 +708,7 @@ setMethod("intersect",
               x <- sort(x)
               y <- sort(y)
               res <- .Call('_nanoival_intersect_time_interval', x, y)
+              oldClass(res) <- "integer64"
               new("nanotime", res)
           })
 
@@ -718,6 +720,7 @@ setMethod("setdiff",
               x <- sort(x)
               y <- sort(y)
               res <- .Call('_nanoival_setdiff_time_interval', x, y)
+              oldClass(res) <- "integer64"
               new("nanotime", res)
           })
 

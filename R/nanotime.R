@@ -466,13 +466,6 @@ setMethod("Compare", c("nanotime", "ANY"),
 
 ##' @rdname nanotime
 ##' @export
-setMethod("Compare", c("nanotime", "nanotime"),
-          function(e1, e2) {
-              callNextMethod(S3Part(e1, strictS3=TRUE), S3Part(e2, strictS3=TRUE))
-          })
-
-##' @rdname nanotime
-##' @export
 setMethod("Logic", c("nanotime", "ANY"),
           function(e1, e2) {
               ## this is the same error message that R gives for "A" | "A"
