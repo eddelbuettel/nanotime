@@ -4,6 +4,8 @@
 #include "period.hpp"
 #include "duration.hpp"
 #include "date.h"
+#include "pseudovector.hpp"
+
 
 // for debug reasons...
 // the following code from: https://stackoverflow.com/a/16692519
@@ -241,29 +243,6 @@ union period_union {
   double2 dbl2;
 };
   
-
-// a thin wrapper that gives us the vector recycling behaviour of R:
-template <int T, typename U>
-struct PseudoVector {
-  PseudoVector(Rcpp::Vector<T>& v_p) : v(v_p), sz(v_p.size()) { }
-  inline U& operator[](size_t i) { return i<sz ? v[i] : v[i%sz]; }
-  inline size_t size() const { return sz; }
-  inline bool isScalar() const { return v.size()==1; }
-private:
-  Rcpp::Vector<T>& v;
-  const size_t sz;
-};
-template <int T, typename U>
-struct ConstPseudoVector {
-  ConstPseudoVector(const Rcpp::Vector<T>& v_p) : v(v_p), sz(v_p.size()) { }
-  inline const U& operator[](size_t i) const { return i<sz ? v[i] : v[i%sz]; }
-  inline size_t size() const { return sz; }
-  inline bool isScalar() const { return v.size()==1; }
-private:
-    const Rcpp::Vector<T>& v;
-    const size_t sz;
-};
-
 
 // const int PRDSZ   = sizeof(period_union)/sizeof(double);
 // const int INT64SZ = 1;

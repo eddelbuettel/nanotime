@@ -36,6 +36,23 @@ namespace Global {
     return true;
   }
 
+  /// This set of functors, to the contrary of the stdlib, allow
+  /// operations where the operands and the results are of different
+  /// types. This is handy for example is adding duration to time
+  /// points, etc.
+  template<typename T, typename U, typename R>
+  struct plus {
+    inline R operator()(const T& t, const U& u) const {
+      return t + u;
+    }
+  };  
+
+  template<typename T, typename U, typename R>
+  struct minus {
+    inline R operator()(const T& t, const U& u) const {
+      return t - u;
+    }
+  };  
 
   template<typename T, typename U, typename R>
   struct multiplies {

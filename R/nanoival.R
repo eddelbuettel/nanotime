@@ -172,17 +172,25 @@ setMethod("eopen",
 
 ##' @rdname nanoival
 ##' @export
+format.nanoival <- 
+  function(x, ..., justify = "none") {
+    s  <- paste0(ifelse(sopen(x), "-", "+"),
+                 format(start(x), ...), " -> ",
+                 format(end(x), ...),
+                 ifelse(eopen(x), "-", "+"))
+    if (!is.null(attr(x, "names", exact=TRUE))) {
+      names(s) <- names(x)
+    }
+    s
+  }
+
+##' @rdname nanoival
+##' @export
 setMethod("print",
           "nanoival",
           function(x, ...) {
             ## like in nanotime, we must prevent the conversion to printout to be too large LLL
-            s  <- paste0(ifelse(sopen(x), "-", "+"),
-                   format(start(x)), " -> ",
-                   format(end(x)),
-                   ifelse(eopen(x), "-", "+"))
-            if (!is.null(attr(x, "names", exact=TRUE))) {
-              names(s) <- names(x)
-            }
+            s <- format(x, ...)
             print(s)
             invisible(s)
           })
@@ -223,30 +231,26 @@ setMethod("length",
 ##           })
 
 
-as.data.frame.nanoival <- 
-          function(x, row.names=NULL, optional=FALSE, ...)
-          {
-              if (is.null(row.names))
-                  row.names <- seq_len(length(x))
-              value <- list(x)
-              attr(value, "names") <- "1"
-              attr(value, "row.names") <- row.names
-              class(value) <- "data.frame"
-              value
-          }
+## ##' @rdname nanoival
+## ##' @export
+## as.data.frame.nanoival <- 
+##           function(x, row.names=NULL, optional=FALSE, ...)
+##           {
+##               if (is.null(row.names))
+##                   row.names <- seq_len(length(x))
+##               value <- list(x)
+##               attr(value, "names") <- "1"
+##               attr(value, "row.names") <- row.names
+##               class(value) <- "data.frame"
+##               value
+##           }
 
-format.nanoival <- 
-  function(x, ..., justify = "none") {
-    ## like in nanotime, we must prevent the conversion to printout to be too large LLL
-    s  <- paste0(ifelse(sopen(x), "-", "+"),
-                 format(start(x)), " -> ",
-                 format(end(x)),
-                 ifelse(eopen(x), "-", "+"))
-    if (!is.null(attr(x, "names", exact=TRUE))) {
-      names(s) <- names(x)
-    }
-    s
-  }
+##' @rdname nanoival
+##' @export
+as.data.frame.nanoival <- function(x, row.names=NULL, optional=FALSE, ...)
+{
+  NextMethod()
+}
 
 
 ## setMethod("format",
@@ -358,26 +362,22 @@ setMethod("-", c("nanoival", "ANY"),
 ##' @export
 setMethod("-", c("nanoival", "integer64"),
           function(e1, e2) {
-              e1 <- S3Part(e1, strictS3=TRUE)
-              e1[c(TRUE,TRUE,FALSE)] <- e1[c(TRUE,TRUE,FALSE)] - e2
-              new("nanoival", e1)
+              new("nanoival", .Call("_nanoival_minus", e1, e2))
           })
 
 ##' @rdname nanoival
 ##' @export
 setMethod("-", c("nanoival", "numeric"),
           function(e1, e2) {
-              e1 <- S3Part(e1, strictS3=TRUE)
-              e1[c(TRUE,TRUE,FALSE)] <- e1[c(TRUE,TRUE,FALSE)] - e2
-              new("nanoival", e1)
+              new("nanoival", .Call("_nanoival_minus", e1, as.integer64(e2)))
           })
+
 ##' @rdname nanoival
 ##' @export
 setMethod("-", c("ANY", "nanoival"),
           function(e1, e2) {
               stop("invalid operand types")
           })
-
 
 
 ## ----------- `+`
@@ -392,18 +392,14 @@ setMethod("+", c("nanoival", "ANY"),
 ##' @export
 setMethod("+", c("nanoival", "integer64"),
           function(e1, e2) {
-              e1 <- S3Part(e1, strictS3=TRUE)
-              e1[c(TRUE,TRUE,FALSE)] <- e1[c(TRUE,TRUE,FALSE)] + e2
-              new("nanoival", e1)
+              new("nanoival", .Call("_nanoival_plus", e1, e2))
           })
 
 ##' @rdname nanoival
 ##' @export
 setMethod("+", c("nanoival", "numeric"),
           function(e1, e2) {
-              e1 <- S3Part(e1, strictS3=TRUE)
-              e1[c(TRUE,TRUE,FALSE)] <- e1[c(TRUE,TRUE,FALSE)] + e2
-              new("nanoival", e1)
+              new("nanoival", .Call("_nanoival_plus", e1, as.integer64(e2)))
           })
 
 ##' @rdname nanoival
@@ -417,14 +413,14 @@ setMethod("+", c("ANY", "nanoival"),
 ##' @export
 setMethod("+", c("integer64", "nanoival"),
           function(e1, e2) {
-              new("nanoival", e1 + S3Part(e2, strictS3=TRUE))
+              new("nanoival", .Call("_nanoival_plus", e2, e1))
           })
 
 ##' @rdname nanoival
 ##' @export
 setMethod("+", c("numeric", "nanoival"),
           function(e1, e2) {
-              new("nanoival", e1 + S3Part(e2, strictS3=TRUE))
+              new("nanoival", .Call("_nanoival_plus", e2, as.integer64(e1)))
           })
 
 ##' @rdname nanoival

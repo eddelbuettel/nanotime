@@ -590,12 +590,15 @@ setMethod("is.na",
 
 ##' @rdname nanotime
 ##' @export
-setMethod("seq", c("nanotime"),
-          function(from, to=NULL, by=NULL, length.out = NULL, along.with = NULL, ...) {
-              nanotime(seq(S3Part(from, strictS3=TRUE),
-                           S3Part(to, strictS3=TRUE),
-                           by, length.out, along.with, ...))                           
-          })
+seq.nanotime <- function(from, to=NULL, by=NULL, length.out = NULL, along.with = NULL, ...) {
+    nanotime(seq(S3Part(from, strictS3=TRUE),
+                 S3Part(to, strictS3=TRUE),
+                 by, length.out, along.with, ...))                           
+}
+
+##' @rdname nanotime
+##' @export
+setMethod("seq", c("nanotime"), seq.nanotime)
 
 
 all.equal.nanotime <- function(target, current, ...) all.equal(S3Part(target, strictS3=TRUE),

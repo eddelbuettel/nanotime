@@ -2,6 +2,7 @@
 #include <functional>
 #include <Rcpp.h>
 #include "interval.hpp"
+#include "pseudovector.hpp"
 
 
 struct double2 {
@@ -19,6 +20,10 @@ union ival_union {
   } ival;
   double2 dbl2;
 };
+
+
+typedef ConstPseudoVector<CPLXSXP, Rcomplex> ConstPseudoVectorIval;
+typedef ConstPseudoVector<REALSXP, double>   ConstPseudoVectorDur;
 
 
 // for debug reasons...
@@ -44,7 +49,6 @@ std::ostream &operator<<(std::ostream &stream,
 static void print(const interval& i) {
   Rcpp::Rcout << (i.sopen ? "-" : "+") << i.s << "->" << i.e << (i.eopen ? "-" : "+") << std::endl;
 }
-
 
 template <typename T, typename U>
 static Rcpp::List intersect_idx(const T* v1, size_t v1_size, const U* v2, size_t v2_size) 
@@ -469,6 +473,43 @@ RcppExport SEXP _nanoival_ne(SEXP n1, SEXP n2) {
   return nanoival_comp(n1, n2, std::not_equal_to<interval>());
 }
 
+
+template<typename OP>
+SEXP nanoival_op(SEXP n1, SEXP n2, OP op) {
+  try {
+
+    const Rcpp::ComplexVector cv1(n1);
+    const Rcpp::NumericVector nv2(n2);
+    if (cv1.size() != nv2.size()) {
+      Rcpp::stop(std::string("object lengths mismatch"));
+    }
+    const ConstPseudoVectorIval  e1(cv1);
+    const ConstPseudoVectorDur   e2(nv2);
+    Rcpp::ComplexVector res(std::max(e1.size(), e2.size()));
+    
+    for (R_xlen_t i=0; i<res.size(); ++i) {
+      const interval ival = *reinterpret_cast<const interval*>(&e1[i]);
+      const Global::duration dur = *reinterpret_cast<const Global::duration*>(&e2[i]);
+      const auto ires = op(ival, dur);
+      res[i] = *reinterpret_cast<const Rcomplex*>(&ires);
+    }
+  
+    return res;
+  } catch(std::exception &ex) {	
+    forward_exception_to_r(ex);
+  } catch(...) { 
+    ::Rf_error("c++ exception (unknown reason)"); 
+  }
+  return R_NilValue;             // not reached
+}
+
+RcppExport SEXP _nanoival_plus(SEXP n1, SEXP n2) {
+  return nanoival_op(n1, n2, Global::plus<interval, Global::duration, interval>());
+}
+
+RcppExport SEXP _nanoival_minus(SEXP n1, SEXP n2) {
+  return nanoival_op(n1, n2, Global::minus<interval, Global::duration, interval>());
+}
 
 /// union_idx T=Global::dtime, U=Global::dtime doesn't need specialization.
 /// union_idx T=Global::dtime, U=tz::interval doesn't make sense.
