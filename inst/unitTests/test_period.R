@@ -32,6 +32,10 @@ test_as.period_numeric <- function() {
     p1 <- as.period(1.0:10)
     checkEquals(period.duration(p1), as.duration(1:10), tolerance=0)
 }
+test_as.period_duration <- function() {
+    p1 <- as.period(as.duration(1))
+    checkEquals(p1, as.period("00:00:00.1"))
+}
 test_period <- function() {
     checkEquals(period(0,0,1), as.period(1), tolerance=0)
     checkEquals(period(0,0,1:10), as.period(1:10), tolerance=0)
@@ -39,7 +43,6 @@ test_period <- function() {
 }
 
 ## accessors:
-
 test_period.day <- function() {
     p1 <- as.period(paste0(1:10, "d"))
     checkEquals(period.day(p1), 1:10, tolerance=0)
@@ -53,8 +56,21 @@ test_period.day <- function() {
     checkEquals(period.duration(p1), as.duration(1:10), tolerance=0)
 }
 
-## subset:
+## show/print/as.character
+test_show <- function() {
+  p1 <- show(as.period("1m1d/1:00:00.1"))
+  checkEquals(p1, "1m1d/01:00:00.100")
+}
+test_print <- function() {
+  p1 <- print(as.period("2m2d/2:02:02.2"))
+  checkEquals(p1, "2m2d/02:02:02.200")
+}
+test_as.character <- function() {
+  p1 <- as.character(as.period("2m2d/2:02:02.20001"))
+  checkEquals(p1, "2m2d/02:02:02.200_010")
+}
 
+## subset:
 test_subset_int <- function() {
     p1 <- as.period("1m1d/00:00:01")
     p2 <- as.period("2m2d/00:00:02") 
@@ -137,17 +153,49 @@ test_period_minus_numeric <- function() {
     checkEquals(as.period("12m2d") - 1:9.0,
                 as.period(paste0("12m2d/-00:00:00.000_000_00", 1:9)), tolerance=0)
 }
-test_period_minus_integer64 <- function() {
+test_period_minus_duration <- function() {
+    checkEquals(as.period("2m2d") - as.duration(1), as.period("2m2d/-00:00:00.000_000_001"))
+    checkEquals(as.period(paste0(1:10,"m2d")) - as.duration(1),
+                as.period(paste0(1:10, "m2d/-00:00:00.000_000_001")), tolerance=0)
+    checkEquals(as.period("12m2d") - as.duration(1:9),
+                as.period(paste0("12m2d/-00:00:00.000_000_00", 1:9)), tolerance=0)
+}
+test_period_minus_integer <- function() {
     checkEquals(as.period("2m2d") - as.integer(1), as.period("2m2d/-00:00:00.000_000_001"))
     checkEquals(as.period(paste0(1:10,"m2d")) - as.integer(1),
                 as.period(paste0(1:10, "m2d/-00:00:00.000_000_001")), tolerance=0)
-    checkEquals(as.period("12m2d") - 1:9,
+    checkEquals(as.period("12m2d") - as.integer(1:9),
+                as.period(paste0("12m2d/-00:00:00.000_000_00", 1:9)), tolerance=0)
+}
+test_period_minus_integer64 <- function() {
+    checkEquals(as.period("2m2d") - as.integer64(1), as.period("2m2d/-00:00:00.000_000_001"))
+    checkEquals(as.period(paste0(1:10,"m2d")) - as.integer64(1),
+                as.period(paste0(1:10, "m2d/-00:00:00.000_000_001")), tolerance=0)
+    checkEquals(as.period("12m2d") - as.integer64(1:9),
                 as.period(paste0("12m2d/-00:00:00.000_000_00", 1:9)), tolerance=0)
 }
 test_numeric_minus_period <- function() {
-    checkEquals(1 - as.period("1m1d"), as.period("1m1d/00:00:00.000_000_001"), tolerance=0)
-    checkEquals(1:10 - as.period("1m1d"), period(1,1,1:10), tolerance=0)
-    checkEquals(1 - period(1:10,1,1), period(1:10, 1, 0), tolerance=0)
+    checkEquals(1 - as.period("1m1d"), as.period("-1m-1d/00:00:00.000_000_001"), tolerance=0)
+    checkEquals(1:10 - as.period("1m1d"), period(-1,-1,1:10), tolerance=0)
+    checkEquals(1 - period(1:10,1,1), period(-1:-10, -1, 0), tolerance=0)
+}
+test_integer64_minus_period <- function() {
+    checkEquals(as.integer64(1) - as.period("1m1d"),
+                as.period("-1m-1d/00:00:00.000_000_001"), tolerance=0)
+    checkEquals(as.integer64(1:10) - as.period("1m1d"), period(-1,-1,1:10), tolerance=0)
+    checkEquals(as.integer64(1) - period(1:10,1,1), period(-1:-10, -1, 0), tolerance=0)
+}
+test_duration_minus_period <- function() {
+    checkEquals(as.duration(1) - as.period("1m1d"),
+                as.period("-1m-1d/00:00:00.000_000_001"), tolerance=0)
+    checkEquals(as.duration(1:10) - as.period("1m1d"), period(-1,-1,1:10), tolerance=0)
+    checkEquals(as.duration(1) - period(1:10,1,1), period(-1:-10, -1, 0), tolerance=0)
+}
+test_period_minus_any <- function() {
+    checkException(as.period(1) - "a", "invalid operand types")
+}
+test_any_minus_period <- function() {
+    checkException("a" - as.period(1), "invalid operand types")
 }
 
 ## +
@@ -165,9 +213,21 @@ test_integer64_plus_period <- function() {
 }
 test_period_plus_integer64 <- function() {
     checkEquals(as.period(1) + as.integer64(1), as.period(2), tolerance=0)
-    checkEquals(as.period("2m2d") + as.integer(1), as.period("2m2d/00:00:00.000_000_001"), tolerance=0)
+    checkEquals(as.period("2m2d") + as.integer64(1), as.period("2m2d/00:00:00.000_000_001"), tolerance=0)
     checkEquals(as.period(1) + as.integer64(0:9), as.period(1:10), tolerance=0)
     checkEquals(period(1:10,1,0) + as.integer64(1), period(1:10,1,1), tolerance=0)
+}
+test_period_plus_duration <- function() {
+    checkEquals(as.period(1) + as.duration(1), as.period(2), tolerance=0)
+    checkIdentical(as.period("2m2d") + as.duration(1), as.period("2m2d/00:00:00.000_000_001"))
+    checkEquals(as.period(1) + as.duration(0:9), as.period(1:10), tolerance=0)
+    checkEquals(period(1:10,1,0) + as.duration(1), period(1:10,1,1), tolerance=0)
+}
+test_duration_plus_period <- function() {
+    checkEquals(as.duration(1) + as.period(1), as.period(2), tolerance=0)
+    checkIdentical(as.duration(1) + as.period("2m2d"), as.period("2m2d/00:00:00.000_000_001"))
+    checkEquals(as.duration(0:9) + as.period(1), as.period(1:10), tolerance=0)
+    checkEquals(as.duration(1) + period(1:10,1,0), period(1:10,1,1), tolerance=0)
 }
 test_numeric_plus_period <- function() {
     checkEquals(as.period(1) + 1, as.period(2), tolerance=0)
@@ -175,8 +235,11 @@ test_numeric_plus_period <- function() {
     checkEquals(0.0:9.0 + as.period(1), as.period(1:10), tolerance=0)
     checkEquals(1.0 + period(1:10,1,0), period(1:10,1,1), tolerance=0)
 }
-test_character_plus_period <- function() {
+test_any_plus_period <- function() {
     checkException("a" + as.period(1), "invalid operand types")
+}
+test_period_plus_any <- function() {
+    checkException(as.period(1) + any, "invalid operand types")
 }
 
 ## *
@@ -231,8 +294,27 @@ test_period_div_integer <- function() {
     checkEquals(as.period(4) / as.integer(c(4,2,1)), as.period(c(1,2,4)), tolerance=0)
     checkEquals(as.period(4:2) / as.integer(c(4,2,1)), as.period(c(1,1,2)), tolerance=0)
 }
-test_numeric_div_period <- function() {
-    checkException(as.period(1) * "a", "operation not defined for \"period\" objects")
+test_period_div_any <- function() {
+    checkException(as.period(1) / "a", "operation not defined for \"period\" objects")
+}
+test_any_div_period <- function() {
+    checkException("a" / as.period(1), "operation not defined for \"period\" objects")
+}
+
+## Math/Math2/Summary/Complex
+test_period_Math <- function() {
+    ## is that right? LLL
+    checkException(abs(as.period(1)), "operation not defined for \"period\" objects")  
+}
+test_period_Math2 <- function() {
+    checkException(round(as.period(1)), "operation not defined for \"period\" objects")  
+}
+test_period_Summary  <- function() {
+    checkException(min(as.period(1)), "operation not defined for \"period\" objects")  
+    checkException(max(as.period(1)), "operation not defined for \"period\" objects")  
+}
+test_period_Complex  <- function() {
+    checkException(Arg(as.period(1)), "operation not defined for \"period\" objects")  
 }
 
 ## Compare
@@ -244,12 +326,22 @@ test_period_eq_period <- function() {
     checkTrue(!(as.period(1) == as.period(2)))
     checkEquals(as.period(1:10) == as.period(1:10), rep(TRUE, 10))
 }
-
 test_period_ne_period <- function() {
     checkTrue(as.period(1) != as.period(2))
     checkTrue(as.period("1d") != as.period("2d"))
     checkTrue(!(as.period(1) != as.period(1)))
     checkEquals(as.period(1:10) != as.period(1:10), rep(FALSE, 10), tolerance=0)
+}
+test_period_eq_any <- function() {
+    checkException(as.period(1) == "a", "operation not defined for \"period\" objects")  
+}
+test_any_eq_period <- function() {
+    checkException("a" == as.period(1), "operation not defined for \"period\" objects")  
+}
+test_all.equal <- function() {
+    checkTrue(all.equal(as.period(1), as.period(1)))
+    checkTrue(all.equal(as.period(1:10), as.period(1:10)))
+    checkTrue(all.equal(as.period("1m1d"), as.period("1d") + as.period("1m")))
 }
 
 ## names (in general)
@@ -276,6 +368,3 @@ test_period_c <- function() {
     pp <- c(as.period(1:10), as.period(11:20))
     checkEquals(pp, as.period(1:20), tolerance=0)
 }
-
-
-## test min, max, comparison LLL

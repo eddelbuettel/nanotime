@@ -120,47 +120,51 @@ std::string to_string(const period& p) {
 }
 
 
-std::int64_t plus(const std::int64_t& dt, const period& p, const std::string& z) {
-  const auto dtt = Global::dtime{Global::duration{dt}};
-  auto res = dtt;
+period plus (const period&    p, Global::duration d) {
+  return period(p.getMonths(), p.getDays(), p.getDuration() + d);
+}
+period plus (Global::duration d, const period& p) {
+  return period(p.getMonths(), p.getDays(), p.getDuration() + d);
+}
+period minus(const period&    p, Global::duration d){
+  return period(p.getMonths(), p.getDays(), p.getDuration() - d);
+}
+period minus(Global::duration d, const period& p) {
+  return period(-p.getMonths(), -p.getDays(), -p.getDuration() + d);
+}
+
+
+Global::dtime plus (const Global::dtime& dt, const period& p, const std::string& z) {
+  auto res = dt;
   auto offset = getOffsetCnv(res, z);
   if (p.getMonths()) {
-    auto dt_floor = date::floor<date::days>(dtt + offset);
-    auto timeofday_offset = (dtt + offset) - dt_floor;
+    auto dt_floor = date::floor<date::days>(dt + offset);
+    auto timeofday_offset = (dt + offset) - dt_floor;
     auto dt_ymd = date::year_month_day{dt_floor};
     dt_ymd += date::months(p.getMonths());
     res = date::sys_days(dt_ymd) - offset + timeofday_offset;
   }
-  offset = getOffsetCnv(dtt, z);
+  offset = getOffsetCnv(dt, z);
   res += p.getDays()*std::chrono::hours(24);
   res += p.getDuration();
   auto newoffset = getOffsetCnv(res, z);
   if (newoffset != offset) {
     res += offset - newoffset; // adjust for DST or any other event that changed the TZ
   }
-  return res.time_since_epoch().count();
+  return res;
 }
 
-std::int64_t plus(const period& p, const std::int64_t& dt, const std::string& z) {
+Global::dtime plus (const period& p, const Global::dtime& dt, const std::string& z) {
   return plus(dt, p, z);
 }
 
-std::int64_t minus(const std::int64_t& dt, const period& p, const std::string& z) {
+Global::dtime minus(const Global::dtime& dt, const period& p, const std::string& z) {
   return plus(dt, -p, z);
 }
 
-Global::dtime plus (const Global::dtime& dt, const period& p,         const std::string& z) {
-  return Global::dtime{Global::duration{plus(dt.time_since_epoch().count(), p, z)}};
-}
-Global::dtime plus (const period& p,         const Global::dtime& dt, const std::string& z) {
-  return Global::dtime{Global::duration{plus(dt.time_since_epoch().count(), p, z)}};
-}
-Global::dtime minus(const Global::dtime& dt, const period& p,         const std::string& z) {
-  return Global::dtime{Global::duration{minus(dt.time_since_epoch().count(), p, z)}};
-}
-
 interval plus(const interval& i, const period& p, const std::string& z) {
-  return interval(plus(i.s, p, z), plus(i.e, p, z), i.sopen, i.eopen);
+  return interval(plus(Global::dtime{Global::duration{i.s}}, p, z),
+                  plus(Global::dtime{Global::duration{i.e}}, p, z), i.sopen, i.eopen);
 }
   
 interval plus(const period& p, const interval& i, const std::string& z) {
@@ -654,7 +658,7 @@ RcppExport SEXP minus_integer64_period(SEXP e1_p, SEXP e2_p) {
     for (size_t i=0; i<pres.size(); ++i) {
       period pu2;           memcpy(&pu2, reinterpret_cast<const char*>(&e2_n[i]), sizeof(pu2));
       Global::duration dur; memcpy(&dur, reinterpret_cast<const char*>(&e1_n[i]), sizeof(dur));
-      pu2.setDuration(dur - pu2.getDuration());
+      pu2 = minus(dur, pu2);
       memcpy(&pres[i], &pu2, sizeof(pu2));
     }
     copyNames(e1_nv, e2_cv, e1_n.isScalar(), e2_n.isScalar(), res);    
@@ -680,7 +684,7 @@ RcppExport SEXP plus_nanotime_period(SEXP e1_p, SEXP e2_p, SEXP tz_p) {
     for (size_t i=0; i<pres.size(); ++i) {
       Global::dtime nano; memcpy(&nano, reinterpret_cast<const char*>(&e1_n[i]), sizeof(nano));
       period prd; memcpy(&prd, reinterpret_cast<const char*>(&e2_n[i]), sizeof(prd));      
-      auto dt = plus(nano, prd, Rcpp::as<std::string>(tz[i % tz.size()]));
+      auto dt = plus(nano, prd, Rcpp::as<std::string>(tz[i]));
       memcpy(&pres[i], &dt, sizeof(dt));
     }
     copyNames(e1_nv, e2_cv, e1_n.isScalar(), e2_n.isScalar(), res);    

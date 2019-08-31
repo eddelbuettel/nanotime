@@ -226,27 +226,6 @@ setMethod("Complex", c("period"),
               stop("operation not defined for \"period\" objects")
           })
 
-##' @rdname period
-##' @export
-setMethod("min", c("period"),
-          function(x, ..., na.rm = FALSE) {
-              stop("operation not defined for \"period\" objects")
-          })
-
-##' @rdname period
-##' @export
-setMethod("max", c("period"),
-          function(x, ..., na.rm = FALSE) {
-              stop("operation not defined for \"period\" objects")
-          })
-
-##' @rdname period
-##' @export
-setMethod("range", c("period"),
-          function(x, ..., na.rm = FALSE) {
-              stop("operation not defined for \"period\" objects")
-          })
-
 ## ------------ `-`
 ##' @rdname period
 ##' @export
@@ -281,7 +260,7 @@ setMethod("-", c("period", "ANY"),
 ##' @export
 setMethod("-", c("period", "duration"),
           function(e1, e2) {
-              .Call("minus_period_integer64", e1, e1)
+              .Call("minus_period_integer64", e1, e2)
           })
 
 ##' @rdname period
@@ -499,31 +478,6 @@ setMethod("Compare", c("ANY", "period"),
 setMethod("Compare", c("period", "ANY"),
           function(e1, e2) {
               stop("operation not defined for \"period\" objects")
-          })
-
-##' @rdname period
-##' @export
-setMethod("==", c("ANY", "period"),
-          function(e1, e2) {
-              stop("invalid operand types")
-          })
-##' @rdname period
-##' @export
-setMethod("==", c("period", "ANY"),
-          function(e1, e2) {
-              stop("invalid operand types")
-          })
-##' @rdname period
-##' @export
-setMethod("!=", c("ANY", "period"),
-          function(e1, e2) {
-              stop("invalid operand types")
-          })
-##' @rdname period
-##' @export
-setMethod("!=", c("period", "ANY"),
-          function(e1, e2) {
-              stop("invalid operand types")
           })
 
 ##' @rdname period

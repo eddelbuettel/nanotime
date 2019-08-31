@@ -33,6 +33,12 @@ private:
   Global::duration dur;
 };
 
+
+period plus (const period&    p, Global::duration d);
+period plus (Global::duration d, const period& p);
+period minus(const period&    p, Global::duration d);
+period minus(Global::duration d, const period& p);
+
 Global::dtime plus (const Global::dtime& dt, const period& p,         const std::string& z);
 Global::dtime plus (const period& p,         const Global::dtime& dt, const std::string& z);
 Global::dtime minus(const Global::dtime& dt, const period& p,         const std::string& z);
