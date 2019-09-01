@@ -579,6 +579,14 @@ test_intersect_time_interval_multiple <- function() {
            seq(nanotime("2012-12-12 12:12:18"), nanotime("2012-12-12 12:12:20"), by=one_second))
     checkEquals(a[idx], r)
 }
+test_intersect_time_interval_multiple_direct_call  <- function() {
+    a <- seq(nanotime("2012-12-12 12:12:12"), length.out=10, by=one_second)
+    idx <- c(as.nanoival("-2012-12-12 12:12:10 -> 2012-12-12 12:12:14-"),
+             as.nanoival("+2012-12-12 12:12:18 -> 2012-12-12 12:12:20+"))
+    r <- c(seq(nanotime("2012-12-12 12:12:12"), nanotime("2012-12-12 12:12:13"), by=one_second),
+           seq(nanotime("2012-12-12 12:12:18"), nanotime("2012-12-12 12:12:20"), by=one_second))
+    checkEquals(intersect(a, idx), r)
+}
 
 ## interval - interval:
 ## 1: c-----------c

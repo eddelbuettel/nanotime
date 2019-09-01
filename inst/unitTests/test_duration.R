@@ -4,6 +4,12 @@ minute <- 60 * sec
 hour <- 60 * minute
 
 ## constructors
+test_duration <- function() {
+  checkIdentical(duration(1,1,1,1), as.duration("01:01:01.000_000_001"))
+  ## R recycling:
+  checkIdentical(duration(1:2,1,1,1), c(as.duration("01:01:01.000_000_001"),
+                                        as.duration("02:01:01.000_000_001")))
+}
 test_as.duration_character_and_numeric <- function() {
     checkIdentical(as.duration("1:00:00"), as.duration(hour))
     checkIdentical(as.duration("0:01:00"), as.duration(minute))
@@ -25,6 +31,17 @@ test_as.duration_integer <- function() {
 test_as.integer64 <- function() {
     checkIdentical(as.integer64(as.duration(hour)), as.integer64(hour))
     checkIdentical(as.integer64(as.duration(1:1000)), as.integer64(1:1000))
+}
+
+
+## show/print
+test_show <- function() {
+  d <- duration(1,1,1,1)
+  checkIdentical(show(d), "01:01:01.000_000_001")
+}
+test_print <- function() {
+  d <- duration(1,1,1,1)
+  checkIdentical(print(d), "01:01:01.000_000_001")
 }
 
 ## subset:
@@ -118,7 +135,16 @@ test_duration_minus_integer64 <- function() {
     checkIdentical(c(a=as.duration(1), b=as.duration(1)) - as.integer64(1),
                    as.duration(c(a=0, b=0)))
 }
-## LLL name issue here do to underlying issues with 'bit64'
+test_integer64_minus_duration <- function() {
+    checkIdentical(as.integer64(hour) - as.duration("1:00:00"), as.duration("0:00:00"))
+}
+test_duration_minus_integer64 <- function() {
+    checkIdentical(as.duration("1:00:00") - as.integer64(hour), as.duration("0:00:00"))
+}
+test_numeric_minus_duration <- function() {
+    checkIdentical(hour - as.duration("1:00:00"), as.duration("0:00:00"))
+}
+## LLL name issue here due do to underlying issues with 'bit64'
 ## test_numeric_minus_duration <- function() {
 ##     checkIdentical(2 - c(a=as.duration(1), b=as.duration(2)),
 ##                    c(a=as.duration(1), b=as.duration(0)))
@@ -126,8 +152,11 @@ test_duration_minus_integer64 <- function() {
 ##                    c(a=as.integer64(1), b=as.integer64(0)))
 
 ## }
-test_character_minus_duration <- function() {
+test_any_minus_duration <- function() {
     checkException("a" - as.duration("1:00:00"), "invalid operand types")
+}
+test_duration_minus_any <- function() {
+    checkException(as.duration("1:00:00") - "a", "invalid operand types")
 }
 
 ## +
@@ -152,22 +181,38 @@ test_numeric_plus_duration <- function() {
 test_character_plus_duration <- function() {
     checkException("hello" + as.duration("1:00:00"), "invalid operand types")
 }
+test_any_plus_duration <- function() {
+    checkException("a" + as.duration("1:00:00"), "invalid operand types")
+}
+test_duration_plus_any <- function() {
+    checkException(as.duration("1:00:00") + "a", "invalid operand types")
+}
+
 ## *
 test_duration_times_numeric <- function() {
     checkIdentical(as.duration("00:01:00") * 3, as.duration("00:03:00"))
 }
+test_numeric_times_duration <- function() {
+    checkIdentical(3 * as.duration("00:01:00"), as.duration("00:03:00"))
+}
 test_duration_times_integer64 <- function() {
     checkIdentical(as.duration("00:01:00") * as.integer64(3), as.duration("00:03:00"))
+}
+test_duration_times_duration <- function() {
+    checkException(as.duration(1) * as.duration(2), "invalid operand types")
 }
 ## LLL have to fix this, dependent also on 'integer64' fixes...
 ## test_numeric_times_duration <- function() {
 ##     checkIdentical(1.5 * as.duration("00:01:00"), as.duration("00:01:30"))
 ## }
+test_numeric_times_duration <- function() {
+    checkIdentical(as.integer64(3) * as.duration("00:01:00"), as.duration("00:03:00"))
+}
 test_integer64_times_duration <- function() {
     checkIdentical(as.integer64(3) * as.duration("00:01:00"), as.duration("00:03:00"))
 }
-test_character_times_duration <- function() {
-    checkException("hello" / as.duration("00:01:00"), "invalid operand types")
+test_any_times_duration <- function() {
+    checkException("hello" * as.duration("00:01:00"), "invalid operand types")
 }
 test_duration_times_character <- function() {
     checkException(as.duration("00:01:00") *  "hello", "invalid operand types")
@@ -185,6 +230,12 @@ test_duration_div_integer <- function() {
 test_numeric_div_duration <- function() {
     checkException(1.5 / as.duration("00:01:00"), "invalid operand types")
 }
+test_duration_div_any <- function() {
+    checkException(as.duration("1:00:00") / "a", "invalid operand types")
+}
+test_duration_div_duration <- function() {
+    checkException(as.duration(1) / as.duration(2), "invalid operand types")
+}
 
 ## unary
 test_unary_minus <- function() {
@@ -195,3 +246,69 @@ test_unary_plus <- function() {
     checkIdentical(+as.duration("00:01:00"), as.duration("00:01:00"))
 }
 
+## Summary
+test_sum <- function() {
+    ## error in underlying bit64: LLL
+    ## checkIdentical(sum(as.duration(1), as.duration(2), as.duration(3)),
+    ##                as.duration(6))
+    checkIdentical(sum(c(as.duration(1), as.duration(2), as.duration(3))),
+                    as.duration(6))                
+}
+test_min <- function() {
+    ## error in underlying bit64: LLL
+    ## checkIdentical(min(as.duration(1), as.duration(2), as.duration(3)),
+    ##                as.duration(1))
+    checkIdentical(min(c(as.duration(1), as.duration(2), as.duration(3))),
+                    as.duration(1))                
+}
+test_max <- function() {
+    ## error in underlying bit64: LLL
+    ## checkIdentical(max(as.duration(1), as.duration(2), as.duration(3)),
+    ##                as.duration(3))
+    checkIdentical(max(c(as.duration(1), as.duration(2), as.duration(3))),
+                    as.duration(3))                
+}
+test_range <- function() {
+    ## error in underlying bit64: LLL
+    ## checkIdentical(range(as.duration(1), as.duration(2), as.duration(3)),
+    ##                c(as.duration(1), as.duration(3)))
+    checkIdentical(range(c(as.duration(1), as.duration(2), as.duration(3))),
+                    c(as.duration(1), as.duration(3)))            
+}
+test_prod <- function() {
+  checkException(prod(c(as.duration(1), as.duration(2), as.duration(3))),
+                 "invalid 'type' (duration) of argument")
+}
+
+## Complex
+test_Complex <- function() {
+  checkException(Arg(as.duration(1)), "non-numeric argument to function")
+}
+
+## Logic
+test_Logic <- function() {
+  checkException(as.duration(1) | as.duration(1),
+                 "operations are possible only for numeric, logical or complex types")
+  checkException(as.duration(1) | "a",
+                 "operations are possible only for numeric, logical or complex types")
+  checkException("a" & as.duration(1),
+                 "operations are possible only for numeric, logical or complex types")
+}
+
+## Math
+test_abs <- function() {
+  checkIdentical(abs(as.duration(-1)), as.duration(1))
+}
+test_sign <- function() {
+  checkIdentical(sign(as.duration(-1)), as.integer64(-1))
+  checkIdentical(sign(as.duration(1)), as.integer64(1))
+}
+test_Math <- function() {
+  checkException(sqrt(as.duration(1)), "non-numeric argument to mathematical function")
+}
+
+## Math2
+
+test_Math2 <- function() {
+  checkException(round(as.duration(1)), "non-numeric argument to mathematical function")
+}

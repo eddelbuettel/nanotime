@@ -494,3 +494,5 @@ setMethod("all.equal",
               callNextMethod()
           })
 
+
+## LLL need to implement plus(period, nanotime, tz) !!!

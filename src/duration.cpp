@@ -8,7 +8,7 @@
 #include <limits>
 #include <Rcpp.h>
 #include "duration.hpp"
-
+#include "pseudovector.hpp"
 
 
 Global::duration from_string(const std::string& str) {
@@ -146,4 +146,34 @@ RcppExport SEXP duration_to_string(SEXP d) {
     ::Rf_error("c++ exception (unknown reason)"); 
   }
   return R_NilValue;             // not reached
+}
+
+
+typedef ConstPseudoVector<REALSXP, double>   ConstPseudoVectorInt64;
+
+RcppExport SEXP make_duration(SEXP h, SEXP m, SEXP s, SEXP n) {
+  const Rcpp::NumericVector    h_nv(h);
+  const Rcpp::NumericVector    m_nv(m);
+  const Rcpp::NumericVector    s_nv(s);
+  const Rcpp::NumericVector    n_nv(n);
+  const ConstPseudoVectorInt64 h_i(h_nv);
+  const ConstPseudoVectorInt64 m_i(m_nv);
+  const ConstPseudoVectorInt64 s_i(s_nv);
+  const ConstPseudoVectorInt64 n_i(n_nv);
+  Rcpp::NumericVector res(std::max(std::max(h_i.size(), m_i.size()),
+                                   std::max(s_i.size(), n_i.size())));
+                                   
+  for (R_xlen_t i=0; i<res.size(); ++i) {
+    auto dur = (h_i[i]*3600 + m_i[i]*60 + s_i[i]) * 1e9 + n_i[i];
+    res[i] = *reinterpret_cast<double*>(&dur);
+  }
+  // make this part of a utility package (it's used in 'period' too) LLL
+  Rcpp::CharacterVector cl = Rcpp::CharacterVector::create("duration");
+  cl.attr("package") = "nanotime";
+  res.attr(".S3Class") = "integer64";
+  res.attr("class") = cl;
+  SET_S4_OBJECT(res);
+  return Rcpp::S4(res);
+
+  return res;
 }

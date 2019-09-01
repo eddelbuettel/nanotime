@@ -42,11 +42,13 @@ setClass("duration", contains = "integer64")
 ##' @rdname duration
 ##' @export
 duration <- function(hours, minutes, seconds, nanoseconds) {
-    as.duration(as.integer64(hours) * 3600 +
-                as.integer64(minutes) * 60 +
-                as.integer64(seconds) +
-                as.integer64(nanoseconds))
+  .Call("make_duration",
+        as.integer64(hours),
+        as.integer64(minutes),
+        as.integer64(seconds),
+        as.integer64(nanoseconds))
 }
+
 
 setGeneric("as.duration", function(x) standardGeneric("as.duration"))
 
@@ -242,7 +244,7 @@ setMethod("+", c("numeric", "duration"),
 ##' @export
 setMethod("*", c("duration", "duration"),
           function(e1, e2) {
-              new("duration", S3Part(e1, strictS3=TRUE) * e2)
+              stop("invalid operand types")              
           })
 ##' @rdname duration
 ##' @export
@@ -287,7 +289,7 @@ setMethod("*", c("ANY", "duration"),
 ##' @export
 setMethod("/", c("duration", "duration"),
           function(e1, e2) {
-              new("duration", as.integer64(S3Part(e1, strictS3=TRUE) / e2))
+              stop("invalid operand types")
           })
 ##' @rdname duration
 ##' @export
@@ -332,6 +334,14 @@ setMethod("Compare", c("duration", "ANY"),
 
 ##' @rdname duration
 ##' @export
+setMethod("Logic", c("duration", "duration"),
+          function(e1, e2) {
+              ## this is the same error message that R gives for "A" | "A"
+              stop("operations are possible only for numeric, logical or complex types")
+          })
+
+##' @rdname duration
+##' @export
 setMethod("Logic", c("duration", "ANY"),
           function(e1, e2) {
               ## this is the same error message that R gives for "A" | "A"
@@ -350,7 +360,13 @@ setMethod("Logic", c("ANY", "duration"),
 ##' @export
 setMethod("abs", c("duration"),
           function(x) {
-              new("duration", S3Part(x, strictS3=TRUE))
+              new("duration", callNextMethod(S3Part(x, strictS3=TRUE)))
+          })
+##' @rdname duration
+##' @export
+setMethod("sign", c("duration"),
+          function(x) {
+              callNextMethod(S3Part(x, strictS3=TRUE))
           })
 
 
