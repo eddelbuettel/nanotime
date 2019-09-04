@@ -495,4 +495,48 @@ setMethod("all.equal",
           })
 
 
-## LLL need to implement plus(period, nanotime, tz) !!!
+## ---------- plus/minus ops with nanotime and period (which require 'tz')
+
+setMethod("plus", c("nanotime", "period", "character"),
+          function(e1, e2, tz) {
+            .Call("plus_nanotime_period", e1, e2, tz) 
+          })
+
+setMethod("plus", c("period", "nanotime", "character"),
+          function(e1, e2, tz) {
+            .Call("plus_nanotime_period", e2, e1, tz) 
+          })
+
+setMethod("minus", c("nanotime", "period", "character"),
+          function(e1, e2, tz) {
+            .Call("minus_nanotime_period", e1, e2, tz) 
+          })
+
+setMethod("minus", c("period", "nanotime", "character"),
+          function(e1, e2, tz) {
+            stop("operation not defined for \"period\" objects")
+          })
+
+
+## ---------- plus/minus ops with nanoival and period (which require 'tz')
+
+setMethod("plus", c("nanoival", "period", "character"),
+          function(e1, e2, tz) {
+            .Call("plus_nanoival_period", e1, e2, tz) 
+          })
+
+setMethod("plus", c("period", "nanoival", "character"),
+          function(e1, e2, tz) {
+            .Call("plus_nanoival_period", e2, e1, tz) 
+          })
+
+setMethod("minus", c("nanoival", "period", "character"),
+          function(e1, e2, tz) {
+            .Call("minus_nanoival_period", e1, e2, tz) 
+          })
+
+setMethod("minus", c("period", "nanoival", "character"),
+          function(e1, e2, tz) {
+            stop("operation not defined for \"period\" objects")
+          })
+

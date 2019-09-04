@@ -39,7 +39,8 @@ test_as.nanoival_vector <- function() {
       checkEquals(eopen(ni), c(TRUE, FALSE, TRUE, FALSE))
 }
 test_nanoival <- function() {
-    checkEquals(nanoival(nanotime("2013-01-01 00:00:00"), nanotime("2014-01-01 00:00:00"), TRUE, TRUE),
+  checkEquals(nanoival(nanotime("2013-01-01 00:00:00"),
+                       nanotime("2014-01-01 00:00:00"), TRUE, TRUE),
                 as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00+"))
 }
 test_nanoival_vector<- function() {
@@ -876,5 +877,91 @@ test_setdiff_interval_interval_cc_co_oc_3rd <- function() {
 
 
 ## ops +, -
+test_minus_nanoival_any  <- function() {
+    i1 <- c(as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05+"),
+            as.nanoival("+2015-01-01 12:00:08 -> 2015-01-01 12:00:10-"))
+    checkException(i1 - "a", "invalid operand types")
+}
+test_minus_nanoival_integer64  <- function() {
+    i1 <- c(as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05+"),
+            as.nanoival("+2015-01-01 12:00:08 -> 2015-01-01 12:00:10-"))
+    expected <- c(as.nanoival("+2015-01-01 12:00:02 -> 2015-01-01 12:00:04+"),
+                  as.nanoival("+2015-01-01 12:00:07 -> 2015-01-01 12:00:09-"))
+    checkIdentical(i1 - as.integer64(one_second), expected)
+}
+test_minus_nanoival_numeric  <- function() {
+    i1 <- c(as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05+"),
+            as.nanoival("+2015-01-01 12:00:08 -> 2015-01-01 12:00:10-"))
+    expected <- c(as.nanoival("+2015-01-01 12:00:02 -> 2015-01-01 12:00:04+"),
+                  as.nanoival("+2015-01-01 12:00:07 -> 2015-01-01 12:00:09-"))
+    checkIdentical(i1 - one_second, expected)
+}
+test_minus_nanoival_integer  <- function() {
+    i1 <- c(as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05+"),
+            as.nanoival("+2015-01-01 12:00:08 -> 2015-01-01 12:00:10-"))
+    expected <- c(as.nanoival("+2015-01-01 12:00:02 -> 2015-01-01 12:00:04+"),
+                  as.nanoival("+2015-01-01 12:00:07 -> 2015-01-01 12:00:09-"))
+    checkIdentical(i1 - as.integer(one_second), expected)
+}
+test_minus_any_nanoival  <- function() {
+    i1 <- c(as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05+"),
+            as.nanoival("+2015-01-01 12:00:08 -> 2015-01-01 12:00:10-"))
+    checkException(as.integer(one_second) - i1, "invalid operand types")
+}
+test_minus_nanoival_nanoival  <- function() {
+    i1 <- c(as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05+"),
+            as.nanoival("+2015-01-01 12:00:08 -> 2015-01-01 12:00:10-"))
+    checkException(i1 - i1, "invalid operand types")
+}
 
+test_plus_nanoival_any  <- function() {
+    i1 <- c(as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05+"),
+            as.nanoival("+2015-01-01 12:00:08 -> 2015-01-01 12:00:10-"))
+    checkException(i1 + "a", "invalid operand types")
+}
+test_plus_nanoival_integer64  <- function() {
+    i1 <- c(as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05+"),
+            as.nanoival("+2015-01-01 12:00:08 -> 2015-01-01 12:00:10-"))
+    expected <- c(as.nanoival("+2015-01-01 12:00:04 -> 2015-01-01 12:00:06+"),
+                  as.nanoival("+2015-01-01 12:00:09 -> 2015-01-01 12:00:11-"))
+    checkIdentical(i1 + as.integer64(one_second), expected)
+}
+test_plus_nanoival_numeric  <- function() {
+    i1 <- c(as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05+"),
+            as.nanoival("+2015-01-01 12:00:08 -> 2015-01-01 12:00:10-"))
+    expected <- c(as.nanoival("+2015-01-01 12:00:04 -> 2015-01-01 12:00:06+"),
+                  as.nanoival("+2015-01-01 12:00:09 -> 2015-01-01 12:00:11-"))
+    checkIdentical(i1 + one_second, expected)
+}
+test_plus_nanoival_integer  <- function() {
+    i1 <- c(as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05+"),
+            as.nanoival("+2015-01-01 12:00:08 -> 2015-01-01 12:00:10-"))
+    expected <- c(as.nanoival("+2015-01-01 12:00:04 -> 2015-01-01 12:00:06+"),
+                  as.nanoival("+2015-01-01 12:00:09 -> 2015-01-01 12:00:11-"))
+    checkIdentical(i1 + as.integer(one_second), expected)
+}
+test_plus_any_nanoival  <- function() {
+    i1 <- c(as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05+"),
+            as.nanoival("+2015-01-01 12:00:08 -> 2015-01-01 12:00:10-"))
+    checkException(as.character("a") + i1, "invalid operand types")
+}
+test_plus_nanoival_nanoival  <- function() {
+    i1 <- c(as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05+"),
+            as.nanoival("+2015-01-01 12:00:08 -> 2015-01-01 12:00:10-"))
+    checkException(i1 + i1, "invalid operand types")
+}
+test_plus_numeric_nanoival <- function() {
+    i1 <- c(as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05+"),
+            as.nanoival("+2015-01-01 12:00:08 -> 2015-01-01 12:00:10-"))
+    expected <- c(as.nanoival("+2015-01-01 12:00:04 -> 2015-01-01 12:00:06+"),
+                  as.nanoival("+2015-01-01 12:00:09 -> 2015-01-01 12:00:11-"))
+    checkIdentical(one_second + i1, expected)
+} 
+test_plus_integer64_nanoival <- function() {
+    i1 <- c(as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05+"),
+            as.nanoival("+2015-01-01 12:00:08 -> 2015-01-01 12:00:10-"))
+    expected <- c(as.nanoival("+2015-01-01 12:00:04 -> 2015-01-01 12:00:06+"),
+                  as.nanoival("+2015-01-01 12:00:09 -> 2015-01-01 12:00:11-"))
+    checkIdentical(as.integer64(one_second) + i1, expected)
+} 
 

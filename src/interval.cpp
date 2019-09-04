@@ -478,13 +478,10 @@ template<typename OP>
 SEXP nanoival_op(SEXP n1, SEXP n2, OP op) {
   try {
 
-    const Rcpp::ComplexVector cv1(n1);
-    const Rcpp::NumericVector nv2(n2);
-    if (cv1.size() != nv2.size()) {
-      Rcpp::stop(std::string("object lengths mismatch"));
-    }
-    const ConstPseudoVectorIval  e1(cv1);
-    const ConstPseudoVectorDur   e2(nv2);
+    const Rcpp::ComplexVector   cv1(n1);
+    const Rcpp::NumericVector   nv2(n2);
+    const ConstPseudoVectorIval e1(cv1);
+    const ConstPseudoVectorDur  e2(nv2);
     Rcpp::ComplexVector res(std::max(e1.size(), e2.size()));
     
     for (R_xlen_t i=0; i<res.size(); ++i) {

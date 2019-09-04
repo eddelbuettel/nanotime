@@ -104,11 +104,11 @@ inline bool operator>(const Global::dtime& i1, const interval& i2) {
 }
 
 inline interval operator+(const interval& i, const Global::duration d) {
-  return interval(i.sopen, i.s + d.count(), i.eopen, i.e + d.count());
+  return interval(i.s + d.count(), i.e + d.count(), i.sopen, i.eopen);
 }
   
 inline interval operator-(const interval& i, const Global::duration d) {
-  return interval(i.sopen, i.s - d.count(), i.eopen, i.e - d.count());
+  return interval(i.s - d.count(), i.e - d.count(), i.sopen, i.eopen);
 }
 
 inline interval operator+(const Global::duration d, const interval& i) {

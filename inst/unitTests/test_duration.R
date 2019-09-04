@@ -17,6 +17,10 @@ test_as.duration_character_and_numeric <- function() {
     checkIdentical(as.duration("0:00:00.001"), as.duration(milli))
     checkIdentical(c(as.duration("1:00:00"), c(as.duration("2:00:00"))),
                 c(as.duration(hour), as.duration(2*hour)))
+
+    checkException(as.duration("1000a"), "cannot parse duration")
+    checkException(as.duration("a"), "cannot parse duration")
+    checkException(as.duration(""), "cannot parse duration")
 }
 test_as.duration_integer64 <- function() {
     checkIdentical(as.duration(as.integer64(hour)), as.duration(hour))

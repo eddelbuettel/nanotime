@@ -368,3 +368,73 @@ test_period_c <- function() {
     pp <- c(as.period(1:10), as.period(11:20))
     checkEquals(pp, as.period(1:20), tolerance=0)
 }
+
+
+## plus/minus with 'nanotime':
+
+test_plus_nanotime_period <- function() {
+    nt <- nanotime("2018-01-01T05:00:00.000000000+00")
+    p  <- as.period("4m")
+    tz <- "America/New_York"
+    expected <- nanotime("2018-05-01T00:00:00.000000000-04:00")
+    checkIdentical(plus(nt, p, tz), expected)
+}
+test_plus_period_nanotime <- function() {
+    nt <- nanotime("2018-01-01T05:00:00.000000000+00")
+    p  <- as.period("4m")
+    tz <- "America/New_York"
+    expected <- nanotime("2018-05-01T00:00:00.000000000-04:00")
+    checkIdentical(plus(p, nt, tz), expected)
+}
+test_minus_nanotime_period <- function() {
+    nt <- nanotime("2018-05-01T00:00:00.000000000-04:00")
+    p  <- as.period("4m")
+    tz <- "America/New_York"
+    expected <- nanotime("2018-01-01T00:00:00.000000000-05:00")
+    checkIdentical(minus(nt, p, tz), expected)
+}
+test_minus_period_nanotime <- function() {
+    nt <- nanotime("2018-05-01T00:00:00.000000000-04:00")
+    p  <- as.period("4m")
+    tz <- "America/New_York"
+    checkException(minus(p, nt, tz), "operation not defined for \"period\" objects")
+}
+
+
+## plus/minus with 'nanoival':
+
+test_plus_nanoival_period <- function() {
+    start <- nanotime("2018-01-01T05:00:00.000000000+00")
+    end <- nanotime("2018-01-01T23:00:00.000000000+00")
+    ni <- nanoival(start, end)
+    p  <- as.period("4m")
+    tz <- "America/New_York"
+    expected <- as.nanoival("+2018-05-01T00:00:00.000000000-04:00 -> 2018-05-01T18:00:00.000000000-04:00-")
+    checkIdentical(plus(ni, p, tz), expected)
+}
+test_plus_period_nanoival <- function() {
+    start <- nanotime("2018-01-01T05:00:00.000000000+00")
+    end <- nanotime("2018-01-01T23:00:00.000000000+00")
+    ni <- nanoival(start, end)
+    p  <- as.period("4m")
+    tz <- "America/New_York"
+    expected <- as.nanoival("+2018-05-01T00:00:00.000000000-04:00 -> 2018-05-01T18:00:00.000000000-04:00-")
+    checkIdentical(plus(p, ni, tz), expected)
+}
+test_minus_nanoival_period <- function() {
+    start <- nanotime("2018-05-01T05:00:00.000000000-04")
+    end <- nanotime("2018-05-01T23:00:00.000000000-04")
+    ni <- nanoival(start, end)
+    p  <- as.period("4m")
+    tz <- "America/New_York"
+    expected <- as.nanoival("+2018-01-01T05:00:00.000000000-05:00 -> 2018-01-01T23:00:00.000000000-05:00-")
+    checkIdentical(minus(ni, p, tz), expected)
+}
+test_minus_period_nanoival <- function() {
+    start <- nanotime("2018-05-01T05:00:00.000000000-04")
+    end <- nanotime("2018-05-01T23:00:00.000000000-04")
+    ni <- nanoival(start, end)
+    p  <- as.period("4m")
+    tz <- "America/New_York"
+    checkException(minus(p, ni, tz), "operation not defined for \"period\" objects")
+}

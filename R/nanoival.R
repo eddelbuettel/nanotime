@@ -379,6 +379,13 @@ setMethod("-", c("ANY", "nanoival"),
               stop("invalid operand types")
           })
 
+##' @rdname nanoival
+##' @export
+setMethod("-", c("nanoival", "nanoival"),
+          function(e1, e2) {
+              stop("invalid operand types")
+          })
+
 
 ## ----------- `+`
 ##' @rdname nanoival
@@ -429,6 +436,7 @@ setMethod("+", c("nanoival", "nanoival"),
           function(e1, e2) {
               stop("invalid operand types")
           })
+
 
 ## ---------- other ops
 

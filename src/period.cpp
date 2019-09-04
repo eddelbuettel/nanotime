@@ -134,6 +134,29 @@ period minus(Global::duration d, const period& p) {
 }
 
 
+// Global::dtime tz::plus(const Global::dtime& dt, const tz::period& p, const tz::Zone& z) {
+//   int pos = -1;
+//   int direction = 1;            // unimportant, it's a fresh start
+//   auto offset = z.getoffset(dt, pos, direction);
+//   auto res = dt;
+//   if (p.getMonths()) {
+//     auto dt_floor = date::floor<date::days>(dt + offset);
+//     auto timeofday_offset = (dt + offset) - dt_floor;
+//     auto dt_ymd = date::year_month_day{dt_floor};
+//     dt_ymd += date::months(p.getMonths());
+//     res = date::sys_days(dt_ymd) - offset + timeofday_offset;
+//   }
+//   offset = z.getoffset(dt, pos, direction);
+//   res += p.getDays()*24h;
+//   res += p.getDuration();
+//   direction = res >= dt ? 1 : -1;
+//   auto newoffset = z.getoffset(res, pos, direction);
+//   if (newoffset != offset) {
+//     res += offset - newoffset; // adjust for DST or any other event that changed the TZ
+//   }
+//   return res;
+// }
+
 Global::dtime plus (const Global::dtime& dt, const period& p, const std::string& z) {
   auto res = dt;
   auto offset = getOffsetCnv(res, z);
@@ -258,6 +281,7 @@ typedef ConstPseudoVector<REALSXP, double>   ConstPseudoVectorInt64;
 typedef ConstPseudoVector<REALSXP, double>   ConstPseudoVectorNano;
 typedef ConstPseudoVector<CPLXSXP, Rcomplex> ConstPseudoVectorPrd;
 typedef ConstPseudoVector<REALSXP, double>   ConstPseudoVectorDbl;
+typedef ConstPseudoVector<CPLXSXP, Rcomplex> ConstPseudoVectorIval;
 
 typedef PseudoVector<REALSXP, double>   PseudoVectorInt64;
 typedef PseudoVector<REALSXP, double>   PseudoVectorNano;
@@ -405,11 +429,25 @@ void copyNames(const Rcpp::Vector<T1>& e1_cv,
 }
 
 
+
+// get this out of here and in an includable header; use it in nanotime too! LLL
 template<int R>
 static SEXP assignS4(const char* classname, Rcpp::Vector<R>& res) {
   Rcpp::CharacterVector cl = Rcpp::CharacterVector::create(classname);
   cl.attr("package") = "nanotime";
   res.attr("class") = cl;
+  SET_S4_OBJECT(res);
+  return Rcpp::S4(res);
+}
+
+template<int R>
+static SEXP assignS4(const char* classname, Rcpp::Vector<R>& res, const char* oldClass) {
+  Rcpp::CharacterVector cl = Rcpp::CharacterVector::create(classname);
+  cl.attr("package") = "nanotime";
+  res.attr("class") = cl;
+  // use 'install' here as in R source code attrib.c: LLL
+  Rcpp::CharacterVector oc = Rcpp::CharacterVector::create(oldClass);
+  res.attr(".S3Class") = oc;
   SET_S4_OBJECT(res);
   return Rcpp::S4(res);
 }
@@ -678,8 +716,8 @@ RcppExport SEXP plus_nanotime_period(SEXP e1_p, SEXP e2_p, SEXP tz_p) {
     const Rcpp::ComplexVector e2_cv(e2_p);
     const ConstPseudoVectorNano e1_n(e1_nv);
     const ConstPseudoVectorPrd  e2_n(e2_cv);
-    Rcpp::ComplexVector res(std::max(e1_n.size(), e2_n.size()));
-    PseudoVectorPrd pres(res);
+    Rcpp::NumericVector res(std::max(e1_n.size(), e2_n.size()));
+    PseudoVectorNano pres(res);
     const Rcpp::CharacterVector tz(tz_p);
     for (size_t i=0; i<pres.size(); ++i) {
       Global::dtime nano; memcpy(&nano, reinterpret_cast<const char*>(&e1_n[i]), sizeof(nano));
@@ -688,7 +726,7 @@ RcppExport SEXP plus_nanotime_period(SEXP e1_p, SEXP e2_p, SEXP tz_p) {
       memcpy(&pres[i], &dt, sizeof(dt));
     }
     copyNames(e1_nv, e2_cv, e1_n.isScalar(), e2_n.isScalar(), res);    
-    return assignS4("nanotime", res);
+    return assignS4("nanotime", res, "integer64");
   } catch(std::exception &ex) {	
     forward_exception_to_r(ex);
   } catch(...) { 
@@ -704,8 +742,8 @@ RcppExport SEXP minus_nanotime_period(SEXP e1_p, SEXP e2_p, SEXP tz_p) {
     const Rcpp::ComplexVector   e2_cv(e2_p);
     const ConstPseudoVectorNano e1_n(e1_nv);
     const ConstPseudoVectorPrd  e2_n(e2_cv);
-    Rcpp::ComplexVector res(std::max(e1_n.size(), e2_n.size()));
-    PseudoVectorPrd pres(res);
+    Rcpp::NumericVector res(std::max(e1_n.size(), e2_n.size()));
+    PseudoVectorNano pres(res);
     const Rcpp::CharacterVector tz(tz_p);
     for (size_t i=0; i<pres.size(); ++i) {
       Global::dtime nano; memcpy(&nano, reinterpret_cast<const char*>(&e1_n[i]), sizeof(nano));
@@ -714,13 +752,64 @@ RcppExport SEXP minus_nanotime_period(SEXP e1_p, SEXP e2_p, SEXP tz_p) {
       memcpy(&pres[i], &dt, sizeof(dt));
     }
     copyNames(e1_nv, e2_cv, e1_n.isScalar(), e2_n.isScalar(), res);    
-    return assignS4("nanotime", res);
+    return assignS4("nanotime", res, "integer64");
   } catch(std::exception &ex) {	
     forward_exception_to_r(ex);
   } catch(...) { 
     ::Rf_error("c++ exception (unknown reason)"); 
   }
   return R_NilValue;             // not reached
+}
+
+
+RcppExport SEXP plus_nanoival_period(SEXP e1_p, SEXP e2_p, SEXP tz_p) {
+  try {
+    const Rcpp::ComplexVector   e1_cv(e1_p);
+    const Rcpp::ComplexVector   e2_cv(e2_p);
+    const ConstPseudoVectorIval e1_n (e1_cv);
+    const ConstPseudoVectorPrd  e2_n (e2_cv);
+    Rcpp::ComplexVector res(std::max(e1_n.size(), e2_n.size()));
+    PseudoVectorPrd pres(res);
+    const Rcpp::CharacterVector tz(tz_p);
+    for (size_t i=0; i<pres.size(); ++i) {
+      interval ival; memcpy(&ival, reinterpret_cast<const char*>(&e1_n[i]), sizeof(ival));      
+      period prd; memcpy(&prd, reinterpret_cast<const char*>(&e2_n[i]), sizeof(prd));
+      auto res_ival = plus(ival, prd, Rcpp::as<std::string>(tz[i % tz.size()]));
+      memcpy(&pres[i], &res_ival, sizeof(res_ival));
+    }
+    copyNames(e1_cv, e2_cv, e1_n.isScalar(), e2_n.isScalar(), res);    
+    return assignS4("nanoival", res);
+  } catch(std::exception &ex) {	
+    forward_exception_to_r(ex);
+  } catch(...) { 
+    ::Rf_error("c++ exception (unknown reason)"); 
+  }
+  return R_NilValue;             // not reached  
+}
+
+RcppExport SEXP minus_nanoival_period(SEXP e1_p, SEXP e2_p, SEXP tz_p) {
+  try {
+    const Rcpp::ComplexVector   e1_cv(e1_p);
+    const Rcpp::ComplexVector   e2_cv(e2_p);
+    const ConstPseudoVectorIval e1_n (e1_cv);
+    const ConstPseudoVectorPrd  e2_n (e2_cv);
+    Rcpp::ComplexVector res(std::max(e1_n.size(), e2_n.size()));
+    PseudoVectorPrd pres(res);
+    const Rcpp::CharacterVector tz(tz_p);
+    for (size_t i=0; i<pres.size(); ++i) {
+      interval ival; memcpy(&ival, reinterpret_cast<const char*>(&e1_n[i]), sizeof(ival));      
+      period prd; memcpy(&prd, reinterpret_cast<const char*>(&e2_n[i]), sizeof(prd));
+      auto res_ival = minus(ival, prd, Rcpp::as<std::string>(tz[i % tz.size()]));
+      memcpy(&pres[i], &res_ival, sizeof(res_ival));
+    }
+    copyNames(e1_cv, e2_cv, e1_n.isScalar(), e2_n.isScalar(), res);    
+    return assignS4("nanoival", res);
+  } catch(std::exception &ex) {	
+    forward_exception_to_r(ex);
+  } catch(...) { 
+    ::Rf_error("c++ exception (unknown reason)"); 
+  }
+  return R_NilValue;             // not reached  
 }
 
 
