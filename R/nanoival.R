@@ -174,14 +174,18 @@ setMethod("eopen",
 ##' @export
 format.nanoival <- 
   function(x, ..., justify = "none") {
-    s  <- paste0(ifelse(sopen(x), "-", "+"),
-                 format(start(x), ...), " -> ",
-                 format(end(x), ...),
-                 ifelse(eopen(x), "-", "+"))
-    if (!is.null(attr(x, "names", exact=TRUE))) {
-      names(s) <- names(x)
+    if (length(x) == 0) {
+      "nanoival(0)"
+    } else {
+      s  <- paste0(ifelse(sopen(x), "-", "+"),
+                   format(start(x), ...), " -> ",
+                   format(end(x), ...),
+                   ifelse(eopen(x), "-", "+"))
+      if (!is.null(attr(x, "names", exact=TRUE))) {
+        names(s) <- names(x)
+      }
+      s
     }
-    s
   }
 
 ##' @rdname nanoival
@@ -303,6 +307,13 @@ setMethod("as.nanoival",
               res
           })
 
+##' @rdname nanoival
+##' @export
+setMethod("as.nanoival",
+          "NULL",
+          function(x, format="", tz="") {
+              new("nanoival", as.complex(NULL))
+          })
 
 ## ------------ logical comp
 

@@ -497,6 +497,10 @@ setMethod("all.equal",
 
 ## ---------- plus/minus ops with nanotime and period (which require 'tz')
 
+setGeneric("plus",  function(e1, e2, tz) standardGeneric("plus"))
+setGeneric("minus", function(e1, e2, tz) standardGeneric("minus"))
+
+
 setMethod("plus", c("nanotime", "period", "character"),
           function(e1, e2, tz) {
             .Call("plus_nanotime_period", e1, e2, tz) 
@@ -506,6 +510,7 @@ setMethod("plus", c("period", "nanotime", "character"),
           function(e1, e2, tz) {
             .Call("plus_nanotime_period", e2, e1, tz) 
           })
+
 
 setMethod("minus", c("nanotime", "period", "character"),
           function(e1, e2, tz) {
@@ -519,6 +524,7 @@ setMethod("minus", c("period", "nanotime", "character"),
 
 
 ## ---------- plus/minus ops with nanoival and period (which require 'tz')
+
 
 setMethod("plus", c("nanoival", "period", "character"),
           function(e1, e2, tz) {

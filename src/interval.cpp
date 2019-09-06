@@ -185,36 +185,50 @@ RcppExport SEXP _nanoival_union(SEXP nanoival1, SEXP nanoival2) {
       auto sopen = v1_lt_v2 ? v1[i1].sopen : v2[i2].sopen;
   
       for (;;) {
-        if (end_ge_start(v1[i1], v2[i2]) && end_le(v1[i1], v2[i2])) {
+        if (union_end_ge_start(v1[i1], v2[i2]) && union_end_le(v1[i1], v2[i2])) {
+          Rcpp::Rcout << 1 << std::endl;
           // v1 |------------|         or     |--------|
           // v2      |------------|         |------------|
-          if (++i1 >= nv1.size()) {
+          if (i1 >= nv1.size() - 1) {
+            // if equal ends, have to do the union of the eopens:
+            auto eopen = union_end_le(v2[i2], v1[i1]) ? v1[i1].eopen && v2[i2].eopen : v2[i2].eopen;
             // v2 interval done, as there's no more v1 elts to overlap
-            res.push_back(interval(start, v2[i2].e, sopen, v2[i2].eopen));
-            ++i2;
+            res.push_back(interval(start, v2[i2].e, sopen, eopen));
+            ++i1; ++i2;
             break;
           }
-        } else if (end_ge_start(v2[i2], v1[i1]) && end_le(v2[i2], v1[i1])) {
+          ++i1;
+        } else if (union_end_ge_start(v2[i2], v1[i1]) && union_end_le(v2[i2], v1[i1])) {
           // v1      |------------|   or    |------------|
           // v2 |------------|                |--------|
-          if (++i2 >= nv2.size()) {
-            // v2 interval done, as there's no more v2 elts to overlap
-            res.push_back(interval(start, v1[i1].e, sopen, v1[i1].eopen));
-            ++i1;
+          if (i2 >= nv2.size() - 1) {
+            // if equal ends, have to do the union of the eopens:
+            auto eopen = union_end_le(v1[i1], v2[i2]) ? v1[i1].eopen && v2[i2].eopen : v1[i1].eopen;
+            // v1 interval done, as there's no more v2 elts to overlap
+            res.push_back(interval(start, v1[i1].e, sopen, eopen));
+            ++i1; ++i2;
             break;
           }
+          ++i2;
         } else {
-          // no interval overlap
-          if (end_lt(v1[i1], v2[i2])) {
+          if (v1[i1].e == v2[i2].e && v1[i1].eopen && v2[i2].eopen) {
+            // special case where the intervals are ends are equal and open:
+            res.push_back(interval(start, v1[i1].e, sopen, v1[i1].eopen));
+            ++i1; ++i2;            
+          } else if (union_end_lt(v1[i1], v2[i2])) {
+            // no interval overlap
             res.push_back(interval(start, v1[i1].e, sopen, v1[i1].eopen));
             ++i1;
           } else {
+            // no interval overlap
             res.push_back(interval(start, v2[i2].e, sopen, v2[i2].eopen));
             ++i2;
           }
           // set the start of the next interval:
           if (i1 < nv1.size() && i2 < nv2.size()) {
-            start = std::min(v1[i1].s, v2[i2].s);
+            auto v1_lt_v2 = start_lt(v1[i1], v2[i2]);
+            start = v1_lt_v2 ? v1[i1].s : v2[i2].s;
+            sopen = v1_lt_v2 ? v1[i1].sopen : v2[i2].sopen;            
           } else {
             break;
           }
@@ -252,10 +266,10 @@ RcppExport SEXP _nanoival_intersect(SEXP nanoival1, SEXP nanoival2) {
 
     R_xlen_t i1 = 0, i2 = 0;
     while (i1 < nv1.size() && i2 < nv2.size()) {
-      if (v1[i1].s >= v2[i2].e) {
+      if (v1[i1].s > v2[i2].e) {
         ++i1;
         continue;
-      } else if (v2[i2].s >= v1[i1].e) {
+      } else if (v2[i2].s > v1[i1].e) {
         ++i1;
         continue;
       }

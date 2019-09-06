@@ -647,6 +647,42 @@ test_intersect_interval_interval_cc_oo__2_eq_1 <- function() {
     r  <- i2
     checkTrue(intersect(i1, i2) == r)
 }
+## 1: c-----------o
+## 2:             o-----------c
+## r: 
+test_intersect_interval_interval_co_oc__2_lg_1 <- function() {
+    i1 <- as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05-")
+    i2 <- as.nanoival("-2015-01-01 12:00:05 -> 2015-01-01 12:00:07+")
+    r  <- new("nanoival", as.complex(NULL))
+    checkIdentical(intersect(i2, i1), r)
+}
+## 1: c-----------o
+## 2:             c-----------c
+## r: 
+test_intersect_interval_interval_co_oc__2_lg_1 <- function() {
+    i1 <- as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05-")
+    i2 <- as.nanoival("+2015-01-01 12:00:05 -> 2015-01-01 12:00:07+")
+    r  <- new("nanoival", as.complex(NULL))
+    checkIdentical(intersect(i2, i1), r)
+}
+## 1: c-----------c
+## 2:             o-----------c
+## r: 
+test_intersect_interval_interval_co_oc__2_lg_1 <- function() {
+    i1 <- as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05+")
+    i2 <- as.nanoival("-2015-01-01 12:00:05 -> 2015-01-01 12:00:07+")
+    r  <- as.nanoival(NULL)
+    checkIdentical(intersect(i2, i1), r)
+}
+## 1: c-----------c
+## 2:             c-----------c
+## r:             cc
+test_intersect_interval_interval_co_oc__2_lg_1 <- function() {
+    i1 <- as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05+")
+    i2 <- as.nanoival("+2015-01-01 12:00:05 -> 2015-01-01 12:00:07+")
+    r  <- as.nanoival("+2015-01-01 12:00:05 -> 2015-01-01 12:00:05+")
+    checkIdentical(intersect(i2, i1), r)
+}
 
 ## union
 ## --------------------------------------------------------------------------
@@ -711,6 +747,51 @@ test_union_interval_interval_cc_oo__2_eq_1 <- function() {
     checkTrue(union(i1, i2) == r &
               union(i2, i1) == r)
 }
+## 1: c-----------c
+## 2:             o-----------o
+## 1: c-----------o
+## 2:             c-----------o
+## r: c-----------------------o
+test_union_interval_interval_no_overlap_co_oc <- function() {
+    i1 <- as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05+")
+    i2 <- as.nanoival("-2015-01-01 12:00:05 -> 2015-01-01 12:00:07-")
+    r  <- as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:07-")
+    checkIdentical(union(i1, i2), r)
+    checkIdentical(union(i2, i1), r)
+}
+## 1: c-----------o
+## 2:             o-----------o
+## r: c-----------o-----------o
+test_union_interval_interval_no_overlap_oo <- function() {
+    i1 <- as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05-")
+    i2 <- as.nanoival("-2015-01-01 12:00:05 -> 2015-01-01 12:00:07-")
+    r  <- c(i1, i2)
+    checkIdentical(union(i1, i2), r)
+    checkIdentical(union(i2, i1), r)
+}
+## 1: c-----------c
+## 2:             c-----------o
+## r: c-----------------------o
+test_union_interval_interval_no_overlap_cc  <- function() {
+    i1 <- as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05+")
+    i2 <- as.nanoival("+2015-01-01 12:00:05 -> 2015-01-01 12:00:07-")
+    r  <- as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:07-")
+    checkIdentical(union(i1, i2), r)
+    checkIdentical(union(i2, i1), r)
+}
+## 1: c-----------c              c----------o
+## 2:             c-----------o      o----------c
+## r: c-----------------------o
+test_union_interval_interval_no_overlap_cc_more  <- function() {
+    i1 <- as.nanoival(c("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05+",
+                        "+2016-01-01 12:00:03 -> 2016-01-01 12:00:05-"))
+    i2 <- as.nanoival(c("+2015-01-01 12:00:05 -> 2015-01-01 12:00:07-",
+                        "-2016-01-01 12:00:04 -> 2016-01-01 12:00:08+"))
+    r  <- as.nanoival(c("+2015-01-01 12:00:03 -> 2015-01-01 12:00:07-",
+                        "+2016-01-01 12:00:03 -> 2016-01-01 12:00:08+"))
+    checkIdentical(union(i1, i2), r)
+    checkIdentical(union(i2, i1), r)
+}
 
 ## setdiff
 ## --------------------------------------------------------------------------
@@ -752,13 +833,12 @@ test_setdiff_time_interval_oo__2_subset_of_1 <- function() {
 ## 1: c-----------c
 ## 2: c-----------c
 ## r:
-## LLL
-## test_setdiff_interval_interval_cc_cc__2_eq_1 <- function() {
-##     i1 <- as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05+")
-##     i2 <- as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05+")
-##     r  <- vector(mode="interval", length=0)
-##     checkEquals(setdiff(i1, i2), r)
-## }
+test_setdiff_interval_interval_cc_cc__2_eq_1 <- function() {
+    i1 <- as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05+")
+    i2 <- as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05+")
+    r  <- new("nanoival", as.complex(NULL))
+    checkEquals(setdiff(i1, i2), r)
+}
 ## 1: c-----------c
 ## 2: o-----------c
 ## r: c
@@ -789,13 +869,12 @@ test_setdiff_interval_interval_co_oc__2_eq_1 <- function() {
 ## 1: o-----------o
 ## 2: o-----------o
 ## r:
-## LLL
-## test_setdiff_interval_interval_oo_oo__2_eq_1 <- function() {
-##     i1 <- as.nanoival("-2015-01-01 12:00:03 -> 2015-01-01 12:00:05-")
-##     i2 <- as.nanoival("-2015-01-01 12:00:03 -> 2015-01-01 12:00:05-")
-##     r  <- vector(mode="interval", length=0)
-##     checkEquals(setdiff(i1, i2), r)
-## }
+test_setdiff_interval_interval_oo_oo__2_eq_1 <- function() {
+    i1 <- as.nanoival("-2015-01-01 12:00:03 -> 2015-01-01 12:00:05-")
+    i2 <- as.nanoival("-2015-01-01 12:00:03 -> 2015-01-01 12:00:05-")
+    r  <- new("nanoival", as.complex(NULL))
+    checkIdentical(setdiff(i1, i2), r)
+}
 ## 1: c-----------c
 ## 2: o-----------o
 ## r: c-----------c

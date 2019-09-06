@@ -194,4 +194,85 @@ inline bool end_le_start(const interval& i1, const interval& i2) {
 }
 
 
+// Unions --------------------------------------------------------
+/// In unions, we have the following rules: oo is disjoint, but oc,
+/// co, and cc touch
+// interval components comparators:
+inline bool union_start_lt(std::int64_t s1, bool sopen1, std::int64_t s2, bool sopen2) {
+  if (s1 < s2) return true;
+  if (s1 > s2) return false;
+  return sopen1 || sopen2;
+}
+inline bool union_start_gt(std::int64_t s1, bool sopen1, std::int64_t s2, bool sopen2) {
+  if (s1 > s2) return true;
+  if (s1 < s2) return false;
+  return sopen1 || sopen2;
+}
+inline bool union_start_le(std::int64_t s1, bool sopen1, std::int64_t s2, bool sopen2) {
+  return !union_start_gt(s1, sopen1, s2, sopen2);
+}
+inline bool union_start_ge(std::int64_t s1, bool sopen1, std::int64_t s2, bool sopen2) {
+  return !union_start_lt(s1, sopen1, s2, sopen2);
+}
+inline bool union_end_lt(std::int64_t e1, bool eopen1, std::int64_t e2, bool eopen2) {
+  if (e1 < e2) return true;
+  if (e1 > e2) return false;
+  return eopen1 && eopen2;
+}
+inline bool union_end_gt(std::int64_t e1, bool eopen1, std::int64_t e2, bool eopen2) {
+  if (e1 > e2) return true;
+  if (e1 < e2) return false;
+  return eopen1 && eopen2;
+}
+inline bool union_end_le(std::int64_t e1, bool eopen1, std::int64_t e2, bool eopen2) {
+  return !union_end_gt(e1, eopen1, e2, eopen2);
+}
+inline bool union_end_ge(std::int64_t e1, bool eopen1, std::int64_t e2, bool eopen2) {
+  return !union_end_lt(e1, eopen1, e2, eopen2);
+}
+
+// interval comparators:
+inline bool union_start_lt(const interval& i1, const interval& i2) {
+  return union_start_lt(i1.s, i1.sopen, i2.s, i2.sopen);
+}
+inline bool union_start_gt(const interval& i1, const interval& i2) {
+  return union_start_gt(i1.s, i1.sopen, i2.s, i2.sopen);
+}
+inline bool union_start_le(const interval& i1, const interval& i2) {
+  return !union_start_gt(i1,i2);
+}
+inline bool union_start_ge(const interval& i1, const interval& i2) {
+  return !union_start_lt(i1,i2);
+}
+inline bool union_end_lt(const interval& i1, const interval& i2) {
+  return union_end_lt(i1.e, i1.eopen, i2.e, i2.eopen);
+}
+inline bool union_end_gt(const interval& i1, const interval& i2) {
+  return union_end_gt(i1.e, i1.eopen, i2.e, i2.eopen);
+}
+inline bool union_end_le(const interval& i1, const interval& i2) {
+  return !union_end_gt(i1,i2);
+}
+inline bool union_end_ge(const interval& i1, const interval& i2) {
+  return !union_end_lt(i1,i2);
+}
+
+/// True if the end of 'i1' is smaller than the start of 'i2'. This
+/// tests that 'i1' and 'i2' are disjoint and 'i2' is after 'i1'.
+inline bool union_end_lt_start(const interval& i1, const interval& i2) {
+  return union_end_lt(i1.e, i1.eopen, i2.s, i2.sopen);
+}
+inline bool union_end_gt_start(const interval& i1, const interval& i2) {
+  return union_end_gt(i1.e, i1.eopen, i2.s, i2.sopen);
+}
+/// True if the end of 'i1' is greater or equal than the start of
+/// 'i2'. This tests that 'i1' and 'i2' "touch" and that 'i2' is
+/// after 'i1'.
+inline bool union_end_ge_start(const interval& i1, const interval& i2) {
+  return !union_end_lt_start(i1, i2);
+}
+inline bool union_end_le_start(const interval& i1, const interval& i2) {
+  return !union_end_gt_start(i1, i2);
+}
+
 #endif
