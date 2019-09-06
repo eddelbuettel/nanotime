@@ -290,7 +290,7 @@ setMethod("-", c("nanotime", "character"),
 ##' @export
 setMethod("-", c("nanotime", "period"),
           function(e1, e2) {
-              stop(paste0("binary '-' is not defined for \"nanotime\" and \"period\"",
+              stop(paste0("binary '-' is not defined for \"nanotime\" and \"period\" ",
                           "objects; instead use \"minus(e1, e2, tz)\""))
           })
 
@@ -342,18 +342,6 @@ setMethod("-", c("nanotime", "ANY"),
               }
           })
 
-setGeneric("minus", function(e1, e2, tz) standardGeneric("minus"))
-
-##' @rdname nanotime
-##' @export
-setMethod("minus", c("nanotime", "period"),
-          function(e1, e2, tz) {
-              res <- .Call('minus_nanotime_period', e1, e2, tz)
-              oldClass(res) <- "integer64"
-              new("nanotime", res)
-          })
-
-
 
 ## ----------- `+`
 ##' @rdname nanotime
@@ -399,6 +387,13 @@ setMethod("+", c("nanotime", "numeric"),
 
 ##' @rdname nanotime
 ##' @export
+setMethod("+", c("nanotime", "duration"),
+          function(e1, e2) {
+              new("nanotime", S3Part(e1, strictS3=TRUE) + S3Part(e2, strictS3=TRUE))
+          })
+
+##' @rdname nanotime
+##' @export
 setMethod("+", c("ANY", "nanotime"),
           function(e1, e2) {
               stop("invalid operand types")
@@ -423,18 +418,6 @@ setMethod("+", c("numeric", "nanotime"),
 setMethod("+", c("nanotime", "nanotime"),
           function(e1, e2) {
               stop("invalid operand types")
-          })
-
-
-setGeneric("plus", function(e1, e2, tz) standardGeneric("plus"))
-
-##' @rdname nanotime
-##' @export
-setMethod("plus", c("nanotime", "period"),
-          function(e1, e2, tz) {
-              res <- .Call('plus_nanotime_period', e1, e2, tz)
-              oldClass(res) <- "integer64"
-              new("nanotime", res)
           })
 
 

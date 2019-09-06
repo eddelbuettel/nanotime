@@ -270,7 +270,7 @@ test_summary <- function() {
     checkEquals(summary(nanotime(1:5)), expected)
 }
 
-## operation exceptions
+## Arith
 test_unary_minus <- function() {
     checkException(-nanotime(1),
                    msg="-nanotime(1) : unary '-' is not defined for \"nanotime\" objects")
@@ -279,25 +279,45 @@ test_unary_plus <- function() {
     checkException(-nanotime(1),
                    msg="+nanotime(1) : unary '+' is not defined for \"nanotime\" objects")
 }
-test_binary_mul <- function() {
-    checkException(nanotime(1) * nanotime(2),
-                   msg="operation is not defined for \"nanotime\" objects")
-}
 test_ANY_minus_nano <- function() {
     checkException(1 - nanotime(2), msg="invalid operand types")
+}
+test_nano_minus_period <- function() {
+    msg <- paste0("binary '-' is not defined for \"nanotime\" and ",
+                  "\"period\" objects; instead use \"minus(e1, e2, tz)")
+    checkException(nanotime(1) - as.period("2m"), msg=msg) 
 }
 test_nano_minus_ANY <- function() {
     checkException(nanotime(1) - "a", msg="invalid operand types")
 }
+test_nano_minus_duration <- function() {
+    nt <- nanotime(2000)
+    checkIdentical(nt - as.duration(2000), nanotime(0))
+}
+## +
 test_ANY_plus_nano <- function() {
     checkException("a" + nanotime(2), msg="invalid operand types")
 }
 test_nano_plus_ANY <- function() {
     checkException(nanotime(1) + "a", msg="invalid operand types")
 }
+test_nano_plus_period <- function() {
+    msg <- paste0("binary '+' is not defined for \"nanotime\" and ",
+                  "\"period\" objects; instead use \"minus(e1, e2, tz)")
+    checkException(nanotime(1) + as.period("2m"), msg=msg) 
+}
+test_nano_plus_duration <- function() {
+    nt <- nanotime(2000)
+    checkIdentical(nt + as.duration(2000), nanotime(4000))
+}
+## *
 test_nano_mul_nano <- function() {
     checkException(nanotime(1) * nanotime(1),
                    msg="operation not defined for \"nanotime\" objects")
+}
+test_nano_mul_nano <- function() {
+    checkException(nanotime(1) * nanotime(2),
+                   msg="operation is not defined for \"nanotime\" objects")
 }
 test_nano_mul_ANY <- function() {
     checkException(nanotime(1) * 1, msg="operation not defined for \"nanotime\" objects")
