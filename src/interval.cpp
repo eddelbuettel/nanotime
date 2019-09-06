@@ -266,12 +266,14 @@ RcppExport SEXP _nanoival_intersect(SEXP nanoival1, SEXP nanoival2) {
 
     R_xlen_t i1 = 0, i2 = 0;
     while (i1 < nv1.size() && i2 < nv2.size()) {
-      if (v1[i1].s > v2[i2].e) {
+      if (v1[i1].e <= v2[i2].s && (v1[i1].eopen || v2[i2].sopen)) {
         ++i1;
         continue;
-      } else if (v2[i2].s > v1[i1].e) {
-        ++i1;
+      } else if (v2[i2].e <= v1[i1].s && (v1[i1].sopen || v2[i2].eopen)) {
+        ++i2;
         continue;
+      } else {
+        
       }
 
       auto v1_gt_v2 = start_gt(v1[i1], v2[i2]);

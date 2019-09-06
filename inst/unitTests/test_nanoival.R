@@ -659,16 +659,16 @@ test_intersect_interval_interval_co_oc__2_lg_1 <- function() {
 ## 1: c-----------o
 ## 2:             c-----------c
 ## r: 
-test_intersect_interval_interval_co_oc__2_lg_1 <- function() {
+test_intersect_interval_interval_co_cc__2_lg_1 <- function() {
     i1 <- as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05-")
     i2 <- as.nanoival("+2015-01-01 12:00:05 -> 2015-01-01 12:00:07+")
-    r  <- new("nanoival", as.complex(NULL))
+    r  <- as.nanoival(NULL)
     checkIdentical(intersect(i2, i1), r)
 }
 ## 1: c-----------c
 ## 2:             o-----------c
 ## r: 
-test_intersect_interval_interval_co_oc__2_lg_1 <- function() {
+test_intersect_interval_interval_cc_oc__2_lg_1 <- function() {
     i1 <- as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05+")
     i2 <- as.nanoival("-2015-01-01 12:00:05 -> 2015-01-01 12:00:07+")
     r  <- as.nanoival(NULL)
@@ -677,7 +677,7 @@ test_intersect_interval_interval_co_oc__2_lg_1 <- function() {
 ## 1: c-----------c
 ## 2:             c-----------c
 ## r:             cc
-test_intersect_interval_interval_co_oc__2_lg_1 <- function() {
+test_intersect_interval_interval_cc_cc__2_lg_1 <- function() {
     i1 <- as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05+")
     i2 <- as.nanoival("+2015-01-01 12:00:05 -> 2015-01-01 12:00:07+")
     r  <- as.nanoival("+2015-01-01 12:00:05 -> 2015-01-01 12:00:05+")
