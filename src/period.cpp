@@ -32,7 +32,7 @@ extern "C" int getOffset(long long s, const char* tzstr);
 
 static inline Global::duration getOffsetCnv(const Global::dtime& dt, const std::string& z) {
   typedef int GET_OFFSET_FUN(long long, const char*); 
-  GET_OFFSET_FUN *getOffset = (GET_OFFSET_FUN *) R_GetCCallable("RcppCCTZ", "getOffset" );
+  GET_OFFSET_FUN *getOffset = (GET_OFFSET_FUN *) R_GetCCallable("RcppCCTZ", "_RcppCCTZ_getOffset" );
 
   auto offset = getOffset(std::chrono::duration_cast<std::chrono::seconds>(dt.time_since_epoch()).count(), z.c_str());
   return Global::duration(offset).count() * std::chrono::seconds(1);

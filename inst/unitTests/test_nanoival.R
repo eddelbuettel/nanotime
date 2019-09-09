@@ -796,6 +796,34 @@ test_union_interval_interval_no_overlap_cc_more  <- function() {
 ## setdiff
 ## --------------------------------------------------------------------------
 
+## time - interval
+## 1: ..........
+## 2:   c----c
+## r: ..      ..
+test_sediff_idx_time_interval_cc <- function() {
+    a <- seq(nanotime("2012-12-12 12:12:12"), length.out=10, by=one_second)
+    idx <- as.nanoival("+2012-12-12 12:12:14 -> 2012-12-12 12:12:19+")
+    r <- c(1, 2, 9, 10)
+    checkIdentical(setdiff.idx(a, idx), r)
+}
+## time - interval
+## 1: ..........
+## 2:   o----o
+## r: ...    ...
+test_sediff_idx_time_interval_oo <- function() {
+    a <- seq(nanotime("2012-12-12 12:12:12"), length.out=10, by=one_second)
+    idx <- as.nanoival("-2012-12-12 12:12:14 -> 2012-12-12 12:12:19-")
+    r <- c(1, 2, 3, 8, 9, 10)
+    checkIdentical(setdiff.idx(a, idx), r)
+}
+test_sediff_idx_time_interval_unsorted <- function() {
+    a <- seq(nanotime("2012-12-12 12:12:12"), length.out=10, by=one_second)
+    a[1]  <- a[10]                      # make it unsorted
+    idx <- as.nanoival("-2012-12-12 12:12:14 -> 2012-12-12 12:12:19-")
+    checkException(setdiff.idx(a, idx), "x must be sorted")
+}
+
+
 ## time - interval:
 ## 1: as.nanoival("-----------")
 ## 2:    as.nanoival("---")

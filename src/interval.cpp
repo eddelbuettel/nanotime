@@ -535,21 +535,18 @@ RcppExport SEXP _nanoival_minus(SEXP n1, SEXP n2) {
 
 
 template <typename T, typename U>
-static Rcpp::List setdiff_idx(const T* v1, size_t v1_size, const U* v2, size_t v2_size)
+static Rcpp::NumericVector setdiff_idx(const T* v1, size_t v1_size, const U* v2, size_t v2_size)
 {
   Rcpp::NumericVector res_first;
-  Rcpp::NumericVector res_second;
   size_t i1 = 0, i2 = 0;
   while (i1 < v1_size && i2 < v2_size) {
     if (v1[i1] < v2[i2]) {
-      res_first.push_back(i1+1);
+      res_first.push_back(i1+1); // too expensive LLL
       ++i1;
     } else if (v1[i1] > v2[i2]) {
-      res_second.push_back(i2+1);
       ++i2;
     } else { 
       ++i1;
-      ++i2;
     }
   }
 
@@ -558,14 +555,8 @@ static Rcpp::List setdiff_idx(const T* v1, size_t v1_size, const U* v2, size_t v
     res_first.push_back(i1+1);
     ++i1;
   }
-  // pick up elts left in v2:
-  while (i2 < v2_size) {
-    res_second.push_back(i2+1);
-    ++i2;
-  }
-  
-  return Rcpp::List::create(Rcpp::Named("x") = res_first,
-                            Rcpp::Named("y") = res_second);
+ 
+  return res_first;
 }
 
 
@@ -573,10 +564,10 @@ RcppExport SEXP _nanoival_setdiff_idx_time_interval(SEXP sv1, SEXP sv2)
 {
   try {
     const Rcpp::NumericVector nv1(sv1);
-    const Rcpp::NumericVector nv2(sv2);  
+    const Rcpp::ComplexVector cv2(sv2);  
     const Global::dtime* v1 = reinterpret_cast<const Global::dtime*>(&nv1[0]);
-    const interval*      v2 = reinterpret_cast<const interval*>(&nv2[0]);
-    return setdiff_idx(v1, nv1.size(), v2, nv2.size());
+    const interval*      v2 = reinterpret_cast<const interval*>(&cv2[0]);
+    return setdiff_idx(v1, nv1.size(), v2, cv2.size());
   } catch(std::exception &ex) {	
     forward_exception_to_r(ex);
   } catch(...) { 

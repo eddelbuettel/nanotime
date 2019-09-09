@@ -45,15 +45,24 @@ test_period <- function() {
 ## accessors:
 test_period.day <- function() {
     p1 <- as.period(paste0(1:10, "d"))
-    checkEquals(period.day(p1), 1:10, tolerance=0)
+    names(p1) <- 1:10
+    expected  <- as.numeric(1:10)
+    names(expected)  <- 1:10
+    checkIdentical(period.day(p1), expected)
 }
 test_period.month <- function() {
     p1 <- as.period(paste0(1:10, "m"))
-    checkEquals(period.month(p1), 1:10, tolerance=0)
+    names(p1) <- 1:10
+    expected  <- as.numeric(1:10)
+    names(expected)  <- 1:10
+    checkIdentical(period.month(p1), expected)
 }
 test_period.day <- function() {
     p1 <- as.period(1:10)
-    checkEquals(period.duration(p1), as.duration(1:10), tolerance=0)
+    names(p1) <- 1:10
+    expected  <- as.numeric(1:10)
+    names(expected)  <- 1:10
+    checkIdentical(period.duration(p1), as.duration(expected))
 }
 
 ## show/print/as.character
@@ -374,23 +383,23 @@ test_period_c <- function() {
 
 test_plus_nanotime_period <- function() {
     nt <- nanotime("2018-01-01T05:00:00.000000000+00")
-    p  <- as.period("4m")
+    p  <- c(p=as.period("4m"))
     tz <- "America/New_York"
-    expected <- nanotime("2018-05-01T00:00:00.000000000-04:00")
+    expected <- c(p=nanotime("2018-05-01T00:00:00.000000000-04:00"))
     checkIdentical(plus(nt, p, tz), expected)
 }
 test_plus_period_nanotime <- function() {
     nt <- nanotime("2018-01-01T05:00:00.000000000+00")
-    p  <- as.period("4m")
+    p  <- c(p=as.period("4m"))
     tz <- "America/New_York"
-    expected <- nanotime("2018-05-01T00:00:00.000000000-04:00")
+    expected <- c(p=nanotime("2018-05-01T00:00:00.000000000-04:00"))
     checkIdentical(plus(p, nt, tz), expected)
 }
 test_minus_nanotime_period <- function() {
-    nt <- nanotime("2018-05-01T00:00:00.000000000-04:00")
-    p  <- as.period("4m")
+    nt <- c(p1=nanotime("2018-05-01T00:00:00.000000000-04:00"))
+    p  <- c(p2=as.period("4m"))
     tz <- "America/New_York"
-    expected <- nanotime("2018-01-01T00:00:00.000000000-05:00")
+    expected <- c(p1=nanotime("2018-01-01T00:00:00.000000000-05:00"))
     checkIdentical(minus(nt, p, tz), expected)
 }
 test_minus_period_nanotime <- function() {
