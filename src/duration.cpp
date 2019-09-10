@@ -56,10 +56,7 @@ Global::duration from_string(const std::string& str) {
     ++s;
   }
 
-  if (s == e) 
-    return sign*d;
-  else
-    throw std::range_error("cannot parse duration");
+  return sign*d;
 }
 
 

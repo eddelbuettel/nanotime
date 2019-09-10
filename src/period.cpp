@@ -123,9 +123,6 @@ std::string to_string(const period& p) {
 period plus (const period&    p, Global::duration d) {
   return period(p.getMonths(), p.getDays(), p.getDuration() + d);
 }
-period plus (Global::duration d, const period& p) {
-  return period(p.getMonths(), p.getDays(), p.getDuration() + d);
-}
 period minus(const period&    p, Global::duration d){
   return period(p.getMonths(), p.getDays(), p.getDuration() - d);
 }
@@ -177,10 +174,6 @@ Global::dtime plus (const Global::dtime& dt, const period& p, const std::string&
   return res;
 }
 
-Global::dtime plus (const period& p, const Global::dtime& dt, const std::string& z) {
-  return plus(dt, p, z);
-}
-
 Global::dtime minus(const Global::dtime& dt, const period& p, const std::string& z) {
   return plus(dt, -p, z);
 }
@@ -190,10 +183,6 @@ interval plus(const interval& i, const period& p, const std::string& z) {
                   plus(Global::dtime{Global::duration{i.e}}, p, z), i.sopen, i.eopen);
 }
   
-interval plus(const period& p, const interval& i, const std::string& z) {
-  return plus(i, p, z);
-}
-
 interval minus(const interval& i, const period& p, const std::string& z) {
   return plus(i, -p, z);
 }
@@ -546,7 +535,7 @@ RcppExport SEXP plus_period_integer64(SEXP e1_p, SEXP e2_p) {
     for (size_t i=0; i<pres.size(); ++i) {
       period pu1; memcpy(&pu1, reinterpret_cast<const char*>(&e1_n[i]), sizeof(period));
       Global::duration dur; memcpy(&dur, reinterpret_cast<const char*>(&e2_n[i]), sizeof(dur));
-      pu1.setDuration(pu1.getDuration() + dur);
+      pu1 = plus(pu1, dur);
       memcpy(&pres[i], &pu1, sizeof(pu1)); 
     }
     copyNames(e1_cv, e2_nv, e1_n.isScalar(), e2_n.isScalar(), res);    
@@ -571,7 +560,7 @@ RcppExport SEXP minus_period_integer64(SEXP e1_p, SEXP e2_p) {
     for (size_t i=0; i<pres.size(); ++i) {
       period pu1; memcpy(&pu1, reinterpret_cast<const char*>(&e1_n[i]), sizeof(period));
       Global::duration dur; memcpy(&dur, reinterpret_cast<const char*>(&e2_n[i]), sizeof(dur));
-      pu1.setDuration(pu1.getDuration() - dur);
+      pu1 = minus(pu1, dur);
       memcpy(&pres[i], &pu1, sizeof(pu1)); 
     }
     copyNames(e1_cv, e2_nv, e1_n.isScalar(), e2_n.isScalar(), res);    

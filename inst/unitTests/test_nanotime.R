@@ -358,3 +358,16 @@ test_square_bracket <- function() {
     checkEquals(times[2], times[[2]])
     checkEquals(times[3], times[[3]])
 }
+
+## all.equal
+test_all.equal_nanotime_any <- function() {
+    checkTrue(!isTRUE(all.equal(nanotime(1), "a")))
+}
+test_all.equal_any_nanotime <- function() {
+    checkTrue(!isTRUE(all.equal("a", nanotime(1))))
+}
+test_all.equal_nanotime_nanotime <- function() {
+    checkTrue(isTRUE(all.equal(nanotime(1), nanotime(1))))
+    ## LLL waiting for a fix from 'bit64'
+    ## checkTrue(!isTRUE(all.equal(nanotime(1), nanotime(2))))  
+}

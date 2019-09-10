@@ -19,6 +19,15 @@ test_as.period_character <- function() {
     checkEquals(period.day(p3[1]), 1, tolerance=0)
     checkEquals(period.day(p3[2]), 2, tolerance=0)
     checkEquals(period.day(p3[3]), 3, tolerance=0)    
+
+    ## check year and week
+    checkIdentical(as.character(as.period("1y/00:01:01")), "12m0d/00:01:01")
+    checkIdentical(as.character(as.period("1w/00:01:01")), "0m7d/00:01:01")
+}
+test_as.period_character_error <- function() {
+    checkException(as.period("1wm00:01:01"), "cannot parse period")
+    checkException(as.period("1ym00:01:01"), "cannot parse period")
+    checkException(as.period("1dm00:01:01"), "cannot parse period")
 }
 test_as.period_integer64 <- function() {
     p1 <- as.period(as.integer64(1:10))
@@ -57,7 +66,7 @@ test_period.month <- function() {
     names(expected)  <- 1:10
     checkIdentical(period.month(p1), expected)
 }
-test_period.day <- function() {
+test_period.duration <- function() {
     p1 <- as.period(1:10)
     names(p1) <- 1:10
     expected  <- as.numeric(1:10)
@@ -77,6 +86,11 @@ test_print <- function() {
 test_as.character <- function() {
   p1 <- as.character(as.period("2m2d/2:02:02.20001"))
   checkEquals(p1, "2m2d/02:02:02.200_010")
+}
+test_as.character_named <- function() {
+  p1 <- as.character(c(a=as.period("2m2d/2:02:02.20001"),
+                       b=as.period("2m2d/2:02:02.20002")))
+  checkEquals(p1, c(a="2m2d/02:02:02.200_010", b="2m2d/02:02:02.200_020"))
 }
 
 ## subset:
@@ -290,6 +304,7 @@ test_period_div_numeric <- function() {
     checkEquals(as.period("5m5d") / 2.5, as.period("2m2d"), tolerance=0)
     checkEquals(as.period(4) / c(4,2,1), as.period(c(1,2,4)), tolerance=0)
     checkEquals(as.period(4:2) / c(4,2,1), as.period(c(1,1,2)), tolerance=0)
+    checkException(as.period("2m") / 0, "divide by zero")
 }
 test_period_div_integer64 <- function() {
     checkEquals(as.period(4) / as.integer64(3), as.period(1), tolerance=0)
@@ -309,6 +324,12 @@ test_period_div_any <- function() {
 test_any_div_period <- function() {
     checkException("a" / as.period(1), "operation not defined for \"period\" objects")
 }
+test_Logic_period_any <- function() {
+    checkException(as.period(1) | "a", "operation not defined for \"period\" objects")
+}
+test_Logic_any_period <- function() {
+    checkException("a" | as.period(1), "operation not defined for \"period\" objects")
+}
 
 ## Math/Math2/Summary/Complex
 test_period_Math <- function() {
@@ -324,6 +345,12 @@ test_period_Summary  <- function() {
 }
 test_period_Complex  <- function() {
     checkException(Arg(as.period(1)), "operation not defined for \"period\" objects")  
+}
+test_binary_plus_period_nanotime <- function() {
+    checkException(as.period(1) + nanotime(1), "invalid operand types")
+}
+test_binary_plus_nanotime_period <- function() {
+    checkException(nanotime(1) + as.period(1), "invalid operand types")
 }
 
 ## Compare

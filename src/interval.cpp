@@ -46,9 +46,11 @@ std::ostream &operator<<(std::ostream &stream,
 #endif
 }
 
+#if 0
 static void print(const interval& i) {
   Rcpp::Rcout << (i.sopen ? "-" : "+") << i.s << "->" << i.e << (i.eopen ? "-" : "+") << std::endl;
 }
+#endif
 
 template <typename T, typename U>
 static Rcpp::List intersect_idx(const T* v1, size_t v1_size, const U* v2, size_t v2_size) 
@@ -416,7 +418,7 @@ RcppExport SEXP _nanoival_is_unsorted(SEXP nanoival, SEXP strictly) {
 RcppExport SEXP _nanoival_sort(SEXP nanoival, SEXP decreasing) {
   try {
     const Rcpp::ComplexVector nvec(nanoival);
-    Rcpp::ComplexVector res(nvec);
+    Rcpp::ComplexVector res = clone(nvec);
     interval* ival_ptr = reinterpret_cast<interval*>(&res[0]);
     const auto ival_len = res.size();
     interval* start = ival_ptr;
@@ -593,14 +595,20 @@ RcppExport SEXP _nanoival_new(SEXP start, SEXP end, SEXP sopen, SEXP eopen) {
   }
 
   Rcpp::ComplexVector res(nvs.size());
-  for (R_xlen_t i=0; i < nvs.size(); ++i) {
-    const double d1 = nvs[i];
-    const double d2 = nve[i];
-    std::int64_t i1, i2;
-    memcpy(&i1, &d1, sizeof(double));
-    memcpy(&i2, &d2, sizeof(double));
-    const ival_union iu { lvs[i], i1, lve[i], i2 };
-    res[i] = Rcomplex{iu.dbl2.d1, iu.dbl2.d2 };
+  try {
+    for (R_xlen_t i=0; i < nvs.size(); ++i) {
+      const double d1 = nvs[i];
+      const double d2 = nve[i];
+      std::int64_t i1, i2;
+      memcpy(&i1, &d1, sizeof(double));
+      memcpy(&i2, &d2, sizeof(double));
+      const interval ival { i1, i2, lvs[i], lve[i] };
+      memcpy(&res[i], &ival, sizeof(ival));
+    }
+  } catch(std::exception &ex) {	
+    forward_exception_to_r(ex);
+  } catch(...) { 
+    ::Rf_error("c++ exception (unknown reason)"); 
   }
 
   return res;

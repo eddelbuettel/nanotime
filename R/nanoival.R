@@ -455,15 +455,16 @@ setMethod("+", c("nanoival", "nanoival"),
 ##' @export
 setMethod("Arith", c("nanoival", "ANY"),
           function(e1, e2) {
-              callNextMethod(S3Part(e1, strictS3=TRUE), e2)
+              stop("operation not defined for \"nanoival\" objects")           
           })
 
 ##' @rdname nanoival
 ##' @export
 setMethod("Compare", c("nanoival", "ANY"),
           function(e1, e2) {
-              callNextMethod(S3Part(e1, strictS3=TRUE), e2)
+              stop("invalid operand types")
           })
+
 
 ##' @rdname nanoival
 ##' @export
@@ -504,30 +505,6 @@ setMethod("Summary", c("nanoival"),
               ## this is the same error message that R gives for sum("A")
               stop("invalid 'type' (nanoival) of argument")
           })
-
-##' @rdname nanoival
-##' @export
-setMethod("min", c("nanoival"),
-          function(x, ..., na.rm = FALSE) {
-              ## LLL
-              new("nanoival", callNextMethod())
-          })
-
-##' @rdname nanoival
-##' @export
-setMethod("max", c("nanoival"),
-          function(x, ..., na.rm = FALSE) {
-              ## LLL
-              new("nanoival", callNextMethod())
-          })
-
-##' @rdname nanoival
-##' @export
-setMethod("range", c("nanoival"),
-          function(x, ..., na.rm = FALSE) {
-              new("nanoival", callNextMethod())
-          })
-
 
 ##' @rdname nanoival
 ##' @export

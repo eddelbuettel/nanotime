@@ -300,11 +300,6 @@ setMethod("-", c("integer64", "period"),
               .Call("minus_integer64_period", as.integer64(e1), e2)
           })
 
-## setMethod("-", c("integer", "period"),
-##           function(e1, e2) {
-##               .Call("minus_integer64_period", as.integer64(e1), e2)
-##           })
-
 setMethod("-", c("numeric", "period"),
           function(e1, e2) {
               .Call("minus_integer64_period", as.integer64(e1), e2)

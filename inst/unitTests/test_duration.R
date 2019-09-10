@@ -12,13 +12,17 @@ test_duration <- function() {
 }
 test_as.duration_character_and_numeric <- function() {
     checkIdentical(as.duration("1:00:00"), as.duration(hour))
+    checkIdentical(as.duration("-1:00:00"), -as.duration(hour))
     checkIdentical(as.duration("0:01:00"), as.duration(minute))
     checkIdentical(as.duration("0:00:01"), as.duration(sec))
     checkIdentical(as.duration("0:00:00.001"), as.duration(milli))
     checkIdentical(c(as.duration("1:00:00"), c(as.duration("2:00:00"))),
                 c(as.duration(hour), as.duration(2*hour)))
-
+    checkIdentical(as.duration(NA_integer64_), as.duration(as.integer64("-9223372036854775808")))
+    
+    checkException(as.duration("10:aa"), "cannot parse duration")
     checkException(as.duration("1000a"), "cannot parse duration")
+    checkException(as.duration("10:10:10.1000a"), "cannot parse duration")
     checkException(as.duration("a"), "cannot parse duration")
     checkException(as.duration(""), "cannot parse duration")
 }
@@ -42,10 +46,17 @@ test_as.integer64 <- function() {
 test_show <- function() {
   d <- duration(1,1,1,1)
   checkIdentical(show(d), "01:01:01.000_000_001")
+  checkIdentical(show(-d), "-01:01:01.000_000_001")
+  checkIdentical(show(as.duration(as.integer64("-9223372036854775808"))), "NA")
 }
 test_print <- function() {
   d <- duration(1,1,1,1)
   checkIdentical(print(d), "01:01:01.000_000_001")
+}
+test_print_name <- function() {
+  d <- duration(1,1,1,1)
+  names(d) <- "a"
+  checkIdentical(print(d), c(a="01:01:01.000_000_001"))
 }
 
 ## subset:
@@ -148,6 +159,9 @@ test_duration_minus_integer64 <- function() {
 test_numeric_minus_duration <- function() {
     checkIdentical(hour - as.duration("1:00:00"), as.duration("0:00:00"))
 }
+test_integer_minus_duration <- function() {
+    checkIdentical(as.integer(1e9) - as.duration("1:00:00"), as.duration("-00:59:59"))
+}
 ## LLL name issue here due do to underlying issues with 'bit64'
 ## test_numeric_minus_duration <- function() {
 ##     checkIdentical(2 - c(a=as.duration(1), b=as.duration(2)),
@@ -178,6 +192,9 @@ test_integer64_plus_duration <- function() {
 }
 test_duration_plus_integer64 <- function() {
     checkIdentical(as.duration("1:00:00") + as.integer64(hour), as.duration("2:00:00"))
+}
+test_duration_plus_numeric <- function() {
+    checkIdentical(as.duration("1:00:00") + hour, as.duration("2:00:00"))
 }
 test_numeric_plus_duration <- function() {
     checkIdentical(hour + as.duration("1:00:00"), as.duration("2:00:00"))
@@ -301,18 +318,33 @@ test_Logic <- function() {
 
 ## Math
 test_abs <- function() {
-  checkIdentical(abs(as.duration(-1)), as.duration(1))
+    checkIdentical(abs(as.duration(-1)), as.duration(1))
 }
 test_sign <- function() {
-  checkIdentical(sign(as.duration(-1)), as.integer64(-1))
-  checkIdentical(sign(as.duration(1)), as.integer64(1))
+    checkIdentical(sign(as.duration(-1)), as.integer64(-1))
+    checkIdentical(sign(as.duration(1)), as.integer64(1))
 }
 test_Math <- function() {
-  checkException(sqrt(as.duration(1)), "non-numeric argument to mathematical function")
+    checkException(sqrt(as.duration(1)), "non-numeric argument to mathematical function")
 }
 
 ## Math2
 
 test_Math2 <- function() {
-  checkException(round(as.duration(1)), "non-numeric argument to mathematical function")
+    checkException(round(as.duration(1)), "non-numeric argument to mathematical function")
+}
+
+## Compare
+test_Compare_duration_ANY <- function() {
+    checkTrue(is.na(as.duration(1) < "a")) # this is what "integer64" gives back, but do we want to change that to an error? LLL
+    ## not quite clear in R either:
+    ## > 1 < list(1)
+    ## [1] FALSE
+    ## > 1 > list(1)
+    ## [1] FALSE
+    ## > 1 == list(1)
+    ## [1] TRUE  
+}
+test_Compare_ANY_duration <- function() {
+    checkTrue(is.na("a" < as.duration(1))) # this is what "integer64" gives back, but do we want to change that to an error? LLL
 }
