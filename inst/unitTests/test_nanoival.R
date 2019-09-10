@@ -485,6 +485,7 @@ test_sort <- function() {
   v_descending <- as.nanoival(c(dd, cc, bb, aa))
   checkIdentical(sort(v_descending), v)
   checkIdentical(sort(v, decreasing=TRUE), v_descending)
+  checkException(sort(v, decreasing=as.logical(NULL)), v_descending)
 }
 
 ## c, subset, subassign and binds
@@ -695,6 +696,17 @@ test_intersect_interval_interval_cc_cc__2_lg_1 <- function() {
     i1 <- as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05+")
     i2 <- as.nanoival("+2015-01-01 12:00:05 -> 2015-01-01 12:00:07+")
     r  <- as.nanoival("+2015-01-01 12:00:05 -> 2015-01-01 12:00:05+")
+    checkIdentical(intersect(i2, i1), r)
+}
+## 1: c-----------c                c-----------c 
+## 2:               c-----------c
+## r:
+test_intersect_interval_interval_distinct_more <- function() {
+    i1 <- c(as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05+"),
+            as.nanoival("+2015-01-01 12:00:10 -> 2015-01-01 12:00:12+"))
+    i2 <-   as.nanoival("+2015-01-01 12:00:06 -> 2015-01-01 12:00:07+")
+    r  <- as.nanoival(NULL)
+    checkIdentical(intersect(i1, i2), r)
     checkIdentical(intersect(i2, i1), r)
 }
 

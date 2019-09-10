@@ -448,6 +448,15 @@ test_plus_nanoival_period <- function() {
     expected <- as.nanoival("+2018-05-01T00:00:00.000000000-04:00 -> 2018-05-01T18:00:00.000000000-04:00-")
     checkIdentical(plus(ni, p, tz), expected)
 }
+test_plus_nanoival_period_pre_1970 <- function() {
+    start <- nanotime("1969-01-01T05:00:00.000000000+00")
+    end <- nanotime("1969-01-01T23:00:00.000000000+00")
+    ni <- nanoival(start, end)
+    p  <- as.period("4m")
+    tz <- "America/New_York"
+    expected <- as.nanoival("+1969-05-01T00:00:00.000000000-04:00 -> 1969-05-01T18:00:00.000000000-04:00-")
+    checkIdentical(plus(ni, p, tz), expected)
+}
 test_plus_period_nanoival <- function() {
     start <- nanotime("2018-01-01T05:00:00.000000000+00")
     end <- nanotime("2018-01-01T23:00:00.000000000+00")

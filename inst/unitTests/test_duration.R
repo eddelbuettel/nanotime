@@ -227,7 +227,7 @@ test_duration_times_duration <- function() {
 ##     checkIdentical(1.5 * as.duration("00:01:00"), as.duration("00:01:30"))
 ## }
 test_numeric_times_duration <- function() {
-    checkIdentical(as.integer64(3) * as.duration("00:01:00"), as.duration("00:03:00"))
+    checkIdentical(3 * as.duration("00:01:00"), as.duration("00:03:00"))
 }
 test_integer64_times_duration <- function() {
     checkIdentical(as.integer64(3) * as.duration("00:01:00"), as.duration("00:03:00"))
@@ -347,4 +347,9 @@ test_Compare_duration_ANY <- function() {
 }
 test_Compare_ANY_duration <- function() {
     checkTrue(is.na("a" < as.duration(1))) # this is what "integer64" gives back, but do we want to change that to an error? LLL
+}
+
+## Arith
+test_Arith <- function() {
+    checkIdentical(as.duration(4) %% 3, as.integer64(1))
 }

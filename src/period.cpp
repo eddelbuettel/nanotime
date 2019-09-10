@@ -532,7 +532,7 @@ RcppExport SEXP plus_period_integer64(SEXP e1_p, SEXP e2_p) {
     const ConstPseudoVectorInt64 e2_n(e2_nv);
     Rcpp::ComplexVector res(std::max(e1_n.size(), e2_n.size()));
     PseudoVectorPrd pres(res);
-    for (size_t i=0; i<pres.size(); ++i) {
+    for (R_xlen_t i=0; i<pres.size(); ++i) {
       period pu1; memcpy(&pu1, reinterpret_cast<const char*>(&e1_n[i]), sizeof(period));
       Global::duration dur; memcpy(&dur, reinterpret_cast<const char*>(&e2_n[i]), sizeof(dur));
       pu1 = plus(pu1, dur);
@@ -557,7 +557,7 @@ RcppExport SEXP minus_period_integer64(SEXP e1_p, SEXP e2_p) {
     const ConstPseudoVectorInt64 e2_n(e2_nv);
     Rcpp::ComplexVector res(std::max(e1_n.size(), e2_n.size()));
     PseudoVectorPrd pres(res);
-    for (size_t i=0; i<pres.size(); ++i) {
+    for (R_xlen_t i=0; i<pres.size(); ++i) {
       period pu1; memcpy(&pu1, reinterpret_cast<const char*>(&e1_n[i]), sizeof(period));
       Global::duration dur; memcpy(&dur, reinterpret_cast<const char*>(&e2_n[i]), sizeof(dur));
       pu1 = minus(pu1, dur);
@@ -582,7 +582,7 @@ RcppExport SEXP multiplies_period_integer64(SEXP e1_p, SEXP e2_p) {
     const ConstPseudoVectorInt64 e2_n(e2_nv);
     Rcpp::ComplexVector res(std::max(e1_n.size(), e2_n.size()));
     PseudoVectorPrd pres(res);
-    for (size_t i=0; i<pres.size(); ++i) {
+    for (R_xlen_t i=0; i<pres.size(); ++i) {
       period pu1; memcpy(&pu1, reinterpret_cast<const char*>(&e1_n[i]), sizeof(period));
       uint64_t m; memcpy(&m, reinterpret_cast<const char*>(&e2_n[i]), sizeof(m));
       pu1 = pu1 * m;
@@ -607,7 +607,7 @@ RcppExport SEXP divides_period_integer64(SEXP e1_p, SEXP e2_p) {
     const ConstPseudoVectorInt64 e2_n(e2_nv);
     Rcpp::ComplexVector res(std::max(e1_n.size(), e2_n.size()));
     PseudoVectorPrd pres(res);
-    for (size_t i=0; i<pres.size(); ++i) {
+    for (R_xlen_t i=0; i<pres.size(); ++i) {
       period pu1; memcpy(&pu1, reinterpret_cast<const char*>(&e1_n[i]), sizeof(period));
       uint64_t m; memcpy(&m,   reinterpret_cast<const char*>(&e2_n[i]), sizeof(m));
       pu1 = pu1 / m;
@@ -632,7 +632,7 @@ RcppExport SEXP multiplies_period_double(SEXP e1_p, SEXP e2_p) {
     const ConstPseudoVectorDbl e2_n(e2_nv);
     Rcpp::ComplexVector res(std::max(e1_n.size(), e2_n.size()));
     PseudoVectorPrd pres(res);
-    for (size_t i=0; i<pres.size(); ++i) {
+    for (R_xlen_t i=0; i<pres.size(); ++i) {
       period pu1; memcpy(&pu1, reinterpret_cast<const char*>(&e1_n[i]), sizeof(period));
       double m;   memcpy(&m,   reinterpret_cast<const char*>(&e2_n[i]), sizeof(m));
       pu1 = pu1 * m;
@@ -657,7 +657,7 @@ RcppExport SEXP divides_period_double(SEXP e1_p, SEXP e2_p) {
     const ConstPseudoVectorDbl e2_n(e2_nv);
     Rcpp::ComplexVector res(std::max(e1_n.size(), e2_n.size()));
     PseudoVectorPrd pres(res);
-    for (size_t i=0; i<pres.size(); ++i) {
+    for (R_xlen_t i=0; i<pres.size(); ++i) {
       period pu1; memcpy(&pu1, reinterpret_cast<const char*>(&e1_n[i]), sizeof(period));
       double m;   memcpy(&m,   reinterpret_cast<const char*>(&e2_n[i]), sizeof(m));
       pu1 = pu1 / m;
@@ -682,7 +682,7 @@ RcppExport SEXP minus_integer64_period(SEXP e1_p, SEXP e2_p) {
     const ConstPseudoVectorPrd   e2_n(e2_cv);
     Rcpp::ComplexVector res(std::max(e1_n.size(), e2_n.size()));
     PseudoVectorPrd pres(res);
-    for (size_t i=0; i<pres.size(); ++i) {
+    for (R_xlen_t i=0; i<pres.size(); ++i) {
       period pu2;           memcpy(&pu2, reinterpret_cast<const char*>(&e2_n[i]), sizeof(pu2));
       Global::duration dur; memcpy(&dur, reinterpret_cast<const char*>(&e1_n[i]), sizeof(dur));
       pu2 = minus(dur, pu2);
@@ -708,7 +708,7 @@ RcppExport SEXP plus_nanotime_period(SEXP e1_p, SEXP e2_p, SEXP tz_p) {
     Rcpp::NumericVector res(std::max(e1_n.size(), e2_n.size()));
     PseudoVectorNano pres(res);
     const Rcpp::CharacterVector tz(tz_p);
-    for (size_t i=0; i<pres.size(); ++i) {
+    for (R_xlen_t i=0; i<pres.size(); ++i) {
       Global::dtime nano; memcpy(&nano, reinterpret_cast<const char*>(&e1_n[i]), sizeof(nano));
       period prd; memcpy(&prd, reinterpret_cast<const char*>(&e2_n[i]), sizeof(prd));      
       auto dt = plus(nano, prd, Rcpp::as<std::string>(tz[i]));
@@ -734,7 +734,7 @@ RcppExport SEXP minus_nanotime_period(SEXP e1_p, SEXP e2_p, SEXP tz_p) {
     Rcpp::NumericVector res(std::max(e1_n.size(), e2_n.size()));
     PseudoVectorNano pres(res);
     const Rcpp::CharacterVector tz(tz_p);
-    for (size_t i=0; i<pres.size(); ++i) {
+    for (R_xlen_t i=0; i<pres.size(); ++i) {
       Global::dtime nano; memcpy(&nano, reinterpret_cast<const char*>(&e1_n[i]), sizeof(nano));
       period prd; memcpy(&prd, reinterpret_cast<const char*>(&e2_n[i]), sizeof(prd));      
       auto dt = minus(nano, prd, Rcpp::as<std::string>(tz[i % tz.size()]));
@@ -760,7 +760,7 @@ RcppExport SEXP plus_nanoival_period(SEXP e1_p, SEXP e2_p, SEXP tz_p) {
     Rcpp::ComplexVector res(std::max(e1_n.size(), e2_n.size()));
     PseudoVectorPrd pres(res);
     const Rcpp::CharacterVector tz(tz_p);
-    for (size_t i=0; i<pres.size(); ++i) {
+    for (R_xlen_t i=0; i<pres.size(); ++i) {
       interval ival; memcpy(&ival, reinterpret_cast<const char*>(&e1_n[i]), sizeof(ival));      
       period prd; memcpy(&prd, reinterpret_cast<const char*>(&e2_n[i]), sizeof(prd));
       auto res_ival = plus(ival, prd, Rcpp::as<std::string>(tz[i % tz.size()]));
@@ -785,7 +785,7 @@ RcppExport SEXP minus_nanoival_period(SEXP e1_p, SEXP e2_p, SEXP tz_p) {
     Rcpp::ComplexVector res(std::max(e1_n.size(), e2_n.size()));
     PseudoVectorPrd pres(res);
     const Rcpp::CharacterVector tz(tz_p);
-    for (size_t i=0; i<pres.size(); ++i) {
+    for (R_xlen_t i=0; i<pres.size(); ++i) {
       interval ival; memcpy(&ival, reinterpret_cast<const char*>(&e1_n[i]), sizeof(ival));      
       period prd; memcpy(&prd, reinterpret_cast<const char*>(&e2_n[i]), sizeof(prd));
       auto res_ival = minus(ival, prd, Rcpp::as<std::string>(tz[i % tz.size()]));
