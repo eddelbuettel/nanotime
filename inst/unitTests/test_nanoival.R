@@ -26,17 +26,17 @@ test_as.nanoival <- function() {
         checkIdentical(eopen(ni), TRUE)
 }
 test_as.nanoival_vector <- function() {
-    ni <- as.nanoival(c(aa, bb, cc, dd))
-    checkIdentical(start(ni),  c(nanotime("2013-01-01 00:00:00"),
-                              nanotime("2014-01-01 00:00:00"),
-                              nanotime("2015-01-01 00:00:00"),
-                              nanotime("2016-01-01 00:00:00"))) &
-      checkIdentical(end(ni),  c(nanotime("2014-01-01 00:00:00"),
-                              nanotime("2015-01-01 00:00:00"),
-                              nanotime("2016-01-01 00:00:00"),
-                              nanotime("2017-01-01 00:00:00"))) &
-      checkIdentical(sopen(ni), c(FALSE, FALSE, TRUE, TRUE)) &
-      checkIdentical(eopen(ni), c(TRUE, FALSE, TRUE, FALSE))
+    ni <- as.nanoival(c(a=aa, b=bb, c=cc, d=dd))
+    checkIdentical(start(ni),  c(a=nanotime("2013-01-01 00:00:00"),
+                                 b=nanotime("2014-01-01 00:00:00"),
+                                 c=nanotime("2015-01-01 00:00:00"),
+                                 d=nanotime("2016-01-01 00:00:00"))) &
+      checkIdentical(end(ni),  c(a=nanotime("2014-01-01 00:00:00"),
+                                 b=nanotime("2015-01-01 00:00:00"),
+                                 c=nanotime("2016-01-01 00:00:00"),
+                                 d=nanotime("2017-01-01 00:00:00"))) &
+      checkIdentical(sopen(ni), c(a=FALSE, b=FALSE, c=TRUE, d=TRUE)) &
+      checkIdentical(eopen(ni), c(a=TRUE, b=FALSE, c=TRUE, d=FALSE))
 }
 test_nanoival <- function() {
   checkIdentical(nanoival(nanotime("2013-01-01 00:00:00"),
@@ -140,73 +140,73 @@ test_lt_non_overlapping <- function() {
     ## x: c----------o
     ## y:              c--------o
     x <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
-    y <- as.nanoival("+2015-01-01 00:00:00 -> 2016-01-01 00:00:00-")
-    checkIdentical(x < y, TRUE) &
-        checkIdentical(y < x, FALSE)
+    y <- as.nanoival(c(b="+2015-01-01 00:00:00 -> 2016-01-01 00:00:00-"))
+    checkIdentical(x < y, c(b=TRUE))
+    checkIdentical(y < x, c(b=FALSE))
 }
 test_lt_overlapping <- function() {
     ## x: c----------o
     ## y:       c--------o
     x <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
     y <- as.nanoival("+2013-06-01 00:00:00 -> 2016-01-01 00:00:00-")
-    checkIdentical(x < y, TRUE) &
-        checkIdentical(y < x, FALSE)
+    checkIdentical(x < y, TRUE)
+    checkIdentical(y < x, FALSE)
 }
 test_lt_same_end <- function() {
     ## x: c----------o
     ## y:       c----o
     x <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
     y <- as.nanoival("+2013-06-01 00:00:00 -> 2014-01-01 00:00:00-")
-    checkIdentical(x < y, TRUE) &
-        checkIdentical(y < x, FALSE)
+    checkIdentical(x < y, TRUE)
+    checkIdentical(y < x, FALSE)
 }
 test_lt_included <- function() {
     ## x: c----------o
     ## y:    c----o
     x <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
     y <- as.nanoival("+2013-06-01 00:00:00 -> 2013-07-01 00:00:00-")
-    checkIdentical(x < y, TRUE) &
-        checkIdentical(y < x, FALSE)
+    checkIdentical(x < y, TRUE)
+    checkIdentical(y < x, FALSE)
 }
 test_lt_same_start<- function() {
     ## x: c----------o
     ## y: c--------------o
     x <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
     y <- as.nanoival("+2013-01-01 00:00:00 -> 2015-01-01 00:00:00-")
-    checkIdentical(x < y, TRUE) &
-        checkIdentical(y < x, FALSE)
+    checkIdentical(x < y, TRUE)
+    checkIdentical(y < x, FALSE)
 }
 test_lt_same_open_start <- function() {
     ## x: c----------o
     ## y: o----------o
     x <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
     y <- as.nanoival("-2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
-    checkIdentical(x < y, TRUE) &
-        checkIdentical(y < x, FALSE)
+    checkIdentical(x < y, TRUE)
+    checkIdentical(y < x, FALSE)
 }
 test_lt_same_open_end <- function() {
     ## x: c----------o
     ## y: c----------c
     x <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
     y <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00+")
-    checkIdentical(x < y, TRUE) &
-        checkIdentical(y < x, FALSE)
+    checkIdentical(x < y, TRUE)
+    checkIdentical(y < x, FALSE)
 }
 test_lt_same <- function() {
     ## x: c----------o
     ## y: c----------o
     x <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
     y <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
-    checkIdentical(x < y, FALSE) &
-        checkIdentical(y < x, FALSE)
+    checkIdentical(x < y, FALSE)
+    checkIdentical(y < x, FALSE)
 }
 test_lt_same <- function() {
     ## x: c----------o
     ## y: c----------o
     x <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
     y <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
-    checkIdentical(x < y, FALSE) &
-        checkIdentical(y < x, FALSE)
+    checkIdentical(x < y, FALSE)
+    checkIdentical(y < x, FALSE)
 }
 test_lt_multiple <- function() {
     ## x: c----------o
@@ -228,64 +228,64 @@ test_le_non_overlapping <- function() {
     ## y:              c--------o
     x <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
     y <- as.nanoival("+2015-01-01 00:00:00 -> 2016-01-01 00:00:00-")
-    checkIdentical(x <= y, TRUE) &
-        checkIdentical(y <= x, FALSE)
+    checkIdentical(x <= y, TRUE)
+    checkIdentical(y <= x, FALSE)
 }
 test_le_overlapping <- function() {
     ## x: c----------o
     ## y:       c--------o
     x <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
     y <- as.nanoival("+2013-06-01 00:00:00 -> 2016-01-01 00:00:00-")
-    checkIdentical(x <= y, TRUE) &
-        checkIdentical(y <= x, FALSE)
+    checkIdentical(x <= y, TRUE)
+    checkIdentical(y <= x, FALSE)
 }
 test_le_same_end <- function() {
     ## x: c----------o
     ## y:       c----o
     x <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
     y <- as.nanoival("+2013-06-01 00:00:00 -> 2014-01-01 00:00:00-")
-    checkIdentical(x <= y, TRUE) &
-        checkIdentical(y <= x, FALSE)
+    checkIdentical(x <= y, TRUE)
+    checkIdentical(y <= x, FALSE)
 }
 test_le_included <- function() {
     ## x: c----------o
     ## y:    c----o
     x <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
     y <- as.nanoival("+2013-06-01 00:00:00 -> 2013-07-01 00:00:00-")
-    checkIdentical(x <= y, TRUE) &
-        checkIdentical(y <= x, FALSE)
+    checkIdentical(x <= y, TRUE)
+    checkIdentical(y <= x, FALSE)
 }
 test_le_same_start<- function() {
     ## x: c----------o
     ## y: c--------------o
     x <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
     y <- as.nanoival("+2013-01-01 00:00:00 -> 2015-01-01 00:00:00-")
-    checkIdentical(x <= y, TRUE) &
-        checkIdentical(y <= x, FALSE)
+    checkIdentical(x <= y, TRUE)
+    checkIdentical(y <= x, FALSE)
 }
 test_le_same_open_start <- function() {
     ## x: c----------o
     ## y: o----------o
     x <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
     y <- as.nanoival("-2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
-    checkIdentical(x <= y, TRUE) &
-        checkIdentical(y <= x, FALSE)
+    checkIdentical(x <= y, TRUE)
+    checkIdentical(y <= x, FALSE)
 }
 test_le_same_open_end <- function() {
     ## x: c----------o
     ## y: c----------c
     x <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
     y <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00+")
-    checkIdentical(x <= y, TRUE) &
-        checkIdentical(y <= x, FALSE)
+    checkIdentical(x <= y, TRUE)
+    checkIdentical(y <= x, FALSE)
 }
 test_le_same <- function() {
     ## x: c----------o
     ## y: c----------o
     x <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
     y <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
-    checkIdentical(x <= y, TRUE) &
-        checkIdentical(y <= x, TRUE)
+    checkIdentical(x <= y, TRUE)
+    checkIdentical(y <= x, TRUE)
 }
 
 ## gt
@@ -294,64 +294,64 @@ test_gt_non_overlapping <- function() {
     ## y:              c--------o
     x <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
     y <- as.nanoival("+2015-01-01 00:00:00 -> 2016-01-01 00:00:00-")
-    checkIdentical(x > y, FALSE) &
-        checkIdentical(y > x, TRUE)
+    checkIdentical(x > y, FALSE)
+    checkIdentical(y > x, TRUE)
 }
 test_gt_overlapping <- function() {
     ## x: c----------o
     ## y:       c--------o
     x <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
     y <- as.nanoival("+2013-06-01 00:00:00 -> 2016-01-01 00:00:00-")
-    checkIdentical(x > y, FALSE) &
-        checkIdentical(y > x, TRUE)
+    checkIdentical(x > y, FALSE)
+    checkIdentical(y > x, TRUE)
 }
 test_gt_same_end <- function() {
     ## x: c----------o
     ## y:       c----o
     x <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
     y <- as.nanoival("+2013-06-01 00:00:00 -> 2014-01-01 00:00:00-")
-    checkIdentical(x > y, FALSE) &
-        checkIdentical(y > x, TRUE)
+    checkIdentical(x > y, FALSE)
+    checkIdentical(y > x, TRUE)
 }
 test_gt_included <- function() {
     ## x: c----------o
     ## y:    c----o
     x <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
     y <- as.nanoival("+2013-06-01 00:00:00 -> 2013-07-01 00:00:00-")
-    checkIdentical(x > y, FALSE) &
-        checkIdentical(y > x, TRUE)
+    checkIdentical(x > y, FALSE)
+    checkIdentical(y > x, TRUE)
 }
 test_gt_same_start<- function() {
     ## x: c----------o
     ## y: c--------------o
     x <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
     y <- as.nanoival("+2013-01-01 00:00:00 -> 2015-01-01 00:00:00-")
-    checkIdentical(x > y, FALSE) &
-        checkIdentical(y > x, TRUE)
+    checkIdentical(x > y, FALSE)
+    checkIdentical(y > x, TRUE)
 }
 test_gt_same_open_start <- function() {
     ## x: c----------o
     ## y: o----------o
     x <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
     y <- as.nanoival("-2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
-    checkIdentical(x > y, FALSE) &
-        checkIdentical(y > x, TRUE)
+    checkIdentical(x > y, FALSE)
+    checkIdentical(y > x, TRUE)
 }
 test_gt_same_open_end <- function() {
     ## x: c----------o
     ## y: c----------c
     x <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
     y <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00+")
-    checkIdentical(x > y, FALSE) &
-        checkIdentical(y > x, TRUE)
+    checkIdentical(x > y, FALSE)
+    checkIdentical(y > x, TRUE)
 }
 test_gt_same <- function() {
     ## x: c----------c
     ## y: c----------c
     x <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00+")
     y <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00+")
-    checkIdentical(x > y, FALSE) &
-        checkIdentical(y > x, FALSE)
+    checkIdentical(x > y, FALSE)
+    checkIdentical(y > x, FALSE)
 }
 
 ## ge
@@ -360,64 +360,64 @@ test_ge_non_overlapping <- function() {
     ## y:              c--------o
     x <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
     y <- as.nanoival("+2015-01-01 00:00:00 -> 2016-01-01 00:00:00-")
-    checkIdentical(x >= y, FALSE) &
-        checkIdentical(y >= x, TRUE)
+    checkIdentical(x >= y, FALSE)
+    checkIdentical(y >= x, TRUE)
 }
 test_ge_overlapping <- function() {
     ## x: c----------o
     ## y:       c--------o
     x <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
     y <- as.nanoival("+2013-06-01 00:00:00 -> 2016-01-01 00:00:00-")
-    checkIdentical(x >= y, FALSE) &
-        checkIdentical(y >= x, TRUE)
+    checkIdentical(x >= y, FALSE)
+    checkIdentical(y >= x, TRUE)
 }
 test_ge_same_end <- function() {
     ## x: c----------o
     ## y:       c----o
     x <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
     y <- as.nanoival("+2013-06-01 00:00:00 -> 2014-01-01 00:00:00-")
-    checkIdentical(x >= y, FALSE) &
-        checkIdentical(y >= x, TRUE)
+    checkIdentical(x >= y, FALSE)
+    checkIdentical(y >= x, TRUE)
 }
 test_ge_included <- function() {
     ## x: c----------o
     ## y:    c----o
     x <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
     y <- as.nanoival("+2013-06-01 00:00:00 -> 2013-07-01 00:00:00-")
-    checkIdentical(x >= y, FALSE) &
-        checkIdentical(y >= x, TRUE)
+    checkIdentical(x >= y, FALSE)
+    checkIdentical(y >= x, TRUE)
 }
 test_ge_same_start<- function() {
     ## x: c----------o
     ## y: c--------------o
     x <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
     y <- as.nanoival("+2013-01-01 00:00:00 -> 2015-01-01 00:00:00-")
-    checkIdentical(x >= y, FALSE) &
-        checkIdentical(y >= x, TRUE)
+    checkIdentical(x >= y, FALSE)
+    checkIdentical(y >= x, TRUE)
 }
 test_ge_same_open_start <- function() {
     ## x: c----------o
     ## y: o----------o
     x <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
     y <- as.nanoival("-2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
-    checkIdentical(x >= y, FALSE) &
-        checkIdentical(y >= x, TRUE)
+    checkIdentical(x >= y, FALSE)
+    checkIdentical(y >= x, TRUE)
 }
 test_ge_same_open_end <- function() {
     ## x: c----------o
     ## y: c----------c
     x <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
     y <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00+")
-    checkIdentical(x >= y, FALSE) &
-        checkIdentical(y >= x, TRUE)
+    checkIdentical(x >= y, FALSE)
+    checkIdentical(y >= x, TRUE)
 }
 test_ge_same <- function() {
     ## x: o----------o
     ## y: o----------o
     x <- as.nanoival("-2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
     y <- as.nanoival("-2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
-    checkIdentical(x >= y, TRUE) &
-        checkIdentical(y >= x, TRUE)
+    checkIdentical(x >= y, TRUE)
+    checkIdentical(y >= x, TRUE)
 }
 
 
@@ -427,56 +427,56 @@ test_is_unsorted_non_overlapping <- function() {
     ## y:              c--------o
     x <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
     y <- as.nanoival("+2015-01-01 00:00:00 -> 2016-01-01 00:00:00-")
-    checkIdentical(is.unsorted(c(x, y)), FALSE) &
-        checkIdentical(is.unsorted(c(y, x)), TRUE)
+    checkIdentical(is.unsorted(c(x, y)), FALSE)
+    checkIdentical(is.unsorted(c(y, x)), TRUE)
 }
 test_is_unsorted_overlapping <- function() {
     ## x: c----------o
     ## y:       c--------o
     x <- as.nanoival("+2013-01-01 00:00:00 -> 2015-01-01 00:00:00-")
     y <- as.nanoival("+2014-01-01 00:00:00 -> 2016-01-01 00:00:00-")
-    checkIdentical(is.unsorted(c(x, y)), FALSE) &
-        checkIdentical(is.unsorted(c(y, x)), TRUE)
+    checkIdentical(is.unsorted(c(x, y)), FALSE)
+    checkIdentical(is.unsorted(c(y, x)), TRUE)
 }
 test_is_unsorted_same_end <- function() {
     ## x: c----------o
     ## y:      c-----o
     x <- as.nanoival("+2013-01-01 00:00:00 -> 2015-01-01 00:00:00-")
     y <- as.nanoival("+2014-01-01 00:00:00 -> 2015-01-01 00:00:00-")
-    checkIdentical(is.unsorted(c(x, y)), FALSE) &
-        checkIdentical(is.unsorted(c(y, x)), TRUE)
+    checkIdentical(is.unsorted(c(x, y)), FALSE)
+    checkIdentical(is.unsorted(c(y, x)), TRUE)
 }
 test_is_unsorted_included <- function() {
     ## x: c----------o
     ## y:   c-----o
     x <- as.nanoival("+2013-01-01 00:00:00 -> 2016-01-01 00:00:00-")
     y <- as.nanoival("+2014-01-01 00:00:00 -> 2015-01-01 00:00:00-")
-    checkIdentical(is.unsorted(c(x, y)), FALSE) &
-        checkIdentical(is.unsorted(c(y, x)), TRUE)
+    checkIdentical(is.unsorted(c(x, y)), FALSE)
+    checkIdentical(is.unsorted(c(y, x)), TRUE)
 }
 test_is_unsorted_same_start <- function() {
     ## x: c----o
     ## y: c----------o
     x <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
     y <- as.nanoival("+2013-01-01 00:00:00 -> 2015-01-01 00:00:00-")
-    checkIdentical(is.unsorted(c(x, y)), FALSE) &
-        checkIdentical(is.unsorted(c(y, x)), TRUE)
+    checkIdentical(is.unsorted(c(x, y)), FALSE)
+    checkIdentical(is.unsorted(c(y, x)), TRUE)
 }
 test_is_unsorted_not_strictly <- function() {
     ## x: c----o
     ## y: c----------o
     x <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
     y <- as.nanoival("+2013-01-01 00:00:00 -> 2015-01-01 00:00:00-")
-    checkIdentical(is.unsorted(c(x, x, y, y)), FALSE) &
-        checkIdentical(is.unsorted(c(y, y, x, x)), TRUE)
+    checkIdentical(is.unsorted(c(x, x, y, y)), FALSE)
+    checkIdentical(is.unsorted(c(y, y, x, x)), TRUE)
 }
 test_is_unsorted_strictly <- function() {
     ## x: c----o
     ## y: c----------o
     x <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
     y <- as.nanoival("+2013-01-01 00:00:00 -> 2015-01-01 00:00:00-")
-    checkIdentical(is.unsorted(c(x, x, y, y), strictly=TRUE), TRUE) &
-        checkIdentical(is.unsorted(c(y, y, x, x), strictly=TRUE), TRUE)
+    checkIdentical(is.unsorted(c(x, x, y, y), strictly=TRUE), TRUE)
+    checkIdentical(is.unsorted(c(y, y, x, x), strictly=TRUE), TRUE)
     checkException(is.unsorted(c(y, y, x, x), strictly="a"), "argument 'strictly' must be a logical")
     checkException(is.unsorted(c(y, y, x, x), strictly=as.logical(NULL)), "argument 'strictly' cannot have length 0")
 }
@@ -488,7 +488,7 @@ test_sort <- function() {
   checkException(sort(v, decreasing=as.logical(NULL)), v_descending)
 }
 
-## c, subset, subassign and binds
+## c
 test_c <- function() {                  # LLL
   a <- c(nanotime(1), nanotime(2))
   checkIdentical(a, nanotime(1:2))
@@ -513,7 +513,6 @@ test_c_name_assign_null <- function() {
     names(c_xy) <- NULL
     checkTrue(is.null(names(c_xy)))
 }
-## test subassign numeric and character LLL
 
 
 ## set operations
@@ -697,6 +696,7 @@ test_intersect_interval_interval_cc_cc__2_lg_1 <- function() {
     i2 <- as.nanoival("+2015-01-01 12:00:05 -> 2015-01-01 12:00:07+")
     r  <- as.nanoival("+2015-01-01 12:00:05 -> 2015-01-01 12:00:05+")
     checkIdentical(intersect(i2, i1), r)
+    checkIdentical(intersect(i1, i2), r)
 }
 ## 1: c-----------c                c-----------c 
 ## 2:               c-----------c
@@ -1143,10 +1143,10 @@ test_plus_numeric_nanoival <- function() {
     checkIdentical(one_second + i1, expected)
 } 
 test_plus_integer64_nanoival <- function() {
-    i1 <- c(as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05+"),
-            as.nanoival("+2015-01-01 12:00:08 -> 2015-01-01 12:00:10-"))
-    expected <- c(as.nanoival("+2015-01-01 12:00:04 -> 2015-01-01 12:00:06+"),
-                  as.nanoival("+2015-01-01 12:00:09 -> 2015-01-01 12:00:11-"))
+    i1 <- c(a=as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05+"),
+            b=as.nanoival("+2015-01-01 12:00:08 -> 2015-01-01 12:00:10-"))
+    expected <- c(a=as.nanoival("+2015-01-01 12:00:04 -> 2015-01-01 12:00:06+"),
+                  b=as.nanoival("+2015-01-01 12:00:09 -> 2015-01-01 12:00:11-"))
     checkIdentical(as.integer64(one_second) + i1, expected)
 } 
 
@@ -1245,6 +1245,17 @@ test_subassign_numeric_named <- function() {
     ii[2:3] <- i1
     checkIdentical(ii, c(a=i1, b=i1, c=i1))
 }  
+test_square_bracket <- function() {
+    i1 <- as.nanoival(aa)
+    i2 <- as.nanoival(bb)
+    i3 <- as.nanoival(cc)
+    nn <- c(a=i1, b=i2, c=i3)
+    nn_nonames <- c(i1, i2, i3)
+    checkIdentical(nn_nonames[1], nn[[1]])
+    checkIdentical(nn_nonames[2], nn[[2]])
+    checkIdentical(nn_nonames[3], nn[[3]])
+}
+
 
 ## transposition, which is identity, as for 'POSIXct' for example:
 test_t_nanoival <- function() {

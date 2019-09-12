@@ -109,6 +109,12 @@ setMethod("print",
 
 ##' @rdname period
 ##' @export
+format.period <- function(x, ...) {
+  .Call('period_to_string', x)
+}
+
+##' @rdname period
+##' @export
 setMethod("as.character",
           signature("period"),
           function(x) {
@@ -118,6 +124,14 @@ setMethod("as.character",
 ## accessors
 
 ## ----------- non ops
+
+##' @rdname period
+##' @export
+setMethod("[[",
+          signature("period", "ANY"),
+          function (x, i, j, ..., drop=FALSE) {
+              new("period", callNextMethod())
+          })
 
 ##' @rdname period
 ##' @export

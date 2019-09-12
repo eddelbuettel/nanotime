@@ -127,11 +127,11 @@ setClass("nanoival", contains="complex")
 ##' @rdname nanoival
 ##' @export
 nanoival <- function(start, end, sopen=FALSE, eopen=TRUE) {
-  new("nanoival", .Call('_nanoival_new',
-                        as.integer64(start),
-                        as.integer64(end),
-                        as.logical(sopen),
-                        as.logical(eopen)))
+  .Call('_nanoival_new',
+        as.integer64(start),
+        as.integer64(end),
+        as.logical(sopen),
+        as.logical(eopen))
 }
 
 setGeneric("start", function(x) standardGeneric("start"))
@@ -304,6 +304,7 @@ setMethod("as.nanoival",
                               nanotime(end,   format, tz),
                               sopen,
                               eopen)
+              names(res) <- names(x)
               res
           })
 
@@ -515,6 +516,14 @@ setMethod("Complex", c("nanoival"),
           })
 
 ## ----------- non ops
+
+##' @rdname nanoival
+##' @export
+setMethod("[[",
+          signature("nanoival"),
+          function (x, i, j, ..., drop=FALSE) {
+              new("nanoival", callNextMethod())
+          })
 
 ##' @rdname nanoival
 ##' @export

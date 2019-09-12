@@ -235,6 +235,9 @@ index2char.nanotime <- function(x, ...) {
 ##' @export
 as.POSIXct.nanotime <- function(x, tz="", ...) {
     ## if (verbose) warning("Lossy conversion dropping precision")
+    if ((tz == "" || is.null(tz)) && length(attr(x, "tzone")) > 0) {
+        tz <- attr(x, "tzone")
+    }
     pt <- as.POSIXct(as.double(S3Part(x, strictS3=TRUE)/1e9), tz=tz, origin="1970-01-01")
     pt
 }

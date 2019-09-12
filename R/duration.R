@@ -110,6 +110,13 @@ setMethod("print",
               print(.Call('duration_to_string', x))
           })
 
+##' @rdname duration
+##' @export
+format.duration <- function(x, ...) {
+    as.character(x)
+}
+
+  
 ## needed? LLL
 as.integer64.duration <- function(x, ...) {
     S3Part(x, strictS3=TRUE)
@@ -439,6 +446,14 @@ setMethod("Complex", c("duration"),
 
 ##' @rdname duration
 ##' @export
+setMethod("[[",
+          signature("duration"),
+          function (x, i, j, ..., drop=FALSE) {
+              new("duration", callNextMethod())
+          })
+
+##' @rdname duration
+##' @export
 setMethod("[",
           signature("duration"),
           function (x, i, j, ..., drop=FALSE) {
@@ -468,3 +483,13 @@ setMethod("names<-",
               names(S3Part(x, strictS3=TRUE)) <- value
               x
           })
+
+##' @rdname nanotime
+##' @export
+as.data.frame.duration <- function(x, ...) {
+    ret <- as.data.frame(S3Part(x, strictS3=TRUE), ...)
+    ## this works, but see if there's a more idiomatic and efficient way
+    ## of doing this:
+    ret[] <- as.duration(S3Part(x, strictS3=TRUE))
+    ret
+}

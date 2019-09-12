@@ -42,7 +42,7 @@ test_as.integer64 <- function() {
 }
 
 
-## show/print
+## show/print/format
 test_show <- function() {
   d <- duration(1,1,1,1)
   checkIdentical(show(d), "01:01:01.000_000_001")
@@ -57,6 +57,10 @@ test_print_name <- function() {
   d <- duration(1,1,1,1)
   names(d) <- "a"
   checkIdentical(print(d), c(a="01:01:01.000_000_001"))
+}
+test_format <- function() {
+ d <- duration(1,1,1,1)
+  checkIdentical(format(d), "01:01:01.000_000_001")
 }
 
 ## subset:
@@ -103,6 +107,14 @@ test_subsassign_character <- function() {
     checkIdentical(dd, expected)
 }
 
+test_square_bracket <- function() {
+    dd <- c(a=as.duration(1), b=as.duration(2), c=as.duration(3), d=as.duration(4))
+    dd_nonames <- as.duration(1:4)
+    checkIdentical(dd_nonames[1], dd[[1]])
+    checkIdentical(dd_nonames[2], dd[[2]])
+    checkIdentical(dd_nonames[3], dd[[3]])
+}
+
 ## test names
 test_get_names <- function() {
     dd <- c(a=as.duration(1), b=as.duration(2), c=as.duration(3), d=as.duration(4))
@@ -147,7 +159,7 @@ test_duration_minus_integer64 <- function() {
     checkIdentical(as.duration("1:00:00") - as.integer64(minute), as.duration("00:59:00"))
     checkIdentical(as.duration(1:10) - as.integer64(0:9), as.duration(rep(1, 10)))
     checkIdentical(as.duration(1:10) - as.integer64(1), as.duration(0:9))
-    checkIdentical(c(a=as.duration(1), b=as.duration(1)) - as.integer64(1),
+    checkIdentical(c(a=as.duration(1), b=as.duration(1)) - c(c=as.integer64(1)),
                    as.duration(c(a=0, b=0)))
 }
 test_integer64_minus_duration <- function() {
@@ -352,4 +364,42 @@ test_Compare_ANY_duration <- function() {
 ## Arith
 test_Arith <- function() {
     checkIdentical(as.duration(4) %% 3, as.integer64(1))
+}
+
+
+
+format.data.frame <- function (x, ..., justify = "none") 
+{
+    browse()
+    nc <- length(x)
+    if (!nc) 
+        return(x)
+    nr <- .row_names_info(x, 2L)
+    rval <- vector("list", nc)
+    for (i in seq_len(nc)) rval[[i]] <- format(x[[i]], ..., justify = justify)
+    lens <- vapply(rval, NROW, 1)
+    if (any(lens != nr)) {
+        warning("corrupt data frame: columns will be truncated or padded with NAs")
+        for (i in seq_len(nc)) {
+            len <- NROW(rval[[i]])
+            if (len == nr) 
+                next
+            if (length(dim(rval[[i]])) == 2L) {
+                rval[[i]] <- if (len < nr) 
+                  rbind(rval[[i]], matrix(NA, nr - len, ncol(rval[[i]])))
+                else rval[[i]][seq_len(nr), ]
+            }
+            else {
+                rval[[i]] <- if (len < nr) 
+                  c(rval[[i]], rep.int(NA, nr - len))
+                else rval[[i]][seq_len(nr)]
+            }
+        }
+    }
+    for (i in seq_len(nc)) {
+        if (is.character(rval[[i]]) && inherits(rval[[i]], "character")) 
+            oldClass(rval[[i]]) <- "AsIs"
+    }
+    as.data.frame.list(rval, row.names = row.names(x), col.names = names(x), 
+        optional = TRUE, fix.empty.names = FALSE, cut.names = TRUE)
 }

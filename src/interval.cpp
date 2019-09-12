@@ -3,6 +3,7 @@
 #include <Rcpp.h>
 #include "interval.hpp"
 #include "pseudovector.hpp"
+#include "utilities.hpp"
 
 
 struct double2 {
@@ -462,6 +463,7 @@ SEXP nanoival_comp(SEXP n1, SEXP n2, COMP cmp) {
       res[i] = cmp(n1_ptr[i], n2_ptr[i]);
     }
   
+    copyNames(cv1, cv2, res);    
     return res;
   } catch(std::exception &ex) {	
     forward_exception_to_r(ex);
@@ -513,6 +515,7 @@ SEXP nanoival_op(SEXP n1, SEXP n2, OP op) {
       res[i] = *reinterpret_cast<const Rcomplex*>(&ires);
     }
   
+    copyNames(cv1, nv2, res);    
     return res;
   } catch(std::exception &ex) {	
     forward_exception_to_r(ex);
@@ -610,7 +613,7 @@ RcppExport SEXP _nanoival_new(SEXP start, SEXP end, SEXP sopen, SEXP eopen) {
     ::Rf_error("c++ exception (unknown reason)"); 
   }
 
-  return res;
+  return assignS4("nanoival", res);
 }
 
 
@@ -627,7 +630,8 @@ RcppExport SEXP _nanoival_get_start(SEXP sv) {
     memcpy(&d, reinterpret_cast<const char*>(&start), sizeof(start));
     res[i] = d;
   }
-  return res;
+  res.names() = cv.names();
+  return assignS4("nanotime", res, "integer64");
 }
 
 
@@ -643,7 +647,8 @@ RcppExport SEXP _nanoival_get_end(SEXP sv) {
     memcpy(&d, reinterpret_cast<const char*>(&end), sizeof(end));
     res[i] = d;
   }
-  return res;
+  res.names() = cv.names();
+  return assignS4("nanotime", res, "integer64");
 }
 
 
@@ -656,6 +661,7 @@ RcppExport SEXP _nanoival_get_sopen(SEXP sv) {
     memcpy(&ival, reinterpret_cast<const char*>(&c), sizeof(c));
     res[i] = ival.sopen;
   }
+  res.names() = cv.names();
   return res;
 }
 
@@ -669,5 +675,6 @@ RcppExport SEXP _nanoival_get_eopen(SEXP sv) {
     memcpy(&ival, reinterpret_cast<const char*>(&c), sizeof(c));
     res[i] = ival.eopen;
   }
+  res.names() = cv.names();
   return res;
 }
