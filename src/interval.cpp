@@ -4,6 +4,8 @@
 #include "interval.hpp"
 #include "pseudovector.hpp"
 #include "utilities.hpp"
+#include "cctz/civil_time.h"
+#include "cctz/time_zone.h"
 
 
 struct double2 {
@@ -27,6 +29,7 @@ typedef ConstPseudoVector<CPLXSXP, Rcomplex> ConstPseudoVectorIval;
 typedef ConstPseudoVector<REALSXP, double>   ConstPseudoVectorDur;
 typedef ConstPseudoVector<REALSXP, double>   ConstPseudoVectorNum;
 typedef ConstPseudoVector<LGLSXP,  int>      ConstPseudoVectorLgl;
+typedef ConstPseudoVector<STRSXP,  const Rcpp::CharacterVector::const_Proxy> ConstPseudoVectorChar;
 
 
 // for debug reasons...
@@ -191,7 +194,6 @@ RcppExport SEXP _nanoival_union(SEXP nanoival1, SEXP nanoival2) {
   
       for (;;) {
         if (union_end_ge_start(v1[i1], v2[i2]) && union_end_le(v1[i1], v2[i2])) {
-          Rcpp::Rcout << 1 << std::endl;
           // v1 |------------|         or     |--------|
           // v2      |------------|         |------------|
           if (i1 >= nv1.size() - 1) {
@@ -463,7 +465,7 @@ SEXP nanoival_comp(SEXP n1, SEXP n2, COMP cmp) {
       res[i] = cmp(n1_ptr[i], n2_ptr[i]);
     }
   
-    copyNames(cv1, cv2, res);    
+    copyNames(cv1, cv2, res);
     return res;
   } catch(std::exception &ex) {	
     forward_exception_to_r(ex);
@@ -677,4 +679,77 @@ RcppExport SEXP _nanoival_get_eopen(SEXP sv) {
   }
   res.names() = cv.names();
   return res;
+}
+
+
+static Rcomplex readNanoival(const char*& sp, const char* const se, const char* tzstr) {
+  try {
+    // read the +- at the beginning:
+    if (sp >= se || (*sp != '+' && *sp != '-')) {
+      throw std::range_error("Error parsing");
+    }
+    auto sopen = *sp++ == '+' ? false : true;
+  
+    auto ss = Global::readDtime(sp, se, tzstr);
+    Global::skipWhitespace(sp, se);
+
+    // read the middle portion
+    if (sp+2 >= se || (*sp != '-' && *(sp+1) != '>')) {
+      throw std::range_error("Error parsing");
+    }
+    sp += 2;
+    
+    Global::skipWhitespace(sp, se);
+    auto es = Global::readDtime(sp, se-1, tzstr); // -1 because we don't want to read the -+ as a timezone
+
+    // read the +- at the end:
+    if (sp >= se || (*sp != '+' && *sp != '-')) {
+      throw std::range_error("Error parsing aa");
+    }
+    auto eopen = *sp++ == '+' ? false : true;
+    
+    // check we read until the end
+    if (sp != se) {
+      throw std::range_error("Error parsing");
+    }
+
+    typedef Global::time_point<Global::seconds> CONVERT_TO_TIMEPOINT(const cctz::civil_second& cs, const char* tzstr);
+    CONVERT_TO_TIMEPOINT *convertToTimePoint = (CONVERT_TO_TIMEPOINT*)  R_GetCCallable("RcppCCTZ", "_RcppCCTZ_convertToTimePoint" );
+
+    const cctz::civil_second start_cvt(ss.y, ss.m, ss.d, ss.hh, ss.mm, ss.ss);    
+    // warn double specification of timezone LLL
+    auto start_tp = convertToTimePoint(start_cvt, ss.tzstr.size() ? ss.tzstr.c_str() : tzstr);  
+    auto start = Global::dtime{std::chrono::nanoseconds((start_tp.time_since_epoch().count() - ss.offset) * 1000000000ll + ss.ns)};
+
+    const cctz::civil_second end_cvt(es.y, es.m, es.d, es.hh, es.mm, es.ss);    
+    // warn double specification of timezone LLL
+    auto end_tp = convertToTimePoint(end_cvt, es.tzstr.size() ? es.tzstr.c_str() : tzstr);  
+    auto end = Global::dtime{std::chrono::nanoseconds((end_tp.time_since_epoch().count() - es.offset) * 1000000000ll + es.ns)};
+  
+    Rcomplex res;
+    const interval ival { start, end, sopen, eopen };
+    memcpy(&res, &ival, sizeof(ival));
+    return res;
+  } catch(std::exception &ex) {	
+    forward_exception_to_r(ex);
+  } catch(...) { 
+    ::Rf_error("c++ exception (unknown reason)"); 
+  }
+
+  return Rcomplex{0,0};         // not reached
+}
+
+
+RcppExport SEXP _nanoival_make(SEXP nt_p, SEXP tz_p) {
+  const Rcpp::CharacterVector nt_v(nt_p);
+  const Rcpp::CharacterVector tz_v(tz_p);
+  ConstPseudoVectorChar nt(nt_v);
+  ConstPseudoVectorChar tz(tz_v);
+  Rcpp::ComplexVector res(nt.size());
+  for (R_xlen_t i=0; i<nt.size(); ++i) {
+    const char* str = nt[i];
+    res[i] = readNanoival(str, str + nt[i].size(), tz[i]);
+  }
+  copyNames(nt_v, tz_v, res);
+  return assignS4("nanoival", res);
 }

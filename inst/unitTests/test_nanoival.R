@@ -37,6 +37,22 @@ test_as.nanoival_vector <- function() {
                                  d=nanotime("2017-01-01 00:00:00"))) &
       checkIdentical(sopen(ni), c(a=FALSE, b=FALSE, c=TRUE, d=TRUE)) &
       checkIdentical(eopen(ni), c(a=TRUE, b=FALSE, c=TRUE, d=FALSE))
+
+    checkIdentical(length(as.nanoival(vector("character", 0))), 0L)
+    checkIdentical(as.nanoival("-2013-01-01 00:00:00 America/New_York -> 2014-01-01 00:00:00 America/New_York+"),
+                   nanoival(nanotime("2013-01-01 00:00:00 America/New_York"),
+                            nanotime("2014-01-01 00:00:00 America/New_York"), TRUE, FALSE))
+}
+test_as.nanoival_vector_fail <- function() {
+  checkException(as.nanoival("-2013-01-01 00:00:00 -> 2014-01-01 00:00:00"), "`nanoival` must end with + or -")
+  checkException(as.nanoival("2013-01-01 00:00:00 -> 2014-01-01 00:00:00-"), "`nanoival` must end with + or -") 
+  checkException(as.nanoival("+2013-01-01 00:00:00 $$ 2014-01-01 00:00:00-"), "Error parsing")
+  checkException(as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00- "), "Error parsing")
+  checkException(as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00a"), "Error parsing")
+  checkException(as.nanoival("+2013-01-01 00:00:00 America/New_York -> 2014-01-01 00:00:00 America/New_York %%"), "`nanoival` must end with a '+' or '-'")
+  checkException(as.nanoival("+2013-01-01 00:00:00 America/New_York -> 2014-01-01 00:00:00 America/New_York + "), "parse error")
+  checkException(as.nanoival("-2013-01-01 00:00:00 America/New_York -> 2014-01-01 00:00:00 America/New_YYork+"),
+                 "Cannot retrieve timezone")
 }
 test_nanoival <- function() {
   checkIdentical(nanoival(nanotime("2013-01-01 00:00:00"),
@@ -68,15 +84,13 @@ test_show <- function() {
   ival_str <- "-2013-01-01 00:00:00 -> 2014-01-01 00:00:00+"
   ival <- as.nanoival(ival_str)
   checkIdentical(show(ival), ival_str)
-  
-  savedFormat <- options()$nanotimeFormat
-  options(nanotimeFormat=NULL)
-  
-  ival_str <- "+2013-01-01T00:00:00.000000000+00:00 -> 2014-01-01T00:00:00.000000000+00:00-"
+
+  ival_str <- c(a="+2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
   ival <- as.nanoival(ival_str)
   checkIdentical(show(ival), ival_str)
+
   
-  options(nanotimeFormat=savedFormat)
+  checkIdentical(print(as.nanoival(vector("character", 0))), "nanoival(0)")
 }
 
 test_format <- function() {
@@ -87,21 +101,6 @@ test_format <- function() {
   ival_str <- "-2013-01-01 00:00:00 -> 2014-01-01 00:00:00+"
   ival <- as.nanoival(ival_str)
   checkIdentical(format(ival), ival_str)
-  
-  savedFormat <- options()$nanotimeFormat
-  options(nanotimeFormat=NULL)
-  
-  ival_str <- "+2013-01-01T00:00:00.000000000+00:00 -> 2014-01-01T00:00:00.000000000+00:00-"
-  ival <- as.nanoival(ival_str)
-  checkIdentical(format(ival), ival_str)
-
-  ival_str <- c(x="+2013-01-01T00:00:00.000000000+00:00 -> 2014-01-01T00:00:00.000000000+00:00-")
-  ival <- c(x=as.nanoival(ival_str))
-  checkIdentical(format(ival), ival_str)
-
-  checkIdentical(format(as.nanoival(NULL)), "nanoival(0)")
-  
-  options(nanotimeFormat=savedFormat)
 }
 
 ## as.data.frame

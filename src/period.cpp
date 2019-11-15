@@ -104,7 +104,7 @@ period::period(const std::string& str) {
   // we've succeeded a Global::readNumber, so this means we've
   // actually read into the duration; so backtrack and use the already
   // existing function to parse a duration:
-getduration:
+getduration:                    // # nocov
   try {
     dur = from_string(++s);
   }

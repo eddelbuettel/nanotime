@@ -114,22 +114,34 @@ setGeneric("nanotime")
     format
 }
 
+
+.secondaryNanotimeParse <- function(x, format="", tz="") {
+    if (length(x) == 0) return(character(0)) # nocov
+    format <- .getFormat(format)
+    tz <- .getTz(x, tz)
+    n <- names(x)
+    d <- RcppCCTZ::parseDouble(x, fmt=format, tzstr=tz)
+    res <- new("nanotime", as.integer64(d[,1]) * as.integer64(1e9) + as.integer64(d[, 2]))
+    if (!is.null(n)) {
+        names(S3Part(res, strictS3=TRUE)) <- n
+    }
+    res
+}
+
 ##' @rdname nanotime
 ##' @export
 setMethod("nanotime",
           "character",
           function(x, format="", tz="") {
-    	      if (length(x) == 0) return(character(0))
-              format <- .getFormat(format)
-              tz <- .getTz(x, tz)
-              n <- names(x)
-              d <- RcppCCTZ::parseDouble(x, fmt=format, tzstr=tz)
-              res <- new("nanotime", as.integer64(d[,1]) * as.integer64(1e9) + as.integer64(d[, 2]))
-              if (!is.null(n)) {
-                  names(S3Part(res, strictS3=TRUE)) <- n
+            tryCatch(.Call("_nanotime_make", x, tz), error=function(e) {
+              if (e$message == "Cannot retrieve timezone") {
+                stop(e$message)
+              } else {
+                .secondaryNanotimeParse(x, format, tz)
               }
-              res
+            })
           })
+
 
 ##' @rdname nanotime
 ##' @export

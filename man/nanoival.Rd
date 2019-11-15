@@ -8,12 +8,15 @@
 \alias{end,nanoival-method}
 \alias{sopen,nanoival-method}
 \alias{eopen,nanoival-method}
+\alias{format.nanoival}
 \alias{print,nanoival-method}
 \alias{show,nanoival-method}
 \alias{names,nanoival-method}
 \alias{length,nanoival-method}
+\alias{as.data.frame.nanoival}
 \alias{names<-,nanoival-method}
 \alias{as.nanoival,character-method}
+\alias{as.nanoival,NULL-method}
 \alias{<,nanoival,nanoival-method}
 \alias{<=,nanoival,nanoival-method}
 \alias{>,nanoival,nanoival-method}
@@ -24,6 +27,7 @@
 \alias{-,nanoival,integer64-method}
 \alias{-,nanoival,numeric-method}
 \alias{-,ANY,nanoival-method}
+\alias{-,nanoival,nanoival-method}
 \alias{+,nanoival,ANY-method}
 \alias{+,nanoival,integer64-method}
 \alias{+,nanoival,numeric-method}
@@ -38,10 +42,8 @@
 \alias{Math,nanoival-method}
 \alias{Math2,nanoival-method}
 \alias{Summary,nanoival-method}
-\alias{min,nanoival-method}
-\alias{max,nanoival-method}
-\alias{range,nanoival-method}
 \alias{Complex,nanoival-method}
+\alias{[[,nanoival-method}
 \alias{[,nanoival,logical-method}
 \alias{[,nanoival,numeric-method}
 \alias{[<-,nanoival,logical,ANY,nanoival-method}
@@ -69,6 +71,8 @@ nanoival(start, end, sopen = FALSE, eopen = TRUE)
 
 \S4method{eopen}{nanoival}(x)
 
+\method{format}{nanoival}(x, ..., justify = "none")
+
 \S4method{print}{nanoival}(x, ...)
 
 \S4method{show}{nanoival}(object)
@@ -77,9 +81,14 @@ nanoival(start, end, sopen = FALSE, eopen = TRUE)
 
 \S4method{length}{nanoival}(x)
 
+\method{as.data.frame}{nanoival}(x, row.names = NULL, optional = FALSE,
+  ...)
+
 \S4method{names}{nanoival}(x) <- value
 
 \S4method{as.nanoival}{character}(x, format = "", tz = "")
+
+\S4method{as.nanoival}{`NULL`}(x, format = "", tz = "")
 
 \S4method{<}{nanoival,nanoival}(e1, e2)
 
@@ -100,6 +109,8 @@ nanoival(start, end, sopen = FALSE, eopen = TRUE)
 \S4method{-}{nanoival,numeric}(e1, e2)
 
 \S4method{-}{ANY,nanoival}(e1, e2)
+
+\S4method{-}{nanoival,nanoival}(e1, e2)
 
 \S4method{+}{nanoival,ANY}(e1, e2)
 
@@ -129,13 +140,9 @@ nanoival(start, end, sopen = FALSE, eopen = TRUE)
 
 \S4method{Summary}{nanoival}(x, ..., na.rm = FALSE)
 
-\S4method{min}{nanoival}(x, ..., na.rm = FALSE)
-
-\S4method{max}{nanoival}(x, ..., na.rm = FALSE)
-
-\S4method{range}{nanoival}(x, ..., na.rm = FALSE)
-
 \S4method{Complex}{nanoival}(z)
+
+\S4method{[[}{nanoival}(x, i, j, ..., drop = FALSE)
 
 \S4method{[}{nanoival,logical}(x, i, j, ..., drop = FALSE)
 

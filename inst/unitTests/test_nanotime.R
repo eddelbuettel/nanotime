@@ -7,21 +7,86 @@ test_nanotime_generic <- function() {
     checkIdentical(nanotime(1), new("nanotime", as.integer64(1)))
 }
 test_nanotime_character <- function() {
+
+}
+
+test_nanotime_character_first_pass <- function() {
+  ## we do a first pass parsing, which is faster than the parsing
+  ## with the format string, and is also more forgiving
+  if (!isSolaris) {
+    checkIdentical(nanotime("2018-01-01T05:00:00.99 Europe/London"),             nanotime(as.integer64("1514782800990000000")))
+    checkIdentical(nanotime("2018-01-01T05:00:00.999_999_999 America/New_York"), nanotime(as.integer64("1514800800999999999")))
+    checkIdentical(nanotime("2018-01-01T05:00:00.999_999 America/New_York"),     nanotime(as.integer64("1514800800999999000")))
+    checkIdentical(nanotime("2018-01-01T05:00:00.999 America/New_York"),         nanotime(as.integer64("1514800800999000000")))
+    checkIdentical(nanotime("2018-01-01T05:00:00 America/New_York"),             nanotime(as.integer64("1514800800000000000")))
+    checkIdentical(nanotime("2018-01-01 05:00:00 America/New_York"),             nanotime(as.integer64("1514800800000000000")))
+    checkIdentical(nanotime("2018-01-01 05:00:00 America/New_York"),             nanotime(as.integer64("1514800800000000000")))
+    checkIdentical(nanotime("2018-01-01 America/New_York"),                      nanotime(as.integer64("1514782800000000000")))
+
+    checkIdentical(nanotime("2018-01-01T05:00:00.99+00:00"),                     nanotime(as.integer64("1514782800990000000")))
+    checkIdentical(nanotime("2018-01-01T05:00:00.99-00:00"),                     nanotime(as.integer64("1514782800990000000")))
+    checkIdentical(nanotime("2018-01-01T05:00:00.999_999_999+05:00"),            nanotime(as.integer64("1514764800999999999")))
+    checkIdentical(nanotime("2018-01-01T05:00:00.999_999+05:00"),                nanotime(as.integer64("1514764800999999000")))
+    checkIdentical(nanotime("2018-01-01T05:00:00.999+05:00"),                    nanotime(as.integer64("1514764800999000000")))
+    checkIdentical(nanotime("2018-01-01T05:00:00+05:00"),                        nanotime(as.integer64("1514764800000000000")))
+    checkIdentical(nanotime("2018-01-01 05:00:00+05:00"),                        nanotime(as.integer64("1514764800000000000")))
+    checkIdentical(nanotime("2018-01-01 05:00:00+05:00"),                        nanotime(as.integer64("1514764800000000000")))
+    checkIdentical(nanotime("2018-01-01   05:00:00+05:00"),                      nanotime(as.integer64("1514764800000000000")))
+    checkIdentical(nanotime("2018-01-01+05:00"),                                 nanotime(as.integer64("1514746800000000000")))
+
+    checkIdentical(nanotime("2018/01/01T05:00:00.99 Europe/London"),             nanotime(as.integer64("1514782800990000000")))
+    checkIdentical(nanotime("2018 01 01T05:00:00.99 Europe/London"),             nanotime(as.integer64("1514782800990000000")))   
+  }
+}
+test_nanotime_character_first_pass_fail <- function() {
+    ## none of these should parse
+    checkException(nanotime("2018-01-01T05:00:00.99 America/New_dYork"),  "Cannot retrieve timezone")
+    checkException(nanotime("2018--01-01T05:00:00.99 America/New_York"),  "Parse error")
+    checkException(nanotime("2018-01-01T05:00:00.99 America/New_York s"), "Parse error")
+    checkException(nanotime("2018-01-01T05:00:s0.99 America/New_York"),   "Parse error")
+    checkException(nanotime("2018-01-01T05:00:00.a99 America/New_York"), "Parse error")
+    checkException(nanotime("2018-01-01T05:00:00.0000000000 America/New_York"), "Parse error")
+    checkException(nanotime("201"), "Parse error")
+    checkException(nanotime("2018-13-01T05:00:00.99 Europe/London"), "Parse error")
+    checkException(nanotime("2018"), "Parse error")
+    checkException(nanotime("2018-1"), "Parse error")
+    checkException(nanotime("2018-01-32T05:00:00.99 Europe/London"), "Parse error")
+    checkException(nanotime("2018-01-01T25:00:00.99 Europe/London"), "Parse error")
+    checkException(nanotime("2018-01-01T05:61:00.99 Europe/London"), "Parse error")
+    checkException(nanotime("2018-01-01T05:00:61.99 Europe/London"), "Parse error")
+    checkException(nanotime("2018-01-01T05:00:00.99999999999 Europe/London"), "Parse error")
+    checkException(nanotime("2018-01-01T05:00:00.99 Europe/London%"), "Parse error")
+    checkException(nanotime("2018-01-01T05:00:00.99 %"), "Parse error")
+}
+test_nanotime_character_second_pass  <- function() {
+    ## if the parsing above has failed, then we use a second parsing
+    ## that is based on the format string that is provided
     if (!isSolaris) {
-        checkIdentical(nanotime("1970-01-01T00:00:00.000000001+00:00"), nanotime(1))
         oldFormat <- getOption("nanotimeFormat")
         oldTz <- getOption("nanotimeTz")
         ## check that the format and time zone is picked up from the global options:
-        options(nanotimeFormat="%Y-%m-%d %H:%M")
+        options(nanotimeFormat="%Y|%m|%d %H:%M")
         options(nanotimeTz="America/New_York")
-        checkIdentical(nanotime("1970-01-01 00:00"), nanotime(18000000000000))
+        checkIdentical(nanotime("1970|01|01 00:00"), nanotime(18000000000000))
         ## check they are overridden by the parameters:
-        checkIdentical(nanotime("1970-01-01 00:00:01", format="%Y-%m-%d %H:%M:%S", tz="Europe/Paris"),
-                    nanotime(-3599000000000))
+        checkIdentical(nanotime("1970|01|01 00:00:01", format="%Y|%m|%d %H:%M:%S", tz="Europe/Paris"),
+                       nanotime(-3599000000000))
         options(nanotimeFormat=oldFormat)
         options(nanotimeTz=oldTz)
-    }
+    }}
+test_nanotime_character_second_pass_fail  <- function() {
+    oldFormat <- getOption("nanotimeFormat")
+    oldTz <- getOption("nanotimeTz")
+    ## check that the format and time zone is picked up from the global options:
+    options(nanotimeFormat="%Y|%m|%d %H:%M")
+    options(nanotimeTz="America/New_York")
+    checkException(nanotime("1970-01-01 00:00"), "Parse error on 1970-01-01 00:00")
+    ## check they are overridden by the parameters:
+    checkException(nanotime("1970-01-01 00:00", format="%Y|%m|%d %H:%M:%S", tz="Europe/Paris"), "Parse error")
+    options(nanotimeFormat=oldFormat)
+    options(nanotimeTz=oldTz)
 }
+
 test_nanotime_matrix <- function() {
     if (!isSolaris) {
         m <- matrix(c(10*24*3600+0:9, 987654321+0:9), 10, 2)

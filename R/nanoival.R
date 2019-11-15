@@ -287,25 +287,46 @@ setMethod("names<-",
               new("nanoival", x)
           })
 
+.secondaryNanoivalParse <- function(x, format="", tz="") {
+  format <- .getFormat(format)
+  tz <- .getTz(x, tz)
+  ## parse the +-, split on -> and process the two
+  s1 = substr(x, 1, 1)
+  if (any(s1 != '-' & s1 != '+')) {
+    stop("`nanoival` must start with '+' or '-'")
+  }
+  sopen <- s1 == "-"
+  xlen <- nchar(x)
+  e1 <- substr(x, xlen, xlen)
+  if (any(e1 != '-' & e1 != '+')) {
+    stop("`nanoival` must end with '+' or '-'")
+  }
+  eopen <- e1 == "-"
+  start_stop <- strsplit(substr(x, 2, xlen-1), "->")
+  start <- sapply(start_stop, function(x) head(x, 1))
+  end <- sapply(start_stop, function(x) tail(x, 1))
+  res <- nanoival(nanotime(start, format, tz),
+                  nanotime(end,   format, tz),
+                  sopen,
+                  eopen)
+  names(res) <- names(x)
+  res
+}
+
+
 setGeneric("as.nanoival", function(x, format="", tz="") standardGeneric("as.nanoival"))
 ##' @rdname nanoival
 ##' @export
 setMethod("as.nanoival",
           "character",
           function(x, format="", tz="") {
-              ## parse the +-, split on -> and process the two 
-              sopen <- substr(x, 1, 1) == "-"
-              xlen <- nchar(x)
-              eopen <- substr(x, xlen, xlen) == "-"
-              start_stop <- strsplit(substr(x, 2, xlen-1), "->")
-              start <- sapply(start_stop, function(x) head(x, 1))
-              end <- sapply(start_stop, function(x) tail(x, 1))
-              res <- nanoival(nanotime(start, format, tz),
-                              nanotime(end,   format, tz),
-                              sopen,
-                              eopen)
-              names(res) <- names(x)
-              res
+            tryCatch(.Call("_nanoival_make", x, tz), error=function(e) {
+              if (e$message == "Cannot retrieve timezone") {
+                stop(e$message)
+              } else {
+                .secondaryNanoivalParse(x, format, tz)
+              }
+            }) 
           })
 
 ##' @rdname nanoival
