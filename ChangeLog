@@ -1,6 +1,7 @@
 2019-11-20  Dirk Eddelbuettel  <edd@debian.org>
 
-	* R/nanotime.R (as.integer64.nanotime): Adding a 'Compare' for character
+	* R/nanotime.R (as.integer64.nanotime): Adding 'Compare' ops for
+	character and nanotime
 
 2019-05-25  Dirk Eddelbuettel  <edd@debian.org>
 
