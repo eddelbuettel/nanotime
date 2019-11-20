@@ -2,9 +2,9 @@
 
 	* R/nanotime.R (as.integer64.nanotime): Adding 'Compare' ops for
 	character and nanotime
-
 	* inst/unitTests/test_ops.R: Adjust one existing test, and add six
 	new ones for character and nanotime comparisons
+	* man/nanotime.Rd: Document new comparison operators
 
 2019-05-25  Dirk Eddelbuettel  <edd@debian.org>
 
