@@ -400,6 +400,14 @@ setMethod("Arith", c("ANY", "nanotime"),
 
 ##' @rdname nanotime
 ##' @export
+setMethod("Compare", c("nanotime", "character"),
+          function(e1, e2) {
+              ne2 <- nanotime(e2)
+              callNextMethod(e1, ne2)
+          })
+
+##' @rdname nanotime
+##' @export
 setMethod("Compare", c("nanotime", "ANY"),
           function(e1, e2) {
               if (class(e2) == "nanotime") {

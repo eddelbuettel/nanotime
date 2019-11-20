@@ -1,3 +1,7 @@
+2019-11-20  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/nanotime.R (as.integer64.nanotime): Adding a 'Compare' for character
+
 2019-05-25  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Date, Version): Release 0.2.4
