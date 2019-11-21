@@ -1,5 +1,7 @@
 2019-11-21  Dirk Eddelbuettel  <edd@debian.org>
 
+	* inst/tinytest/test_*.R: Moved from ../unitTest
+
 	* tests/tinytest.R: Add test runner for tinytest
 	* DESCRIPTION (Suggests): Add tinytest
 	* .travis.yml (install): Add r-cran-tinytest
