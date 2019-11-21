@@ -1,3 +1,13 @@
+2019-11-20  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): New minor version
+
+	* R/nanotime.R (as.integer64.nanotime): Adding 'Compare' ops for
+	character and nanotime
+	* inst/unitTests/test_ops.R: Adjust one existing test, and add six
+	new ones for character and nanotime comparisons
+	* man/nanotime.Rd: Document new comparison operators
+
 2019-05-25  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Date, Version): Release 0.2.4

@@ -65,8 +65,8 @@ test_compare_nanotime_ANY <- function() {
   checkTrue(nanotime(1) == as.integer64(1))
   checkTrue(nanotime(1) == 1L)
   checkTrue(nanotime(1) == 1)
-  checkTrue(is.na(nanotime(1) == "a"))  # same as 'integer64'... TODO: check
-  
+  checkException(is.na(nanotime(1) == "a"))  # now passes on and gets parse error
+
   checkTrue(!(nanotime(1) < nanotime(1)))
   checkTrue(!(nanotime(1) < as.integer64(1)))
   checkTrue(!(nanotime(1) < 1L))
@@ -81,6 +81,16 @@ test_compare_ANY_nanotime <- function() {
   checkTrue(!(as.integer64(1) < nanotime(1)))
   checkTrue(!(1L < nanotime(1)))
   checkTrue(!(1 < nanotime(1)))
+}
+test_compare_character_nanotime <- function() {
+    checkTrue(isFALSE("2018-12-28T16:34:59.649943448+00:00" < nanotime("2018-12-28T16:34:59.000000000+00:00")))
+    checkTrue("2018-12-28T16:34:59.649943448+00:00" >  nanotime("2018-12-28T16:34:59.000000000+00:00"))
+    checkTrue("2018-12-28T16:34:59.649943448+00:00" == nanotime("2018-12-28T16:34:59.649943448+00:00"))
+}
+test_compare_nanotime_character <- function() {
+    checkTrue(isFALSE(nanotime("2018-12-28T16:34:59.649943448+00:00") < "2018-12-28T16:34:59.000000000+00:00"))
+    checkTrue(nanotime("2018-12-28T16:34:59.649943448+00:00") >  "2018-12-28T16:34:59.000000000+00:00")
+    checkTrue(nanotime("2018-12-28T16:34:59.649943448+00:00") == "2018-12-28T16:34:59.649943448+00:00")
 }
 test_Logic <- function() {
   exc <- "operations are possible only for numeric, logical or complex types"

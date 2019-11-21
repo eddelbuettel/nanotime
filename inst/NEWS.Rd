@@ -3,6 +3,13 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/nanotime/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/nanotime/issues/#1}{##1}}
 
+\section{Changes in version 0.2.5 (2019-xx-yy)}{
+  \itemize{
+    \item Add new comparison operators for \code{nanotime} and
+    \code{charcters} (Dirk in \ghpr{54} fixing \ghit{52}).
+  }
+}
+
 \section{Changes in version 0.2.4 (2019-05-25)}{
   \itemize{
     \item Define [[ method (Dirk in \ghpr{45} fixing \ghit{44}).
