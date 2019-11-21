@@ -1,3 +1,13 @@
+2019-11-21  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): New minor version
+
+	* inst/tinytest/test_*.R: Moved from ../unitTest, changed to tinytest
+	* tests/tinytest.R: Add test runner for tinytest
+	* DESCRIPTION (Suggests): Add tinytest, remove RUnit
+	* .travis.yml (install): Add r-cran-tinytest, remove r-cran-runit
+	* tests/runTests.R: Removed RUnit test runner
+
 2019-11-20  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): New minor version
