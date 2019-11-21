@@ -16,6 +16,12 @@ struct interval {
   interval(Global::dtime s_p, Global::dtime e_p, bool sopen_p, bool eopen_p)
     : sopen(sopen_p), s(s_p.time_since_epoch().count()),
       eopen(eopen_p), e(e_p.time_since_epoch().count()) {
+    if (s_p.time_since_epoch().count() < IVAL_MIN || e_p.time_since_epoch().count() < IVAL_MIN) {
+      throw std::range_error("underflow");      
+    }
+    if (s_p.time_since_epoch().count() > IVAL_MAX || e_p.time_since_epoch().count() > IVAL_MAX) {
+      throw std::range_error("overflow");      
+    }
     if (s > e) {
       std::stringstream ss;
       ss << "interval end (" << e << ") smaller than interval start (" << s << ")";
@@ -39,6 +45,9 @@ struct interval {
   std::int64_t s : 63;
   bool eopen : 1; // encode if the interval's end   boundary is open (true) or closed (false)
   std::int64_t e : 63;
+
+  static const std::int64_t IVAL_MAX =  4611686018427387903LL;
+  static const std::int64_t IVAL_MIN = -4611686018427387904LL;
 };
 
 // operators:
@@ -107,14 +116,17 @@ inline bool operator>(const Global::dtime& i1, const interval& i2) {
 }
 
 inline interval operator+(const interval& i, const Global::duration d) {
+  // test duration is not > 63-bits, and after that the constructor can test for overflow:
   return interval(i.getStart() + d, i.getEnd() + d, i.sopen, i.eopen);
 }
   
 inline interval operator-(const interval& i, const Global::duration d) {
+  // test duration is not > 63-bits, and after that the constructor can test for underflow:
   return interval(i.getStart() - d, i.getEnd() - d, i.sopen, i.eopen);
 }
 
 inline interval operator+(const Global::duration d, const interval& i) {
+  // test duration is not > 63-bits, and after that the constructor can test for overflow:
   return interval(i.getStart() + d, i.getEnd() + d, i.sopen, i.eopen);
 }
 
