@@ -9,6 +9,6 @@ Description: Full 64-bit resolution date and time support with resolution up
  to nanosecond granularity is provided, with easy transition to and from the
  standard 'POSIXct' type.
 Imports: methods, bit64, RcppCCTZ (>= 0.2.3), zoo
-Suggests: tinytest, RUnit, data.table, xts
+Suggests: tinytest, data.table, xts
 License: GPL (>= 2)
 RoxygenNote: 7.0.0
