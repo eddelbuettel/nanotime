@@ -1,6 +1,7 @@
 ##' @rdname nanotime
 ##' @export
 setClass("nanotime", contains = "integer64")
+## setClass("nanotime", contains = "numeric") also possible if we don't want integer64
 
 ##' Nanosecond resolution datetime functionality
 ##'
@@ -114,23 +115,33 @@ setGeneric("nanotime")
 }
 
 
+.secondaryNanotimeParse <- function(x, format="", tz="") {
+    if (length(x) == 0) return(character(0)) # nocov
+    format <- .getFormat(format)
+    tz <- .getTz(x, tz)
+    n <- names(x)
+    d <- RcppCCTZ::parseDouble(x, fmt=format, tzstr=tz)
+    res <- new("nanotime", as.integer64(d[,1]) * as.integer64(1e9) + as.integer64(d[, 2]))
+    if (!is.null(n)) {
+        names(S3Part(res, strictS3=TRUE)) <- n
+    }
+    res
+}
 
 ##' @rdname nanotime
 ##' @export
 setMethod("nanotime",
           "character",
           function(x, format="", tz="") {
-    	      if (length(x) == 0) return(character(0))
-              format <- .getFormat(format)
-              tz <- .getTz(x, tz)
-              n <- names(x)
-              d <- RcppCCTZ::parseDouble(x, fmt=format, tzstr=tz)
-              res <- new("nanotime", as.integer64(d[,1]) * as.integer64(1e9) + as.integer64(d[, 2]))
-              if (!is.null(n)) {
-                  names(S3Part(res, strictS3=TRUE)) <- n
+            tryCatch(.Call("_nanotime_make", x, tz), error=function(e) {
+              if (e$message == "Cannot retrieve timezone") {
+                stop(e$message)
+              } else {
+                .secondaryNanotimeParse(x, format, tz)
               }
-              res
+            })
           })
+
 
 ##' @rdname nanotime
 ##' @export
@@ -236,6 +247,9 @@ index2char.nanotime <- function(x, ...) {
 ##' @export
 as.POSIXct.nanotime <- function(x, tz="", ...) {
     ## if (verbose) warning("Lossy conversion dropping precision")
+    if ((tz == "" || is.null(tz)) && length(attr(x, "tzone")) > 0) {
+        tz <- attr(x, "tzone")
+    }
     pt <- as.POSIXct(as.double(S3Part(x, strictS3=TRUE)/1e9), tz=tz, origin="1970-01-01")
     pt
 }
@@ -249,7 +263,8 @@ as.POSIXlt.nanotime <- function(x, tz="", ...) {
 ##' @rdname nanotime
 ##' @export
 as.Date.nanotime <- function(x, ...) {
-    as.Date(as.POSIXct(x))
+    ret <- as.Date(as.POSIXct(x))
+    ret
 }
 
 ##' @rdname nanotime
@@ -288,9 +303,17 @@ setMethod("-", c("nanotime", "character"),
 
 ##' @rdname nanotime
 ##' @export
+setMethod("-", c("nanotime", "period"),
+          function(e1, e2) {
+              stop(paste0("binary '-' is not defined for \"nanotime\" and \"period\" ",
+                          "objects; instead use \"minus(e1, e2, tz)\""))
+          })
+
+##' @rdname nanotime
+##' @export
 setMethod("-", c("nanotime", "nanotime"),
           function(e1, e2) {
-              S3Part(e1, strictS3=TRUE) - S3Part(e2, strictS3=TRUE)
+              new("duration", S3Part(e1, strictS3=TRUE) - S3Part(e2, strictS3=TRUE))
           })
 
 ##' @rdname nanotime
@@ -303,6 +326,13 @@ setMethod("-", c("nanotime", "integer64"),
 ##' @rdname nanotime
 ##' @export
 setMethod("-", c("nanotime", "numeric"),
+          function(e1, e2) {
+              new("nanotime", S3Part(e1, strictS3=TRUE) - e2)
+          })
+
+##' @rdname nanotime
+##' @export
+setMethod("-", c("nanotime", "duration"),
           function(e1, e2) {
               new("nanotime", S3Part(e1, strictS3=TRUE) - e2)
           })
@@ -343,6 +373,21 @@ setMethod("+", c("nanotime", "ANY"),
 
 ##' @rdname nanotime
 ##' @export
+setMethod("+", c("nanotime", "period"),
+          function(e1, e2) {
+              stop(paste0("binary '+' is not defined for \"nanotime\" and \"period\" ",
+                          "objects; instead use \"plus(e1, e2, tz)\""))
+          })
+
+##' @rdname period
+##' @export
+setMethod("+", c("period", "nanotime"),
+          function(e1, e2) {
+              stop("invalid operand types")
+          })
+
+##' @rdname nanotime
+##' @export
 setMethod("+", c("nanotime", "integer64"),
           function(e1, e2) {
               new("nanotime", S3Part(e1, strictS3=TRUE) + e2)
@@ -353,6 +398,13 @@ setMethod("+", c("nanotime", "integer64"),
 setMethod("+", c("nanotime", "numeric"),
           function(e1, e2) {
               new("nanotime", S3Part(e1, strictS3=TRUE) + e2)
+          })
+
+##' @rdname nanotime
+##' @export
+setMethod("+", c("nanotime", "duration"),
+          function(e1, e2) {
+              new("nanotime", S3Part(e1, strictS3=TRUE) + S3Part(e2, strictS3=TRUE))
           })
 
 ##' @rdname nanotime
@@ -375,12 +427,14 @@ setMethod("+", c("numeric", "nanotime"),
           function(e1, e2) {
               new("nanotime", e1 + S3Part(e2, strictS3=TRUE))
           })
+
 ##' @rdname nanotime
 ##' @export
 setMethod("+", c("nanotime", "nanotime"),
           function(e1, e2) {
               stop("invalid operand types")
           })
+
 
 ## ---------- other ops
 
@@ -516,7 +570,7 @@ setMethod("[",
 ##' @export
 setMethod("[<-",
           signature("nanotime"),
-          function (x, i, j, ...) {
+          function (x, i, j, ..., value) {
               new("nanotime", callNextMethod())
           })
 
@@ -546,6 +600,37 @@ setMethod("is.na",
           function(x) {
               callNextMethod(S3Part(x, strictS3=TRUE))
           })
+
+
+##' @rdname nanotime
+##' @export
+seq.nanotime <- function(from, to=NULL, by=NULL, length.out = NULL, along.with = NULL, ...) {
+    nanotime(seq(S3Part(from, strictS3=TRUE),
+                 S3Part(to, strictS3=TRUE),
+                 by, length.out, along.with, ...))                           
+}
+
+##' @rdname nanotime
+##' @export
+setMethod("seq", c("nanotime"), seq.nanotime)
+
+
+all.equal.nanotime <- function(target, current, ...) all.equal(S3Part(target, strictS3=TRUE),
+                                                   S3Part(current, strictS3=TRUE), ...)
+
+##' @rdname nanotime
+##' @export
+setMethod("all.equal", c(target = "nanotime", current = "nanotime"), all.equal.nanotime)
+
+##' @rdname nanotime
+##' @export
+setMethod("all.equal", c(target = "nanotime", current = "ANY"),
+          function(target, current, ...) callNextMethod())
+
+##' @rdname nanotime
+##' @export
+setMethod("all.equal", c(target = "ANY", current = "nanotime"),
+          function(target, current, ...) callNextMethod())
 
 
 ## -------- conversions TODO: figure out if we need conversions
