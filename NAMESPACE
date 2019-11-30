@@ -3,7 +3,7 @@ import("methods")
 import("bit64")
 importFrom("RcppCCTZ", "parseDouble", "formatDouble")
 importFrom("zoo", "index2char")
-importFrom("utils", "head")
+importFrom("utils", "head", "tail")
 
 S3method(as.Date,nanotime)
 S3method(as.POSIXct,nanotime)
