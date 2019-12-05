@@ -229,11 +229,8 @@ namespace Global {
     return tmdet{0, 0, 0, 0, 0, 0, 0, "", 0};;
   }
 
+  const int64_t NA_INTEGER64 = std::numeric_limits<int64_t>::min();
 
-
-  
-
-  
 } // end namespace Global
 
 

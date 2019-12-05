@@ -388,8 +388,13 @@ expect_error(round(nanotime(1)),
 
 ## miscellaneous
 ##test_is.na <- function() {
-expect_identical(is.na(nanotime(NA)), TRUE)
-expect_identical(is.na(nanotime(NaN)), TRUE)
+expect_true(is.na(nanotime(NA)))
+expect_true(is.na(nanotime(NaN)))
+nn <- nanotime(1:10)
+is.na(nn) <- 1:3
+expect_true(all(is.na(nn[1:3])))
+expect_true(!any(is.na(nn[4:10])))
+expect_true(is.na(NA_nanotime_))
 
 
 ## test square bracket (#44)

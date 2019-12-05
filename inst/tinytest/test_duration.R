@@ -51,7 +51,7 @@ expect_identical(as.integer64(as.duration(1:1000)), as.integer64(1:1000))
 d <- duration(1,1,1,1)
 expect_identical(show(d), "01:01:01.000_000_001")
 expect_identical(show(-d), "-01:01:01.000_000_001")
-expect_identical(show(as.duration(as.integer64("-9223372036854775808"))), "NA")
+expect_true(is.na(show(as.duration(as.integer64("-9223372036854775808")))))
 
 ##test_print <- function() {
 d <- duration(1,1,1,1)
@@ -368,3 +368,14 @@ expect_true(is.na("a" < as.duration(1))) # this is what "integer64" gives back, 
 ## Arith
 ##test_Arith <- function() {
 expect_identical(as.duration(4) %% 3, as.integer64(1))
+
+
+## NA stuff
+expect_true(is.na(as.duration(as.integer(NA))))
+expect_true(is.na(as.duration(as.integer(NaN))))
+d <- as.duration(1:10)
+is.na(d) <- 1:3
+expect_true(all(is.na(d[1:3])))
+expect_true(!any(is.na(d[4:10])))
+expect_true(is.na(NA_duration_))
+expect_identical(is.na(c(a=NA_duration_)), c(a=TRUE))

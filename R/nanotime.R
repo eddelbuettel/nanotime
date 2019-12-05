@@ -227,7 +227,7 @@ format.nanotime <- function(x, format="", tz="", ...)
     res[is.na(x)] <- as.character(NA)
     n <- names(x)
     if (!is.null(n)) {
-        names(res) <- n  						## #nocov
+        names(res) <- n
     }
     res
 }
@@ -645,3 +645,5 @@ setMethod("all.equal", c(target = "ANY", current = "nanotime"),
 ##  [4] "4"                     "5"                     "6"
 ##  [7] "7"                     "8"                     "9"
 ## [10] "10"
+
+NA_nanotime_ <- nanotime(NA)

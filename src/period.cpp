@@ -307,7 +307,12 @@ RcppExport SEXP period_to_string(SEXP p) {
     for (R_xlen_t i=0; i<prd.size(); ++i) {
       period pu;
       memcpy(&pu, reinterpret_cast<const char*>(&prd[i]), sizeof(period));
-      res[i] = to_string(*reinterpret_cast<period*>(&pu));
+      if (pu.isNA()) {
+        res[i] = NA_STRING;
+      }
+      else {
+        res[i] = to_string(*reinterpret_cast<period*>(&pu));
+      }
     }
     if (prd.hasAttribute("names")) {
       Rcpp::CharacterVector prdnm(prd.names());
@@ -329,14 +334,22 @@ RcppExport SEXP period_to_string(SEXP p) {
   return R_NilValue;             // not reached
 }
 
+typedef std::numeric_limits< double > dbl;
 
 RcppExport SEXP period_from_integer64(SEXP ii) {
   try {
     Rcpp::NumericVector i64(ii);
     Rcpp::ComplexVector res(i64.size());
     for (R_xlen_t i=0; i<i64.size(); ++i) {
-      period_union pu = { 0, 0, *reinterpret_cast<std::int64_t*>(&i64[i]) };
-      res[i] = Rcomplex{pu.dbl2.d1, pu.dbl2.d2 };
+      auto elt = *reinterpret_cast<std::int64_t*>(&i64[i]);
+      if (elt == Global::NA_INTEGER64) {
+        period_union pu = { NA_INTEGER, NA_INTEGER, Global::NA_INTEGER64 };
+        res[i] = Rcomplex{pu.dbl2.d1, pu.dbl2.d2 };
+      }
+      else {
+        period_union pu = { 0, 0, elt };
+        res[i] = Rcomplex{pu.dbl2.d1, pu.dbl2.d2 };
+      }
     }
     if (i64.hasAttribute("names")) {
       res.names() = i64.names();
@@ -356,8 +369,14 @@ RcppExport SEXP period_from_integer(SEXP ii) {
     Rcpp::IntegerVector iint(ii);
     Rcpp::ComplexVector res(iint.size());
     for (R_xlen_t i=0; i<iint.size(); ++i) {
-      period_union pu = { 0, 0, static_cast<std::int64_t>(iint[i]) };
-      res[i] = Rcomplex{pu.dbl2.d1, pu.dbl2.d2 };
+      if (iint[i] == NA_INTEGER) {
+        period_union pu = { NA_INTEGER, NA_INTEGER, Global::NA_INTEGER64 };
+        res[i] = Rcomplex{pu.dbl2.d1, pu.dbl2.d2 };
+      }
+      else {
+        period_union pu = { 0, 0, static_cast<std::int64_t>(iint[i]) };
+        res[i] = Rcomplex{pu.dbl2.d1, pu.dbl2.d2 };
+      }
     }
     if (iint.hasAttribute("names")) {
       res.names() = iint.names();
@@ -377,8 +396,14 @@ RcppExport SEXP period_from_double(SEXP d) {
     Rcpp::NumericVector dbl(d);
     Rcpp::ComplexVector res(dbl.size());
     for (R_xlen_t i=0; i<dbl.size(); ++i) {
-      period_union pu = { 0, 0, static_cast<std::int64_t>(dbl[i]) };
-      res[i] = Rcomplex{pu.dbl2.d1, pu.dbl2.d2 };
+      if (ISNA(dbl[i])) {
+        period_union pu = { NA_INTEGER, NA_INTEGER, Global::NA_INTEGER64 };
+        res[i] = Rcomplex{pu.dbl2.d1, pu.dbl2.d2 };
+      }
+      else {
+        period_union pu = { 0, 0, static_cast<std::int64_t>(dbl[i]) };
+        res[i] = Rcomplex{pu.dbl2.d1, pu.dbl2.d2 };
+      }
     }
     if (dbl.hasAttribute("names")) {
       res.names() = dbl.names();
@@ -759,7 +784,12 @@ RcppExport SEXP period_month(SEXP e_p) {
     Rcpp::NumericVector res(e_n.size());
     for (R_xlen_t i=0; i<e_n.size(); ++i) {
       period prd; memcpy(&prd, reinterpret_cast<const char*>(&e_n[i]), sizeof(period));
-      res[i] = prd.getMonths();
+      if (prd.isNA()) {
+        res[i] = NA_REAL;
+      }
+      else {
+        res[i] = prd.getMonths();
+      }
     }
     if (e_n.hasAttribute("names")) {
       res.names() = e_n.names();
@@ -780,7 +810,12 @@ RcppExport SEXP period_day(SEXP e_p) {
     Rcpp::NumericVector res(e_n.size());
     for (R_xlen_t i=0; i<e_n.size(); ++i) {
       period prd; memcpy(&prd, reinterpret_cast<const char*>(&e_n[i]), sizeof(period));
-      res[i] = prd.getDays();
+      if (prd.isNA()) {
+        res[i] = NA_REAL;
+      }
+      else {
+        res[i] = prd.getDays();
+      }
     }
     if (e_n.hasAttribute("names")) {
       res.names() = e_n.names();
@@ -801,8 +836,14 @@ RcppExport SEXP period_duration(SEXP e_p) {
     Rcpp::NumericVector res(e_n.size());
     for (R_xlen_t i=0; i<e_n.size(); ++i) {
       period prd; memcpy(&prd, reinterpret_cast<const char*>(&e_n[i]), sizeof(period));
-      auto dur = prd.getDuration();
-      memcpy(&res[i], &dur, sizeof(dur));
+      if (prd.isNA()) {
+        auto dur = Global::duration::min();        
+        memcpy(&res[i], &dur, sizeof(dur));
+      }
+      else {
+        auto dur = prd.getDuration();
+        memcpy(&res[i], &dur, sizeof(dur));
+      }
     }
     if (e_n.hasAttribute("names")) {
       res.names() = e_n.names();
@@ -816,3 +857,16 @@ RcppExport SEXP period_duration(SEXP e_p) {
   return R_NilValue;             // not reached
 }
 
+
+RcppExport SEXP period_isna(SEXP sv) {
+  const Rcpp::ComplexVector cv(sv);
+  Rcpp::LogicalVector res(cv.size());
+  for (R_xlen_t i=0; i<cv.size(); ++i) {
+    period prd;
+    Rcomplex c = cv[i];
+    memcpy(&prd, reinterpret_cast<const char*>(&c), sizeof(c));
+    res[i] = prd.isNA();
+  }
+  res.names() = cv.names();
+  return res;
+}

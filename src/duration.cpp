@@ -63,8 +63,8 @@ Global::duration from_string(const std::string& str) {
 std::string to_string(Global::duration d) {
   std::stringstream ss;
 
-  if (d == Global::duration::min()) {
-    ss << "NA";
+  if (is_na(d)) {
+    ss << "";
   }
   else {
     // handle hh:mm:ss
@@ -107,6 +107,11 @@ std::string to_string(Global::duration d) {
 }
 
 
+bool is_na(Global::duration d) {
+  return d == Global::duration::min();
+}
+
+
 RcppExport SEXP duration_from_string(SEXP s) {
   try {
     Rcpp::CharacterVector str(s);
@@ -131,7 +136,33 @@ RcppExport SEXP duration_to_string(SEXP d) {
     Rcpp::CharacterVector res(dur.size());
     for (R_xlen_t i=0; i<dur.size(); ++i) {
       const auto dur_i = reinterpret_cast<const Global::duration*>(&dur[i]);
+      
       res[i] = to_string(*dur_i);
+      if (res[i].size() == 0) {
+        res[i] = NA_STRING;
+      }
+    }
+    if (dur.hasAttribute("names")) {
+      res.names() = dur.names();
+    } 
+    return res;
+  } catch(std::exception &ex) {	
+    forward_exception_to_r(ex);
+  } catch(...) { 
+    ::Rf_error("c++ exception (unknown reason)"); 
+  }
+  return R_NilValue;             // not reached
+}
+
+
+RcppExport SEXP duration_is_na(SEXP d) {
+  try {
+    Rcpp::NumericVector dur(d);
+    Rcpp::LogicalVector res(dur.size());
+    for (R_xlen_t i=0; i<dur.size(); ++i) {
+      const auto dur_i = reinterpret_cast<const Global::duration*>(&dur[i]);
+      
+      res[i] = is_na(*dur_i);
     }
     if (dur.hasAttribute("names")) {
       res.names() = dur.names();

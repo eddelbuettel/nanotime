@@ -1,5 +1,4 @@
 ## TODO:
-## - should nanoival have NA?
 ## - what do do when subsetting NA nanotime?
 ## - prevent matrix, array, cbind, rbind, compared with non-interval
 ## - see how we can better organize documentation for S4 methods that are
@@ -127,17 +126,17 @@ setClass("nanoival", contains="complex")
 ##' @rdname nanoival
 ##' @export
 nanoival <- function(start, end, sopen=FALSE, eopen=TRUE) {
-  .Call('_nanoival_new',
+  .Call("_nanoival_new",
         as.integer64(start),
         as.integer64(end),
         as.logical(sopen),
         as.logical(eopen))
 }
 
-setGeneric("start", function(x) standardGeneric("start"))
+setGeneric("nanoival.start", function(x) standardGeneric("nanoival.start"))
 ##' @rdname nanoival
 ##' @export
-setMethod("start",
+setMethod("nanoival.start",
           "nanoival",
           function(x) {
             res <- .Call("_nanoival_get_start", x)
@@ -145,10 +144,10 @@ setMethod("start",
             new("nanotime", res)
           })
 
-setGeneric("end", function(x) standardGeneric("end"))
+setGeneric("nanoival.end", function(x) standardGeneric("nanoival.end"))
 ##' @rdname nanoival
 ##' @export
-setMethod("end",
+setMethod("nanoival.end",
           "nanoival",
           function(x) {
             res <- .Call("_nanoival_get_end", x)
@@ -156,17 +155,17 @@ setMethod("end",
             new("nanotime", res)
           })
 
-setGeneric("sopen", function(x) standardGeneric("sopen"))
+setGeneric("nanoival.sopen", function(x) standardGeneric("nanoival.sopen"))
 ##' @rdname nanoival
 ##' @export
-setMethod("sopen",
+setMethod("nanoival.sopen",
           "nanoival",
           function(x) { .Call("_nanoival_get_sopen", x) })
 
-setGeneric("eopen", function(x) standardGeneric("eopen"))
+setGeneric("nanoival.eopen", function(x) standardGeneric("nanoival.eopen"))
 ##' @rdname nanoival
 ##' @export
-setMethod("eopen",
+setMethod("nanoival.eopen",
           "nanoival",
           function(x) { .Call("_nanoival_get_eopen", x) })
 
@@ -177,13 +176,14 @@ format.nanoival <-
     if (length(x) == 0) {
       "nanoival(0)"
     } else {
-      s  <- paste0(ifelse(sopen(x), "-", "+"),
-                   format(start(x), ...), " -> ",
-                   format(end(x), ...),
-                   ifelse(eopen(x), "-", "+"))
+      s  <- paste0(ifelse(nanoival.sopen(x), "-", "+"),
+                   format(nanoival.start(x), ...), " -> ",
+                   format(nanoival.end(x), ...),
+                   ifelse(nanoival.eopen(x), "-", "+"))
       if (!is.null(attr(x, "names", exact=TRUE))) {
         names(s) <- names(x)
       }
+      s[.Call("_nanoival_isna", x)] = NA_character_
       s
     }
   }
@@ -335,6 +335,24 @@ setMethod("as.nanoival",
           "NULL",
           function(x, format="", tz="") {
               new("nanoival", as.complex(NULL))
+          })
+
+##' @rdname nanoival
+##' @export
+setMethod("is.na",
+          "nanoival",
+          function(x) {
+              .Call("_nanoival_isna", x)
+          })
+
+
+##' @rdname nanoival
+##' @export
+setMethod("is.na<-",
+          "nanoival",
+          function(x, value) {
+              x[value] <- NA_nanoival_
+              x
           })
 
 ## ------------ logical comp
@@ -777,3 +795,6 @@ setMethod("is.unsorted", "nanoival",
 setMethod("sort", c("nanoival"),
           function(x, decreasing=FALSE, ...)
             new("nanoival", .Call('_nanoival_sort', x, decreasing)))
+
+
+NA_nanoival_ <- new("nanoival", complex(1, -4.9406564584124654418e-324, -4.9406564584124654418e-324))

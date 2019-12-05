@@ -627,10 +627,17 @@ RcppExport SEXP _nanoival_get_start(SEXP sv) {
     interval ival;
     Rcomplex c = cv[i];
     memcpy(&ival, reinterpret_cast<const char*>(&c), sizeof(c));
-    std::int64_t start = ival.s;
-    double d;
-    memcpy(&d, reinterpret_cast<const char*>(&start), sizeof(start));
-    res[i] = d;
+    if (ival.isNA()) {
+      double d;
+      memcpy(&d, reinterpret_cast<const char*>(&Global::NA_INTEGER64), sizeof(Global::NA_INTEGER64));
+      res[i] = d;
+    }
+    else {
+      std::int64_t start = ival.s;
+      double d;
+      memcpy(&d, reinterpret_cast<const char*>(&start), sizeof(start));
+      res[i] = d;
+    }
   }
   res.names() = cv.names();
   return assignS4("nanotime", res, "integer64");
@@ -644,10 +651,17 @@ RcppExport SEXP _nanoival_get_end(SEXP sv) {
     interval ival;
     Rcomplex c = cv[i];
     memcpy(&ival, reinterpret_cast<const char*>(&c), sizeof(c));
-    std::int64_t end = ival.e;
-    double d;
-    memcpy(&d, reinterpret_cast<const char*>(&end), sizeof(end));
-    res[i] = d;
+    if (ival.isNA()) {
+      double d;
+      memcpy(&d, reinterpret_cast<const char*>(&Global::NA_INTEGER64), sizeof(Global::NA_INTEGER64));
+      res[i] = d;
+    }
+    else {
+      std::int64_t end = ival.e;
+      double d;
+      memcpy(&d, reinterpret_cast<const char*>(&end), sizeof(end));
+      res[i] = d;
+    }
   }
   res.names() = cv.names();
   return assignS4("nanotime", res, "integer64");
@@ -661,7 +675,12 @@ RcppExport SEXP _nanoival_get_sopen(SEXP sv) {
     interval ival;
     Rcomplex c = cv[i];
     memcpy(&ival, reinterpret_cast<const char*>(&c), sizeof(c));
-    res[i] = ival.sopen;
+    if (ival.isNA()) {
+      res[i] = NA_LOGICAL;
+    }
+    else {
+      res[i] = ival.sopen;
+    }
   }
   res.names() = cv.names();
   return res;
@@ -675,7 +694,26 @@ RcppExport SEXP _nanoival_get_eopen(SEXP sv) {
     interval ival;
     Rcomplex c = cv[i];
     memcpy(&ival, reinterpret_cast<const char*>(&c), sizeof(c));
-    res[i] = ival.eopen;
+    if (ival.isNA()) {
+      res[i] = NA_LOGICAL;
+    }
+    else {
+      res[i] = ival.eopen;
+    }
+  }
+  res.names() = cv.names();
+  return res;
+}
+
+
+RcppExport SEXP _nanoival_isna(SEXP sv) {
+  const Rcpp::ComplexVector cv(sv);
+  Rcpp::LogicalVector res(cv.size());
+  for (R_xlen_t i=0; i<cv.size(); ++i) {
+    interval ival;
+    Rcomplex c = cv[i];
+    memcpy(&ival, reinterpret_cast<const char*>(&c), sizeof(c));
+    res[i] = ival.isNA();
   }
   res.names() = cv.names();
   return res;

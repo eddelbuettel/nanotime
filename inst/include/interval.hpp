@@ -13,19 +13,26 @@ struct interval {
   constexpr interval() 
     : sopen(0), s(0), eopen(0), e(0) { }
 
-  interval(Global::dtime s_p, Global::dtime e_p, bool sopen_p, bool eopen_p)
+  interval(Global::dtime s_p, Global::dtime e_p, int sopen_p, int eopen_p)
     : sopen(sopen_p), s(s_p.time_since_epoch().count()),
       eopen(eopen_p), e(e_p.time_since_epoch().count()) {
-    if (s_p.time_since_epoch().count() < IVAL_MIN || e_p.time_since_epoch().count() < IVAL_MIN) {
-      throw std::range_error("underflow");      
-    }
-    if (s_p.time_since_epoch().count() > IVAL_MAX || e_p.time_since_epoch().count() > IVAL_MAX) {
-      throw std::range_error("overflow");      
-    }
-    if (s > e) {
-      std::stringstream ss;
-      ss << "interval end (" << e << ") smaller than interval start (" << s << ")";
-      throw std::range_error(ss.str());
+    // if any of the contructor parameters is NA, we construct an NA interval:
+    if (s_p.time_since_epoch() == Global::duration::min() || e_p.time_since_epoch() == Global::duration::min() ||
+        sopen_p == NA_INTEGER || eopen_p == NA_INTEGER) {
+      s = IVAL_NA;
+      e = IVAL_NA;
+    } else {
+      if (s_p.time_since_epoch().count() < IVAL_MIN || e_p.time_since_epoch().count() < IVAL_MIN) {
+        throw std::range_error("underflow");      
+      }
+      if (s_p.time_since_epoch().count() > IVAL_MAX || e_p.time_since_epoch().count() > IVAL_MAX) {
+        throw std::range_error("overflow");      
+      }
+      if (s > e) {
+        std::stringstream ss;
+        ss << "interval end (" << e << ") smaller than interval start (" << s << ")";
+        throw std::range_error(ss.str());
+      }
     }
   }
 
@@ -40,14 +47,16 @@ struct interval {
 
   Global::dtime getStart() const { return Global::dtime(Global::duration(s)); }
   Global::dtime getEnd() const { return Global::dtime(Global::duration(e)); }
-
+  bool isNA() const { return s == IVAL_NA; }
+  
   bool sopen : 1; // encode if the interval's start boundary is open (true) or closed (false)
   std::int64_t s : 63;
   bool eopen : 1; // encode if the interval's end   boundary is open (true) or closed (false)
   std::int64_t e : 63;
 
   static const std::int64_t IVAL_MAX =  4611686018427387903LL;
-  static const std::int64_t IVAL_MIN = -4611686018427387904LL;
+  static const std::int64_t IVAL_MIN = -4611686018427387903LL;
+  static const std::int64_t IVAL_NA  = -4611686018427387904LL;
 };
 
 // operators:

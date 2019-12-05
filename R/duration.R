@@ -122,10 +122,22 @@ as.integer64.duration <- function(x, ...) {
     S3Part(x, strictS3=TRUE)
 }
 
+
+##' @rdname duration
+##' @export
 setMethod("as.character",
           signature("duration"),
           function(x) {
               .Call('duration_to_string', x)
+          })
+
+
+##' @rdname duration
+##' @export
+setMethod("is.na",
+          "duration",
+          function(x) {
+              .Call("duration_is_na", x)
           })
 
 
@@ -493,3 +505,6 @@ as.data.frame.duration <- function(x, ...) {
     ret[] <- as.duration(S3Part(x, strictS3=TRUE))
     ret
 }
+
+
+NA_duration_  <- as.duration(NA_integer_)

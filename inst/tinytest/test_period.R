@@ -96,6 +96,7 @@ expect_identical(p1, "2m2d/02:02:02.200")
 ##test_as.character <- function() {
 p1 <- as.character(as.period("2m2d/2:02:02.20001"))
 expect_identical(p1, "2m2d/02:02:02.200_010")
+expect_identical(as.character(NA_period_), NA_character_)
 
 ##test_as.character_named <- function() {
 p1 <- as.character(c(a=as.period("2m2d/2:02:02.20001"),
@@ -511,3 +512,16 @@ p  <- as.period("4m")
 tz <- "America/New_York"
 expect_error(minus(p, ni, tz), "operation not defined for \"period\" objects")
 
+## NA stuff
+expect_true(is.na(as.period(NA_integer_)))
+expect_true(is.na(as.period(NA_integer64_)))
+expect_true(is.na(as.period(NA_real_)))
+expect_true(is.na(as.period(as.integer(NaN))))
+p <- as.period(1:10)
+is.na(p) <- 1:3
+expect_true(all(is.na(p[1:3])))
+expect_true(!any(is.na(p[4:10])))
+expect_true(is.na(NA_period_))
+expect_true(is.na(period.duration(NA_period_)))
+expect_true(is.na(period.month(NA_period_)))
+expect_true(is.na(period.day(NA_period_)))

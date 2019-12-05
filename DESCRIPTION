@@ -13,3 +13,8 @@ Suggests: tinytest, data.table, xts
 LinkingTo: Rcpp, RcppCCTZ
 License: GPL (>= 2)
 RoxygenNote: 7.0.1
+Collate:
+  'nanotime.R'
+  'nanoival.R'
+  'duration.R'
+  'period.R'

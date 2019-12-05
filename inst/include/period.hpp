@@ -27,6 +27,8 @@ struct period {
   inline bool operator==(const period& p) { return months==p.months && days==p.days; }
   inline bool operator!=(const period& p) { return months!=p.months || days!=p.days; }
 
+  inline bool isNA() const { return months == std::numeric_limits<int32_t>::min() || dur == Global::duration::min(); }
+  
 private:
   month_t months;
   day_t   days;

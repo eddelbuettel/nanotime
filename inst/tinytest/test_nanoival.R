@@ -16,23 +16,23 @@ options(nanotimeFormat="%Y-%m-%d %H:%M:%S")
 ## nanotime constructors/accessors
 ##test_as.nanoival <- function() {
 ni <- as.nanoival(aa)
-expect_identical(start(ni),     nanotime("2013-01-01 00:00:00")) &
-    expect_identical(end(ni),   nanotime("2014-01-01 00:00:00")) &
-    expect_identical(sopen(ni), FALSE) &
-    expect_identical(eopen(ni), TRUE)
+expect_identical(nanoival.start(ni),     nanotime("2013-01-01 00:00:00")) &
+    expect_identical(nanoival.end(ni),   nanotime("2014-01-01 00:00:00")) &
+    expect_identical(nanoival.sopen(ni), FALSE) &
+    expect_identical(nanoival.eopen(ni), TRUE)
 
 ##test_as.nanoival_vector <- function() {
 ni <- as.nanoival(c(a=aa, b=bb, c=cc, d=dd))
-expect_identical(start(ni),  c(a=nanotime("2013-01-01 00:00:00"),
+expect_identical(nanoival.start(ni),  c(a=nanotime("2013-01-01 00:00:00"),
                              b=nanotime("2014-01-01 00:00:00"),
                              c=nanotime("2015-01-01 00:00:00"),
                              d=nanotime("2016-01-01 00:00:00"))) &
-    expect_identical(end(ni),  c(a=nanotime("2014-01-01 00:00:00"),
+    expect_identical(nanoival.end(ni),  c(a=nanotime("2014-01-01 00:00:00"),
                                b=nanotime("2015-01-01 00:00:00"),
                                c=nanotime("2016-01-01 00:00:00"),
                                d=nanotime("2017-01-01 00:00:00"))) &
-    expect_identical(sopen(ni), c(a=FALSE, b=FALSE, c=TRUE, d=TRUE)) &
-    expect_identical(eopen(ni), c(a=TRUE, b=FALSE, c=TRUE, d=FALSE))
+    expect_identical(nanoival.sopen(ni), c(a=FALSE, b=FALSE, c=TRUE, d=TRUE)) &
+    expect_identical(nanoival.eopen(ni), c(a=TRUE, b=FALSE, c=TRUE, d=FALSE))
 
 expect_identical(length(as.nanoival(vector("character", 0))), 0L)
 expect_identical(as.nanoival("-2013-01-01 00:00:00 America/New_York -> 2014-01-01 00:00:00 America/New_York+"),
@@ -1259,6 +1259,20 @@ i3 <- as.nanoival(cc)
 ii <- c(a=i1, b=i2, c=i3)
 expect_identical(t(ii), ii)
   
-
-
 options(nanotimeFormat=savedFormat)
+
+## NA stuff
+expect_true(is.na(nanoival(NA_nanotime_, NA_nanotime_, NA, NA)))
+expect_true(is.na(nanoival(NA_nanotime_, nanotime(1), TRUE, TRUE)))
+expect_true(is.na(nanoival(nanotime(1), NA_nanotime_, TRUE, TRUE)))
+expect_true(is.na(nanoival(nanotime(1), nanotime(2), NA, TRUE)))
+expect_true(is.na(nanoival(nanotime(1), nanotime(2), TRUE, NA)))
+nn <- nanoival(nanotime(1:10), nanotime(2:11))
+is.na(nn) <- 1:3
+expect_true(all(is.na(nn[1:3])))
+expect_true(!any(is.na(nn[4:10])))
+expect_true(is.na(NA_nanoival_))
+expect_true(is.na(nanoival.start(NA_nanoival_)))
+expect_true(is.na(nanoival.end(NA_nanoival_)))
+expect_true(is.na(nanoival.sopen(NA_nanoival_)))
+expect_true(is.na(nanoival.eopen(NA_nanoival_)))

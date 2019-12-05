@@ -74,6 +74,7 @@ setMethod("as.period",
 setMethod("as.period",
           "numeric",
           function(x) {
+              print("calling period_from_double")
               new("period", .Call('period_from_double', x))
           })
 
@@ -119,6 +120,23 @@ setMethod("as.character",
           signature("period"),
           function(x) {
               .Call('period_to_string', x)
+          })
+
+##' @rdname period
+##' @export
+setMethod("is.na",
+          "period",
+          function(x) {
+              .Call("period_isna", x)
+          })
+
+##' @rdname period
+##' @export
+setMethod("is.na<-",
+          "period",
+          function(x, value) {
+              x[value] <- NA_period_
+              x
           })
 
 ## accessors
@@ -554,4 +572,7 @@ setMethod("minus", c("period", "nanoival", "character"),
           function(e1, e2, tz) {
             stop("operation not defined for \"period\" objects")
           })
+
+
+NA_period_ <- new("period", complex(1, -1.0609978954826362e-314, 0))
 
