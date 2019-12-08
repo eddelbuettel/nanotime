@@ -303,14 +303,6 @@ setMethod("-", c("nanotime", "character"),
 
 ##' @rdname nanotime
 ##' @export
-setMethod("-", c("nanotime", "period"),
-          function(e1, e2) {
-              stop(paste0("binary '-' is not defined for \"nanotime\" and \"period\" ",
-                          "objects; instead use \"minus(e1, e2, tz)\""))
-          })
-
-##' @rdname nanotime
-##' @export
 setMethod("-", c("nanotime", "nanotime"),
           function(e1, e2) {
               new("duration", S3Part(e1, strictS3=TRUE) - S3Part(e2, strictS3=TRUE))
@@ -332,18 +324,10 @@ setMethod("-", c("nanotime", "numeric"),
 
 ##' @rdname nanotime
 ##' @export
-setMethod("-", c("nanotime", "duration"),
-          function(e1, e2) {
-              new("nanotime", S3Part(e1, strictS3=TRUE) - e2)
-          })
-
-##' @rdname nanotime
-##' @export
 setMethod("-", c("ANY", "nanotime"),
           function(e1, e2) {
               stop("invalid operand types")
           })
-
 
 ##' @rdname nanotime
 ##' @export
@@ -373,21 +357,6 @@ setMethod("+", c("nanotime", "ANY"),
 
 ##' @rdname nanotime
 ##' @export
-setMethod("+", c("nanotime", "period"),
-          function(e1, e2) {
-              stop(paste0("binary '+' is not defined for \"nanotime\" and \"period\" ",
-                          "objects; instead use \"plus(e1, e2, tz)\""))
-          })
-
-##' @rdname period
-##' @export
-setMethod("+", c("period", "nanotime"),
-          function(e1, e2) {
-              stop("invalid operand types")
-          })
-
-##' @rdname nanotime
-##' @export
 setMethod("+", c("nanotime", "integer64"),
           function(e1, e2) {
               new("nanotime", S3Part(e1, strictS3=TRUE) + e2)
@@ -398,13 +367,6 @@ setMethod("+", c("nanotime", "integer64"),
 setMethod("+", c("nanotime", "numeric"),
           function(e1, e2) {
               new("nanotime", S3Part(e1, strictS3=TRUE) + e2)
-          })
-
-##' @rdname nanotime
-##' @export
-setMethod("+", c("nanotime", "duration"),
-          function(e1, e2) {
-              new("nanotime", S3Part(e1, strictS3=TRUE) + S3Part(e2, strictS3=TRUE))
           })
 
 ##' @rdname nanotime

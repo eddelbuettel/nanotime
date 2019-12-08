@@ -302,6 +302,21 @@ setMethod("-", c("period", "integer64"),
               .Call("minus_period_integer64", e1, e2)
           })
 
+##' @rdname period
+##' @export
+setMethod("-", c("nanotime", "period"),
+          function(e1, e2) {
+              stop(paste0("binary '-' is not defined for \"nanotime\" and \"period\" ",
+                          "objects; instead use \"minus(e1, e2, tz)\""))
+          })
+
+##' @rdname period
+##' @export
+setMethod("+", c("period", "nanotime"),
+          function(e1, e2) {
+              stop("invalid operand types")
+          })
+
 ## setMethod("-", c("period", "integer"),
 ##           function(e1, e2) {
 ##               .Call("minus_period_integer64", e1, as.integer64(e2))
@@ -322,16 +337,25 @@ setMethod("-", c("ANY", "period"),
               stop("invalid operand types")
           })
 
+## --
+##' @rdname period
+##' @export
 setMethod("-", c("duration", "period"),
           function(e1, e2) {
               .Call("minus_integer64_period", e1, e2)
           })
 
+## --
+##' @rdname period
+##' @export
 setMethod("-", c("integer64", "period"),
           function(e1, e2) {
               .Call("minus_integer64_period", as.integer64(e1), e2)
           })
 
+## --
+##' @rdname period
+##' @export
 setMethod("-", c("numeric", "period"),
           function(e1, e2) {
               .Call("minus_integer64_period", as.integer64(e1), e2)
@@ -379,6 +403,14 @@ setMethod("+", c("period", "duration"),
 setMethod("+", c("period", "integer64"),
           function(e1, e2) {
               .Call("plus_period_integer64", e1, e2)
+          })
+
+##' @rdname period
+##' @export
+setMethod("+", c("nanotime", "period"),
+          function(e1, e2) {
+              stop(paste0("binary '+' is not defined for \"nanotime\" and \"period\" ",
+                          "objects; instead use \"plus(e1, e2, tz)\""))
           })
 
 ##' @rdname period
