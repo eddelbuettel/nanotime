@@ -16,17 +16,21 @@ struct interval {
   interval(Global::dtime s_p, Global::dtime e_p, int sopen_p, int eopen_p)
     : sopen(sopen_p), s(s_p.time_since_epoch().count()),
       eopen(eopen_p), e(e_p.time_since_epoch().count()) {
-    // if any of the contructor parameters is NA, we construct an NA interval:
+    // if any of the contrucstor parameters is NA, we construct an NA interval:
     if (s_p.time_since_epoch() == Global::duration::min() || e_p.time_since_epoch() == Global::duration::min() ||
         sopen_p == NA_INTEGER || eopen_p == NA_INTEGER) {
       s = IVAL_NA;
       e = IVAL_NA;
     } else {
       if (s_p.time_since_epoch().count() < IVAL_MIN || e_p.time_since_epoch().count() < IVAL_MIN) {
-        throw std::range_error("underflow");      
+        s = IVAL_NA;
+        e = IVAL_NA;
+        Rf_warning("NAs produced by time overflow (remember that interval times are coded with 63 bits)");  
       }
       if (s_p.time_since_epoch().count() > IVAL_MAX || e_p.time_since_epoch().count() > IVAL_MAX) {
-        throw std::range_error("overflow");      
+        s = IVAL_NA;
+        e = IVAL_NA;
+        Rf_warning("NAs produced by time overflow (remember that interval times are coded with 63 bits)");
       }
       if (s > e) {
         std::stringstream ss;
