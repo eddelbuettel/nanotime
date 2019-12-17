@@ -42,6 +42,7 @@ static std::int64_t readNanotime(const char*& sp, const char* const se, const ch
 
 
 RcppExport SEXP _nanotime_make(SEXP nt_p, SEXP tz_p) {
+  checkVectorsLengths(nt_p, tz_p);
   const Rcpp::CharacterVector nt_v(nt_p);
   const Rcpp::CharacterVector tz_v(tz_p);
   ConstPseudoVectorChar nt(nt_v);

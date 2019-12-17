@@ -74,7 +74,6 @@ setMethod("as.period",
 setMethod("as.period",
           "numeric",
           function(x) {
-              print("calling period_from_double")
               new("period", .Call('period_from_double', x))
           })
 

@@ -420,6 +420,7 @@ RcppExport SEXP period_from_double(SEXP d) {
 
 RcppExport SEXP plus_period_period(SEXP e1_p, SEXP e2_p) {
   try {
+    checkVectorsLengths(e1_p, e2_p);
     const Rcpp::ComplexVector e1_nv(e1_p);
     const Rcpp::ComplexVector e2_nv(e2_p);
     const ConstPseudoVectorPrd e1_n(e1_nv);
@@ -445,6 +446,7 @@ RcppExport SEXP plus_period_period(SEXP e1_p, SEXP e2_p) {
 
 RcppExport SEXP minus_period_period(SEXP e1_p, SEXP e2_p) {
   try {
+    checkVectorsLengths(e1_p, e2_p);
     const Rcpp::ComplexVector e1_cv(e1_p);
     const Rcpp::ComplexVector e2_cv(e2_p);
     const ConstPseudoVectorPrd e1_n(e1_cv);
@@ -471,6 +473,7 @@ RcppExport SEXP minus_period_period(SEXP e1_p, SEXP e2_p) {
 template <typename OP>
 SEXP compare_period_period(SEXP e1_p, SEXP e2_p, const OP& op) {
   try {
+    checkVectorsLengths(e1_p, e2_p);
     const Rcpp::ComplexVector  e1_cv(e1_p);
     const Rcpp::ComplexVector  e2_cv(e2_p);
     const ConstPseudoVectorPrd e1_n(e1_cv);
@@ -502,6 +505,7 @@ RcppExport SEXP ne_period_period(SEXP e1_p, SEXP e2_p) {
 
 RcppExport SEXP plus_period_integer64(SEXP e1_p, SEXP e2_p) {
   try {
+    checkVectorsLengths(e1_p, e2_p);
     const Rcpp::ComplexVector e1_cv(e1_p);
     const Rcpp::NumericVector e2_nv(e2_p);
     const ConstPseudoVectorPrd   e1_n(e1_cv);
@@ -527,6 +531,7 @@ RcppExport SEXP plus_period_integer64(SEXP e1_p, SEXP e2_p) {
 
 RcppExport SEXP minus_period_integer64(SEXP e1_p, SEXP e2_p) {
   try {
+    checkVectorsLengths(e1_p, e2_p);
     const Rcpp::ComplexVector e1_cv(e1_p);
     const Rcpp::NumericVector e2_nv(e2_p);
     const ConstPseudoVectorPrd   e1_n(e1_cv);
@@ -552,6 +557,7 @@ RcppExport SEXP minus_period_integer64(SEXP e1_p, SEXP e2_p) {
 
 RcppExport SEXP multiplies_period_integer64(SEXP e1_p, SEXP e2_p) {
   try {
+    checkVectorsLengths(e1_p, e2_p);
     const Rcpp::ComplexVector e1_cv(e1_p);
     const Rcpp::NumericVector e2_nv(e2_p);
     const ConstPseudoVectorPrd   e1_n(e1_cv);
@@ -577,6 +583,7 @@ RcppExport SEXP multiplies_period_integer64(SEXP e1_p, SEXP e2_p) {
 
 RcppExport SEXP divides_period_integer64(SEXP e1_p, SEXP e2_p) {
   try {
+    checkVectorsLengths(e1_p, e2_p);
     const Rcpp::ComplexVector    e1_cv(e1_p);
     const Rcpp::NumericVector    e2_nv(e2_p);
     const ConstPseudoVectorPrd   e1_n(e1_cv);
@@ -602,6 +609,7 @@ RcppExport SEXP divides_period_integer64(SEXP e1_p, SEXP e2_p) {
 
 RcppExport SEXP multiplies_period_double(SEXP e1_p, SEXP e2_p) {
   try {
+    checkVectorsLengths(e1_p, e2_p);
     const Rcpp::ComplexVector  e1_cv(e1_p);
     const Rcpp::NumericVector  e2_nv(e2_p);
     const ConstPseudoVectorPrd e1_n(e1_cv);
@@ -627,6 +635,7 @@ RcppExport SEXP multiplies_period_double(SEXP e1_p, SEXP e2_p) {
 
 RcppExport SEXP divides_period_double(SEXP e1_p, SEXP e2_p) {
   try {
+    checkVectorsLengths(e1_p, e2_p);
     const Rcpp::ComplexVector  e1_cv(e1_p);
     const Rcpp::NumericVector  e2_nv(e2_p);
     const ConstPseudoVectorPrd e1_n(e1_cv);
@@ -652,6 +661,7 @@ RcppExport SEXP divides_period_double(SEXP e1_p, SEXP e2_p) {
 
 RcppExport SEXP minus_integer64_period(SEXP e1_p, SEXP e2_p) {
   try {
+    checkVectorsLengths(e1_p, e2_p);
     const Rcpp::NumericVector    e1_nv(e1_p);
     const Rcpp::ComplexVector    e2_cv(e2_p);
     const ConstPseudoVectorInt64 e1_n(e1_nv);
@@ -677,6 +687,7 @@ RcppExport SEXP minus_integer64_period(SEXP e1_p, SEXP e2_p) {
 
 RcppExport SEXP plus_nanotime_period(SEXP e1_p, SEXP e2_p, SEXP tz_p) {
   try {
+    checkVectorsLengths(e1_p, e2_p);
     const Rcpp::NumericVector e1_nv(e1_p);
     const Rcpp::ComplexVector e2_cv(e2_p);
     const ConstPseudoVectorNano e1_n(e1_nv);
@@ -703,6 +714,7 @@ RcppExport SEXP plus_nanotime_period(SEXP e1_p, SEXP e2_p, SEXP tz_p) {
 
 RcppExport SEXP minus_nanotime_period(SEXP e1_p, SEXP e2_p, SEXP tz_p) {
   try {
+    checkVectorsLengths(e1_p, e2_p);
     const Rcpp::NumericVector   e1_nv(e1_p);
     const Rcpp::ComplexVector   e2_cv(e2_p);
     const ConstPseudoVectorNano e1_n(e1_nv);
@@ -729,6 +741,7 @@ RcppExport SEXP minus_nanotime_period(SEXP e1_p, SEXP e2_p, SEXP tz_p) {
 
 RcppExport SEXP plus_nanoival_period(SEXP e1_p, SEXP e2_p, SEXP tz_p) {
   try {
+    checkVectorsLengths(e1_p, e2_p);
     const Rcpp::ComplexVector   e1_cv(e1_p);
     const Rcpp::ComplexVector   e2_cv(e2_p);
     const ConstPseudoVectorIval e1_n (e1_cv);
@@ -754,6 +767,7 @@ RcppExport SEXP plus_nanoival_period(SEXP e1_p, SEXP e2_p, SEXP tz_p) {
 
 RcppExport SEXP minus_nanoival_period(SEXP e1_p, SEXP e2_p, SEXP tz_p) {
   try {
+    checkVectorsLengths(e1_p, e2_p);
     const Rcpp::ComplexVector   e1_cv(e1_p);
     const Rcpp::ComplexVector   e2_cv(e2_p);
     const ConstPseudoVectorIval e1_n (e1_cv);

@@ -67,7 +67,14 @@ SEXP assignS4(const char* classname, Rcpp::Vector<R>& res, const char* oldClass)
 }
 
 
-
+inline void checkVectorsLengths(SEXP x, SEXP y) {
+  auto nx = XLENGTH(x);
+  auto ny = XLENGTH(y);
+  // the following as in R source code: 'arithmetic.c' function 'R_binary':
+  if (nx > 0 && ny > 0 && ((nx > ny) ? nx % ny : ny % nx) != 0) {
+    Rf_warning("longer object length is not a multiple of shorter object length");
+  }
+}
 
 
 #endif

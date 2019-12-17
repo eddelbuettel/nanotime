@@ -209,13 +209,6 @@ x <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
 y <- as.nanoival("+2014-01-01 00:00:00 -> 2015-01-01 00:00:00-")
 expect_identical(c(x, y) < c(y, x), c(TRUE, FALSE))
 
-##test_lt_size_mismatch <- function() {
-## x: c----------o
-## y: c----------o
-x <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
-expect_error(x < c(x,x), "object lengths mismatch")
-
-
 ## le
 ##test_le_non_overlapping <- function() {
 ## x: c----------o
@@ -1287,3 +1280,25 @@ expect_warning(minus(ni, prd, "America/New_York"), "NAs produced by time overflo
 dur <- as.duration(200*365*24*3600*1e9)
 expect_warning(ni + dur, "NAs produced by time overflow \\(remember that interval times are coded with 63 bits\\)")
 expect_warning(ni + dur, "NAs produced by time overflow \\(remember that interval times are coded with 63 bits\\)")
+
+
+## test warnings for ops where the vectors have length mismatch:
+
+##test_lt_size_mismatch <- function() {
+x <- nanoival(nanotime(1), nanotime(2))
+expect_warning(c(x,x) < c(x,x,x), "longer object length is not a multiple of shorter object length")
+d  <- as.duration(1)
+expect_warning(c(x,x,x) + c(d,d), "longer object length is not a multiple of shorter object length")
+## warnings should also happen on 'nanoival' construction:
+s <- nanotime(1)
+e <- nanotime(2)
+expect_warning(nanoival(c(s,s), c(e,e,e)), "longer object length is not a multiple of shorter object length")
+expect_warning(nanoival(c(s,s), c(e,e), c(T,T,T)), "longer object length is not a multiple of shorter object length")
+expect_warning(nanoival(c(s,s), c(e,e), c(T,T), c(F,F,F)), "longer object length is not a multiple of shorter object length")
+
+## test that recycling is really correct, despite the warning:
+s <- nanotime(1e9)
+e <- nanotime(2e9)
+ni  <- nanoival(s, e) + as.duration(1:5*1e9)
+d  <- as.duration(1:2*1e9)
+expect_identical(ni + d, ni + c(d, d, d[1]))

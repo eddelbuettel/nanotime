@@ -451,11 +451,11 @@ RcppExport SEXP _nanoival_sort(SEXP nanoival, SEXP decreasing) {
 template<typename COMP>
 SEXP nanoival_comp(SEXP n1, SEXP n2, COMP cmp) {
   try {
-    const Rcpp::ComplexVector cv1(n1);
-    const Rcpp::ComplexVector cv2(n2);
-    if (cv1.size() != cv2.size()) {
-      Rcpp::stop(std::string("object lengths mismatch"));
-    }
+    checkVectorsLengths(n1, n2);
+    const Rcpp::ComplexVector v1(n1);
+    const Rcpp::ComplexVector v2(n2);
+    const ConstPseudoVectorIval cv1(v1);
+    const ConstPseudoVectorIval cv2(v2);
     const auto ival_len = cv1.size();
     Rcpp::LogicalVector res(ival_len);
     const interval* n1_ptr = reinterpret_cast<const interval*>(&cv1[0]);
@@ -465,7 +465,7 @@ SEXP nanoival_comp(SEXP n1, SEXP n2, COMP cmp) {
       res[i] = cmp(n1_ptr[i], n2_ptr[i]);
     }
   
-    copyNames(cv1, cv2, res);
+    copyNames(v1, v2, res);
     return res;
   } catch(std::exception &ex) {	
     forward_exception_to_r(ex);
@@ -503,7 +503,7 @@ RcppExport SEXP _nanoival_ne(SEXP n1, SEXP n2) {
 template<typename OP>
 SEXP nanoival_op(SEXP n1, SEXP n2, OP op) {
   try {
-
+    checkVectorsLengths(n1, n2);
     const Rcpp::ComplexVector   cv1(n1);
     const Rcpp::NumericVector   nv2(n2);
     const ConstPseudoVectorIval e1(cv1);
@@ -589,6 +589,12 @@ RcppExport SEXP _nanoival_setdiff_idx_time_interval(SEXP sv1, SEXP sv2)
 
 
 RcppExport SEXP _nanoival_new(SEXP start, SEXP end, SEXP sopen, SEXP eopen) {
+  checkVectorsLengths(start, end);
+  checkVectorsLengths(sopen, eopen);
+  checkVectorsLengths(start, sopen);
+  checkVectorsLengths(start, eopen);
+  checkVectorsLengths(end, sopen);
+  checkVectorsLengths(end, eopen);
   const Rcpp::NumericVector sv(start);
   const Rcpp::NumericVector ev(end);
   const Rcpp::LogicalVector sopenv(sopen);
@@ -779,6 +785,7 @@ static Rcomplex readNanoival(const char*& sp, const char* const se, const char* 
 
 
 RcppExport SEXP _nanoival_make(SEXP nt_p, SEXP tz_p) {
+  checkVectorsLengths(nt_p, tz_p);
   const Rcpp::CharacterVector nt_v(nt_p);
   const Rcpp::CharacterVector tz_v(tz_p);
   ConstPseudoVectorChar nt(nt_v);
