@@ -1,140 +1,140 @@
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setClass("period", contains = "complex")
+setClass("nanoperiod", contains = "complex")
 
 ##' Period type with nanosecond precision
 ##'
-##' \code{period} is a length of time type (implemented as an S4
-##' class) with nanosecond precision. It differs from \code{duration}
+##' \code{nanoperiod} is a length of time type (implemented as an S4
+##' class) with nanosecond precision. It differs from \code{nanoduration}
 ##' because it is capable of representing calendar months and days. It
 ##' can of course also reprensent years (immutably 12 months) and
 ##' weeks (immutably 7 days). 
 ##'
 ##' @section Output Format:
 ##'
-##' A \code{period} is displayed as months, days, and \code{duration}
+##' A \code{nanoperiod} is displayed as months, days, and \code{nanoduration}
 ##' like this: \code{10m2d/10:12:34.123_453_000}.
 ##'
 ##' @section Details:
 ##'
 ##' 
 ##' 
-##' Adding or subtracting \code{period} and \code{nanotime} require a
+##' Adding or subtracting \code{nanoperiod} and \code{nanotime} require a
 ##' timezone as third argument. For this reason it is not possible to
 ##' use the binary operator `code{+}`. Instead the functions
 ##' `\code{plus}` and `\code{minus}` are defined.
 ##'
 ##' 
-##' @param x The object which want to convert to class \code{period}
+##' @param x The object which want to convert to class \code{nanoperiod}
 ##' @param ... further arguments passed to or from methods.
-##' @param e1 Operand of class \code{period}
-##' @param e2 Operand of class \code{period}
+##' @param e1 Operand of class \code{nanoperiod}
+##' @param e2 Operand of class \code{nanoperiod}
 ##' @param object argument for method \code{show}
 ##' @param i index specifying elements to extract or replace.
 ##' @param j Required for \code{[} signature but ignored here
 ##' @param drop Required for \code{[} signature but ignored here
 ##' @author Leonardo Silvestri
 ##' @examples
-##' x <- period(months=12, days=7, duration="01:00:00")
+##' x <- nanoperiod(months=12, days=7, duration="01:00:00")
 ##' print(x)
 ##' y <- nanotime("1970-01-01T00:00:00.000000001+00:00")
 ##' plus(y, x, tz="America/Chicago")
 ##' 
 
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-period <- function(months, days, duration=as.duration(0)) {
-    as.period(paste0(as.integer64(months), "m", as.integer64(days), "d", "/", as.duration(duration)))
+nanoperiod <- function(months, days, duration=as.nanoduration(0)) {
+    as.nanoperiod(paste0(as.integer64(months), "m", as.integer64(days), "d", "/", as.nanoduration(duration)))
 }
 
-setGeneric("period")
+setGeneric("nanoperiod")
 
 
-setGeneric("as.period", function(x) standardGeneric("as.period"))
+setGeneric("as.nanoperiod", function(x) standardGeneric("as.nanoperiod"))
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("as.period",
+setMethod("as.nanoperiod",
           "character",
           function(x) {
-              new("period", .Call('period_from_string', x))
+              new("nanoperiod", .Call('period_from_string', x))
           })
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("as.period",
+setMethod("as.nanoperiod",
           "integer64",
           function(x) {
-              new("period", .Call('period_from_integer64', x))
+              new("nanoperiod", .Call('period_from_integer64', x))
           })
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("as.period",
+setMethod("as.nanoperiod",
           "numeric",
           function(x) {
-              new("period", .Call('period_from_double', x))
+              new("nanoperiod", .Call('period_from_double', x))
           })
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("as.period",
+setMethod("as.nanoperiod",
           "integer",
           function(x) {
-              new("period", .Call('period_from_integer', x))
+              new("nanoperiod", .Call('period_from_integer', x))
           })
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("as.period",
-          "duration",
+setMethod("as.nanoperiod",
+          "nanoduration",
           function(x) {
-              new("period", .Call('period_from_integer64', x))
+              new("nanoperiod", .Call('period_from_integer64', x))
           })
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
 setMethod("show",
-          signature("period"),
+          signature("nanoperiod"),
           function(object) print(object))
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
 setMethod("print",
-          "period",
+          "nanoperiod",
           function(x, ...) {
               print(.Call('period_to_string', x))
           })
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-format.period <- function(x, ...) {
+format.nanoperiod <- function(x, ...) {
   .Call('period_to_string', x)
 }
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
 setMethod("as.character",
-          signature("period"),
+          signature("nanoperiod"),
           function(x) {
               .Call('period_to_string', x)
           })
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
 setMethod("is.na",
-          "period",
+          "nanoperiod",
           function(x) {
               .Call("period_isna", x)
           })
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
 setMethod("is.na<-",
-          "period",
+          "nanoperiod",
           function(x, value) {
-              x[value] <- NA_period_
+              x[value] <- NA_nanoperiod_
               x
           })
 
@@ -142,220 +142,220 @@ setMethod("is.na<-",
 
 ## ----------- non ops
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
 setMethod("[[",
-          signature("period", "ANY"),
+          signature("nanoperiod", "ANY"),
           function (x, i, j, ..., drop=FALSE) {
-              new("period", callNextMethod())
+              new("nanoperiod", callNextMethod())
           })
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
 setMethod("[",
-          signature("period", "ANY"),
+          signature("nanoperiod", "ANY"),
           function (x, i, j, ..., drop=FALSE) {
-              new("period", callNextMethod())
+              new("nanoperiod", callNextMethod())
           })
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
 setMethod("[<-",
-          signature("period", "ANY", "ANY", "ANY"),
+          signature("nanoperiod", "ANY", "ANY", "ANY"),
           function (x, i, j, ..., value) {
-              new("period", callNextMethod())
+              new("nanoperiod", callNextMethod())
           })
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-c.period <- function(...) {
+c.nanoperiod <- function(...) {
     args <- list(...)
     s3args <- lapply(args, function (x) S3Part(x, strictS3=TRUE))
     res <- do.call(c, s3args)
     names(res) <- names(args)
-    new("period", res)
+    new("nanoperiod", res)
 }
 
-setGeneric("period.month", function(x) standardGeneric("period.month"))
-setMethod("period.month",
-          "period",
+setGeneric("nanoperiod.month", function(x) standardGeneric("nanoperiod.month"))
+setMethod("nanoperiod.month",
+          "nanoperiod",
           function(x) {
               .Call('period_month', x)
           })
 
-setGeneric("period.day", function(x) standardGeneric("period.day"))
-setMethod("period.day",
-          "period",
+setGeneric("nanoperiod.day", function(x) standardGeneric("nanoperiod.day"))
+setMethod("nanoperiod.day",
+          "nanoperiod",
           function(x) {
               .Call('period_day', x)
           })
 
-setGeneric("period.duration", function(x) standardGeneric("period.duration"))
-setMethod("period.duration",
-          "period",
+setGeneric("nanoperiod.nanoduration", function(x) standardGeneric("nanoperiod.nanoduration"))
+setMethod("nanoperiod.nanoduration",
+          "nanoperiod",
           function(x) {
               .Call('period_duration', x)
           })
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
 setMethod("names",
-          signature("period"),
+          signature("nanoperiod"),
           function(x) {
               callNextMethod()
           })
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
 setMethod("names<-",
-          signature("period"),
+          signature("nanoperiod"),
           function(x, value) {
               names(S3Part(x, strictS3=TRUE)) <- value
-              new("period", x)
+              new("nanoperiod", x)
           })
 
 
 ## ----------- make sure ops that don't make sense error out
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("Ops", c("period", "ANY"),
+setMethod("Ops", c("nanoperiod", "ANY"),
           function(e1, e2) {
-              stop("operation not defined for \"period\" objects")
+              stop("operation not defined for \"nanoperiod\" objects")
           })
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("Ops", c("ANY", "period"),
+setMethod("Ops", c("ANY", "nanoperiod"),
           function(e1, e2) {
-              stop("operation not defined for \"period\" objects")
+              stop("operation not defined for \"nanoperiod\" objects")
           })
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("Math", c("period"),
+setMethod("Math", c("nanoperiod"),
           function(x) {
-              stop("operation not defined for \"period\" objects")
+              stop("operation not defined for \"nanoperiod\" objects")
           })
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("Math2", c("period"),
+setMethod("Math2", c("nanoperiod"),
           function(x, digits) {
-              stop("operation not defined for \"period\" objects")
+              stop("operation not defined for \"nanoperiod\" objects")
           })
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("Summary", c("period"),
+setMethod("Summary", c("nanoperiod"),
           function(x, ..., na.rm = FALSE) {
-              stop("invalid 'type' (period) of argument")
+              stop("invalid 'type' (nanoperiod) of argument")
           })
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("Complex", c("period"),
+setMethod("Complex", c("nanoperiod"),
           function(z) {
-              stop("operation not defined for \"period\" objects")
+              stop("operation not defined for \"nanoperiod\" objects")
           })
 
 ## ------------ `-`
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("-", c("period", "ANY"),
+setMethod("-", c("nanoperiod", "ANY"),
           function(e1, e2) {
-              print("entering - period ANY")
+              print("entering - nanoperiod ANY")
               if (missing(e2)) {
                   ## incorrect LLL
-                  new("period", -S3Part(e1, strictS3=TRUE))
+                  new("nanoperiod", -S3Part(e1, strictS3=TRUE))
               }
               else {
                   stop("invalid operand types")
               }
           })
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("-", c("period", "period"),
+setMethod("-", c("nanoperiod", "nanoperiod"),
           function(e1, e2) {
               .Call("minus_period_period", e1, e2)
           })
 
 ## --
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("-", c("period", "ANY"),
+setMethod("-", c("nanoperiod", "ANY"),
           function(e1, e2) {
               stop("invalid operand types")
           })
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("-", c("period", "duration"),
+setMethod("-", c("nanoperiod", "nanoduration"),
           function(e1, e2) {
               .Call("minus_period_integer64", e1, e2)
           })
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("-", c("period", "integer64"),
+setMethod("-", c("nanoperiod", "integer64"),
           function(e1, e2) {
               .Call("minus_period_integer64", e1, e2)
           })
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("-", c("nanotime", "period"),
+setMethod("-", c("nanotime", "nanoperiod"),
           function(e1, e2) {
-              stop(paste0("binary '-' is not defined for \"nanotime\" and \"period\" ",
+              stop(paste0("binary '-' is not defined for \"nanotime\" and \"nanoperiod\" ",
                           "objects; instead use \"minus(e1, e2, tz)\""))
           })
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("+", c("period", "nanotime"),
+setMethod("+", c("nanoperiod", "nanotime"),
           function(e1, e2) {
               stop("invalid operand types")
           })
 
-## setMethod("-", c("period", "integer"),
+## setMethod("-", c("nanoperiod", "integer"),
 ##           function(e1, e2) {
 ##               .Call("minus_period_integer64", e1, as.integer64(e2))
 ##           })
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("-", c("period", "numeric"),
+setMethod("-", c("nanoperiod", "numeric"),
           function(e1, e2) {
               .Call("minus_period_integer64", e1, as.integer64(e2))
           })
 
 ## --
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("-", c("ANY", "period"),
+setMethod("-", c("ANY", "nanoperiod"),
           function(e1, e2) {
               stop("invalid operand types")
           })
 
 ## --
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("-", c("duration", "period"),
+setMethod("-", c("nanoduration", "nanoperiod"),
           function(e1, e2) {
               .Call("minus_integer64_period", e1, e2)
           })
 
 ## --
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("-", c("integer64", "period"),
+setMethod("-", c("integer64", "nanoperiod"),
           function(e1, e2) {
               .Call("minus_integer64_period", as.integer64(e1), e2)
           })
 
 ## --
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("-", c("numeric", "period"),
+setMethod("-", c("numeric", "nanoperiod"),
           function(e1, e2) {
               .Call("minus_integer64_period", as.integer64(e1), e2)
           })
@@ -363,9 +363,9 @@ setMethod("-", c("numeric", "period"),
 
 ## ----------- `+`
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("+", c("period", "ANY"),
+setMethod("+", c("nanoperiod", "ANY"),
           function(e1, e2) {
               if (missing(e2)) {
                   e2
@@ -375,149 +375,149 @@ setMethod("+", c("period", "ANY"),
               }
           })
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("+", c("period", "period"),
+setMethod("+", c("nanoperiod", "nanoperiod"),
           function(e1, e2) {
               .Call("plus_period_period", e1, e2)
           })
 
 ## --
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("+", c("ANY", "period"),
+setMethod("+", c("ANY", "nanoperiod"),
           function(e1, e2) {
               stop("invalid operand types")
           })
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("+", c("period", "duration"),
+setMethod("+", c("nanoperiod", "nanoduration"),
           function(e1, e2) {
               .Call("plus_period_integer64", e1, S3Part(e2, strictS3=TRUE))
           })
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("+", c("period", "integer64"),
+setMethod("+", c("nanoperiod", "integer64"),
           function(e1, e2) {
               .Call("plus_period_integer64", e1, e2)
           })
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("+", c("nanotime", "period"),
+setMethod("+", c("nanotime", "nanoperiod"),
           function(e1, e2) {
-              stop(paste0("binary '+' is not defined for \"nanotime\" and \"period\" ",
+              stop(paste0("binary '+' is not defined for \"nanotime\" and \"nanoperiod\" ",
                           "objects; instead use \"plus(e1, e2, tz)\""))
           })
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("+", c("period", "numeric"),
+setMethod("+", c("nanoperiod", "numeric"),
           function(e1, e2) {
               .Call("plus_period_integer64", e1, as.integer64(e2))
           })
 
 ## --
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("+", c("period", "ANY"),
+setMethod("+", c("nanoperiod", "ANY"),
           function(e1, e2) {
               stop("invalid operand types")
           })
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("+", c("duration", "period"),
+setMethod("+", c("nanoduration", "nanoperiod"),
           function(e1, e2) {
               .Call("plus_period_integer64", e2, e1)
           })
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("+", c("integer64", "period"),
+setMethod("+", c("integer64", "nanoperiod"),
           function(e1, e2) {
               .Call("plus_period_integer64", e2, e1)
           })
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("+", c("numeric", "period"),
+setMethod("+", c("numeric", "nanoperiod"),
           function(e1, e2) {
               .Call("plus_period_integer64", e2, as.integer64(e1))
           })
 
 ## ----------- `*`
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("*", c("ANY", "period"),
+setMethod("*", c("ANY", "nanoperiod"),
           function(e1, e2) {
               stop("invalid operand types")
           })
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("*", c("period", "ANY"),
+setMethod("*", c("nanoperiod", "ANY"),
           function(e1, e2) {
               stop("invalid operand types")
           })
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("*", c("period", "integer64"),
+setMethod("*", c("nanoperiod", "integer64"),
           function(e1, e2) {
               .Call("multiplies_period_integer64", e1, e2)
           })
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("*", c("period", "numeric"),
+setMethod("*", c("nanoperiod", "numeric"),
           function(e1, e2) {
               .Call("multiplies_period_double", e1, e2)
           })
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("*", c("integer64", "period"),
+setMethod("*", c("integer64", "nanoperiod"),
           function(e1, e2) {
               .Call("multiplies_period_integer64", e2, e1)
           })
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("*", c("numeric", "period"),
+setMethod("*", c("numeric", "nanoperiod"),
           function(e1, e2) {
               .Call("multiplies_period_double", e2, e1)
           })
 
 ## ----------- `/`
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("/", c("ANY", "period"),
+setMethod("/", c("ANY", "nanoperiod"),
           function(e1, e2) {
               stop("invalid operand types")
           })
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("/", c("period", "ANY"),
+setMethod("/", c("nanoperiod", "ANY"),
           function(e1, e2) {
               stop("invalid operand types")
           })
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("/", c("period", "integer64"),
+setMethod("/", c("nanoperiod", "integer64"),
           function(e1, e2) {
               .Call("divides_period_integer64", e1, e2)
           })
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("/", c("period", "numeric"),
+setMethod("/", c("nanoperiod", "numeric"),
           function(e1, e2) {
               .Call("divides_period_double", e1, e2)
           })
@@ -525,85 +525,85 @@ setMethod("/", c("period", "numeric"),
 ## Compare
 ## -------
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("Compare", c("ANY", "period"),
+setMethod("Compare", c("ANY", "nanoperiod"),
           function(e1, e2) {
-              stop("operation not defined for \"period\" objects")
+              stop("operation not defined for \"nanoperiod\" objects")
           })
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("Compare", c("period", "ANY"),
+setMethod("Compare", c("nanoperiod", "ANY"),
           function(e1, e2) {
-              stop("operation not defined for \"period\" objects")
+              stop("operation not defined for \"nanoperiod\" objects")
           })
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("==", c("period", "period"), function(e1, e2) .Call("eq_period_period", e1, e2))
+setMethod("==", c("nanoperiod", "nanoperiod"), function(e1, e2) .Call("eq_period_period", e1, e2))
 
-##' @rdname period
+##' @rdname nanoperiod
 ##' @export
-setMethod("!=", c("period", "period"), function(e1, e2) .Call("ne_period_period", e1, e2))
+setMethod("!=", c("nanoperiod", "nanoperiod"), function(e1, e2) .Call("ne_period_period", e1, e2))
 
 setMethod("all.equal",
-          c("period"),
+          c("nanoperiod"),
           function(target, current, ..., tolerance=0) {
               callNextMethod()
           })
 
 
-## ---------- plus/minus ops with nanotime and period (which require 'tz')
+## ---------- plus/minus ops with nanotime and nanoperiod (which require 'tz')
 
 setGeneric("plus",  function(e1, e2, tz) standardGeneric("plus"))
 setGeneric("minus", function(e1, e2, tz) standardGeneric("minus"))
 
 
-setMethod("plus", c("nanotime", "period", "character"),
+setMethod("plus", c("nanotime", "nanoperiod", "character"),
           function(e1, e2, tz) {
             .Call("plus_nanotime_period", e1, e2, tz) 
           })
 
-setMethod("plus", c("period", "nanotime", "character"),
+setMethod("plus", c("nanoperiod", "nanotime", "character"),
           function(e1, e2, tz) {
             .Call("plus_nanotime_period", e2, e1, tz) 
           })
 
 
-setMethod("minus", c("nanotime", "period", "character"),
+setMethod("minus", c("nanotime", "nanoperiod", "character"),
           function(e1, e2, tz) {
             .Call("minus_nanotime_period", e1, e2, tz) 
           })
 
-setMethod("minus", c("period", "nanotime", "character"),
+setMethod("minus", c("nanoperiod", "nanotime", "character"),
           function(e1, e2, tz) {
-            stop("operation not defined for \"period\" objects")
+            stop("operation not defined for \"nanoperiod\" objects")
           })
 
 
-## ---------- plus/minus ops with nanoival and period (which require 'tz')
+## ---------- plus/minus ops with nanoival and nanoperiod (which require 'tz')
 
 
-setMethod("plus", c("nanoival", "period", "character"),
+setMethod("plus", c("nanoival", "nanoperiod", "character"),
           function(e1, e2, tz) {
             .Call("plus_nanoival_period", e1, e2, tz) 
           })
 
-setMethod("plus", c("period", "nanoival", "character"),
+setMethod("plus", c("nanoperiod", "nanoival", "character"),
           function(e1, e2, tz) {
             .Call("plus_nanoival_period", e2, e1, tz) 
           })
 
-setMethod("minus", c("nanoival", "period", "character"),
+setMethod("minus", c("nanoival", "nanoperiod", "character"),
           function(e1, e2, tz) {
             .Call("minus_nanoival_period", e1, e2, tz) 
           })
 
-setMethod("minus", c("period", "nanoival", "character"),
+setMethod("minus", c("nanoperiod", "nanoival", "character"),
           function(e1, e2, tz) {
-            stop("operation not defined for \"period\" objects")
+            stop("operation not defined for \"nanoperiod\" objects")
           })
 
 
-NA_period_ <- new("period", complex(1, -1.0609978954826362e-314, 0))
+NA_nanoperiod_ <- new("nanoperiod", complex(1, -1.0609978954826362e-314, 0))
 

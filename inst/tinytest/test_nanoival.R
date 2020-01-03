@@ -1274,10 +1274,10 @@ expect_true(is.na(nanoival.eopen(NA_nanoival_)))
 n1 <- nanotime(1)
 n2 <- nanotime(2)
 ni <- nanoival(n1, n2)
-prd <- as.period("200y")
+prd <- as.nanoperiod("200y")
 expect_warning(plus (ni, prd, "America/New_York"), "NAs produced by time overflow \\(remember that interval times are coded with 63 bits\\)")
 expect_warning(minus(ni, prd, "America/New_York"), "NAs produced by time overflow \\(remember that interval times are coded with 63 bits\\)")
-dur <- as.duration(200*365*24*3600*1e9)
+dur <- as.nanoduration(200*365*24*3600*1e9)
 expect_warning(ni + dur, "NAs produced by time overflow \\(remember that interval times are coded with 63 bits\\)")
 expect_warning(ni + dur, "NAs produced by time overflow \\(remember that interval times are coded with 63 bits\\)")
 
@@ -1287,7 +1287,7 @@ expect_warning(ni + dur, "NAs produced by time overflow \\(remember that interva
 ##test_lt_size_mismatch <- function() {
 x <- nanoival(nanotime(1), nanotime(2))
 expect_warning(c(x,x) < c(x,x,x), "longer object length is not a multiple of shorter object length")
-d  <- as.duration(1)
+d  <- as.nanoduration(1)
 expect_warning(c(x,x,x) + c(d,d), "longer object length is not a multiple of shorter object length")
 ## warnings should also happen on 'nanoival' construction:
 s <- nanotime(1)
@@ -1299,6 +1299,6 @@ expect_warning(nanoival(c(s,s), c(e,e), c(T,T), c(F,F,F)), "longer object length
 ## test that recycling is really correct, despite the warning:
 s <- nanotime(1e9)
 e <- nanotime(2e9)
-ni  <- nanoival(s, e) + as.duration(1:5*1e9)
-d  <- as.duration(1:2*1e9)
+ni  <- nanoival(s, e) + as.nanoduration(1:5*1e9)
+d  <- as.nanoduration(1:2*1e9)
 expect_identical(ni + d, ni + c(d, d, d[1]))

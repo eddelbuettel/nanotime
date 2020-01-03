@@ -55,13 +55,13 @@ period::period(const std::string& str) {
 
   int n;
   if (s < e && (*s == '/' || (s+2 < e && s[2] == ':'))) goto getduration;
-  if (!Global::readNumber(s, e, n, true) || s == e) throw std::range_error("cannot parse period");
+  if (!Global::readNumber(s, e, n, true) || s == e) throw std::range_error("cannot parse nanoperiod");
   if (*s == 'y') {
     months += 12*n;
     ++s;
     if (s < e) {
       if (*s == '/') goto getduration;
-      if (!Global::readNumber(s, e, n, true) || s == e) throw std::range_error("cannot parse period");
+      if (!Global::readNumber(s, e, n, true) || s == e) throw std::range_error("cannot parse nanoperiod");
     }
     else {
       return;
@@ -72,7 +72,7 @@ period::period(const std::string& str) {
     ++s;
     if (s < e) {
       if (*s == '/') goto getduration;
-      if (!Global::readNumber(s, e, n, true) || s == e) throw std::range_error("cannot parse period");      
+      if (!Global::readNumber(s, e, n, true) || s == e) throw std::range_error("cannot parse nanoperiod");      
     }
     else {
       return;
@@ -83,7 +83,7 @@ period::period(const std::string& str) {
     ++s;
     if (s < e) {
       if (*s == '/') goto getduration;
-      if (!Global::readNumber(s, e, n, true) || s == e) throw std::range_error("cannot parse period");
+      if (!Global::readNumber(s, e, n, true) || s == e) throw std::range_error("cannot parse nanoperiod");
     }
     else {
       return;
@@ -94,7 +94,7 @@ period::period(const std::string& str) {
     ++s;
     if (s < e) { 
       if (*s == '/') goto getduration;
-      if (!Global::readNumber(s, e, n, true) || s == e) throw std::range_error("cannot parse period");
+      if (!Global::readNumber(s, e, n, true) || s == e) throw std::range_error("cannot parse nanoperiod");
     }
     else {
       return;
@@ -109,7 +109,7 @@ getduration:                    // # nocov
     dur = from_string(++s);
   }
   catch (...) {
-    throw std::range_error("cannot parse period");
+    throw std::range_error("cannot parse nanoperiod");
   }
 }
 
@@ -434,7 +434,7 @@ RcppExport SEXP plus_period_period(SEXP e1_p, SEXP e2_p) {
       memcpy(&pres[i], &prd, sizeof(prd)); 
     }
     copyNames(e1_nv, e2_nv, res);    
-    return assignS4("period", res);
+    return assignS4("nanoperiod", res);
   } catch(std::exception &ex) {	
     forward_exception_to_r(ex);
   } catch(...) { 
@@ -460,7 +460,7 @@ RcppExport SEXP minus_period_period(SEXP e1_p, SEXP e2_p) {
       memcpy(&pres[i], reinterpret_cast<const char*>(&prd), sizeof(prd)); 
     }
     copyNames(e1_cv, e2_cv, res);    
-    return assignS4("period", res);
+    return assignS4("nanoperiod", res);
   } catch(std::exception &ex) {	
     forward_exception_to_r(ex);
   } catch(...) { 
@@ -519,7 +519,7 @@ RcppExport SEXP plus_period_integer64(SEXP e1_p, SEXP e2_p) {
       memcpy(&pres[i], &pu1, sizeof(pu1)); 
     }
     copyNames(e1_cv, e2_nv, res);    
-    return assignS4("period", res);
+    return assignS4("nanoperiod", res);
   } catch(std::exception &ex) {	
     forward_exception_to_r(ex);
   } catch(...) { 
@@ -545,7 +545,7 @@ RcppExport SEXP minus_period_integer64(SEXP e1_p, SEXP e2_p) {
       memcpy(&pres[i], &pu1, sizeof(pu1)); 
     }
     copyNames(e1_cv, e2_nv, res);    
-    return assignS4("period", res);
+    return assignS4("nanoperiod", res);
   } catch(std::exception &ex) {	
     forward_exception_to_r(ex);
   } catch(...) { 
@@ -571,7 +571,7 @@ RcppExport SEXP multiplies_period_integer64(SEXP e1_p, SEXP e2_p) {
       memcpy(&pres[i], &pu1, sizeof(pu1)); 
     }
     copyNames(e1_cv, e2_nv, res);    
-    return assignS4("period", res);
+    return assignS4("nanoperiod", res);
   } catch(std::exception &ex) {	
     forward_exception_to_r(ex);
   } catch(...) { 
@@ -597,7 +597,7 @@ RcppExport SEXP divides_period_integer64(SEXP e1_p, SEXP e2_p) {
       memcpy(&pres[i], &pu1, sizeof(pu1)); 
     }
     copyNames(e1_cv, e2_nv, res);    
-    return assignS4("period", res);
+    return assignS4("nanoperiod", res);
   } catch(std::exception &ex) {	
     forward_exception_to_r(ex);
   } catch(...) { 
@@ -623,7 +623,7 @@ RcppExport SEXP multiplies_period_double(SEXP e1_p, SEXP e2_p) {
       memcpy(&pres[i], &pu1, sizeof(pu1)); 
     }
     copyNames(e1_cv, e2_nv, res);    
-    return assignS4("period", res);
+    return assignS4("nanoperiod", res);
   } catch(std::exception &ex) {	
     forward_exception_to_r(ex);
   } catch(...) { 
@@ -649,7 +649,7 @@ RcppExport SEXP divides_period_double(SEXP e1_p, SEXP e2_p) {
       memcpy(&pres[i], &pu1, sizeof(pu1)); 
     }
     copyNames(e1_cv, e2_nv, res);    
-    return assignS4("period", res);
+    return assignS4("nanoperiod", res);
   } catch(std::exception &ex) {	
     forward_exception_to_r(ex);
   } catch(...) { 
@@ -675,7 +675,7 @@ RcppExport SEXP minus_integer64_period(SEXP e1_p, SEXP e2_p) {
       memcpy(&pres[i], &pu2, sizeof(pu2));
     }
     copyNames(e1_nv, e2_cv, res);    
-    return assignS4("period", res);
+    return assignS4("nanoperiod", res);
   } catch(std::exception &ex) {	
     forward_exception_to_r(ex);
   } catch(...) { 
@@ -862,7 +862,7 @@ RcppExport SEXP period_duration(SEXP e_p) {
     if (e_n.hasAttribute("names")) {
       res.names() = e_n.names();
     }
-    return assignS4("duration", res, "integer64");
+    return assignS4("nanoduration", res, "integer64");
   } catch(std::exception &ex) {	
     forward_exception_to_r(ex);
   } catch(...) { 

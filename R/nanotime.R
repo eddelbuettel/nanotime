@@ -305,7 +305,7 @@ setMethod("-", c("nanotime", "character"),
 ##' @export
 setMethod("-", c("nanotime", "nanotime"),
           function(e1, e2) {
-              new("duration", S3Part(e1, strictS3=TRUE) - S3Part(e2, strictS3=TRUE))
+              new("nanoduration", S3Part(e1, strictS3=TRUE) - S3Part(e2, strictS3=TRUE))
           })
 
 ##' @rdname nanotime

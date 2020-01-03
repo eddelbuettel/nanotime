@@ -327,17 +327,17 @@ expect_error(+nanotime(1), "unary '\\+' is not defined for \\\"nanotime\\\" obje
 ##test_ANY_minus_nano <- function() {
 expect_error(1 - nanotime(2), "invalid operand types")
 
-##test_nano_minus_period <- function() {
+##test_nano_minus_nanoperiod <- function() {
 msg <- paste0("binary '-' is not defined for \"nanotime\" and ",
-              "\"period\" objects; instead use \"minus\\(e1, e2, tz\\)\"")
-expect_error(nanotime(1) - as.period("2m"), msg) 
+              "\"nanoperiod\" objects; instead use \"minus\\(e1, e2, tz\\)\"")
+expect_error(nanotime(1) - as.nanoperiod("2m"), msg) 
 
 ##test_nano_minus_ANY <- function() {
 expect_error(nanotime(1) - "a", "invalid operand types")
 
-##test_nano_minus_duration <- function() {
+##test_nano_minus_nanoduration <- function() {
 nt <- nanotime(2000)
-expect_identical(nt - as.duration(2000), nanotime(0))
+expect_identical(nt - as.nanoduration(2000), nanotime(0))
 
 ## +
 ##test_ANY_plus_nano <- function() {
@@ -346,14 +346,14 @@ expect_error("a" + nanotime(2), "invalid operand types")
 ##test_nano_plus_ANY <- function() {
 expect_error(nanotime(1) + "a", "invalid operand types")
 
-##test_nano_plus_period <- function() {
+##test_nano_plus_nanoperiod <- function() {
 msg <- paste0("binary '\\+' is not defined for \"nanotime\" and ",
-              "\"period\" objects; instead use \"plus\\(e1, e2, tz\\)\"")
-expect_error(nanotime(1) + as.period("2m"), msg) 
+              "\"nanoperiod\" objects; instead use \"plus\\(e1, e2, tz\\)\"")
+expect_error(nanotime(1) + as.nanoperiod("2m"), msg) 
 
-##test_nano_plus_duration <- function() {
+##test_nano_plus_nanoduration <- function() {
 nt <- nanotime(2000)
-expect_identical(nt + as.duration(2000), nanotime(4000))
+expect_identical(nt + as.nanoduration(2000), nanotime(4000))
 
 ## *
 ##test_nano_mul_nano <- function() {

@@ -3,8 +3,8 @@ library(nanotime)
 
 ## ------------ `-`
 #"test_nanotime-nanotime" <- function() {
-expect_identical(nanotime(2)  - nanotime(1),  as.duration(1))
-expect_identical(nanotime(-1) - nanotime(-2), as.duration(1))
+expect_identical(nanotime(2)  - nanotime(1),  as.nanoduration(1))
+expect_identical(nanotime(-1) - nanotime(-2), as.nanoduration(1))
 
 #"test_nanotime-integer64" <- function() {
 expect_identical(nanotime(2)  - as.integer64(1),  nanotime(1))

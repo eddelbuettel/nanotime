@@ -4,10 +4,10 @@
 \name{nanoival-class}
 \alias{nanoival-class}
 \alias{nanoival}
-\alias{start,nanoival-method}
-\alias{end,nanoival-method}
-\alias{sopen,nanoival-method}
-\alias{eopen,nanoival-method}
+\alias{nanoival.start,nanoival-method}
+\alias{nanoival.end,nanoival-method}
+\alias{nanoival.sopen,nanoival-method}
+\alias{nanoival.eopen,nanoival-method}
 \alias{format.nanoival}
 \alias{print,nanoival-method}
 \alias{show,nanoival-method}
@@ -17,6 +17,8 @@
 \alias{names<-,nanoival-method}
 \alias{as.nanoival,character-method}
 \alias{as.nanoival,NULL-method}
+\alias{is.na,nanoival-method}
+\alias{is.na<-,nanoival-method}
 \alias{<,nanoival,nanoival-method}
 \alias{<=,nanoival,nanoival-method}
 \alias{>,nanoival,nanoival-method}
@@ -63,13 +65,13 @@
 \usage{
 nanoival(start, end, sopen = FALSE, eopen = TRUE)
 
-\S4method{start}{nanoival}(x)
+\S4method{nanoival.start}{nanoival}(x)
 
-\S4method{end}{nanoival}(x)
+\S4method{nanoival.end}{nanoival}(x)
 
-\S4method{sopen}{nanoival}(x)
+\S4method{nanoival.sopen}{nanoival}(x)
 
-\S4method{eopen}{nanoival}(x)
+\S4method{nanoival.eopen}{nanoival}(x)
 
 \method{format}{nanoival}(x, ..., justify = "none")
 
@@ -81,14 +83,17 @@ nanoival(start, end, sopen = FALSE, eopen = TRUE)
 
 \S4method{length}{nanoival}(x)
 
-\method{as.data.frame}{nanoival}(x, row.names = NULL, optional = FALSE,
-  ...)
+\method{as.data.frame}{nanoival}(x, row.names = NULL, optional = FALSE, ...)
 
 \S4method{names}{nanoival}(x) <- value
 
 \S4method{as.nanoival}{character}(x, format = "", tz = "")
 
 \S4method{as.nanoival}{`NULL`}(x, format = "", tz = "")
+
+\S4method{is.na}{nanoival}(x)
+
+\S4method{is.na}{nanoival}(x) <- value
 
 \S4method{<}{nanoival,nanoival}(e1, e2)
 
@@ -266,18 +271,18 @@ It can be overriden by using \code{options()} with the key of
 }
 
 \examples{
-## creating a \\code{nanoival}, with the start time included ('+') and the end
+## creating a \code{nanoival}, with the start time included ('+') and the end
 ## time excluded ('-')
 as.nanoival("+2012-03-01T21:21:00.000000001+00:00->2015-01-01T21:22:00.000000999+04:00-")
 
-## a \\code{nanoival} can also be created with a pair of \\code{nanotime} objects, a start
+## a \code{nanoival} can also be created with a pair of \code{nanotime} objects, a start
 ## and an end, and optionally two logicals determining if the interval start(end) are open
 ## or closed; by default the start is closed and end is open:
 start <- nanotime("2012-03-01T21:21:00.000000001+00:00")
 end <- nanotime("2013-03-01T21:21:00.000000001+00:00")
 nanoival(start, end)
 
-## a vector of \\code{nanotime} can be subsetted by an interval:
+## a vector of \code{nanotime} can be subsetted by an interval:
 fmt <- "\%Y-\%m-\%d \%H:\%M:\%S"
 one_second <- 1e9
 a <- seq(nanotime("2012-12-12 12:12:12", fmt), length.out=10, by=one_second)
@@ -285,8 +290,8 @@ idx <- c(as.nanoival("-2012-12-12 12:12:10 -> 2012-12-12 12:12:14-", fmt),
          as.nanoival("+2012-12-12 12:12:18 -> 2012-12-12 12:12:20+", fmt))
 a[idx]
 
-## \\code{nanoival} also has the set operations \\code{union}, \\code{intersect},
-## \\code{setdiff}
+## \code{nanoival} also has the set operations \code{union}, \code{intersect},
+## \code{setdiff}
 a <- seq(nanotime("2012-12-12 12:12:12", fmt), length.out=10, by=one_second)
 i <- as.nanoival("-2012-12-12 12:12:14 -> 2012-12-12 12:12:18-", fmt)
 setdiff(a, i)
@@ -295,7 +300,7 @@ i1 <- as.nanoival("+2012-12-12 12:12:14 -> 2012-12-12 12:12:17-", fmt)
 i2 <- as.nanoival("+2012-12-12 12:12:16 -> 2012-12-12 12:12:18-", fmt)
 union(i1, i2)
 
-## Finally, \\code{intersect.idx} which gives back the indices of the intersection is
+## Finally, \code{intersect.idx} which gives back the indices of the intersection is
 ## defined:
 a <- seq(nanotime("2012-12-12 12:12:12", fmt), length.out=10, by=one_second)      
 idx <- as.nanoival("+2012-12-12 12:12:14 -> 2012-12-12 12:12:19+", fmt)

@@ -23,7 +23,7 @@ Global::duration from_string(const std::string& str) {
   }
 
   int n;
-  if (!Global::readNumber(s, e, n, false)) throw std::range_error("cannot parse duration");
+  if (!Global::readNumber(s, e, n, false)) throw std::range_error("cannot parse nanoduration");
 
   if (s < e && *s == ':') {
     // we've got HHH:MM:SS format
@@ -31,7 +31,7 @@ Global::duration from_string(const std::string& str) {
     ++s;
     if (s + 5 > e || !isdigit(s[0]) || !isdigit(s[1]) || 
         s[2] != ':' || !isdigit(s[3]) || !isdigit(s[4])) {
-      throw std::range_error("cannot parse duration");
+      throw std::range_error("cannot parse nanoduration");
     }
     d += ((s[0] - '0')*10 + (s[1] - '0'))*std::chrono::minutes(1);
 
@@ -43,14 +43,14 @@ Global::duration from_string(const std::string& str) {
   d += n * std::chrono::seconds(1);
   if (s == e) return sign*d;
 
-  if (*s++ != '.') throw std::range_error("cannot parse duration");
+  if (*s++ != '.') throw std::range_error("cannot parse nanoduration");
   Global::duration mul = std::chrono::milliseconds(100);
   unsigned i = 0;
   while (s < e) {
-    if (mul < std::chrono::nanoseconds(1)) throw std::range_error("cannot parse duration");
+    if (mul < std::chrono::nanoseconds(1)) throw std::range_error("cannot parse nanoduration");
     if ((i == 3 || i == 6) && *s == '_') { ++s; continue; }
     ++i;
-    if (!isdigit(*s)) throw std::range_error("cannot parse duration");
+    if (!isdigit(*s)) throw std::range_error("cannot parse nanoduration");
     d += (*s - '0') * mul;
     mul /= 10;
     ++s;
@@ -196,7 +196,7 @@ RcppExport SEXP make_duration(SEXP h, SEXP m, SEXP s, SEXP n) {
     res[i] = *reinterpret_cast<double*>(&dur);
   }
   // make this part of a utility package (it's used in 'period' too) LLL
-  Rcpp::CharacterVector cl = Rcpp::CharacterVector::create("duration");
+  Rcpp::CharacterVector cl = Rcpp::CharacterVector::create("nanoduration");
   cl.attr("package") = "nanotime";
   res.attr(".S3Class") = "integer64";
   res.attr("class") = cl;
