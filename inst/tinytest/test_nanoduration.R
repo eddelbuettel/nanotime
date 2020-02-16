@@ -10,6 +10,7 @@ hour <- 60 * minute
 ## constructors
 ##test_nanoduration <- function() {
 expect_identical(nanoduration(1,1,1,1), as.nanoduration("01:01:01.000_000_001"))
+expect_identical(nanoduration(-1,0,0,1), as.nanoduration("-00:59:59.999_999_999"))
 ## R recycling:
 expect_identical(nanoduration(1:2,1,1,1), c(as.nanoduration("01:01:01.000_000_001"),
                                         as.nanoduration("02:01:01.000_000_001")))

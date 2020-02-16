@@ -192,7 +192,11 @@ RcppExport SEXP make_duration(SEXP h, SEXP m, SEXP s, SEXP n) {
                                    std::max(s_i.size(), n_i.size())));
                                    
   for (R_xlen_t i=0; i<res.size(); ++i) {
-    auto dur = (h_i[i]*3600 + m_i[i]*60 + s_i[i]) * 1e9 + n_i[i];
+    auto h64 = *reinterpret_cast<const std::int64_t*>(&h_i[i]);
+    auto m64 = *reinterpret_cast<const std::int64_t*>(&m_i[i]);
+    auto s64 = *reinterpret_cast<const std::int64_t*>(&s_i[i]);
+    auto n64 = *reinterpret_cast<const std::int64_t*>(&n_i[i]);
+    auto dur = (h64*3600 + m64*60 + s64) * 1000000000L + n64;
     res[i] = *reinterpret_cast<double*>(&dur);
   }
   // make this part of a utility package (it's used in 'period' too) LLL

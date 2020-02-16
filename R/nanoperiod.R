@@ -44,7 +44,7 @@ setClass("nanoperiod", contains = "complex")
 
 ##' @rdname nanoperiod
 ##' @export
-nanoperiod <- function(months, days, duration=as.nanoduration(0)) {
+nanoperiod <- function(months=0, days=0, duration=as.nanoduration(0)) {
     as.nanoperiod(paste0(as.integer64(months), "m", as.integer64(days), "d", "/", as.nanoduration(duration)))
 }
 
