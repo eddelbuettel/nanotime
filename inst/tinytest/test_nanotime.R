@@ -8,6 +8,9 @@ isSolaris <- Sys.info()[["sysname"]] == "SunOS"
 ##test_nanotime_generic <- function() {
 expect_identical(S3Part(nanotime(1), strict=TRUE), as.integer64(1))
 expect_identical(nanotime(1), new("nanotime", as.integer64(1)))
+expect_identical(nanotime(as.integer64(1)), new("nanotime", as.integer64(1)))
+expect_identical(as.nanotime(1), new("nanotime", as.integer64(1)))
+expect_identical(as.nanotime(as.integer64(1)), new("nanotime", as.integer64(1)))
 
 
 ##test_nanotime_character_first_pass <- function() {
@@ -36,6 +39,30 @@ if (!isSolaris) {
 
     expect_identical(nanotime("2018/01/01T05:00:00.99 Europe/London"),             nanotime(as.integer64("1514782800990000000")))
     expect_identical(nanotime("2018 01 01T05:00:00.99 Europe/London"),             nanotime(as.integer64("1514782800990000000")))   
+
+    ## test the alias 'as.nanotime':
+    expect_identical(as.nanotime("2018-01-01T05:00:00.99 Europe/London"),             nanotime(as.integer64("1514782800990000000")))
+    expect_identical(as.nanotime("2018-01-01T05:00:00.999_999_999 America/New_York"), nanotime(as.integer64("1514800800999999999")))
+    expect_identical(as.nanotime("2018-01-01T05:00:00.999_999 America/New_York"),     nanotime(as.integer64("1514800800999999000")))
+    expect_identical(as.nanotime("2018-01-01T05:00:00.999 America/New_York"),         nanotime(as.integer64("1514800800999000000")))
+    expect_identical(as.nanotime("2018-01-01T05:00:00 America/New_York"),             nanotime(as.integer64("1514800800000000000")))
+    expect_identical(as.nanotime("2018-01-01 05:00:00 America/New_York"),             nanotime(as.integer64("1514800800000000000")))
+    expect_identical(as.nanotime("2018-01-01 05:00:00 America/New_York"),             nanotime(as.integer64("1514800800000000000")))
+    expect_identical(as.nanotime("2018-01-01 America/New_York"),                      nanotime(as.integer64("1514782800000000000")))
+
+    expect_identical(as.nanotime("2018-01-01T05:00:00.99+00:00"),                     nanotime(as.integer64("1514782800990000000")))
+    expect_identical(as.nanotime("2018-01-01T05:00:00.99-00:00"),                     nanotime(as.integer64("1514782800990000000")))
+    expect_identical(as.nanotime("2018-01-01T05:00:00.999_999_999+05:00"),            nanotime(as.integer64("1514764800999999999")))
+    expect_identical(as.nanotime("2018-01-01T05:00:00.999_999+05:00"),                nanotime(as.integer64("1514764800999999000")))
+    expect_identical(as.nanotime("2018-01-01T05:00:00.999+05:00"),                    nanotime(as.integer64("1514764800999000000")))
+    expect_identical(as.nanotime("2018-01-01T05:00:00+05:00"),                        nanotime(as.integer64("1514764800000000000")))
+    expect_identical(as.nanotime("2018-01-01 05:00:00+05:00"),                        nanotime(as.integer64("1514764800000000000")))
+    expect_identical(as.nanotime("2018-01-01 05:00:00+05:00"),                        nanotime(as.integer64("1514764800000000000")))
+    expect_identical(as.nanotime("2018-01-01   05:00:00+05:00"),                      nanotime(as.integer64("1514764800000000000")))
+    expect_identical(as.nanotime("2018-01-01+05:00"),                                 nanotime(as.integer64("1514746800000000000")))
+
+    expect_identical(as.nanotime("2018/01/01T05:00:00.99 Europe/London"),             nanotime(as.integer64("1514782800990000000")))
+    expect_identical(as.nanotime("2018 01 01T05:00:00.99 Europe/London"),             nanotime(as.integer64("1514782800990000000")))   
 }
 
 ##test_nanotime_character_first_pass_fail <- function() {
@@ -97,14 +124,17 @@ if (!isSolaris) {
 ##test_nanotime_POSIXct <- function() {
 p <- as.POSIXct("1970-01-01 00:00:00", tz="America/New_York")
 expect_identical(nanotime(p), nanotime("1970-01-01T00:00:00.000000000-05:00"))
+expect_identical(as.nanotime(p), nanotime("1970-01-01T00:00:00.000000000-05:00"))
 
 ##test_nanotime_POSIXlt <- function() {
 l <- as.POSIXlt("1970-01-01 00:00:00", tz="America/New_York")
 expect_identical(nanotime(l), nanotime("1970-01-01T00:00:00.000000000-05:00"))
+expect_identical(as.nanotime(l), nanotime("1970-01-01T00:00:00.000000000-05:00"))
 
 ##test_nanotime_Date <- function() {
 d <- as.Date(10, origin="1970-01-01")
 expect_identical(nanotime(d), nanotime("1970-01-11T00:00:00.000000000-00:00"))
+expect_identical(as.nanotime(d), nanotime("1970-01-11T00:00:00.000000000-00:00"))
 
 ##test_nanotime_numeric_keep_names <- function() {
 n <- nanotime(c(a=1, b=2))
@@ -419,3 +449,19 @@ expect_true(isTRUE(all.equal(nanotime(1), nanotime(1))))
 ## LLL waiting for a fix from 'bit64'
 ## expect_true(!isTRUE(all.equal(nanotime(1), nanotime(2))))  
 
+
+## test S4 conversions:
+
+## to 'nanotime':
+expect_identical(as("2018-01-01T05:00:00.99 Europe/London", "nanotime"), nanotime(as.integer64("1514782800990000000")))
+expect_identical(as(as.Date(10, origin="1970-01-01"), "nanotime"), nanotime("1970-01-11T00:00:00.000000000-00:00"))
+expect_identical(as(as.integer64("1514782800990000000"), "nanotime"), nanotime("2018-01-01T05:00:00.99 Europe/London"))
+expect_identical(as(as.POSIXct(1514782800, origin="1970-01-01", tz="UTC"), "nanotime"), nanotime("2018-01-01T05:00:00 Europe/London"))
+expect_identical(as(as.POSIXlt(as.POSIXct(1514782800, origin="1970-01-01", tz="UTC")), "nanotime"), nanotime("2018-01-01T05:00:00 Europe/London"))
+
+## from 'nanotime':
+expect_identical(as(nanotime("1970-01-11T00:00:00.000000000-00:00"), "Date"), as.Date("1970-01-11"))
+## don't run this one, it's only right when run in America/New_York timezone!
+## expect_identical(as(nanotime("1970-01-11T00:00:00.000000000-00:00"), "POSIXct"), as.POSIXct("1970-01-10 19:00:00"))
+expect_identical(as(nanotime("1970-01-11T00:00:00.000000000-00:00"), "integer64"), as.integer64("864000000000000"))
+expect_identical(as(nanotime("1970-01-11T00:00:00.000000000-00:00"), "nanoduration"), as.nanoduration("240:00:00"))

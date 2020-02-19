@@ -525,3 +525,10 @@ expect_true(is.na(NA_nanoperiod_))
 expect_true(is.na(nanoperiod.nanoduration(NA_nanoperiod_)))
 expect_true(is.na(nanoperiod.month(NA_nanoperiod_)))
 expect_true(is.na(nanoperiod.day(NA_nanoperiod_)))
+
+## test S4 conversions:
+expect_identical(nanoperiod(1,1,1), as("1m1d/00:00:00.000_000_001", "nanoperiod"))
+hour <- 3600*1e9
+expect_identical(as.nanoperiod(as.integer64(hour)), as(hour, "nanoperiod"))
+expect_identical(as.nanoperiod(hour), as(hour, "nanoperiod"))
+expect_identical(as.nanoperiod(hour), as(as.nanoduration(hour), "nanoperiod"))

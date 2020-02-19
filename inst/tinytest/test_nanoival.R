@@ -101,12 +101,12 @@ expect_identical(format(ival), ival_str)
 ## as.data.frame
 ##test_as.data.frame <- function() {
 ni <- as.nanoival(c(aa, bb, cc, dd))
-expect_identical(as.data.frame(ni), data.frame(x=ni))
+expect_identical(as.data.frame(ni), data.frame(ni=ni))
 
 rownames <- c("aa","bb","cc","dd")
 names(ni) <- rownames
 as.data.frame(ni)
-expect_identical(as.data.frame(ni), data.frame(x=ni, row.names=rownames))
+expect_identical(as.data.frame(ni), data.frame(ni=ni, row.names=rownames))
 
 
 ## equality and comparison operators
@@ -1252,8 +1252,6 @@ i3 <- as.nanoival(cc)
 ii <- c(a=i1, b=i2, c=i3)
 expect_identical(t(ii), ii)
   
-options(nanotimeFormat=savedFormat)
-
 ## NA stuff
 expect_true(is.na(nanoival(NA_nanotime_, NA_nanotime_, NA, NA)))
 expect_true(is.na(nanoival(NA_nanotime_, nanotime(1), TRUE, TRUE)))
@@ -1302,3 +1300,8 @@ e <- nanotime(2e9)
 ni  <- nanoival(s, e) + as.nanoduration(1:5*1e9)
 d  <- as.nanoduration(1:2*1e9)
 expect_identical(ni + d, ni + c(d, d, d[1]))
+
+## test S4 conversions:
+expect_identical(as.nanoival(aa), as(aa, "nanoival"))
+
+options(nanotimeFormat=savedFormat)

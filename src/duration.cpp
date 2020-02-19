@@ -9,6 +9,7 @@
 #include <Rcpp.h>
 #include "duration.hpp"
 #include "pseudovector.hpp"
+#include "utilities.hpp"
 
 
 Global::duration from_string(const std::string& str) {
@@ -120,7 +121,10 @@ RcppExport SEXP duration_from_string(SEXP s) {
       auto dur = from_string(Rcpp::as<std::string>(str[i]));
       res[i] = *reinterpret_cast<double*>(&dur);
     }
-    return res;
+    if (str.hasAttribute("names")) {
+      res.names() = str.names();
+    } 
+    return assignS4("nanoduration", res, "integer64");
   } catch(std::exception &ex) {	
     forward_exception_to_r(ex);
   } catch(...) { 
@@ -199,13 +203,5 @@ RcppExport SEXP make_duration(SEXP h, SEXP m, SEXP s, SEXP n) {
     auto dur = (h64*3600 + m64*60 + s64) * 1000000000L + n64;
     res[i] = *reinterpret_cast<double*>(&dur);
   }
-  // make this part of a utility package (it's used in 'period' too) LLL
-  Rcpp::CharacterVector cl = Rcpp::CharacterVector::create("nanoduration");
-  cl.attr("package") = "nanotime";
-  res.attr(".S3Class") = "integer64";
-  res.attr("class") = cl;
-  SET_S4_OBJECT(res);
-  return Rcpp::S4(res);
-
-  return res;
+  return assignS4("nanoduration", res, "integer64");
 }

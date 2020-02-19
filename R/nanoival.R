@@ -205,57 +205,6 @@ setMethod("show",
           signature("nanoival"),
           function(object) print(object))
 
-##' @rdname nanoival
-##' @export
-setMethod("names",
-          signature("nanoival"),
-          function(x) {
-              callNextMethod()
-          })
-
-##' @rdname nanoival
-##' @export
-setMethod("length",
-          signature("nanoival"),
-          function(x) { callNextMethod() })
-
-## ##' @rdname nanoival
-## ##' @export
-## setMethod("as.data.frame.nanoival",
-##           signature("nanoival"),
-##           function(x, row.names=NULL, optional=FALSE, ...)
-##           {
-##               if (is.null(row.names))
-##                   row.names <- seq_len(length(x))
-##               value <- list(x)
-##               attr(value, "names") <- "1"
-##               attr(value, "row.names") <- row.names
-##               class(value) <- "data.frame"
-##               value
-##           })
-
-
-## ##' @rdname nanoival
-## ##' @export
-## as.data.frame.nanoival <- 
-##           function(x, row.names=NULL, optional=FALSE, ...)
-##           {
-##               if (is.null(row.names))
-##                   row.names <- seq_len(length(x))
-##               value <- list(x)
-##               attr(value, "names") <- "1"
-##               attr(value, "row.names") <- row.names
-##               class(value) <- "data.frame"
-##               value
-##           }
-
-##' @rdname nanoival
-##' @export
-as.data.frame.nanoival <- function(x, row.names=NULL, optional=FALSE, ...)
-{
-  NextMethod()
-}
-
 
 ## setMethod("format",
 ##           signature("nanoival"),
@@ -278,14 +227,6 @@ as.data.frame.nanoival <- function(x, row.names=NULL, optional=FALSE, ...)
 ##               s
 ##           })
 
-##' @rdname nanoival
-##' @export
-setMethod("names<-",
-          signature("nanoival"),
-          function(x, value) {
-              names(S3Part(x, strictS3=TRUE)) <- value
-              new("nanoival", x)
-          })
 
 .secondaryNanoivalParse <- function(x, format="", tz="") {
   format <- .getFormat(format)
@@ -314,26 +255,29 @@ setMethod("names<-",
 }
 
 
-setGeneric("as.nanoival", function(x, format="", tz="") standardGeneric("as.nanoival"))
+setGeneric("as.nanoival", function(from, format="", tz="") standardGeneric("as.nanoival"))
 ##' @rdname nanoival
 ##' @export
 setMethod("as.nanoival",
           "character",
-          function(x, format="", tz="") {
-            tryCatch(.Call("_nanoival_make", x, tz), error=function(e) {
+          function(from, format="", tz="") {
+            tryCatch(.Call("_nanoival_make", from, tz), error=function(e) {
               if (e$message == "Cannot retrieve timezone") {
                 stop(e$message)
               } else {
-                .secondaryNanoivalParse(x, format, tz)
+                .secondaryNanoivalParse(from, format, tz)
               }
             }) 
           })
+
+setAs("character", "nanoival", function(from) as.nanoival(from))
+
 
 ##' @rdname nanoival
 ##' @export
 setMethod("as.nanoival",
           "NULL",
-          function(x, format="", tz="") {
+          function(from, format="", tz="") {
               new("nanoival", as.complex(NULL))
           })
 

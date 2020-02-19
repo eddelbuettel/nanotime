@@ -90,11 +90,17 @@ setClass("nanotime", contains = "integer64")
 ##' format(x)
 ##' format(nanotime(Sys.time()) + 1:3)  # three elements each 1 ns apart
 ##' @export
-nanotime <- function(x, ...) {
-    new("nanotime", as.integer64(x, keep.names=TRUE))
+nanotime <- function(from, ...) {
+    new("nanotime", as.integer64(from, keep.names=TRUE))
 }
-
 setGeneric("nanotime")
+
+as.nanotime <- function(from, ...) {
+    new("nanotime", as.integer64(from, keep.names=TRUE))
+}
+setGeneric("as.nanotime")
+
+setAs("integer64", "nanotime", function(from) new("nanotime", as.integer64(from, keep.names=TRUE)))
 
 
 .getTz <- function(x, tz="") {
@@ -128,20 +134,26 @@ setGeneric("nanotime")
     res
 }
 
+
+nanotime_character <- function(from, format="", tz="") {
+    tryCatch(.Call("_nanotime_make", from, tz), error=function(e) {
+        if (e$message == "Cannot retrieve timezone") {
+            stop(e$message)
+        } else {
+            .secondaryNanotimeParse(from, format, tz)
+        }
+    })
+}
+
 ##' @rdname nanotime
 ##' @export
-setMethod("nanotime",
-          "character",
-          function(x, format="", tz="") {
-            tryCatch(.Call("_nanotime_make", x, tz), error=function(e) {
-              if (e$message == "Cannot retrieve timezone") {
-                stop(e$message)
-              } else {
-                .secondaryNanotimeParse(x, format, tz)
-              }
-            })
-          })
+setMethod("nanotime", "character", nanotime_character)
 
+##' @rdname nanotime
+##' @export
+setMethod("as.nanotime", "character", nanotime_character)
+
+setAs("character", "nanotime", function(from) nanotime_character(from))
 
 ##' @rdname nanotime
 ##' @export
@@ -155,35 +167,49 @@ nanotime.matrix <- function(x) {
     res
 }
 
-##' @rdname nanotime
-##' @export
-setMethod("nanotime",
-          "POSIXct",
-          function(x) {
-              ## force last three digits to be zero
-              n <- names(x)
-              res <- new("nanotime", as.integer64(as.numeric(x) * 1e6) * 1000)
-              if (!is.null(n)) {
-                  names(S3Part(res, strictS3=TRUE)) <- n
-              }
-              res
-          })
+
+nanotime_posixct <- function(from) {
+    ## force last three digits to be zero
+    n <- names(from)
+    res <- new("nanotime", as.integer64(as.numeric(from) * 1e6) * 1000)
+    if (!is.null(n)) {
+        names(S3Part(res, strictS3=TRUE)) <- n
+    }
+    res
+}
 
 ##' @rdname nanotime
 ##' @export
-setMethod("nanotime",
-          "POSIXlt",
-          function(x) {
-              nanotime(as.POSIXct(x))
-          })
+setMethod("nanotime", signature(from="POSIXct"), nanotime_posixct)
 
 ##' @rdname nanotime
 ##' @export
-setMethod("nanotime",
-          "Date",
-          function(x) {
-              nanotime(as.POSIXct(x))
-          })
+setMethod("as.nanotime", signature(from="POSIXct"), nanotime_posixct)
+
+setAs("POSIXct", "nanotime", nanotime_posixct)
+
+
+##' @rdname nanotime
+##' @export
+setMethod("nanotime", "POSIXlt", function(from) nanotime(as.POSIXct(from)))
+
+##' @rdname nanotime
+##' @export
+setMethod("as.nanotime", "POSIXlt", function(from) nanotime(as.POSIXct(from)))
+
+setAs("POSIXlt", "nanotime", function(from) nanotime(as.POSIXct(from)))
+
+
+##' @rdname nanotime
+##' @export
+setMethod("nanotime", "Date", function(from) nanotime(as.POSIXct(from)))
+
+##' @rdname nanotime
+##' @export
+setMethod("as.nanotime", "Date", function(from) nanotime(as.POSIXct(from)))
+
+setAs("Date", "nanotime", function(from) nanotime(as.POSIXct(from)))
+
 
 ##' @rdname nanotime
 ##' @export
@@ -254,18 +280,25 @@ as.POSIXct.nanotime <- function(x, tz="", ...) {
     pt
 }
 
+setAs("nanotime", "POSIXct", function(from) as.POSIXct.nanotime(from))
+
+
 ##' @rdname nanotime
 ##' @export
 as.POSIXlt.nanotime <- function(x, tz="", ...) {
     as.POSIXlt(as.POSIXct(x, tz=tz))
 }
 
+setAs("nanotime", "POSIXlt", function(from) as.POSIXlt.nanotime(from))
+
 ##' @rdname nanotime
 ##' @export
-as.Date.nanotime <- function(x, ...) {
-    ret <- as.Date(as.POSIXct(x))
-    ret
+as.Date.nanotime <- function(from, ...) {
+    as.Date(as.POSIXct(from))
 }
+
+setAs("nanotime", "Date", function(from) as.Date(as.POSIXct(from)))
+
 
 ##' @rdname nanotime
 ##' @export
@@ -282,6 +315,9 @@ as.data.frame.nanotime <- function(x, ...) {
 as.integer64.nanotime <- function(x, ...) {
     S3Part(x, strictS3=TRUE)
 }
+
+setAs("nanotime", "integer64", function(from) S3Part(from, strictS3=TRUE))
+
 
 #' \code{as.integer64} conversion helper returning the underlying
 #' \code{integer64} representation

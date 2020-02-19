@@ -53,6 +53,7 @@ df2 <- data.frame(t = t2, d = d2)
 df <- rbind(df1, df2)
 expect_identical(df, data.frame(t = c(t1, t2), d = c(d1, d2)))
 
+
 ##test_nanoduration_data_frame_cbind <- function() {
 t1 <- as.nanoduration(1:10)
 d1 <- 1:10

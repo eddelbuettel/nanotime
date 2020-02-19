@@ -61,6 +61,8 @@ setMethod("as.nanoperiod",
               new("nanoperiod", .Call('period_from_string', x))
           })
 
+setAs("character", "nanoperiod", function(from) as.nanoperiod(from))
+
 ##' @rdname nanoperiod
 ##' @export
 setMethod("as.nanoperiod",
@@ -68,6 +70,8 @@ setMethod("as.nanoperiod",
           function(x) {
               new("nanoperiod", .Call('period_from_integer64', x))
           })
+
+setAs("integer64", "nanoperiod", function(from) as.nanoperiod(from))
 
 ##' @rdname nanoperiod
 ##' @export
@@ -77,6 +81,8 @@ setMethod("as.nanoperiod",
               new("nanoperiod", .Call('period_from_double', x))
           })
 
+setAs("numeric", "nanoperiod", function(from) as.nanoperiod(from))
+
 ##' @rdname nanoperiod
 ##' @export
 setMethod("as.nanoperiod",
@@ -85,6 +91,8 @@ setMethod("as.nanoperiod",
               new("nanoperiod", .Call('period_from_integer', x))
           })
 
+setAs("integer", "nanoperiod", function(from) as.nanoperiod(from))
+
 ##' @rdname nanoperiod
 ##' @export
 setMethod("as.nanoperiod",
@@ -92,6 +100,8 @@ setMethod("as.nanoperiod",
           function(x) {
               new("nanoperiod", .Call('period_from_integer64', x))
           })
+
+setAs("nanoduration", "nanoperiod", function(from) as.nanoperiod(from))
 
 ##' @rdname nanoperiod
 ##' @export

@@ -57,10 +57,10 @@ setGeneric("as.nanoduration", function(x) standardGeneric("as.nanoduration"))
 setMethod("as.nanoduration",
           "character",
           function(x) {
-              res <- .Call('duration_from_string', x)
-              oldClass(res) <- "integer64"
-              new("nanoduration", res)
+              .Call('duration_from_string', x)
           })
+
+setAs("character", "nanoduration", function(from) as.nanoduration(from))
 
 ##' @rdname nanoduration
 ##' @export
@@ -69,6 +69,9 @@ setMethod("as.nanoduration",
           function(x) {
               new("nanoduration", x)
           })
+
+setAs("integer64", "nanoduration", function(from) as.nanoduration(from))
+
 
 ##' @rdname nanoduration
 ##' @export
@@ -83,6 +86,9 @@ setMethod("as.nanoduration",
               res
           })
 
+setAs("numeric", "nanoduration", function(from) as.nanoduration(from))
+
+
 ##' @rdname nanoduration
 ##' @export
 setMethod("as.nanoduration",
@@ -95,6 +101,9 @@ setMethod("as.nanoduration",
               }
               res
           })
+
+setAs("integer", "nanoduration", function(from) as.nanoduration(from))
+
 
 ##' @rdname nanoduration
 ##' @export
@@ -497,18 +506,8 @@ setMethod("[<-",
 ##' @rdname nanoduration
 ##' @export
 c.nanoduration <- function(...) {
-    res <- do.call(c.integer64, list(...))
-    new("nanoduration", res)
+    as.nanoduration(c.integer64(...))
 }
-
-##' @rdname nanoduration
-##' @export
-setMethod("names<-",
-          signature("nanoduration"),
-          function(x, value) {
-              names(S3Part(x, strictS3=TRUE)) <- value
-              x
-          })
 
 ##' @rdname nanotime
 ##' @export
@@ -519,6 +518,5 @@ as.data.frame.nanoduration <- function(x, ...) {
     ret[] <- as.nanoduration(S3Part(x, strictS3=TRUE))
     ret
 }
-
 
 NA_nanoduration_  <- as.nanoduration(NA_integer_)

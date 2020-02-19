@@ -25,6 +25,11 @@ expect_identical(c(as.nanoduration("1:00:00"), c(as.nanoduration("2:00:00"))),
                  c(as.nanoduration(hour), as.nanoduration(2*hour)))
 expect_identical(as.nanoduration(NA_integer64_), as.nanoduration(as.integer64("-9223372036854775808")))
 
+## check name:
+n1 <- as.nanoduration(hour)
+names(n1)  <- "a"
+expect_identical(as.nanoduration(c(a="1:00:00")), as.nanoduration(n1))
+
 expect_error(as.nanoduration("10:aa"), "cannot parse nanoduration")
 expect_error(as.nanoduration("1000a"), "cannot parse nanoduration")
 expect_error(as.nanoduration("10:10:10.1000a"), "cannot parse nanoduration")
@@ -380,3 +385,8 @@ expect_true(all(is.na(d[1:3])))
 expect_true(!any(is.na(d[4:10])))
 expect_true(is.na(NA_nanoduration_))
 expect_identical(is.na(c(a=NA_nanoduration_)), c(a=TRUE))
+
+## test S4 conversions:
+expect_identical(nanoduration(1,1,1,1), as("01:01:01.000_000_001", "nanoduration"))
+expect_identical(as.nanoduration(as.integer64(hour)), as(hour, "nanoduration"))
+expect_identical(as.nanoduration(hour), as(hour, "nanoduration"))
