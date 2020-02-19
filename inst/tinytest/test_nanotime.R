@@ -436,6 +436,38 @@ expect_identical(times[1], times[[1]])
 expect_identical(times[2], times[[2]])
 expect_identical(times[3], times[[3]])
 
+## test compare
+expect_true(nanotime(1) == nanotime(1))
+expect_true(nanotime(1) != nanotime(2))
+expect_true(nanotime(1) <= nanotime(1))
+expect_true(nanotime(1) >= nanotime(1))
+expect_true(nanotime(1) <= nanotime(2))
+expect_false(nanotime(1) >= nanotime(2))
+expect_true(nanotime(1) < nanotime(2))
+expect_false(nanotime(1) > nanotime(2))
+
+## with character
+expect_true(nanotime(1) == nanotime("1970-01-01T00:00:00.000000001+00"))
+expect_true(nanotime("1970-01-01T00:00:00.000000001+00") != nanotime(2))
+expect_true(nanotime("1970-01-01T00:00:00.000000001+00") <= nanotime(1))
+expect_true(nanotime("1970-01-01T00:00:00.000000001+00") >= nanotime(1))
+expect_true(nanotime(1) <= nanotime("1970-01-01T00:00:00.000000002+00"))
+expect_false(nanotime("1970-01-01T00:00:00.000000001+00") >= nanotime(2))
+expect_true(nanotime(1) < nanotime("1970-01-01T00:00:00.000000002+00"))
+expect_false(nanotime("1970-01-01T00:00:00.000000001+00") > nanotime(2))
+
+## with POSIXt
+pt1 <- as.POSIXct(1, origin="1970-01-01", tz="UTC")
+pt2 <- as.POSIXct(2, origin="1970-01-01", tz="UTC")
+expect_true(pt1 == nanotime("1970-01-01T00:00:01+00"))
+expect_true(nanotime("1970-01-01T00:00:01+00") != pt2)
+expect_true(nanotime("1970-01-01T00:00:01+00") <= pt1)
+expect_true(nanotime("1970-01-01T00:00:01+00") >= pt1)
+expect_true(nanotime(1) <= nanotime("1970-01-01T00:00:02+00"))
+expect_false(nanotime("1970-01-01T00:00:01+00") >= pt2)
+expect_true(nanotime(1) < nanotime("1970-01-01T00:00:00.000000002+00"))
+expect_false(nanotime("1970-01-01T00:00:01+00") > pt2)
+
 
 ## all.equal
 ##test_all.equal_nanotime_any <- function() {
