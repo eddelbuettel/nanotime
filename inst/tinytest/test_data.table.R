@@ -1,5 +1,10 @@
 library(nanotime)
 
+if (!requireNamespace("data.table", quietly=TRUE))
+    exit_file("Package 'data.table' missing")
+
+library(data.table)
+
 ## nanotime
 ##test_nanotime_data_table_constructor <- function() {
 ## simpler data.table, inserts 'formatted'
@@ -107,7 +112,7 @@ shine_end   <- shine_start + as.nanoduration("01:00:00")
 rain_start  <- nanotime(2000) + cumsum(10*rpois(n=N+1, lambda=4) + round(runif(N+1)*25))
 rain_end    <- shine_end + as.nanoduration("02:00:00")
 shine <- nanoival(shine_start, shine_end)
-rain  <- nanoival(rain_start, rain_end) 
+rain  <- nanoival(rain_start, rain_end)
 newdf <- data.table(rain=rain, shine=shine)
 expect_identical(newdf$rain,  rain)
 expect_identical(newdf$shine, shine)
