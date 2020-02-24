@@ -115,7 +115,7 @@ setAs("integer64", "nanotime", function(from) new("nanotime", as.integer64(from,
 
 .getFormat <- function(format="") {
     if (format=="") {
-        format <- getOption("nanotimeFormat", default="%Y-%m-%dT%H:%M:%E9S%Ez")
+        format <- getOption("nanotimeFormat", default="%Y-%m-%dT%H:%M:%EXS%Ez")
     }
     format
 }
@@ -123,7 +123,7 @@ setAs("integer64", "nanotime", function(from) new("nanotime", as.integer64(from,
 
 .secondaryNanotimeParse <- function(x, format="", tz="") {
     if (length(x) == 0) return(character(0)) # nocov
-    format <- .getFormat(format)
+    format <- gsub("%EXS", "%E9S", .getFormat(format))
     tz <- .getTz(x, tz)
     n <- names(x)
     d <- RcppCCTZ::parseDouble(x, fmt=format, tzstr=tz)
@@ -241,21 +241,39 @@ setMethod("show",
 ##' @export
 format.nanotime <- function(x, format="", tz="", ...)
 {
-    format <- .getFormat(format)
-    tz <- .getTz(x, tz)
     if (length(x) == 0) {
-        return(character(0))						## #nocov
+        "nanotime(0)"
+    } else {
+        format <- .getFormat(format)
+        tz <- .getTz(x, tz)
+        if (length(x) == 0) {
+            return(character(0))						## #nocov
+        }
+        bigint <- as.integer64(x)
+        secs  <- as.integer64(bigint / as.integer64(1000000000))
+        nanos <- bigint - secs * as.integer64(1000000000)
+        
+        ## EXS has special meaning for us: print with the least number of nanotime digits
+        if (isTRUE(as.logical(grep("%EXS", format)))) {
+            if (all(nanos %% 1000000000 == 0)) {
+                format <- gsub("%EXS", "%S", format)
+            } else if (all(nanos %% 1000000 == 0)) {
+                format <- gsub("%EXS", "%E3S", format)
+            } else if (all(nanos %% 1000 == 0)) {
+                format <- gsub("%EXS", "%E6S", format)
+            } else {
+                format <- gsub("%EXS", "%E9S", format)
+            }
+        }
+        
+        res <- RcppCCTZ::formatDouble(as.double(secs), as.double(nanos), fmt=format, tgttzstr=tz)
+        res[is.na(x)] <- as.character(NA)
+        n <- names(x)
+        if (!is.null(n)) {
+            names(res) <- n
+        }
+        res
     }
-    bigint <- as.integer64(x)
-    secs  <- as.integer64(bigint / as.integer64(1000000000))
-    nanos <- bigint - secs * as.integer64(1000000000)
-    res <- RcppCCTZ::formatDouble(as.double(secs), as.double(nanos), fmt=format, tgttzstr=tz)
-    res[is.na(x)] <- as.character(NA)
-    n <- names(x)
-    if (!is.null(n)) {
-        names(res) <- n
-    }
-    res
 }
 
 ##' @rdname nanotime
@@ -435,6 +453,13 @@ setMethod("+", c("nanotime", "nanotime"),
 
 
 ## ---------- other ops
+
+##' @rdname nanotime
+##' @export
+setMethod("Arith", c("nanotime", "nanotime"),
+          function(e1, e2) {
+              stop("operation not defined for \"nanotime\" objects")
+          })
 
 ##' @rdname nanotime
 ##' @export

@@ -165,11 +165,12 @@ oldTz <- getOption("nanotimeTz")
 options(nanotimeFormat=NULL)
 options(nanotimeTz=NULL)
 expect_identical(format(nanotime("1970-01-01T00:00:00.000000000+00:00")),
-                 "1970-01-01T00:00:00.000000000+00:00")
+                 "1970-01-01T00:00:00+00:00")
 expect_identical(format(nanotime("1680-07-17T00:00:01.000000000+00:00")),
-                 "1680-07-17T00:00:01.000000000+00:00")
+                 "1680-07-17T00:00:01+00:00")
 expect_identical(format(nanotime("2120-01-01T00:00:59.987654321+00:00")),
                  "2120-01-01T00:00:59.987654321+00:00")
+expect_identical(format(nanotime(NULL)), "nanotime(0)")
 options(nanotimeFormat=oldFormat)
 options(nanotimeTz=oldTz)
 
@@ -179,9 +180,9 @@ if (!isSolaris) {
     oldTz <- getOption("nanotimeTz")
     options(nanotimeFormat=NULL)
 
-    a_utc = "1970-01-01T00:00:00.000000000+00:00"
+    a_utc = "1970-01-01T00:00:00+00:00"
     nt <- nanotime(a_utc)
-    a_ny <- "1969-12-31T19:00:00.000000000-05:00"
+    a_ny <- "1969-12-31T19:00:00-05:00"
 
     options(nanotimeTz=NULL)
     expect_identical(format(nt, tz="America/New_York"), a_ny)
@@ -203,9 +204,9 @@ if (!isSolaris) {
     oldTz <- getOption("nanotimeTz")
     options(nanotimeFormat=NULL)
 
-    a <- nanotime("1970-01-01T00:00:00.000000000+00:00")
+    a <- nanotime("1970-01-01T00:00:00.001000000+00:00")
     attr(a, "tzone") <- "America/New_York"
-    a_ny <- "1969-12-31T19:00:00.000000000-05:00"
+    a_ny <- "1969-12-31T19:00:00.001-05:00"
 
     expect_identical(format(a), a_ny)
 
@@ -223,8 +224,8 @@ if (!isSolaris) {
     options(nanotimeFormat=NULL)
     options(nanotimeTz="America/New_York")
 
-    a <- nanotime("1970-01-01T00:00:00.000000000+00:00")
-    a_ny <- "1969-12-31T19:00:00.000000000-05:00"
+    a <- nanotime("1970-01-01T00:00:00.000001000+00:00")
+    a_ny <- "1969-12-31T19:00:00.000001-05:00"
 
     expect_identical(format(a), a_ny)
 
@@ -238,7 +239,7 @@ oldTz <- getOption("nanotimeTz")
 options(nanotimeFormat=NULL)
 options(nanotimeTz=NULL)
 
-a_str <- "1970-01-01T00:00:00.000000000+00:00"
+a_str <- "1970-01-01T00:00:00+00:00"
 a <- nanotime(a_str)
 
 expect_identical(format(a), a_str)
