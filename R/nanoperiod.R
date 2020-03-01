@@ -45,7 +45,11 @@ setClass("nanoperiod", contains = "complex")
 ##' @rdname nanoperiod
 ##' @export
 nanoperiod <- function(months=0, days=0, duration=as.nanoduration(0)) {
-    as.nanoperiod(paste0(as.integer64(months), "m", as.integer64(days), "d", "/", as.nanoduration(duration)))
+    if (nargs() == 0) {
+        as.nanoperiod(NULL)
+    } else {
+        as.nanoperiod(paste0(as.integer64(months), "m", as.integer64(days), "d", "/", as.nanoduration(duration)))
+    }
 }
 
 setGeneric("nanoperiod")
@@ -105,6 +109,23 @@ setAs("nanoduration", "nanoperiod", function(from) as.nanoperiod(from))
 
 ##' @rdname nanoperiod
 ##' @export
+setMethod("as.nanoperiod",
+          "NULL",
+          function(x) {
+              new("nanoperiod", .Call('period_from_string', character()))
+          })
+
+##' @rdname nanoperiod
+##' @export
+setMethod("as.nanoperiod",
+          "missing",
+          function(x) {
+              new("nanoperiod", .Call('period_from_string', character()))
+          })
+
+
+##' @rdname nanoperiod
+##' @export
 setMethod("show",
           signature("nanoperiod"),
           function(object) print(object))
@@ -113,8 +134,12 @@ setMethod("show",
 ##' @export
 setMethod("print",
           "nanoperiod",
-          function(x, ...) {
-              print(.Call('period_to_string', x))
+          function(x, quote=FALSE, ...) {
+              if (length(x)==0) {
+                  print("nanoperiod(0)", quote=quote)
+              } else {
+                  print(.Call('period_to_string', x), quote=quote)
+              }
           })
 
 ##' @rdname nanoperiod

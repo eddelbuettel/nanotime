@@ -42,11 +42,15 @@ setClass("nanoduration", contains = "integer64")
 ##' @rdname nanoduration
 ##' @export
 nanoduration <- function(hours, minutes, seconds, nanoseconds) {
-  .Call("make_duration",
-        as.integer64(hours),
-        as.integer64(minutes),
-        as.integer64(seconds),
-        as.integer64(nanoseconds))
+    if (nargs()==0) {
+        as.nanoduration(NULL)
+    } else {
+        .Call("make_duration",
+              as.integer64(hours),
+              as.integer64(minutes),
+              as.integer64(seconds),
+              as.integer64(nanoseconds))
+    }
 }
 
 
@@ -104,6 +108,21 @@ setMethod("as.nanoduration",
 
 setAs("integer", "nanoduration", function(from) as.nanoduration(from))
 
+##' @rdname nanoduration
+##' @export
+setMethod("as.nanoduration",
+          "NULL",
+          function(x) {
+              new("nanoduration", as.integer64(NULL))
+          })
+
+##' @rdname nanoduration
+##' @export
+setMethod("as.nanoduration",
+          "missing",
+          function(x) {
+              new("nanoduration", integer64())
+          })
 
 ##' @rdname nanoduration
 ##' @export
@@ -115,8 +134,12 @@ setMethod("show",
 ##' @export
 setMethod("print",
           "nanoduration",
-          function(x, ...) {
-              print(.Call('duration_to_string', x))
+          function(x, quote=FALSE, ...) {
+              if (length(x) == 0) {
+                  print("nanoduration(0)", quote=quote)
+              } else {
+                  print(.Call('duration_to_string', x), quote=quote)
+              }
           })
 
 ##' @rdname nanoduration
@@ -263,6 +286,13 @@ setMethod("+", c("nanotime", "nanoduration"),
 
 ##' @rdname nanoduration
 ##' @export
+setMethod("+", c("nanoival", "nanoduration"),
+          function(e1, e2) {
+              new("nanoival", .Call("_nanoival_plus", e1, e2))
+          })
+
+##' @rdname nanoduration
+##' @export
 setMethod("+", c("ANY", "nanoduration"),
           function(e1, e2) {
               stop("invalid operand types")
@@ -331,7 +361,7 @@ setMethod("*", c("ANY", "nanoduration"),
 ##' @export
 setMethod("/", c("nanoduration", "nanoduration"),
           function(e1, e2) {
-              stop("invalid operand types")
+              as.integer64(S3Part(e1, strictS3=TRUE) / S3Part(e2, strictS3=TRUE))
           })
 ##' @rdname nanoduration
 ##' @export
@@ -517,6 +547,17 @@ as.data.frame.nanoduration <- function(x, ...) {
     ## of doing this:
     ret[] <- as.nanoduration(S3Part(x, strictS3=TRUE))
     ret
+}
+
+seq.nanoduration <- function(from, to=NULL, by=NULL, length.out=NULL, along.with=NULL, ...) {
+    ## workaroud 'bit64' bug:
+    if (is.null(by)) {
+        if (is.null(length.out)) {
+            length.out  <- length(along.with)
+        }
+        by = (to - from) / (length.out - 1)
+    }
+    as.nanoduration(seq(as.integer64(from), to, as.integer64(by), length.out, along.with, ...))
 }
 
 NA_nanoduration_  <- as.nanoduration(NA_integer_)

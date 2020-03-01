@@ -55,6 +55,10 @@ expect_identical(nanoival(nanotime("2013-01-01 00:00:00"),
                         nanotime("2014-01-01 00:00:00"), TRUE, TRUE),
                as.nanoival("-2013-01-01 00:00:00 -> 2014-01-01 00:00:00-"))
 expect_error(nanoival(nanotime(2), nanotime(1)), "interval end \\(1\\) smaller than interval start \\(2\\)")
+expect_identical(nanoival(), as.nanoival(NULL))
+expect_identical(length(nanoival()), 0L)
+expect_identical(nanoival(), as.nanoival())
+expect_identical(length(as.nanoival()), 0L)
 
 ##test_nanoival_vector<- function() {
     starts <- c(nanotime("2013-01-01 00:00:00"),
@@ -114,19 +118,19 @@ expect_identical(as.data.frame(ni), data.frame(ni=ni, row.names=rownames))
 ## eq/ne
 ##test_eq <- function() {
 x <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
-checkTrue(x==x)
+expect_true(x==x)
 y <- as.nanoival("-2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
-checkTrue(!(x==y))
+expect_true(!(x==y))
 z <- as.nanoival("+2013-01-01 00:00:01 -> 2014-01-01 00:00:00-")
-checkTrue(!(x==z))
+expect_true(!(x==z))
 
                                         ##test_ne <- function() {
 x <- as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
-checkTrue(!(x!=x))
+expect_true(!(x!=x))
 y <- as.nanoival("-2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
-checkTrue(x!=y)
+expect_true(x!=y)
 z <- as.nanoival("+2013-01-01 00:00:01 -> 2014-01-01 00:00:00-")
-checkTrue(x!=z)
+expect_true(x!=z)
 
     
 ## lt
@@ -498,7 +502,7 @@ expect_identical(names(c_xy), c("a","b"))
 c_xy <- c(x=as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00-"),
           y=as.nanoival("+2013-01-01 00:00:00 -> 2015-01-01 00:00:00-"))
 names(c_xy) <- NULL
-checkTrue(is.null(names(c_xy)))
+expect_true(is.null(names(c_xy)))
 
 
 
@@ -515,12 +519,10 @@ checkTrue(is.null(names(c_xy)))
 
 ## time - interval
 
-## this should be legal, but for the moment as.nanoival(NULL) doesn't work LLL
-## RUnit_intersect_time_interval_null_interval <- function() {
-##     i1 <- as.nanoival(NULL)
-##     s1 <- seq(nanotime("2015-01-01 12:00:00"), length.out=10, by=one_second)
-##     expect_identical(s1[i1], s1)
-## }
+## test_intersect_time_interval_null_interval <- function() {
+i1 <- as.nanoival(NULL)
+s1 <- seq(nanotime("2015-01-01 12:00:00"), length.out=10, by=one_second)
+expect_identical(s1[i1], as.nanotime(NULL))
 
 ##test_intersect.idx_unsorted <- function() {
 a <- c(nanotime("2013-12-12 12:12:12"), nanotime("2012-12-12 12:12:12"))
@@ -598,7 +600,7 @@ expect_identical(intersect(a, idx), r)
 i1 <- as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05+")
 i2 <- as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05+")
 r  <- i2
-checkTrue(intersect(i1, i2) == r)
+expect_true(intersect(i1, i2) == r)
 
 ## 1: c-----------c
 ## 2: o-----------c
@@ -607,7 +609,7 @@ checkTrue(intersect(i1, i2) == r)
 i1 <- as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05+")
 i2 <- as.nanoival("-2015-01-01 12:00:03 -> 2015-01-01 12:00:05+")
 r  <- i2
-checkTrue(intersect(i1, i2) == r &
+expect_true(intersect(i1, i2) == r &
           intersect(i2, i1) == r)
 
 ## 1: c-----------c
@@ -617,7 +619,7 @@ checkTrue(intersect(i1, i2) == r &
 i1 <- as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05+")
 i2 <- as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05-")
 r  <- i2
-checkTrue(intersect(i1, i2) == r &
+expect_true(intersect(i1, i2) == r &
           intersect(i2, i1) == r)
 
 ## 1: c-----------o
@@ -627,7 +629,7 @@ checkTrue(intersect(i1, i2) == r &
 i1 <- as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05-")
 i2 <- as.nanoival("-2015-01-01 12:00:03 -> 2015-01-01 12:00:05+")
 r  <- as.nanoival("-2015-01-01 12:00:03 -> 2015-01-01 12:00:05-")
-checkTrue(intersect(i1, i2) == r &
+expect_true(intersect(i1, i2) == r &
           intersect(i2, i1) == r)
 
 ## 1: o-----------o
@@ -637,7 +639,7 @@ checkTrue(intersect(i1, i2) == r &
 i1 <- as.nanoival("-2015-01-01 12:00:03 -> 2015-01-01 12:00:05-")
 i2 <- as.nanoival("-2015-01-01 12:00:03 -> 2015-01-01 12:00:05-")
 r  <- i2
-checkTrue(intersect(i1, i2) == r)
+expect_true(intersect(i1, i2) == r)
 
 ## 1: c-----------c
 ## 2: o-----------o
@@ -646,7 +648,7 @@ checkTrue(intersect(i1, i2) == r)
 i1 <- as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05+")
 i2 <- as.nanoival("-2015-01-01 12:00:03 -> 2015-01-01 12:00:05-")
 r  <- i2
-checkTrue(intersect(i1, i2) == r)
+expect_true(intersect(i1, i2) == r)
 
 ## 1: c-----------o
 ## 2:             o-----------c
@@ -707,7 +709,7 @@ expect_identical(intersect(i2, i1), r)
 i1 <- as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05+")
 i2 <- as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05+")
 r  <- i2
-checkTrue(union(i1, i2) == r &
+expect_true(union(i1, i2) == r &
           union(i2, i1) == r)
 
 ## 1: c-----------c
@@ -717,7 +719,7 @@ checkTrue(union(i1, i2) == r &
 i1 <- as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05+")
 i2 <- as.nanoival("-2015-01-01 12:00:03 -> 2015-01-01 12:00:05+")
 r  <- i1
-checkTrue(union(i1, i2) == r &
+expect_true(union(i1, i2) == r &
           union(i2, i1) == r)
 
 ## 1: c-----------c
@@ -727,7 +729,7 @@ checkTrue(union(i1, i2) == r &
 i1 <- as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05+")
 i2 <- as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05-")
 r  <- i1
-checkTrue(union(i1, i2) == r &
+expect_true(union(i1, i2) == r &
           union(i2, i1) == r)
 
 ## 1: c-----------o
@@ -737,7 +739,7 @@ checkTrue(union(i1, i2) == r &
 i1 <- as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05-")
 i2 <- as.nanoival("-2015-01-01 12:00:03 -> 2015-01-01 12:00:05+")
 r  <- as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05+")
-checkTrue(union(i1, i2) == r &
+expect_true(union(i1, i2) == r &
           union(i2, i1) == r)
 
 ## 1: o-----------o
@@ -747,7 +749,7 @@ checkTrue(union(i1, i2) == r &
     i1 <- as.nanoival("-2015-01-01 12:00:03 -> 2015-01-01 12:00:05-")
     i2 <- as.nanoival("-2015-01-01 12:00:03 -> 2015-01-01 12:00:05-")
     r  <- i2
-    checkTrue(union(i1, i2) == r &
+    expect_true(union(i1, i2) == r &
               union(i2, i1) == r)
 
 ## 1: c-----------c
@@ -757,7 +759,7 @@ checkTrue(union(i1, i2) == r &
 i1 <- as.nanoival("+2015-01-01 12:00:03 -> 2015-01-01 12:00:05+")
 i2 <- as.nanoival("-2015-01-01 12:00:03 -> 2015-01-01 12:00:05-")
 r  <- i1
-checkTrue(union(i1, i2) == r &
+expect_true(union(i1, i2) == r &
           union(i2, i1) == r)
 
 ## 1: c-----------c
@@ -1303,5 +1305,24 @@ expect_identical(ni + d, ni + c(d, d, d[1]))
 
 ## test S4 conversions:
 expect_identical(as.nanoival(aa), as(aa, "nanoival"))
+
+## test seq:
+
+x <- as.nanoival("+2013-01-01 15:00:00 -> 2013-01-01 17:00:00-")
+expect_identical(seq(x, by=as.nanoperiod("1m"), length.out=4, tz="America/New_York"),
+                 nanoival(seq(nanoival.start(x), by=as.nanoperiod("1m"), length.out=4, tz="America/New_York"),
+                          seq(nanoival.end(x),   by=as.nanoperiod("1m"), length.out=4, tz="America/New_York"),
+                          FALSE, TRUE))
+y <- as.nanoival("+2013-01-04 15:00:00 -> 2013-01-04 17:00:00-")
+expect_identical(seq(x, y, by=as.nanoduration("24:00:00")),
+                 nanoival(seq(nanoival.start(x), by=as.nanoperiod("1d"), length.out=4, tz="UTC"),
+                          seq(nanoival.end(x),   by=as.nanoperiod("1d"), length.out=4, tz="UTC"),
+                          FALSE, TRUE))
+expect_identical(seq(x, y, length.out=4),
+                 nanoival(seq(nanoival.start(x), by=as.nanoperiod("1d"), length.out=4, tz="UTC"),
+                          seq(nanoival.end(x),   by=as.nanoperiod("1d"), length.out=4, tz="UTC"),
+                          FALSE, TRUE))
+
+
 
 options(nanotimeFormat=savedFormat)

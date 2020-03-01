@@ -134,7 +134,8 @@ RcppExport SEXP _nanoival_intersect_time_interval(SEXP nanotime, SEXP nanoival) 
   
     double* res_start = reinterpret_cast<double*>(&res[0]);
     double* res_end   = res_start + res.size();
-    return Rcpp::NumericVector(res_start, res_end);  
+    auto final_res = Rcpp::NumericVector(res_start, res_end);
+    return assignS4("nanotime", final_res, "integer64");  
   } catch(std::exception &ex) {	
     forward_exception_to_r(ex);
   } catch(...) { 
@@ -297,7 +298,7 @@ RcppExport SEXP _nanoival_intersect(SEXP nanoival1, SEXP nanoival2) {
     // build the ComplexVector that we will return to R:
     Rcpp::ComplexVector finalres(res.size());
     memcpy(&finalres[0], &res[0], sizeof(Rcomplex)*res.size());
-    return finalres;
+    return assignS4("nanoival", finalres);
   } catch(std::exception &ex) {	
     forward_exception_to_r(ex);
   } catch(...) { 

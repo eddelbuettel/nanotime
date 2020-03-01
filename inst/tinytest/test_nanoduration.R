@@ -14,6 +14,10 @@ expect_identical(nanoduration(-1,0,0,1), as.nanoduration("-00:59:59.999_999_999"
 ## R recycling:
 expect_identical(nanoduration(1:2,1,1,1), c(as.nanoduration("01:01:01.000_000_001"),
                                         as.nanoduration("02:01:01.000_000_001")))
+expect_identical(nanoduration(), as.nanoduration(NULL))
+expect_identical(length(nanoduration()), 0L)
+expect_identical(nanoduration(), as.nanoduration())
+
 
 ##test_as.nanoduration_character_and_numeric <- function() {
 expect_identical(as.nanoduration("1:00:00"), as.nanoduration(hour))
@@ -62,6 +66,7 @@ expect_true(is.na(show(as.nanoduration(as.integer64("-9223372036854775808")))))
 ##test_print <- function() {
 d <- nanoduration(1,1,1,1)
 expect_identical(print(d), "01:01:01.000_000_001")
+expect_identical(print(nanoduration()), "nanoduration(0)")
 
 ##test_print_name <- function() {
 d <- nanoduration(1,1,1,1)
@@ -277,7 +282,7 @@ expect_error(1.5 / as.nanoduration("00:01:00"), "invalid operand types")
 expect_error(as.nanoduration("1:00:00") / "a", "invalid operand types")
 
 ##test_nanoduration_div_nanoduration <- function() {
-expect_error(as.nanoduration(1) / as.nanoduration(2), "invalid operand types")
+expect_identical(as.nanoduration(6) / as.nanoduration(2), as.integer64(3))
 
 
 ## unary
@@ -390,3 +395,11 @@ expect_identical(is.na(c(a=NA_nanoduration_)), c(a=TRUE))
 expect_identical(nanoduration(1,1,1,1), as("01:01:01.000_000_001", "nanoduration"))
 expect_identical(as.nanoduration(as.integer64(hour)), as(hour, "nanoduration"))
 expect_identical(as.nanoduration(hour), as(hour, "nanoduration"))
+
+## test seq:
+expect_identical(seq(as.nanoduration("00:00:00"), by=as.nanoduration("00:00:01"), length.out=10),
+                 as.nanoduration(seq(0, by=1e9, length.out=10)))
+expect_identical(seq(as.nanoduration("00:00:00"), to=as.nanoduration("00:00:09"), length.out=10),
+                 as.nanoduration(seq(0, by=1e9, length.out=10)))
+expect_identical(seq(as.nanoduration("00:00:00"), to=as.nanoduration("00:00:09"), along.with=1:10),
+                 as.nanoduration(seq(0, by=1e9, along.with=1:10)))

@@ -91,11 +91,17 @@ setClass("nanotime", contains = "integer64")
 ##' format(nanotime(Sys.time()) + 1:3)  # three elements each 1 ns apart
 ##' @export
 nanotime <- function(from, ...) {
+    if (missing(from)) {
+        from = NULL
+    }
     new("nanotime", as.integer64(from, keep.names=TRUE))
 }
 setGeneric("nanotime")
 
 as.nanotime <- function(from, ...) {
+    if (missing(from)) {
+        from = NULL
+    }
     new("nanotime", as.integer64(from, keep.names=TRUE))
 }
 setGeneric("as.nanotime")
@@ -215,7 +221,7 @@ setAs("Date", "nanotime", function(from) nanotime(as.POSIXct(from)))
 ##' @export
 setMethod("print",
           "nanotime",
-          function(x, format="", tz="", ...) {
+          function(x, format="", tz="", quote=FALSE, ...) {
               format <- .getFormat(format)
               tz <- .getTz(x, tz)
               max.print <- options()$max.print
@@ -226,7 +232,7 @@ setMethod("print",
                             length(x) - max.print, "entries ]\n"))
               }                                              		## #nocov end
               else {
-                  print(format(x, format, tz, ...))
+                  print(format(x, format, tz, ...), quote=quote)
               }
               invisible(x)
           })
@@ -643,11 +649,77 @@ setMethod("is.na",
 
 ##' @rdname nanotime
 ##' @export
-seq.nanotime <- function(from, to=NULL, by=NULL, length.out = NULL, along.with = NULL, ...) {
-    nanotime(seq(S3Part(from, strictS3=TRUE),
-                 S3Part(to, strictS3=TRUE),
-                 by, length.out, along.with, ...))                           
+seq.nanotime <-
+    function(from, to = NULL, by = NULL, length.out = NULL, along.with = NULL, ...)
+{
+    if((One <- nargs() == 1L)) {
+	stop("'seq.nanotime' cannot be called with only one argument")
+    }
+    if (sum(is.null(to), is.null(by), is.null(length.out) && is.null(along.with)) > 1) {
+        stop("at least two of 'to', 'by', and 'length.out' or 'along.with' must be specified")
+    }
+    is.logint <- function(.) (is.integer(.) || is.logical(.)) && !is.object(.)
+    if (!missing(along.with) && !is.null(along.with)) {
+	length.out <- length(along.with)
+    }
+    else if(!missing(length.out) && !is.null(length.out)) {
+        len <- length(length.out)
+        if(!len) stop("argument 'length.out' must be of length 1")
+        if(len > 1L) {
+            warning("first element used of 'length.out' argument")
+            length.out <- length.out[1L]
+        }
+	if(!(intn1 <- is.logint(length.out)))
+	    length.out <- as.numeric(ceiling(length.out))
+    }
+    if (length(from) != 1L) stop("'from' must be of length 1")
+    if (!missing(to) && !is.null(to) && length(to) != 1L) stop("'to' must be of length 1")
+    if (!missing(to) && !is.null(to) && !(class(to) == "nanotime"))
+	stop("'to' must be a 'nanotime'")
+    if (is.null(length.out)) {
+	if (missing(by) || is.null(by))
+	    stop("'by' must be specified if 'length.out' is NULL")
+	else { # dealing with 'by'
+            if (length(by) != 1L) stop("'by' must be of length 1")
+            if (class(by) == "nanoperiod") {
+                ## fish out the 'tz' parameter:
+                args <- list(...)
+                if (!any("tz" %in% names(args))) {
+                    stop("'tz' is a mandatory argument for sequences with a 'period' step")
+                }
+                .Call("period_seq_from_to", from, to, by, args$tz)
+            } else {
+                nanotime(seq(as.integer64(from), as.integer64(to), by=by))
+            }                
+	}
+    }
+    else if(!is.finite(length.out) || length.out < 0L)
+	stop("'length.out' must be a non-negative number")
+    else if (length.out == 0L) nanotime()
+    else if (missing(by) || is.null(by)) {
+        ## cannot be with 'period', so just call the S3 function:
+        ## calculate 'by' because of 'bit64' bug:
+        by = as.integer64((to - from) / (length.out - 1))
+        nanotime(seq(as.integer64(from), as.integer64(to), by, NULL, NULL, ...))
+    }
+    else if (missing(to) || is.null(to)) {
+        if (length(by) != 1L) stop("'by' must be of length 1")
+        if (class(by) == "nanoperiod") {
+            ## fish out the 'tz' parameter:
+            args <- list(...)
+            if (!any("tz" %in% names(args))) {
+                stop("'tz' is a mandatory argument for sequences with a 'period' step")
+            }
+            .Call("period_seq_from_length", from, by, as.integer64(length.out), args$tz)
+        } else {
+            nanotime(seq(as.integer64(from), by=as.integer64(by),
+                         length.out=length.out, along.with=along.with, ...))
+        }
+    }
+    else stop("too many arguments")
 }
+
+
 
 ##' @rdname nanotime
 ##' @export
@@ -670,19 +742,5 @@ setMethod("all.equal", c(target = "nanotime", current = "ANY"),
 ##' @export
 setMethod("all.equal", c(target = "ANY", current = "nanotime"),
           function(target, current, ...) callNextMethod())
-
-
-## -------- conversions TODO: figure out if we need conversions
-## maybe we can do something for this:
-
-## > a <- as.character(1:10)
-## > a
-##  [1] "1"  "2"  "3"  "4"  "5"  "6"  "7"  "8"  "9"  "10"
-## > a[1] <- nanotime(1)
-## > a
-##  [1] "4.94065645841247e-324" "2"                     "3"
-##  [4] "4"                     "5"                     "6"
-##  [7] "7"                     "8"                     "9"
-## [10] "10"
 
 NA_nanotime_ <- nanotime(NA)

@@ -64,6 +64,8 @@ if (!isSolaris) {
     expect_identical(as.nanotime("2018/01/01T05:00:00.99 Europe/London"),             nanotime(as.integer64("1514782800990000000")))
     expect_identical(as.nanotime("2018 01 01T05:00:00.99 Europe/London"),             nanotime(as.integer64("1514782800990000000")))   
 }
+expect_identical(as.nanotime(NULL), nanotime())
+expect_identical(as.nanotime(NULL), as.nanotime())
 
 ##test_nanotime_character_first_pass_fail <- function() {
 ## none of these should parse
@@ -498,3 +500,48 @@ expect_identical(as(nanotime("1970-01-11T00:00:00.000000000-00:00"), "Date"), as
 ## expect_identical(as(nanotime("1970-01-11T00:00:00.000000000-00:00"), "POSIXct"), as.POSIXct("1970-01-10 19:00:00"))
 expect_identical(as(nanotime("1970-01-11T00:00:00.000000000-00:00"), "integer64"), as.integer64("864000000000000"))
 expect_identical(as(nanotime("1970-01-11T00:00:00.000000000-00:00"), "nanoduration"), as.nanoduration("240:00:00"))
+
+
+## test nanotime sequences:
+
+## straightforward with integer64 and nanoduration1
+expect_identical(seq(as.nanotime(1), by=1e9, length.out=10), as.nanotime(seq(1, by=1e9, length.out=10)))
+expect_identical(seq(as.nanotime(1), by=1e9, along.with=1:10), as.nanotime(seq(1, by=1e9, length.out=10)))
+expect_identical(seq(from=as.nanotime(1), to=as.nanotime(10e9), by=1e9), as.nanotime(seq(1, 10e9, by=1e9)))
+expect_identical(seq(from=as.nanotime(1), to=as.nanotime(9e9+1), length.out=10), as.nanotime(seq(1, 10e9, by=1e9)))
+expect_identical(seq(as.nanotime(1), by=as.nanoduration(1e9), length.out=10), as.nanotime(seq(1, by=1e9, length.out=10)))
+expect_identical(seq(as.nanotime(1), as.nanotime(10e9), by=as.nanoduration(1e9)), as.nanotime(seq(1, 10e9, by=1e9)))
+
+## increment with a period:
+expect_identical(seq(as.nanotime(0), by=as.nanoperiod("1m"), length.out=4, tz="UTC"),
+                 as.nanotime(c("1970-01-01T00:00:00+00:00", "1970-02-01T00:00:00+00:00",
+                               "1970-03-01T00:00:00+00:00", "1970-04-01T00:00:00+00:00")))
+expect_identical(seq(as.nanotime(0), by=as.nanoperiod("1m"), length.out=0, tz="UTC"),
+                 nanotime())
+expect_identical(seq(as.nanotime(0), to=as.nanotime("1970-04-01T00:00:00+00:00"),
+                     by=as.nanoperiod("1m"), tz="UTC"),
+                 as.nanotime(c("1970-01-01T00:00:00+00:00", "1970-02-01T00:00:00+00:00",
+                               "1970-03-01T00:00:00+00:00", "1970-04-01T00:00:00+00:00")))
+
+## other seq errors or warnings:
+expect_warning(seq(as.nanotime(1), by=1e9, length.out=10:12), "first element used of 'length.out' argument")
+expect_error(seq(as.nanotime(0), by=as.nanoperiod(c("1m","2m")), length.out=4, tz="UTC"),
+             "'by' must be of length 1")
+expect_error(seq(as.nanotime(0), by=as.nanoperiod("1m"), length.out=-1, tz="UTC"),
+             "'length.out' must be a non-negative number")
+expect_error(seq(from=as.nanotime(1)), "'seq.nanotime' cannot be called with only one argument")
+expect_error(seq(from=as.nanotime(1), to=as.nanotime(2), length.out=as.integer()), "argument 'length.out' must be of length 1")
+expect_error(seq(from=as.nanotime(1), length.out=1),
+             "at least two of 'to', 'by', and 'length.out' or 'along.with' must be specified")
+expect_error(seq(from=as.nanotime(1), to=as.nanoduration(10e9), by=1e9),
+             "'to' must be a 'nanotime'")
+expect_error(seq(from=as.nanotime(1:2), to=as.nanotime(1), by=1e9),
+             "'from' must be of length 1")
+expect_error(seq(from=as.nanotime(1), to=as.nanotime(1:2), by=1e9),
+             "'to' must be of length 1")          
+expect_error(seq(from=as.nanotime(1), to=as.nanotime(2), by=1e9, length.out=1, too_much=2),
+             "too many arguments")
+expect_error(seq(as.nanotime(1), by=c(1e9,2), length.out=10), "'by' must be of length 1")
+expect_error(seq(as.nanotime(1), to=as.nanotime(10), by=c(1e9,2)), "'by' must be of length 1")
+expect_error(seq(as.nanotime(1), by=as.nanoperiod("1d"), length.out=10), "'tz' is a mandatory argument for sequences with a 'period' step")
+expect_error(seq(as.nanotime(1), to=as.nanotime(10), by=as.nanoperiod("1d")), "'tz' is a mandatory argument for sequences with a 'period' step")

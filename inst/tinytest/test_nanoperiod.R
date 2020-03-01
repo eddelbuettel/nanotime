@@ -23,6 +23,11 @@ expect_identical(nanoperiod.day(p3[1]), 1)
 expect_identical(nanoperiod.day(p3[2]), 2)
 expect_identical(nanoperiod.day(p3[3]), 3)    
 
+expect_identical(nanoperiod(), as.nanoperiod(NULL))
+expect_identical(nanoperiod(), as.nanoperiod())
+expect_identical(length(nanoperiod()), 0L)
+expect_identical(length(as.nanoperiod(NULL)), 0L)
+
 ## check year and week
 expect_identical(as.character(as.nanoperiod("1y/00:01:01")), "12m0d/00:01:01")
 expect_identical(as.character(as.nanoperiod("1w/00:01:01")), "0m7d/00:01:01")
@@ -92,6 +97,7 @@ expect_identical(p1, "1m1d/01:00:00.100")
 ##test_print <- function() {
 p1 <- print(as.nanoperiod("2m2d/2:02:02.2"))
 expect_identical(p1, "2m2d/02:02:02.200")
+expect_identical(print(nanoperiod()), "nanoperiod(0)")
 
 ##test_as.character <- function() {
 p1 <- as.character(as.nanoperiod("2m2d/2:02:02.20001"))
@@ -532,3 +538,5 @@ hour <- 3600*1e9
 expect_identical(as.nanoperiod(as.integer64(hour)), as(hour, "nanoperiod"))
 expect_identical(as.nanoperiod(hour), as(hour, "nanoperiod"))
 expect_identical(as.nanoperiod(hour), as(as.nanoduration(hour), "nanoperiod"))
+
+## test 'seq' where 'by' is 'period':

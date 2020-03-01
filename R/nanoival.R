@@ -126,11 +126,15 @@ setClass("nanoival", contains="complex")
 ##' @rdname nanoival
 ##' @export
 nanoival <- function(start, end, sopen=FALSE, eopen=TRUE) {
-  .Call("_nanoival_new",
-        as.integer64(start),
-        as.integer64(end),
-        as.logical(sopen),
-        as.logical(eopen))
+    if (nargs() == 0) {
+        new("nanoival", as.complex(NULL))
+    } else {
+        .Call("_nanoival_new",
+              as.integer64(start),
+              as.integer64(end),
+              as.logical(sopen),
+              as.logical(eopen))
+    }
 }
 
 setGeneric("nanoival.start", function(x) standardGeneric("nanoival.start"))
@@ -192,11 +196,11 @@ format.nanoival <-
 ##' @export
 setMethod("print",
           "nanoival",
-          function(x, ...) {
-            ## like in nanotime, we must prevent the conversion to printout to be too large LLL
-            s <- format(x, ...)
-            print(s)
-            invisible(s)
+          function(x, quote=FALSE, ...) {
+              ## like in nanotime, we must prevent the conversion to printout to be too large LLL
+              s <- format(x, ...)
+              print(s, quote=quote)
+              invisible(s)
           })
 
 ##' @rdname nanoival
@@ -277,6 +281,14 @@ setAs("character", "nanoival", function(from) as.nanoival(from))
 ##' @export
 setMethod("as.nanoival",
           "NULL",
+          function(from, format="", tz="") {
+              new("nanoival", as.complex(NULL))
+          })
+
+##' @rdname nanoival
+##' @export
+setMethod("as.nanoival",
+          "missing",
           function(from, format="", tz="") {
               new("nanoival", as.complex(NULL))
           })
@@ -385,6 +397,13 @@ setMethod("-", c("nanoival", "nanoival"),
 ## ----------- `+`
 ##' @rdname nanoival
 ##' @export
+setMethod("+", c("nanoival", "nanoival"),
+          function(e1, e2) {
+              stop("invalid operand types")
+          })
+
+##' @rdname nanoival
+##' @export
 setMethod("+", c("nanoival", "ANY"),
           function(e1, e2) {
               stop("invalid operand types")
@@ -449,6 +468,14 @@ setMethod("Compare", c("nanoival", "ANY"),
               stop("invalid operand types")
           })
 
+
+##' @rdname nanoival
+##' @export
+setMethod("Logic", c("nanoival", "nanoival"),
+          function(e1, e2) {
+              ## this is the same error message that R gives for "A" | "A"
+              stop("operations are possible only for numeric, logical or complex types")
+          })
 
 ##' @rdname nanoival
 ##' @export
@@ -662,9 +689,7 @@ setMethod("[",
           function (x, i, ..., drop=FALSE) {
               if (is.unsorted(x)) stop("x must be sorted")
               i <- sort(i)
-              res <- .Call('_nanoival_intersect_time_interval', x, i)
-              oldClass(res) <- "integer64"
-              new("nanotime", res)            
+              .Call('_nanoival_intersect_time_interval', x, i)
           })
 
 
@@ -691,9 +716,7 @@ setMethod("intersect",
           function(x, y) {
               x <- sort(x)
               y <- sort(y)
-              res <- .Call('_nanoival_intersect_time_interval', x, y)
-              oldClass(res) <- "integer64"
-              new("nanotime", res)
+              .Call('_nanoival_intersect_time_interval', x, y)
           })
 
 ##' @rdname nanoival
@@ -739,6 +762,25 @@ setMethod("is.unsorted", "nanoival",
 setMethod("sort", c("nanoival"),
           function(x, decreasing=FALSE, ...)
             new("nanoival", .Call('_nanoival_sort', x, decreasing)))
+
+
+##' @rdname nanoival
+##' @export
+setMethod("seq", c("nanoival"),
+          function(from, to = NULL, by = NULL, length.out = NULL, along.with = NULL, ...)
+          {
+              if (is.null(to)) {
+                  start <- seq(nanoival.start(from), by=by, length.out=length.out, along.with=along.with, ...)
+              } else {
+                  start  <- seq(nanoival.start(from), nanoival.start(to), by, length.out, along.with, ...)
+              }
+              if (is.null(by)) {
+                  end <- seq(nanoival.end(from), by=start[2]-start[1], length.out=length(start), ...)
+              } else {
+                  end <- seq(nanoival.end(from), by=by, length.out=length(start), ...)
+              }
+              nanoival(start, end, nanoival.sopen(from), nanoival.eopen(from))
+          })
 
 
 NA_nanoival_ <- new("nanoival", complex(1, -4.9406564584124654418e-324, -4.9406564584124654418e-324))

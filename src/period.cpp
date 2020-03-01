@@ -884,3 +884,82 @@ RcppExport SEXP period_isna(SEXP sv) {
   res.names() = cv.names();
   return res;
 }
+
+
+constexpr Global::duration abs(Global::duration d) {
+  return d >= d.zero() ? d : -d;
+}
+
+RcppExport SEXP period_seq_from_to(SEXP from_p, SEXP to_p, SEXP by_p, SEXP tz_p) {
+  try {
+    const Rcpp::NumericVector   from_nv(from_p);
+    const ConstPseudoVectorNano from_n(from_nv);
+    const Rcpp::NumericVector   to_nv(to_p);
+    const ConstPseudoVectorNano to_n(to_nv);
+    const Rcpp::ComplexVector   by_cv(by_p);
+    const ConstPseudoVectorPrd  by_n(by_cv);
+
+    Global::dtime from; memcpy(&from, reinterpret_cast<const char*>(&from_n[0]), sizeof(from));
+    Global::dtime to;   memcpy(&to,   reinterpret_cast<const char*>(&to_n[0]),   sizeof(to));
+    period by;          memcpy(&by,   reinterpret_cast<const char*>(&by_n[0]),   sizeof(by));
+    const std::string tz = Rcpp::as<std::string>(tz_p);
+    
+    std::vector<Global::dtime> res{from};
+
+    auto diff = to - from;
+    auto pos = diff >= std::chrono::seconds(0);
+    auto dist = abs(diff);
+    auto olddist = dist;
+    for (;;) {
+      auto next = plus(res.back(), by, tz);
+      if (pos ? next > to : next < to) break;
+      res.push_back(next);
+      olddist = dist;
+      dist = abs(to - next);
+      if (dist >= olddist) {
+        throw std::range_error("incorrect specification for 'to'/'by'"); // # nocov
+      }
+    }
+
+    Rcpp::NumericVector res_rcpp(res.size());
+    memcpy(&res_rcpp[0], &res[0], sizeof(Global::dtime)*res.size()); 
+    return assignS4("nanotime", res_rcpp, "integer64");
+  } catch(std::exception &ex) {	
+    forward_exception_to_r(ex);
+  } catch(...) { 
+    ::Rf_error("c++ exception (unknown reason)"); 
+  }
+  return R_NilValue;             // not reached
+}
+
+
+RcppExport SEXP period_seq_from_length(SEXP from_p, SEXP by_p, SEXP n_p, SEXP tz_p) {
+  try {
+    const Rcpp::NumericVector   from_nv(from_p);
+    const ConstPseudoVectorNano from_n(from_nv);
+    const Rcpp::ComplexVector   by_cv(by_p);
+    const ConstPseudoVectorPrd  by_n(by_cv);
+    const Rcpp::NumericVector   n_nv(n_p);
+    const ConstPseudoVectorNano n_n(n_nv);
+
+    Global::dtime from; memcpy(&from, reinterpret_cast<const char*>(&from_n[0]), sizeof(from));
+    period by;          memcpy(&by,   reinterpret_cast<const char*>(&by_n[0]),   sizeof(by));
+    size_t n;           memcpy(&n,    reinterpret_cast<const char*>(&n_n[0]),    sizeof(n));
+    const std::string tz = Rcpp::as<std::string>(tz_p);
+    
+    std::vector<Global::dtime> res{from};
+
+    for (size_t i=1; i<n; ++i) {
+      res.push_back(plus(res[i-1], by, tz));
+    }
+
+    Rcpp::NumericVector res_rcpp(res.size());
+    memcpy(&res_rcpp[0], &res[0], sizeof(Global::dtime)*res.size()); 
+    return assignS4("nanotime", res_rcpp, "integer64");
+  } catch(std::exception &ex) {	
+    forward_exception_to_r(ex);
+  } catch(...) { 
+    ::Rf_error("c++ exception (unknown reason)"); 
+  }
+  return R_NilValue;             // not reached
+}
