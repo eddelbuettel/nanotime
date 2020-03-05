@@ -23,7 +23,6 @@
 \alias{as.Date.nanotime}
 \alias{as.data.frame.nanotime}
 \alias{as.integer64.nanotime}
-\alias{as.integer64}
 \alias{-,nanotime,character-method}
 \alias{-,nanotime,nanotime-method}
 \alias{-,nanotime,integer64-method}
@@ -105,8 +104,6 @@ nanotime.matrix(x)
 \method{as.data.frame}{nanotime}(x, ...)
 
 \method{as.integer64}{nanotime}(x, ...)
-
-as.integer64(x, ...)
 
 \S4method{-}{nanotime,character}(e1, e2)
 

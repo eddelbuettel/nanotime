@@ -14,6 +14,7 @@
 \alias{show,nanoduration-method}
 \alias{print,nanoduration-method}
 \alias{format.nanoduration}
+\alias{as.integer64.nanoduration}
 \alias{as.character,nanoduration-method}
 \alias{is.na,nanoduration-method}
 \alias{-,nanoduration,nanoduration-method}
@@ -89,6 +90,8 @@ nanoduration(hours, minutes, seconds, nanoseconds)
 \S4method{print}{nanoduration}(x, quote = FALSE, ...)
 
 \method{format}{nanoduration}(x, ...)
+
+\method{as.integer64}{nanoduration}(x, ...)
 
 \S4method{as.character}{nanoduration}(x)
 

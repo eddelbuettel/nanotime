@@ -114,7 +114,6 @@ as.nanotime <- function(from, ...) {
 ##' @noRd
 setGeneric("as.nanotime")
 
-##' @rdname nanotime
 setAs("integer64", "nanotime", function(from) new("nanotime", as.integer64(from, keep.names=TRUE)))
 
 
@@ -327,22 +326,12 @@ as.data.frame.nanotime <- function(x, ...) {
 }
 
 ##' @rdname nanotime
+##' @method as.integer64 nanotime
 as.integer64.nanotime <- function(x, ...) {
     S3Part(x, strictS3=TRUE)
 }
 
 setAs("nanotime", "integer64", function(from) S3Part(from, strictS3=TRUE))
-
-
-#' \code{as.integer64} conversion helper returning the underlying
-#' \code{integer64} representation
-#'
-#' @name as.integer64
-#' @usage
-#' as.integer64(x, ...)
-#'
-#' @rdname nanotime
-NULL
 
 ## ------------ `-`
 ##' @rdname nanotime

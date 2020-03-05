@@ -1,5 +1,4 @@
 ##' @rdname nanoduration
-##' @export
 setClass("nanoduration", contains = "integer64")
 
 ##' Duration type with nanosecond precision
@@ -44,7 +43,6 @@ setClass("nanoduration", contains = "integer64")
 ##' nanoduration(hours=10, minutes=3, seconds=2, nanoseconds=999999999)
 ##' as.nanoduration("10:03:02.999_999_999")
 ##' @rdname nanoduration
-##' @export
 nanoduration <- function(hours, minutes, seconds, nanoseconds) {
     if (nargs()==0) {
         as.nanoduration(NULL)
@@ -63,7 +61,6 @@ setGeneric("as.nanoduration", function(x) standardGeneric("as.nanoduration"))
 
 ##' @rdname nanoduration
 ##' @aliases as.nanoduration
-##' @export
 setMethod("as.nanoduration",
           "character",
           function(x) {
@@ -73,7 +70,6 @@ setMethod("as.nanoduration",
 setAs("character", "nanoduration", function(from) as.nanoduration(from))
 
 ##' @rdname nanoduration
-##' @export
 setMethod("as.nanoduration",
           "integer64",
           function(x) {
@@ -84,7 +80,6 @@ setAs("integer64", "nanoduration", function(from) as.nanoduration(from))
 
 
 ##' @rdname nanoduration
-##' @export
 setMethod("as.nanoduration",
           "numeric",
           function(x) {
@@ -100,7 +95,6 @@ setAs("numeric", "nanoduration", function(from) as.nanoduration(from))
 
 
 ##' @rdname nanoduration
-##' @export
 setMethod("as.nanoduration",
           "integer",
           function(x) {
@@ -115,7 +109,6 @@ setMethod("as.nanoduration",
 setAs("integer", "nanoduration", function(from) as.nanoduration(from))
 
 ##' @rdname nanoduration
-##' @export
 setMethod("as.nanoduration",
           "NULL",
           function(x) {
@@ -123,7 +116,6 @@ setMethod("as.nanoduration",
           })
 
 ##' @rdname nanoduration
-##' @export
 setMethod("as.nanoduration",
           "missing",
           function(x) {
@@ -131,13 +123,11 @@ setMethod("as.nanoduration",
           })
 
 ##' @rdname nanoduration
-##' @export
 setMethod("show",
           signature("nanoduration"),
           function(object) print(object))
 
 ##' @rdname nanoduration
-##' @export
 setMethod("print",
           "nanoduration",
           function(x, quote=FALSE, ...) {
@@ -149,20 +139,19 @@ setMethod("print",
           })
 
 ##' @rdname nanoduration
-##' @export
 format.nanoduration <- function(x, ...) {
     as.character(x)
 }
 
   
-## needed? LLL
+##' @rdname nanoduration
+##' @method as.integer64 nanoduration
 as.integer64.nanoduration <- function(x, ...) {
     S3Part(x, strictS3=TRUE)
 }
 
 
 ##' @rdname nanoduration
-##' @export
 setMethod("as.character",
           signature("nanoduration"),
           function(x) {
@@ -171,7 +160,6 @@ setMethod("as.character",
 
 
 ##' @rdname nanoduration
-##' @export
 setMethod("is.na",
           "nanoduration",
           function(x) {
@@ -183,31 +171,26 @@ setMethod("is.na",
 
 ## nanoduration - other
 ##' @rdname nanoduration
-##' @export
 setMethod("-", c("nanoduration", "nanoduration"),
           function(e1, e2) {
               new("nanoduration", S3Part(e1, strictS3=TRUE) - S3Part(e2, strictS3=TRUE))
           })
 ##' @rdname nanoduration
-##' @export
 setMethod("-", c("nanoduration", "integer64"),
           function(e1, e2) {
               new("nanoduration", S3Part(e1, strictS3=TRUE) - e2)
           })
 ##' @rdname nanoduration
-##' @export
 setMethod("-", c("nanoduration", "integer"),
           function(e1, e2) {
               new("nanoduration", S3Part(e1, strictS3=TRUE) - e2)
           })
 ##' @rdname nanoduration
-##' @export
 setMethod("-", c("nanoduration", "numeric"),
           function(e1, e2) {
               new("nanoduration", S3Part(e1, strictS3=TRUE) - e2)
           })
 ##' @rdname nanoduration
-##' @export
 setMethod("-", c("nanoduration", "ANY"),
           function(e1, e2) {
               if (missing(e2)) {
@@ -221,31 +204,26 @@ setMethod("-", c("nanoduration", "ANY"),
 ## other - nanoduration
 
 ##' @rdname nanoduration
-##' @export
 setMethod("-", c("nanotime", "nanoduration"),
           function(e1, e2) {
               new("nanotime", S3Part(e1, strictS3=TRUE) - e2)
           })
 ##' @rdname nanoduration
-##' @export
 setMethod("-", c("integer64", "nanoduration"),
           function(e1, e2) {
               new("nanoduration", e1 - S3Part(e2, strictS3=TRUE))
           })
 ##' @rdname nanoduration
-##' @export
 setMethod("-", c("integer", "nanoduration"),
           function(e1, e2) {
               new("nanoduration", e1 - S3Part(e2, strictS3=TRUE))
           })
 ##' @rdname nanoduration
-##' @export
 setMethod("-", c("numeric", "nanoduration"),
           function(e1, e2) {
               new("nanoduration", e1 - S3Part(e2, strictS3=TRUE))
           })
 ##' @rdname nanoduration
-##' @export
 setMethod("-", c("ANY", "nanoduration"),
           function(e1, e2) {
               stop("invalid operand types")
@@ -254,7 +232,6 @@ setMethod("-", c("ANY", "nanoduration"),
 ## ----------- `+`
 
 ##' @rdname nanoduration
-##' @export
 setMethod("+", c("nanoduration", "ANY"),
           function(e1, e2) {
               if (missing(e2)) {
@@ -265,52 +242,44 @@ setMethod("+", c("nanoduration", "ANY"),
               }
           })
 ##' @rdname nanoduration
-##' @export
 setMethod("+", c("nanoduration", "nanoduration"),
           function(e1, e2) {
               new("nanoduration", S3Part(e1, strictS3=TRUE) + e2)
           })
 ##' @rdname nanoduration
-##' @export
 setMethod("+", c("nanoduration", "integer64"),
           function(e1, e2) {
               new("nanoduration", S3Part(e1, strictS3=TRUE) + e2)
           })
 ##' @rdname nanoduration
-##' @export
 setMethod("+", c("nanoduration", "numeric"),
           function(e1, e2) {
               new("nanoduration", S3Part(e1, strictS3=TRUE) + e2)
           })
 
 ##' @rdname nanoduration
-##' @export
 setMethod("+", c("nanotime", "nanoduration"),
           function(e1, e2) {
               new("nanotime", S3Part(e1, strictS3=TRUE) + S3Part(e2, strictS3=TRUE))
           })
 
 ##' @rdname nanoduration
-##' @export
 setMethod("+", c("nanoival", "nanoduration"),
           function(e1, e2) {
               new("nanoival", .Call("_nanoival_plus", e1, e2))
           })
 
 ##' @rdname nanoduration
-##' @export
 setMethod("+", c("ANY", "nanoduration"),
           function(e1, e2) {
               stop("invalid operand types")
           })
 ##' @rdname nanoduration
-##' @export
 setMethod("+", c("integer64", "nanoduration"),
           function(e1, e2) {
               new("nanoduration", e1 + S3Part(e2, strictS3=TRUE))
           })
 ##' @rdname nanoduration
-##' @export
 setMethod("+", c("numeric", "nanoduration"),
           function(e1, e2) {
               new("nanoduration", e1 + S3Part(e2, strictS3=TRUE))
@@ -319,43 +288,36 @@ setMethod("+", c("numeric", "nanoduration"),
 ## ----------- `*`
 
 ##' @rdname nanoduration
-##' @export
 setMethod("*", c("nanoduration", "nanoduration"),
           function(e1, e2) {
               stop("invalid operand types")              
           })
 ##' @rdname nanoduration
-##' @export
 setMethod("*", c("nanoduration", "numeric"),
           function(e1, e2) {
               new("nanoduration", S3Part(e1, strictS3=TRUE) * e2)
           })
 ##' @rdname nanoduration
-##' @export
 setMethod("*", c("nanoduration", "integer64"),
           function(e1, e2) {
               new("nanoduration", S3Part(e1, strictS3=TRUE) * e2)
           })
 ##' @rdname nanoduration
-##' @export
 setMethod("*", c("numeric", "nanoduration"),
           function(e1, e2) {
               new("nanoduration", e1 * S3Part(e2, strictS3=TRUE))
           })
 ##' @rdname nanoduration
-##' @export
 setMethod("*", c("integer64", "nanoduration"),
           function(e1, e2) {
               new("nanoduration", e1 * S3Part(e2, strictS3=TRUE))
           })
 ##' @rdname nanoduration
-##' @export
 setMethod("*", c("nanoduration", "ANY"),
           function(e1, e2) {
               stop("invalid operand types")
           })
 ##' @rdname nanoduration
-##' @export
 setMethod("*", c("ANY", "nanoduration"),
           function(e1, e2) {
               stop("invalid operand types")
@@ -364,31 +326,26 @@ setMethod("*", c("ANY", "nanoduration"),
 ## ----------- `/`
 
 ##' @rdname nanoduration
-##' @export
 setMethod("/", c("nanoduration", "nanoduration"),
           function(e1, e2) {
               as.integer64(S3Part(e1, strictS3=TRUE) / S3Part(e2, strictS3=TRUE))
           })
 ##' @rdname nanoduration
-##' @export
 setMethod("/", c("nanoduration", "integer64"),
           function(e1, e2) {
               new("nanoduration", as.integer64(S3Part(e1, strictS3=TRUE) / e2))
           })
 ##' @rdname nanoduration
-##' @export
 setMethod("/", c("nanoduration", "numeric"),
           function(e1, e2) {
               new("nanoduration", as.integer64(S3Part(e1, strictS3=TRUE) / e2))
           })
 ##' @rdname nanoduration
-##' @export
 setMethod("/", c("nanoduration", "ANY"),
           function(e1, e2) {
               stop("invalid operand types")
           })
 ##' @rdname nanoduration
-##' @export
 setMethod("/", c("ANY", "nanoduration"),
           function(e1, e2) {
               stop("invalid operand types")
@@ -397,21 +354,18 @@ setMethod("/", c("ANY", "nanoduration"),
 ## ---------- other ops
 
 ##' @rdname nanoduration
-##' @export
 setMethod("Arith", c("nanoduration", "ANY"),
           function(e1, e2) {
               callNextMethod(S3Part(e1, strictS3=TRUE), e2)
           })
 
 ##' @rdname nanoduration
-##' @export
 setMethod("Compare", c("nanoduration", "ANY"),
           function(e1, e2) {
               callNextMethod(S3Part(e1, strictS3=TRUE), e2)
           })
 
 ##' @rdname nanoduration
-##' @export
 setMethod("Logic", c("nanoduration", "nanoduration"),
           function(e1, e2) {
               ## this is the same error message that R gives for "A" | "A"
@@ -419,7 +373,6 @@ setMethod("Logic", c("nanoduration", "nanoduration"),
           })
 
 ##' @rdname nanoduration
-##' @export
 setMethod("Logic", c("nanoduration", "ANY"),
           function(e1, e2) {
               ## this is the same error message that R gives for "A" | "A"
@@ -427,7 +380,6 @@ setMethod("Logic", c("nanoduration", "ANY"),
           })
 
 ##' @rdname nanoduration
-##' @export
 setMethod("Logic", c("ANY", "nanoduration"),
           function(e1, e2) {
               ## this is the same error message that R gives for "A" | "A"
@@ -435,13 +387,11 @@ setMethod("Logic", c("ANY", "nanoduration"),
           })
 
 ##' @rdname nanoduration
-##' @export
 setMethod("abs", c("nanoduration"),
           function(x) {
               new("nanoduration", callNextMethod(S3Part(x, strictS3=TRUE)))
           })
 ##' @rdname nanoduration
-##' @export
 setMethod("sign", c("nanoduration"),
           function(x) {
               callNextMethod(S3Part(x, strictS3=TRUE))
@@ -449,7 +399,6 @@ setMethod("sign", c("nanoduration"),
 
 
 ##' @rdname nanoduration
-##' @export
 setMethod("Math", c("nanoduration"),
           function(x) {
               ## this is the same error message that R gives for abs("A")
@@ -457,7 +406,6 @@ setMethod("Math", c("nanoduration"),
           })
 
 ##' @rdname nanoduration
-##' @export
 setMethod("Math2", c("nanoduration"),
           function(x, digits) {
               ## this is the same error message that R gives for round("A")
@@ -465,7 +413,6 @@ setMethod("Math2", c("nanoduration"),
           })
 
 ##' @rdname nanoduration
-##' @export
 setMethod("Summary", c("nanoduration"),
           function(x, ..., na.rm = FALSE) {
               ## this is the same error message that R gives for sum("A")
@@ -473,28 +420,24 @@ setMethod("Summary", c("nanoduration"),
           })
 
 ##' @rdname nanoduration
-##' @export
 setMethod("sum", c("nanoduration"),
           function(x, ..., na.rm = FALSE) {
               new("nanoduration", callNextMethod())
           })
 
 ##' @rdname nanoduration
-##' @export
 setMethod("min", c("nanoduration"),
           function(x, ..., na.rm = FALSE) {
               new("nanoduration", callNextMethod())
           })
 
 ##' @rdname nanoduration
-##' @export
 setMethod("max", c("nanoduration"),
           function(x, ..., na.rm = FALSE) {
               new("nanoduration", callNextMethod())
           })
 
 ##' @rdname nanoduration
-##' @export
 setMethod("range", c("nanoduration"),
           function(x, ..., na.rm = FALSE) {
               new("nanoduration", callNextMethod())
@@ -502,7 +445,6 @@ setMethod("range", c("nanoduration"),
 
 
 ##' @rdname nanoduration
-##' @export
 setMethod("Complex", c("nanoduration"),
           function(z) {
               ## this is the same error message that R gives for Arg("A")
@@ -516,7 +458,6 @@ setMethod("Complex", c("nanoduration"),
 ## subset/subassign
 
 ##' @rdname nanoduration
-##' @export
 setMethod("[[",
           signature("nanoduration"),
           function (x, i, j, ..., drop=FALSE) {
@@ -524,7 +465,6 @@ setMethod("[[",
           })
 
 ##' @rdname nanoduration
-##' @export
 setMethod("[",
           signature("nanoduration"),
           function (x, i, j, ..., drop=FALSE) {
@@ -532,7 +472,6 @@ setMethod("[",
           })
 
 ##' @rdname nanoduration
-##' @export
 setMethod("[<-",
           signature("nanoduration"),
           function (x, i, j, ..., value) {
@@ -540,13 +479,11 @@ setMethod("[<-",
           })
 
 ##' @rdname nanoduration
-##' @export
 c.nanoduration <- function(...) {
     as.nanoduration(c.integer64(...))
 }
 
 ##' @rdname nanotime
-##' @export
 as.data.frame.nanoduration <- function(x, ...) {
     ret <- as.data.frame(S3Part(x, strictS3=TRUE), ...)
     ## this works, but see if there's a more idiomatic and efficient way
@@ -568,5 +505,4 @@ seq.nanoduration <- function(from, to=NULL, by=NULL, length.out=NULL, along.with
 
 
 ##' @rdname nanoduration
-##' @export
 NA_nanoduration_  <- as.nanoduration(NA_integer_)
