@@ -5,9 +5,12 @@
 \alias{nanoduration-class}
 \alias{nanoduration}
 \alias{as.nanoduration,character-method}
+\alias{as.nanoduration}
 \alias{as.nanoduration,integer64-method}
 \alias{as.nanoduration,numeric-method}
 \alias{as.nanoduration,integer-method}
+\alias{as.nanoduration,NULL-method}
+\alias{as.nanoduration,missing-method}
 \alias{show,nanoduration-method}
 \alias{print,nanoduration-method}
 \alias{format.nanoduration}
@@ -28,6 +31,7 @@
 \alias{+,nanoduration,integer64-method}
 \alias{+,nanoduration,numeric-method}
 \alias{+,nanotime,nanoduration-method}
+\alias{+,nanoival,nanoduration-method}
 \alias{+,ANY,nanoduration-method}
 \alias{+,integer64,nanoduration-method}
 \alias{+,numeric,nanoduration-method}
@@ -62,8 +66,9 @@
 \alias{[,nanoduration,ANY-method}
 \alias{[<-,nanoduration,ANY,ANY,ANY-method}
 \alias{c.nanoduration}
-\alias{names<-,nanoduration-method}
+\alias{NA_nanoduration_}
 \title{Duration type with nanosecond precision}
+\format{An object of class \code{nanoduration} of length 1.}
 \usage{
 nanoduration(hours, minutes, seconds, nanoseconds)
 
@@ -75,9 +80,13 @@ nanoduration(hours, minutes, seconds, nanoseconds)
 
 \S4method{as.nanoduration}{integer}(x)
 
+\S4method{as.nanoduration}{`NULL`}(x)
+
+\S4method{as.nanoduration}{missing}(x)
+
 \S4method{show}{nanoduration}(object)
 
-\S4method{print}{nanoduration}(x, ...)
+\S4method{print}{nanoduration}(x, quote = FALSE, ...)
 
 \method{format}{nanoduration}(x, ...)
 
@@ -114,6 +123,8 @@ nanoduration(hours, minutes, seconds, nanoseconds)
 \S4method{+}{nanoduration,numeric}(e1, e2)
 
 \S4method{+}{nanotime,nanoduration}(e1, e2)
+
+\S4method{+}{nanoival,nanoduration}(e1, e2)
 
 \S4method{+}{ANY,nanoduration}(e1, e2)
 
@@ -183,7 +194,7 @@ nanoduration(hours, minutes, seconds, nanoseconds)
 
 \method{c}{nanoduration}(...)
 
-\S4method{names}{nanoduration}(x) <- value
+NA_nanoduration_
 }
 \arguments{
 \item{hours}{number of hours}
@@ -198,6 +209,9 @@ nanoduration(hours, minutes, seconds, nanoseconds)
 
 \item{object}{argument for method \code{show}}
 
+\item{quote}{indicates if the output of \code{print} should be
+quoted}
+
 \item{...}{further arguments passed to or from methods.}
 
 \item{e1}{Operand of class \code{nanoival}}
@@ -205,6 +219,9 @@ nanoduration(hours, minutes, seconds, nanoseconds)
 \item{e2}{Operand of class \code{nanoival}}
 
 \item{digits}{Required for \code{Math2} signature but ignored here}
+
+\item{na.rm}{if \code{TRUE} NA values are removed for the
+computation}
 
 \item{z}{Required for \code{Complex} signature but ignored here}
 
@@ -215,10 +232,6 @@ nanoduration(hours, minutes, seconds, nanoseconds)
 \item{drop}{Required for \code{[} signature but ignored here}
 
 \item{value}{argument for \code{nanoduration-class}}
-
-\item{tz}{a timezone string}
-
-\item{recursive}{argument for method \code{c}}
 }
 \value{
 A nanoduration object
@@ -240,6 +253,13 @@ A \code{nanoduration} is displayed as hours, minutes, seconds and
 nanoseconds like this: \code{110:12:34.123_453_000}.
 }
 
+\examples{
+nanoduration(hours=10, minutes=3, seconds=2, nanoseconds=999999999)
+as.nanoduration("10:03:02.999_999_999")
+}
 \author{
+Dirk Eddelbuettel
+
 Leonardo Silvestri
 }
+\keyword{datasets}

@@ -4,11 +4,26 @@
 \name{nanoperiod-class}
 \alias{nanoperiod-class}
 \alias{nanoperiod}
+\alias{Compare,ANY,nanoperiod-method}
+\alias{Compare,nanoperiod,ANY-method}
+\alias{-,ANY,nanoperiod-method}
+\alias{-,nanoperiod,nanotime-method}
+\alias{-,nanotime,nanoperiod-method}
+\alias{/,ANY,nanoperiod-method}
+\alias{/,nanoperiod,ANY-method}
+\alias{Complex,nanoperiod-method}
+\alias{Math,nanoperiod-method}
+\alias{Math2,nanoperiod-method}
+\alias{Summary,nanoperiod-method}
+\alias{minus,nanoperiod,nanoival,character-method}
 \alias{as.nanoperiod,character-method}
+\alias{as.nanoperiod}
 \alias{as.nanoperiod,integer64-method}
 \alias{as.nanoperiod,numeric-method}
 \alias{as.nanoperiod,integer-method}
 \alias{as.nanoperiod,nanoduration-method}
+\alias{as.nanoperiod,NULL-method}
+\alias{as.nanoperiod,missing-method}
 \alias{show,nanoperiod-method}
 \alias{print,nanoperiod-method}
 \alias{format.nanoperiod}
@@ -21,50 +36,49 @@
 \alias{c.nanoperiod}
 \alias{names,nanoperiod-method}
 \alias{names<-,nanoperiod-method}
-\alias{Ops,nanoperiod,ANY-method}
-\alias{Ops,ANY,nanoperiod-method}
-\alias{Math,nanoperiod-method}
-\alias{Math2,nanoperiod-method}
-\alias{Summary,nanoperiod-method}
-\alias{Complex,nanoperiod-method}
 \alias{-,nanoperiod,ANY-method}
 \alias{-,nanoperiod,nanoperiod-method}
 \alias{-,nanoperiod,nanoduration-method}
 \alias{-,nanoperiod,integer64-method}
-\alias{-,nanotime,nanoperiod-method}
-\alias{+,nanoperiod,nanotime-method}
 \alias{-,nanoperiod,numeric-method}
-\alias{-,ANY,nanoperiod-method}
 \alias{-,nanoduration,nanoperiod-method}
 \alias{-,integer64,nanoperiod-method}
 \alias{-,numeric,nanoperiod-method}
 \alias{+,nanoperiod,ANY-method}
-\alias{+,nanoperiod,nanoperiod-method}
 \alias{+,ANY,nanoperiod-method}
+\alias{+,nanoperiod,nanoperiod-method}
 \alias{+,nanoperiod,nanoduration-method}
 \alias{+,nanoperiod,integer64-method}
+\alias{+,nanoperiod,nanotime-method}
 \alias{+,nanotime,nanoperiod-method}
 \alias{+,nanoperiod,numeric-method}
 \alias{+,nanoduration,nanoperiod-method}
 \alias{+,integer64,nanoperiod-method}
 \alias{+,numeric,nanoperiod-method}
-\alias{*,ANY,nanoperiod-method}
-\alias{*,nanoperiod,ANY-method}
 \alias{*,nanoperiod,integer64-method}
+\alias{*,nanoperiod,ANY-method}
+\alias{*,ANY,nanoperiod-method}
 \alias{*,nanoperiod,numeric-method}
 \alias{*,integer64,nanoperiod-method}
 \alias{*,numeric,nanoperiod-method}
-\alias{/,ANY,nanoperiod-method}
-\alias{/,nanoperiod,ANY-method}
 \alias{/,nanoperiod,integer64-method}
 \alias{/,nanoperiod,numeric-method}
-\alias{Compare,ANY,nanoperiod-method}
-\alias{Compare,nanoperiod,ANY-method}
 \alias{==,nanoperiod,nanoperiod-method}
 \alias{!=,nanoperiod,nanoperiod-method}
+\alias{plus,nanotime,nanoperiod,character-method}
+\alias{plus}
+\alias{plus,nanoperiod,nanotime,character-method}
+\alias{minus,nanotime,nanoperiod,character-method}
+\alias{minus}
+\alias{minus,nanoperiod,nanotime,character-method}
+\alias{plus,nanoival,nanoperiod,character-method}
+\alias{plus,nanoperiod,nanoival,character-method}
+\alias{minus,nanoival,nanoperiod,character-method}
+\alias{NA_nanoperiod_}
 \title{Period type with nanosecond precision}
+\format{An object of class \code{nanoperiod} of length 1.}
 \usage{
-nanoperiod(months, days, duration = as.nanoduration(0))
+nanoperiod(months = 0, days = 0, duration = as.nanoduration(0))
 
 \S4method{as.nanoperiod}{character}(x)
 
@@ -76,9 +90,13 @@ nanoperiod(months, days, duration = as.nanoduration(0))
 
 \S4method{as.nanoperiod}{nanoduration}(x)
 
+\S4method{as.nanoperiod}{`NULL`}(x)
+
+\S4method{as.nanoperiod}{missing}(x)
+
 \S4method{show}{nanoperiod}(object)
 
-\S4method{print}{nanoperiod}(x, ...)
+\S4method{print}{nanoperiod}(x, quote = FALSE, ...)
 
 \method{format}{nanoperiod}(x, ...)
 
@@ -100,35 +118,15 @@ nanoperiod(months, days, duration = as.nanoduration(0))
 
 \S4method{names}{nanoperiod}(x) <- value
 
-\S4method{Ops}{nanoperiod,ANY}(e1, e2)
-
-\S4method{Ops}{ANY,nanoperiod}(e1, e2)
-
-\S4method{Math}{nanoperiod}(x)
-
-\S4method{Math2}{nanoperiod}(x, digits)
-
-\S4method{Summary}{nanoperiod}(x, ..., na.rm = FALSE)
-
-\S4method{Complex}{nanoperiod}(z)
-
 \S4method{-}{nanoperiod,ANY}(e1, e2)
 
 \S4method{-}{nanoperiod,nanoperiod}(e1, e2)
-
-\S4method{-}{nanoperiod,ANY}(e1, e2)
 
 \S4method{-}{nanoperiod,nanoduration}(e1, e2)
 
 \S4method{-}{nanoperiod,integer64}(e1, e2)
 
-\S4method{-}{nanotime,nanoperiod}(e1, e2)
-
-\S4method{+}{nanoperiod,nanotime}(e1, e2)
-
 \S4method{-}{nanoperiod,numeric}(e1, e2)
-
-\S4method{-}{ANY,nanoperiod}(e1, e2)
 
 \S4method{-}{nanoduration,nanoperiod}(e1, e2)
 
@@ -140,27 +138,21 @@ nanoperiod(months, days, duration = as.nanoduration(0))
 
 \S4method{+}{nanoperiod,nanoperiod}(e1, e2)
 
-\S4method{+}{ANY,nanoperiod}(e1, e2)
-
 \S4method{+}{nanoperiod,nanoduration}(e1, e2)
 
 \S4method{+}{nanoperiod,integer64}(e1, e2)
 
+\S4method{+}{nanoperiod,nanotime}(e1, e2)
+
 \S4method{+}{nanotime,nanoperiod}(e1, e2)
 
 \S4method{+}{nanoperiod,numeric}(e1, e2)
-
-\S4method{+}{nanoperiod,ANY}(e1, e2)
 
 \S4method{+}{nanoduration,nanoperiod}(e1, e2)
 
 \S4method{+}{integer64,nanoperiod}(e1, e2)
 
 \S4method{+}{numeric,nanoperiod}(e1, e2)
-
-\S4method{*}{ANY,nanoperiod}(e1, e2)
-
-\S4method{*}{nanoperiod,ANY}(e1, e2)
 
 \S4method{*}{nanoperiod,integer64}(e1, e2)
 
@@ -170,28 +162,48 @@ nanoperiod(months, days, duration = as.nanoduration(0))
 
 \S4method{*}{numeric,nanoperiod}(e1, e2)
 
-\S4method{/}{ANY,nanoperiod}(e1, e2)
-
-\S4method{/}{nanoperiod,ANY}(e1, e2)
-
 \S4method{/}{nanoperiod,integer64}(e1, e2)
 
 \S4method{/}{nanoperiod,numeric}(e1, e2)
 
-\S4method{Compare}{ANY,nanoperiod}(e1, e2)
-
-\S4method{Compare}{nanoperiod,ANY}(e1, e2)
-
 \S4method{==}{nanoperiod,nanoperiod}(e1, e2)
 
 \S4method{!=}{nanoperiod,nanoperiod}(e1, e2)
+
+\S4method{plus}{nanotime,nanoperiod,character}(e1, e2, tz)
+
+\S4method{plus}{nanoperiod,nanotime,character}(e1, e2, tz)
+
+\S4method{minus}{nanotime,nanoperiod,character}(e1, e2, tz)
+
+\S4method{minus}{nanoperiod,nanotime,character}(e1, e2, tz)
+
+\S4method{plus}{nanoival,nanoperiod,character}(e1, e2, tz)
+
+\S4method{plus}{nanoperiod,nanoival,character}(e1, e2, tz)
+
+\S4method{minus}{nanoival,nanoperiod,character}(e1, e2, tz)
+
+NA_nanoperiod_
 }
 \arguments{
-\item{x}{The object which want to convert to class \code{nanoperiod}}
+\item{months}{Used in the constructor to indicate the number of
+months of the \code{nanoperiod}}
+
+\item{days}{Used in the constructor to indicate the number of
+days of the \code{nanoperiod}}
+
+\item{duration}{Used in the constructor to indicate the duration
+component of the \code{nanoperiod}}
+
+\item{x, value}{An object of class \code{nanoperiod}}
 
 \item{object}{argument for method \code{show}}
 
-\item{...}{further arguments passed to or from methods.}
+\item{quote}{indicates if the output of \code{print} should be
+quoted}
+
+\item{...}{further arguments}
 
 \item{i}{index specifying elements to extract or replace.}
 
@@ -202,14 +214,26 @@ nanoperiod(months, days, duration = as.nanoduration(0))
 \item{e1}{Operand of class \code{nanoperiod}}
 
 \item{e2}{Operand of class \code{nanoperiod}}
+
+\item{tz}{\code{character} indicating a timezone}
 }
 \description{
 \code{nanoperiod} is a length of time type (implemented as an S4
-class) with nanosecond precision. It differs from \code{nanoduration}
-because it is capable of representing calendar months and days. It
-can of course also reprensent years (immutably 12 months) and
-weeks (immutably 7 days).
+class) with nanosecond precision. It differs from
+\code{nanoduration} because it is capable of representing calendar
+months and days. It can thus represent years (12 months) and weeks
+(7 days). A period is a somewhat abstract representation of time:
+it is only when anchored to a point in time and in a specific time
+zone that it is possible to convert it to a specific
+duration. This means that many of the operations involving periods
+need the additional argument \code{tz}.
 }
+\section{Constructors}{
+
+
+The true constructor is
+}
+
 \section{Output Format}{
 
 
@@ -229,12 +253,22 @@ use the binary operator `code{+}`. Instead the functions
 }
 
 \examples{
-x <- nanoperiod(months=12, days=7, duration="01:00:00")
-print(x)
-y <- nanotime("1970-01-01T00:00:00.000000001+00:00")
-plus(y, x, tz="America/Chicago")
+p <- nanoperiod(months=12, days=7, duration="01:00:00")
+print(p)
+
+#  when adding a \code{nanoperiod} to a \code{nanotime} or to a
+# \code{nanoival}, a time zone must be specified:
+y <- nanotime("1970-01-01T00:00:00+00:00")
+plus(y, p, tz="America/Chicago")
 
 }
+\seealso{
+\code{\link{nanotime}}, \code{\link{nanoduration}},
+    \code{\link{nanoival}}, \code{\link{nanoperiod.month,nanoperiod-method}}
+}
 \author{
+Dirk Eddelbuettel
+
 Leonardo Silvestri
 }
+\keyword{datasets}

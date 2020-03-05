@@ -8,7 +8,7 @@ Maintainer: Dirk Eddelbuettel <edd@debian.org>
 Description: Full 64-bit resolution date and time support with resolution up
  to nanosecond granularity is provided, with easy transition to and from the
  standard 'POSIXct' type.
-Imports: methods, bit64, Rcpp (>= 0.11.5), RcppCCTZ (>= 0.2.6.2), zoo
+Imports: methods, bit64, RcppCCTZ (>= 0.2.6.2), zoo
 Suggests: tinytest, data.table, xts
 LinkingTo: Rcpp, RcppCCTZ
 License: GPL (>= 2)

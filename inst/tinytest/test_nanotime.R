@@ -361,8 +361,7 @@ expect_error(+nanotime(1), "unary '\\+' is not defined for \\\"nanotime\\\" obje
 expect_error(1 - nanotime(2), "invalid operand types")
 
 ##test_nano_minus_nanoperiod <- function() {
-msg <- paste0("binary '-' is not defined for \"nanotime\" and ",
-              "\"nanoperiod\" objects; instead use \"minus\\(e1, e2, tz\\)\"")
+msg <- paste0("binary '\\-' is not defined for 'nanotime' and 'nanoperiod' objects; instead use 'minus\\(e1, e2, tz\\)'")
 expect_error(nanotime(1) - as.nanoperiod("2m"), msg) 
 
 ##test_nano_minus_ANY <- function() {
@@ -380,8 +379,7 @@ expect_error("a" + nanotime(2), "invalid operand types")
 expect_error(nanotime(1) + "a", "invalid operand types")
 
 ##test_nano_plus_nanoperiod <- function() {
-msg <- paste0("binary '\\+' is not defined for \"nanotime\" and ",
-              "\"nanoperiod\" objects; instead use \"plus\\(e1, e2, tz\\)\"")
+msg <- paste0("binary '\\+' is not defined for 'nanotime' and 'nanoperiod' objects; instead use 'plus\\(e1, e2, tz\\)'")
 expect_error(nanotime(1) + as.nanoperiod("2m"), msg) 
 
 ##test_nano_plus_nanoduration <- function() {

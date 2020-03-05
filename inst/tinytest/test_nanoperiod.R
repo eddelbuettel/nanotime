@@ -360,32 +360,34 @@ expect_error(as.nanoperiod(1) / "a", "invalid operand types")
 expect_error("a" / as.nanoperiod(1), "invalid operand types")
 
 ##test_Logic_nanoperiod_any <- function() {
-expect_error(as.nanoperiod(1) | "a", "operation not defined for \\\"nanoperiod\\\" objects")
+expect_error(as.nanoperiod(1) | "a", "operation not defined for 'nanoperiod' objects")
 
 ##test_Logic_any_nanoperiod <- function() {
-expect_error("a" | as.nanoperiod(1), "operation not defined for \\\"nanoperiod\\\" objects")
+expect_error("a" | as.nanoperiod(1), "operation not defined for 'nanoperiod' objects")
 
 
 ## Math/Math2/Summary/Complex
 ##test_nanoperiod_Math <- function() {
 ## is that right? LLL
-expect_error(abs(as.nanoperiod(1)), "operation not defined for \"nanoperiod\" objects")  
+expect_error(abs(as.nanoperiod(1)), "operation not defined for 'nanoperiod' objects")  
 
 ##test_nanoperiod_Math2 <- function() {
-expect_error(round(as.nanoperiod(1)), "operation not defined for \"nanoperiod\" objects")  
+expect_error(round(as.nanoperiod(1)), "operation not defined for 'nanoperiod' objects")  
 
 ##test_nanoperiod_Summary  <- function() {
 expect_error(min(as.nanoperiod(1)), "invalid 'type' \\(nanoperiod\\) of argument")
 expect_error(max(as.nanoperiod(1)), "invalid 'type' \\(nanoperiod\\) of argument")
 
 ##test_nanoperiod_Complex  <- function() {
-expect_error(Arg(as.nanoperiod(1)), "operation not defined for \"nanoperiod\" objects")  
+expect_error(Arg(as.nanoperiod(1)), "operation not defined for 'nanoperiod' objects")  
 
 ##test_binary_plus_nanoperiod_nanotime <- function() {
-expect_error(as.nanoperiod(1) + nanotime(1), "invalid operand types")
+expect_error(as.nanoperiod(1) + nanotime(1),
+             "binary '\\+' is not defined for 'nanoperiod' and 'nanotime' objects; instead use 'plus\\(e1, e2, tz\\)'")
 
 ##test_binary_plus_nanotime_nanoperiod <- function() {
-expect_error(nanotime(1) + as.nanoperiod(1), "binary '\\+' is not defined for \\\"nanotime\\\" and \\\"nanoperiod\\\" objects; instead use \\\"plus\\(e1, e2, tz\\)\\\"")
+expect_error(nanotime(1) + as.nanoperiod(1),
+             "binary '\\+' is not defined for 'nanotime' and 'nanoperiod' objects; instead use 'plus\\(e1, e2, tz\\)'")
 
 
 ## Compare
@@ -404,10 +406,10 @@ expect_true(!(as.nanoperiod(1) != as.nanoperiod(1)))
 expect_identical(as.nanoperiod(1:10) != as.nanoperiod(1:10), rep(FALSE, 10))
 
 ##test_nanoperiod_eq_any <- function() {
-expect_error(as.nanoperiod(1) == "a", "operation not defined for \"nanoperiod\" objects")  
+expect_error(as.nanoperiod(1) == "a", "operation not defined for 'nanoperiod' objects")  
 
 ##test_any_eq_nanoperiod <- function() {
-expect_error("a" == as.nanoperiod(1), "operation not defined for \"nanoperiod\" objects")  
+expect_error("a" == as.nanoperiod(1), "operation not defined for 'nanoperiod' objects")  
 
 ##test_all.equal <- function() {
 expect_true(all.equal(as.nanoperiod(1), as.nanoperiod(1)))
@@ -468,7 +470,7 @@ expect_identical(minus(nt, p, tz), expected)
 nt <- nanotime("2018-05-01T00:00:00.000000000-04:00")
 p  <- as.nanoperiod("4m")
 tz <- "America/New_York"
-expect_error(minus(p, nt, tz), "operation not defined for \"nanoperiod\" objects")
+expect_error(minus(p, nt, tz), "operation not defined for 'nanoperiod' objects")
 
 
 
@@ -516,7 +518,7 @@ end <- nanotime("2018-05-01T23:00:00.000000000-04")
 ni <- nanoival(start, end)
 p  <- as.nanoperiod("4m")
 tz <- "America/New_York"
-expect_error(minus(p, ni, tz), "operation not defined for \"nanoperiod\" objects")
+expect_error(minus(p, ni, tz), "operation not defined for 'nanoperiod' objects")
 
 ## NA stuff
 expect_true(is.na(as.nanoperiod(NA_integer_)))

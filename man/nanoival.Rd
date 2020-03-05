@@ -5,18 +5,20 @@
 \alias{nanoival-class}
 \alias{nanoival}
 \alias{nanoival.start,nanoival-method}
+\alias{nanoival.start}
 \alias{nanoival.end,nanoival-method}
+\alias{nanoival.end}
 \alias{nanoival.sopen,nanoival-method}
+\alias{nanoival.sopen}
 \alias{nanoival.eopen,nanoival-method}
+\alias{nanoival.eopen}
 \alias{format.nanoival}
 \alias{print,nanoival-method}
 \alias{show,nanoival-method}
-\alias{names,nanoival-method}
-\alias{length,nanoival-method}
-\alias{as.data.frame.nanoival}
-\alias{names<-,nanoival-method}
 \alias{as.nanoival,character-method}
+\alias{as.nanoival}
 \alias{as.nanoival,NULL-method}
+\alias{as.nanoival,missing-method}
 \alias{is.na,nanoival-method}
 \alias{is.na<-,nanoival-method}
 \alias{<,nanoival,nanoival-method}
@@ -30,15 +32,16 @@
 \alias{-,nanoival,numeric-method}
 \alias{-,ANY,nanoival-method}
 \alias{-,nanoival,nanoival-method}
+\alias{+,nanoival,nanoival-method}
 \alias{+,nanoival,ANY-method}
 \alias{+,nanoival,integer64-method}
 \alias{+,nanoival,numeric-method}
 \alias{+,ANY,nanoival-method}
 \alias{+,integer64,nanoival-method}
 \alias{+,numeric,nanoival-method}
-\alias{+,nanoival,nanoival-method}
 \alias{Arith,nanoival,ANY-method}
 \alias{Compare,nanoival,ANY-method}
+\alias{Logic,nanoival,nanoival-method}
 \alias{Logic,nanoival,ANY-method}
 \alias{Logic,ANY,nanoival-method}
 \alias{Math,nanoival-method}
@@ -56,12 +59,14 @@
 \alias{setdiff,nanoival,nanoival-method}
 \alias{[,nanotime,nanoival-method}
 \alias{intersect.idx,nanotime,nanoival-method}
+\alias{intersect.idx}
 \alias{intersect,nanotime,nanoival-method}
 \alias{setdiff,nanotime,nanoival-method}
 \alias{setdiff.idx,nanotime,nanoival-method}
-\alias{is.unsorted,nanoival-method}
-\alias{sort,nanoival-method}
+\alias{setdiff.idx}
+\alias{NA_nanoival_}
 \title{Interval type with nanosecond precision}
+\format{An object of class \code{nanoival} of length 1.}
 \usage{
 nanoival(start, end, sopen = FALSE, eopen = TRUE)
 
@@ -73,23 +78,17 @@ nanoival(start, end, sopen = FALSE, eopen = TRUE)
 
 \S4method{nanoival.eopen}{nanoival}(x)
 
-\method{format}{nanoival}(x, ..., justify = "none")
+\method{format}{nanoival}(x, ...)
 
-\S4method{print}{nanoival}(x, ...)
+\S4method{print}{nanoival}(x, quote = FALSE, ...)
 
 \S4method{show}{nanoival}(object)
 
-\S4method{names}{nanoival}(x)
+\S4method{as.nanoival}{character}(from, format = "", tz = "")
 
-\S4method{length}{nanoival}(x)
+\S4method{as.nanoival}{`NULL`}(from, format = "", tz = "")
 
-\method{as.data.frame}{nanoival}(x, row.names = NULL, optional = FALSE, ...)
-
-\S4method{names}{nanoival}(x) <- value
-
-\S4method{as.nanoival}{character}(x, format = "", tz = "")
-
-\S4method{as.nanoival}{`NULL`}(x, format = "", tz = "")
+\S4method{as.nanoival}{missing}(from, format = "", tz = "")
 
 \S4method{is.na}{nanoival}(x)
 
@@ -117,6 +116,8 @@ nanoival(start, end, sopen = FALSE, eopen = TRUE)
 
 \S4method{-}{nanoival,nanoival}(e1, e2)
 
+\S4method{+}{nanoival,nanoival}(e1, e2)
+
 \S4method{+}{nanoival,ANY}(e1, e2)
 
 \S4method{+}{nanoival,integer64}(e1, e2)
@@ -134,6 +135,8 @@ nanoival(start, end, sopen = FALSE, eopen = TRUE)
 \S4method{Arith}{nanoival,ANY}(e1, e2)
 
 \S4method{Compare}{nanoival,ANY}(e1, e2)
+
+\S4method{Logic}{nanoival,nanoival}(e1, e2)
 
 \S4method{Logic}{nanoival,ANY}(e1, e2)
 
@@ -175,9 +178,7 @@ nanoival(start, end, sopen = FALSE, eopen = TRUE)
 
 \S4method{setdiff.idx}{nanotime,nanoival}(x, y)
 
-\S4method{is.unsorted}{nanoival}(x, na.rm = FALSE, strictly = FALSE)
-
-\S4method{sort}{nanoival}(x, decreasing = FALSE, ...)
+NA_nanoival_
 }
 \arguments{
 \item{start}{\code{nanotime} start of interval}
@@ -188,15 +189,23 @@ nanoival(start, end, sopen = FALSE, eopen = TRUE)
 
 \item{eopen}{logical indicating if the end of the interval is open}
 
-\item{x}{a \code{nanoival} object}
+\item{x, y, from}{a \code{nanoival} object}
 
 \item{...}{further arguments passed to or from methods.}
 
+\item{quote}{indicates if the output of \code{print} should be
+quoted}
+
 \item{object}{argument for method \code{show}}
 
-\item{value}{argument for \code{nanoival-class}}
+\item{format}{A character string. Can also be set via
+\code{options("nanotimeFormat")} and uses
+\sQuote{\%Y-\%m-\%dT\%H:\%M:\%E9S\%Ez} as a default and
+fallback}
 
-\item{tz}{a timezone string}
+\item{tz}{\code{character} indicating a timezone}
+
+\item{value}{argument for \code{nanoival-class}}
 
 \item{e1}{Operand of class \code{nanoival}}
 
@@ -213,8 +222,6 @@ nanoival(start, end, sopen = FALSE, eopen = TRUE)
 \item{j}{Required for \code{[} signature but ignored here}
 
 \item{drop}{Required for \code{[} signature but ignored here}
-
-\item{recursive}{argument for method \code{c}}
 }
 \value{
 A nanoival object
@@ -314,5 +321,8 @@ intersect.idx(a, idx)
                                                                              
 }
 \author{
+Dirk Eddelbuettel
+
 Leonardo Silvestri
 }
+\keyword{datasets}

@@ -23,22 +23,26 @@ setClass("nanoduration", contains = "integer64")
 ##' @param seconds number of seconds
 ##' @param nanoseconds number of nanoseconds
 ##' @param x a \code{nanoduration} object
-##' @param tz a timezone string
 ##' @param ... further arguments passed to or from methods.
 ##' @param e1 Operand of class \code{nanoival}
 ##' @param e2 Operand of class \code{nanoival}
 ##' @param digits Required for \code{Math2} signature but ignored here
-##' @param recursive argument for method \code{c}
 ##' @param object argument for method \code{show}
 ##' @param i index specifying elements to extract or replace.
 ##' @param j Required for \code{[} signature but ignored here
 ##' @param drop Required for \code{[} signature but ignored here
 ##' @param z Required for \code{Complex} signature but ignored here
 ##' @param value argument for \code{nanoduration-class}
+##' @param na.rm if \code{TRUE} NA values are removed for the
+##'     computation
+##' @param quote indicates if the output of \code{print} should be
+##'     quoted
 ##' @return A nanoduration object
+##' @author Dirk Eddelbuettel
 ##' @author Leonardo Silvestri
 ##' @examples
-
+##' nanoduration(hours=10, minutes=3, seconds=2, nanoseconds=999999999)
+##' as.nanoduration("10:03:02.999_999_999")
 ##' @rdname nanoduration
 ##' @export
 nanoduration <- function(hours, minutes, seconds, nanoseconds) {
@@ -54,9 +58,11 @@ nanoduration <- function(hours, minutes, seconds, nanoseconds) {
 }
 
 
+##' @noRd
 setGeneric("as.nanoduration", function(x) standardGeneric("as.nanoduration"))
 
 ##' @rdname nanoduration
+##' @aliases as.nanoduration
 ##' @export
 setMethod("as.nanoduration",
           "character",
@@ -560,4 +566,7 @@ seq.nanoduration <- function(from, to=NULL, by=NULL, length.out=NULL, along.with
     as.nanoduration(seq(as.integer64(from), to, as.integer64(by), length.out, along.with, ...))
 }
 
+
+##' @rdname nanoduration
+##' @export
 NA_nanoduration_  <- as.nanoduration(NA_integer_)

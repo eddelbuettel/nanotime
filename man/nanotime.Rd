@@ -4,11 +4,16 @@
 \name{nanotime-class}
 \alias{nanotime-class}
 \alias{nanotime}
+\alias{as.nanotime}
 \alias{nanotime,character-method}
+\alias{as.nanotime,character-method}
 \alias{nanotime.matrix}
 \alias{nanotime,POSIXct-method}
+\alias{as.nanotime,POSIXct-method}
 \alias{nanotime,POSIXlt-method}
+\alias{as.nanotime,POSIXlt-method}
 \alias{nanotime,Date-method}
+\alias{as.nanotime,Date-method}
 \alias{print,nanotime-method}
 \alias{show,nanotime-method}
 \alias{format.nanotime}
@@ -32,10 +37,13 @@
 \alias{+,integer64,nanotime-method}
 \alias{+,numeric,nanotime-method}
 \alias{+,nanotime,nanotime-method}
+\alias{Arith,nanotime,nanotime-method}
 \alias{Arith,nanotime,ANY-method}
 \alias{Arith,ANY,nanotime-method}
 \alias{Compare,nanotime,character-method}
 \alias{Compare,character,nanotime-method}
+\alias{Compare,nanotime,POSIXt-method}
+\alias{Compare,POSIXt,nanotime-method}
 \alias{Compare,nanotime,ANY-method}
 \alias{Logic,nanotime,ANY-method}
 \alias{Logic,ANY,nanotime-method}
@@ -53,27 +61,34 @@
 \alias{nanotime-package}
 \alias{names<-,nanotime-method}
 \alias{is.na,nanotime-method}
-\alias{seq.nanotime}
-\alias{seq,nanotime-method}
-\alias{all.equal,nanotime,nanotime-method}
-\alias{all.equal,nanotime,ANY-method}
-\alias{all.equal,ANY,nanotime-method}
+\alias{NA_nanotime_}
 \alias{as.data.frame.nanoduration}
 \title{Nanosecond resolution datetime functionality}
+\format{An object of class \code{nanotime} of length 1.}
 \usage{
-nanotime(x, ...)
+nanotime(from, ...)
 
-\S4method{nanotime}{character}(x, format = "", tz = "")
+as.nanotime(from, ...)
+
+\S4method{nanotime}{character}(from, format = "", tz = "")
+
+\S4method{as.nanotime}{character}(from, format = "", tz = "")
 
 nanotime.matrix(x)
 
-\S4method{nanotime}{POSIXct}(x)
+\S4method{nanotime}{POSIXct}(from)
 
-\S4method{nanotime}{POSIXlt}(x)
+\S4method{as.nanotime}{POSIXct}(from)
 
-\S4method{nanotime}{Date}(x)
+\S4method{nanotime}{POSIXlt}(from)
 
-\S4method{print}{nanotime}(x, format = "", tz = "", ...)
+\S4method{as.nanotime}{POSIXlt}(from)
+
+\S4method{nanotime}{Date}(from)
+
+\S4method{as.nanotime}{Date}(from)
+
+\S4method{print}{nanotime}(x, format = "", tz = "", quote = FALSE, ...)
 
 \S4method{show}{nanotime}(object)
 
@@ -119,6 +134,8 @@ as.integer64(x, ...)
 
 \S4method{+}{nanotime,nanotime}(e1, e2)
 
+\S4method{Arith}{nanotime,nanotime}(e1, e2)
+
 \S4method{Arith}{nanotime,ANY}(e1, e2)
 
 \S4method{Arith}{ANY,nanotime}(e1, e2)
@@ -126,6 +143,10 @@ as.integer64(x, ...)
 \S4method{Compare}{nanotime,character}(e1, e2)
 
 \S4method{Compare}{character,nanotime}(e1, e2)
+
+\S4method{Compare}{nanotime,POSIXt}(e1, e2)
+
+\S4method{Compare}{POSIXt,nanotime}(e1, e2)
 
 \S4method{Compare}{nanotime,ANY}(e1, e2)
 
@@ -159,36 +180,27 @@ as.integer64(x, ...)
 
 \S4method{is.na}{nanotime}(x)
 
-seq.nanotime(
-  from,
-  to = NULL,
-  by = NULL,
-  length.out = NULL,
-  along.with = NULL,
-  ...
-)
-
-\S4method{seq}{nanotime}(from, to = NULL, by = NULL, length.out = NULL, along.with = NULL, ...)
-
-\S4method{all.equal}{nanotime,nanotime}(target, current, ...)
-
-\S4method{all.equal}{nanotime,ANY}(target, current, ...)
-
-\S4method{all.equal}{ANY,nanotime}(target, current, ...)
+NA_nanotime_
 
 \method{as.data.frame}{nanoduration}(x, ...)
 }
 \arguments{
-\item{x}{The object which want to convert to class \code{nanotime}}
-
 \item{...}{further arguments passed to or from methods.}
 
-\item{format}{A character string. Can also be set via \code{options("nanotimeFormat")}
-and uses \sQuote{\%Y-\%m-\%dT\%H:\%M:\%E9S\%Ez} as a default and fallback}
+\item{format}{A character string. Can also be set via
+\code{options("nanotimeFormat")} and uses
+\sQuote{\%Y-\%m-\%dT\%H:\%M:\%E9S\%Ez} as a default and
+fallback}
 
-\item{tz}{Required for \code{as.POSIXct} and \code{as.POSIXlt},
-can be set via \code{options("nanotimeTz")} and uses \sQuote{UTC} as
-a default and fallback}
+\item{tz}{character specifying a timezone which is required for
+\code{as.POSIXct} and \code{as.POSIXlt}, can be set via
+\code{options("nanotimeTz")} and uses \sQuote{UTC} as a
+default and fallback}
+
+\item{x, from}{\code{nanotime} objects}
+
+\item{quote}{indicates if the output of \code{print} should be
+quoted}
 
 \item{object}{argument for method \code{show}}
 
@@ -198,7 +210,8 @@ a default and fallback}
 
 \item{digits}{Required for \code{Math2} signature but ignored here}
 
-\item{na.rm}{a logical indicating whether missing values should be removed.}
+\item{na.rm}{a logical indicating whether missing values should be
+removed.}
 
 \item{z}{Required for \code{Complex} signature but ignored here}
 
@@ -289,4 +302,7 @@ format(nanotime(Sys.time()) + 1:3)  # three elements each 1 ns apart
 }
 \author{
 Dirk Eddelbuettel
+
+Leonardo Silvestri
 }
+\keyword{datasets}

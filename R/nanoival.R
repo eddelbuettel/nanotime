@@ -8,7 +8,6 @@
 
 
 ##' @rdname nanoival
-##' @export
 setClass("nanoival", contains="complex")
 
 ##' Interval type with nanosecond precision
@@ -60,13 +59,16 @@ setClass("nanoival", contains="complex")
 ##' \code{nanotimeFormat} and a suitable value. Similarly,
 ##' \code{nanotimeTz} can be used to select a different timezone.
 ##' 
-##' @param x a \code{nanoival} object
-##' @param tz a timezone string
+##' @param x,y,from a \code{nanoival} object
+##' @param tz \code{character} indicating a timezone
 ##' @param ... further arguments passed to or from methods.
 ##' @param e1 Operand of class \code{nanoival}
 ##' @param e2 Operand of class \code{nanoival}
+##' @param format A character string. Can also be set via
+##'     \code{options("nanotimeFormat")} and uses
+##'     \sQuote{\%Y-\%m-\%dT\%H:\%M:\%E9S\%Ez} as a default and
+##'     fallback
 ##' @param digits Required for \code{Math2} signature but ignored here
-##' @param recursive argument for method \code{c}
 ##' @param object argument for method \code{show}
 ##' @param na.rm a logical indicating whether missing values should be removed.
 ##' @param i index specifying elements to extract or replace.
@@ -78,7 +80,10 @@ setClass("nanoival", contains="complex")
 ##' @param end \code{nanotime} end of interval
 ##' @param sopen logical indicating if the start of the interval is open
 ##' @param eopen logical indicating if the end of the interval is open
+##' @param quote indicates if the output of \code{print} should be
+##'     quoted
 ##' @return A nanoival object
+##' @author Dirk Eddelbuettel
 ##' @author Leonardo Silvestri
 ##' @examples
 ##' ## creating a \code{nanoival}, with the start time included ('+') and the end
@@ -124,7 +129,6 @@ setClass("nanoival", contains="complex")
 ##'                                                                              
 
 ##' @rdname nanoival
-##' @export
 nanoival <- function(start, end, sopen=FALSE, eopen=TRUE) {
     if (nargs() == 0) {
         new("nanoival", as.complex(NULL))
@@ -137,9 +141,11 @@ nanoival <- function(start, end, sopen=FALSE, eopen=TRUE) {
     }
 }
 
+##' @noRd
 setGeneric("nanoival.start", function(x) standardGeneric("nanoival.start"))
+
 ##' @rdname nanoival
-##' @export
+##' @aliases nanoival.start
 setMethod("nanoival.start",
           "nanoival",
           function(x) {
@@ -148,9 +154,11 @@ setMethod("nanoival.start",
             new("nanotime", res)
           })
 
+##' @noRd
 setGeneric("nanoival.end", function(x) standardGeneric("nanoival.end"))
+
 ##' @rdname nanoival
-##' @export
+##' @aliases nanoival.end
 setMethod("nanoival.end",
           "nanoival",
           function(x) {
@@ -159,24 +167,27 @@ setMethod("nanoival.end",
             new("nanotime", res)
           })
 
+##' @noRd
 setGeneric("nanoival.sopen", function(x) standardGeneric("nanoival.sopen"))
+
 ##' @rdname nanoival
-##' @export
+##' @aliases nanoival.sopen
 setMethod("nanoival.sopen",
           "nanoival",
           function(x) { .Call("_nanoival_get_sopen", x) })
 
+##' @noRd
 setGeneric("nanoival.eopen", function(x) standardGeneric("nanoival.eopen"))
+
 ##' @rdname nanoival
-##' @export
+##' @aliases nanoival.eopen
 setMethod("nanoival.eopen",
           "nanoival",
           function(x) { .Call("_nanoival_get_eopen", x) })
 
 ##' @rdname nanoival
-##' @export
 format.nanoival <- 
-  function(x, ..., justify = "none") {
+  function(x, ...) {
     if (length(x) == 0) {
       "nanoival(0)"
     } else {
@@ -193,7 +204,6 @@ format.nanoival <-
   }
 
 ##' @rdname nanoival
-##' @export
 setMethod("print",
           "nanoival",
           function(x, quote=FALSE, ...) {
@@ -204,7 +214,6 @@ setMethod("print",
           })
 
 ##' @rdname nanoival
-##' @export
 setMethod("show",
           signature("nanoival"),
           function(object) print(object))
@@ -259,9 +268,11 @@ setMethod("show",
 }
 
 
+##' @noRd
 setGeneric("as.nanoival", function(from, format="", tz="") standardGeneric("as.nanoival"))
+
 ##' @rdname nanoival
-##' @export
+##' @aliases as.nanoival
 setMethod("as.nanoival",
           "character",
           function(from, format="", tz="") {
@@ -278,7 +289,6 @@ setAs("character", "nanoival", function(from) as.nanoival(from))
 
 
 ##' @rdname nanoival
-##' @export
 setMethod("as.nanoival",
           "NULL",
           function(from, format="", tz="") {
@@ -286,7 +296,6 @@ setMethod("as.nanoival",
           })
 
 ##' @rdname nanoival
-##' @export
 setMethod("as.nanoival",
           "missing",
           function(from, format="", tz="") {
@@ -294,7 +303,6 @@ setMethod("as.nanoival",
           })
 
 ##' @rdname nanoival
-##' @export
 setMethod("is.na",
           "nanoival",
           function(x) {
@@ -303,7 +311,6 @@ setMethod("is.na",
 
 
 ##' @rdname nanoival
-##' @export
 setMethod("is.na<-",
           "nanoival",
           function(x, value) {
@@ -314,42 +321,36 @@ setMethod("is.na<-",
 ## ------------ logical comp
 
 ##' @rdname nanoival
-##' @export
 setMethod("<", c("nanoival", "nanoival"),
           function(e1, e2) {
               .Call('_nanoival_lt', e1, e2)
           })
 
 ##' @rdname nanoival
-##' @export
 setMethod("<=", c("nanoival", "nanoival"),
           function(e1, e2) {
               .Call('_nanoival_le', e1, e2)
           })
 
 ##' @rdname nanoival
-##' @export
 setMethod(">", c("nanoival", "nanoival"),
           function(e1, e2) {
               .Call('_nanoival_gt', e1, e2)
           })
 
 ##' @rdname nanoival
-##' @export
 setMethod(">=", c("nanoival", "nanoival"),
           function(e1, e2) {
               .Call('_nanoival_ge', e1, e2)
           })
 
 ##' @rdname nanoival
-##' @export
 setMethod("==", c("nanoival", "nanoival"),
           function(e1, e2) {
               .Call('_nanoival_eq', e1, e2)
           })
 
 ##' @rdname nanoival
-##' @export
 setMethod("!=", c("nanoival", "nanoival"),
           function(e1, e2) {
               .Call('_nanoival_ne', e1, e2)
@@ -358,7 +359,6 @@ setMethod("!=", c("nanoival", "nanoival"),
 
 ## ------------ `-`
 ##' @rdname nanoival
-##' @export
 setMethod("-", c("nanoival", "ANY"),
           function(e1, e2) {
               stop("invalid operand types")
@@ -366,28 +366,24 @@ setMethod("-", c("nanoival", "ANY"),
 
 
 ##' @rdname nanoival
-##' @export
 setMethod("-", c("nanoival", "integer64"),
           function(e1, e2) {
               new("nanoival", .Call("_nanoival_minus", e1, e2))
           })
 
 ##' @rdname nanoival
-##' @export
 setMethod("-", c("nanoival", "numeric"),
           function(e1, e2) {
               new("nanoival", .Call("_nanoival_minus", e1, as.integer64(e2)))
           })
 
 ##' @rdname nanoival
-##' @export
 setMethod("-", c("ANY", "nanoival"),
           function(e1, e2) {
               stop("invalid operand types")
           })
 
 ##' @rdname nanoival
-##' @export
 setMethod("-", c("nanoival", "nanoival"),
           function(e1, e2) {
               stop("invalid operand types")
@@ -396,56 +392,48 @@ setMethod("-", c("nanoival", "nanoival"),
 
 ## ----------- `+`
 ##' @rdname nanoival
-##' @export
 setMethod("+", c("nanoival", "nanoival"),
           function(e1, e2) {
               stop("invalid operand types")
           })
 
 ##' @rdname nanoival
-##' @export
 setMethod("+", c("nanoival", "ANY"),
           function(e1, e2) {
               stop("invalid operand types")
           })
 
 ##' @rdname nanoival
-##' @export
 setMethod("+", c("nanoival", "integer64"),
           function(e1, e2) {
               new("nanoival", .Call("_nanoival_plus", e1, e2))
           })
 
 ##' @rdname nanoival
-##' @export
 setMethod("+", c("nanoival", "numeric"),
           function(e1, e2) {
               new("nanoival", .Call("_nanoival_plus", e1, as.integer64(e2)))
           })
 
 ##' @rdname nanoival
-##' @export
 setMethod("+", c("ANY", "nanoival"),
           function(e1, e2) {
               stop("invalid operand types")
           })
 
 ##' @rdname nanoival
-##' @export
 setMethod("+", c("integer64", "nanoival"),
           function(e1, e2) {
               new("nanoival", .Call("_nanoival_plus", e2, e1))
           })
 
 ##' @rdname nanoival
-##' @export
 setMethod("+", c("numeric", "nanoival"),
           function(e1, e2) {
               new("nanoival", .Call("_nanoival_plus", e2, as.integer64(e1)))
           })
 
 ##' @rdname nanoival
-##' @export
 setMethod("+", c("nanoival", "nanoival"),
           function(e1, e2) {
               stop("invalid operand types")
@@ -455,14 +443,12 @@ setMethod("+", c("nanoival", "nanoival"),
 ## ---------- other ops
 
 ##' @rdname nanoival
-##' @export
 setMethod("Arith", c("nanoival", "ANY"),
           function(e1, e2) {
               stop("operation not defined for \"nanoival\" objects")           
           })
 
 ##' @rdname nanoival
-##' @export
 setMethod("Compare", c("nanoival", "ANY"),
           function(e1, e2) {
               stop("invalid operand types")
@@ -470,7 +456,6 @@ setMethod("Compare", c("nanoival", "ANY"),
 
 
 ##' @rdname nanoival
-##' @export
 setMethod("Logic", c("nanoival", "nanoival"),
           function(e1, e2) {
               ## this is the same error message that R gives for "A" | "A"
@@ -478,7 +463,6 @@ setMethod("Logic", c("nanoival", "nanoival"),
           })
 
 ##' @rdname nanoival
-##' @export
 setMethod("Logic", c("nanoival", "ANY"),
           function(e1, e2) {
               ## this is the same error message that R gives for "A" | "A"
@@ -486,7 +470,6 @@ setMethod("Logic", c("nanoival", "ANY"),
           })
 
 ##' @rdname nanoival
-##' @export
 setMethod("Logic", c("ANY", "nanoival"),
           function(e1, e2) {
               ## this is the same error message that R gives for "A" | "A"
@@ -494,7 +477,6 @@ setMethod("Logic", c("ANY", "nanoival"),
           })
 
 ##' @rdname nanoival
-##' @export
 setMethod("Math", c("nanoival"),
           function(x) {
               ## this is the same error message that R gives for abs("A")
@@ -502,7 +484,6 @@ setMethod("Math", c("nanoival"),
           })
 
 ##' @rdname nanoival
-##' @export
 setMethod("Math2", c("nanoival"),
           function(x, digits) {
               ## this is the same error message that R gives for round("A")
@@ -510,7 +491,6 @@ setMethod("Math2", c("nanoival"),
           })
 
 ##' @rdname nanoival
-##' @export
 setMethod("Summary", c("nanoival"),
           function(x, ..., na.rm = FALSE) {
               ## this is the same error message that R gives for sum("A")
@@ -518,7 +498,6 @@ setMethod("Summary", c("nanoival"),
           })
 
 ##' @rdname nanoival
-##' @export
 setMethod("Complex", c("nanoival"),
           function(z) {
               ## this is the same error message that R gives for Arg("A")
@@ -528,7 +507,6 @@ setMethod("Complex", c("nanoival"),
 ## ----------- non ops
 
 ##' @rdname nanoival
-##' @export
 setMethod("[[",
           signature("nanoival"),
           function (x, i, j, ..., drop=FALSE) {
@@ -536,7 +514,6 @@ setMethod("[[",
           })
 
 ##' @rdname nanoival
-##' @export
 setMethod("[",
           signature("nanoival", "logical"),
           function (x, i, j, ..., drop=FALSE) {
@@ -546,7 +523,6 @@ setMethod("[",
           })
 
 ##' @rdname nanoival
-##' @export
 setMethod("[",
           signature("nanoival", "numeric"),
           function (x, i, j, ..., drop=FALSE) {
@@ -556,7 +532,6 @@ setMethod("[",
           })
 
 ##' @rdname nanoival
-##' @export
 setMethod("[<-",
           signature("nanoival", "logical", "ANY", "nanoival"),
           function (x, i, j, ..., value) {
@@ -566,7 +541,6 @@ setMethod("[<-",
           })
 
 ##' @rdname nanoival
-##' @export
 c.nanoival <- function(...) {
     args <- list(...)
     s3args <- lapply(args, function (x) S3Part(x, strictS3=TRUE))
@@ -578,8 +552,7 @@ c.nanoival <- function(...) {
 ## S4 'c' doesn't handle names correctly, and couldn't find a way to rectify that:
 
 ## ##' @rdname nanoival
-## ##' @export
-## setMethod("c",
+## ## setMethod("c",
 ##           signature("nanoival"),
 ##           function(x, ...) {
 ##               print("method ccc")
@@ -591,7 +564,6 @@ c.nanoival <- function(...) {
 ##           })
 
 ##' @rdname nanoival
-##' @export
 setMethod("t", c("nanoival"),
           function(x) {
               ## identity, like POSIXct, because nanoival doesn't support arrays
@@ -600,8 +572,7 @@ setMethod("t", c("nanoival"),
 
 
 ## ##' @rdname nanoival
-## ##' @export
-## setMethod("cbind2",
+## ## setMethod("cbind2",
 ##           signature("nanoival", "nanoival"),
 ##           function (x, y, ...) {
 ##               print(dimnames(x))
@@ -612,8 +583,7 @@ setMethod("t", c("nanoival"),
 ##           })
 
 ## ##' @rdname nanoival
-## ##' @export
-## setMethod("cbind2",
+## ## setMethod("cbind2",
 ##           signature("nanoival", "nanoival"),
 ##           function (x, y, ...) {
 ##               x <- t(x)
@@ -627,8 +597,7 @@ setMethod("t", c("nanoival"),
 
 
 ## ##' @rdname nanoival
-## ##' @export
-## setMethod("rbind2",
+## ## setMethod("rbind2",
 ##           signature("nanoival", "nanoival"),
 ##           function (x, y, ...) {
 ##               print("rbind2")
@@ -646,7 +615,6 @@ setMethod("t", c("nanoival"),
 ## -------------
 
 ##' @rdname nanoival
-##' @export
 setMethod("intersect",
           c("nanoival", "nanoival"),
           function(x, y) {
@@ -657,7 +625,6 @@ setMethod("intersect",
           })
 
 ##' @rdname nanoival
-##' @export
 setMethod("union",
           c("nanoival", "nanoival"),
           function(x, y) {
@@ -668,7 +635,6 @@ setMethod("union",
           })
 
 ##' @rdname nanoival
-##' @export
 setMethod("setdiff",
           c("nanoival", "nanoival"),
           function(x, y) {
@@ -683,7 +649,6 @@ setMethod("setdiff",
 ## ---------------------
 
 ##' @rdname nanoival
-##' @export
 setMethod("[",
           signature("nanotime", "nanoival"),
           function (x, i, ..., drop=FALSE) {
@@ -693,13 +658,14 @@ setMethod("[",
           })
 
 
+##' @noRd
 setGeneric("intersect.idx", function(x, y) standardGeneric("intersect.idx"))
 
 
 ## need to add nanotime/nanotime LLL
 
 ##' @rdname nanoival
-##' @export
+##' @aliases intersect.idx
 setMethod("intersect.idx",
           c("nanotime", "nanoival"),
           function(x, y) {
@@ -710,7 +676,6 @@ setMethod("intersect.idx",
 
 
 ##' @rdname nanoival
-##' @export
 setMethod("intersect",
           c("nanotime", "nanoival"),
           function(x, y) {
@@ -720,7 +685,6 @@ setMethod("intersect",
           })
 
 ##' @rdname nanoival
-##' @export
 setMethod("setdiff",
           c("nanotime", "nanoival"),
           function(x, y) {
@@ -731,10 +695,11 @@ setMethod("setdiff",
               new("nanotime", res)
           })
 
+##' @noRd
 setGeneric("setdiff.idx", function(x, y) standardGeneric("setdiff.idx"))
 
 ##' @rdname nanoival
-##' @export
+##' @aliases setdiff.idx
 setMethod("setdiff.idx",
           c("nanotime", "nanoival"),
           function(x, y) {
@@ -747,8 +712,19 @@ setMethod("setdiff.idx",
 ## misc functions:
 ## --------------
 
-##' @rdname nanoival
-##' @export
+##' Test if a \code{nanoival} vector is Not Sorted
+##'
+##' Test if an object is not sorted (in increasing order), without the
+##' cost of sorting it.
+##'
+##' @param x a \code{nanoival} vector
+##' @param na.rm logical.  Should missing values be removed before
+##'     checking?
+##' @param strictly logical indicating if the check should be for
+##'     _strictly_ increasing values.
+##'
+##' @seealso \code{\link{sort}}
+##' 
 setMethod("is.unsorted", "nanoival",
           function(x, na.rm=FALSE, strictly=FALSE) {
               if (typeof(strictly) != "logical") {
@@ -757,15 +733,38 @@ setMethod("is.unsorted", "nanoival",
               .Call('_nanoival_is_unsorted', x, strictly)
           })
 
-##' @rdname nanoival
-##' @export
+
+##' Sorting or Ordering Vectors
+##'
+##' Sort (or _order_) a vector of \code{nanoival} into ascending or
+##' descending order
+##'
+##' @param x a vector of \code{nanoival}
+##' @param decreasing logical.  Should the sort be increasing or
+##'     decreasing?
+##' @seealso \code{\link{is.unsorted}}
+##' 
 setMethod("sort", c("nanoival"),
-          function(x, decreasing=FALSE, ...)
+          function(x, decreasing=FALSE)
             new("nanoival", .Call('_nanoival_sort', x, decreasing)))
 
 
-##' @rdname nanoival
-##' @export
+##' Sequence Generation
+##'
+##' Generate a sequence of \code{nanoival}
+##'
+##' @param ... arguments passed to or from methods; the only
+##'     interesting additional argument is \code{tz} where the
+##'     \code{to} argument is of type \code{nanoperiod}
+##' @param from,to the starting and (maximal) end values of the
+##'     sequence
+##' @param by \code{nanoduration} or \code{nanoperiod} increment of
+##'     the sequence; note that if the class is \code{nanoperiod} the
+##'     additional argument \code{tz} must be speficied and is of
+##'     \code{character} type indicating a timezone
+##' @param length.out an integer desired length of the sequence
+##' @param along.with take the length from the length of this argument.
+##' 
 setMethod("seq", c("nanoival"),
           function(from, to = NULL, by = NULL, length.out = NULL, along.with = NULL, ...)
           {
@@ -783,4 +782,5 @@ setMethod("seq", c("nanoival"),
           })
 
 
+##' @rdname nanoival
 NA_nanoival_ <- new("nanoival", complex(1, -4.9406564584124654418e-324, -4.9406564584124654418e-324))
