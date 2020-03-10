@@ -225,7 +225,7 @@ setMethod("print",
               max.print <- options()$max.print
               if (length(x) > max.print) {                   		## #nocov start
                   f <- head(x, max.print)
-                  print(format(f, format, tz, ...))
+                  print(format(f, format, tz, ...), quote=quote)
                   cat(paste(' [ reached getOption("max.print") -- omitted',
                             length(x) - max.print, "entries ]\n"))
               }                                              		## #nocov end

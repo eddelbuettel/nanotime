@@ -699,6 +699,9 @@ expect_identical(intersect(i1, i2), r)
 expect_identical(intersect(i2, i1), r)
 
 
+## time-time
+expect_identical(intersect(nanotime(1:10), nanotime(5:15)), nanotime(5:10))
+
 ## union
 ## --------------------------------------------------------------------------
 ## interval - interval:
@@ -806,6 +809,9 @@ r  <- as.nanoival(c("+2015-01-01 12:00:03 -> 2015-01-01 12:00:07-",
                     "+2016-01-01 12:00:03 -> 2016-01-01 12:00:08+"))
 expect_identical(union(i1, i2), r)
 expect_identical(union(i2, i1), r)
+
+## time-time
+expect_identical(union(nanotime(1:2), nanotime(8:10)), c(nanotime(1:2), nanotime(8:10)))
 
 
 ## setdiff
@@ -1048,6 +1054,8 @@ i2 <- as.nanoival("+2015-01-01 12:00:01 -> 2015-01-01 12:00:06+")
 r  <- as.nanoival("+2015-01-01 12:00:10 -> 2015-01-01 12:00:12+")
 expect_identical(setdiff(i1, i2), r)
 
+## time-time
+expect_identical(setdiff(nanotime(1:10), nanotime(2:9)), c(nanotime(1), nanotime(10)))
 
 
 ## ops +, -
@@ -1180,6 +1188,7 @@ i2 <- as.nanoival(bb)
 i3 <- as.nanoival(cc)
 ii <- c(i1, i2, i3)
 expect_identical(ii[c(T,F,T)], c(i1, i3))
+expect_warning(ii[c(T,F,T), 3], "unused indices or arguments in 'nanoival' subsetting")
   
 ##test_subset_logical_named <- function() {
 i1 <- as.nanoival(aa)
@@ -1194,6 +1203,7 @@ i2 <- as.nanoival(bb)
 i3 <- as.nanoival(cc)
 ii <- c(i1, i2, i3)
 expect_identical(ii[c(1,3)], c(i1, i3))
+expect_warning(ii[c(1,3), 3, 5], "unused indices or arguments in 'nanoival' subsetting")
   
 ##test_subset_numeric_named <- function() {
 i1 <- as.nanoival(aa)

@@ -196,9 +196,17 @@ format.nanoival <-
 setMethod("print",
           "nanoival",
           function(x, quote=FALSE, ...) {
-              ## like in nanotime, we must prevent the conversion to printout to be too large LLL
               s <- format(x, ...)
-              print(s, quote=quote)
+              max.print <- options()$max.print
+              if (length(x) > max.print) {                   		## #nocov start
+                  f <- head(x, max.print)
+                  print(f, quote=quote)
+                  cat(paste(' [ reached getOption("max.print") -- omitted',
+                            length(x) - max.print, "entries ]\n"))
+              }                                              		## #nocov end
+              else {
+                  print(s, quote=quote)
+              }
               invisible(s)
           })
 
@@ -206,28 +214,6 @@ setMethod("print",
 setMethod("show",
           signature("nanoival"),
           function(object) print(object))
-
-
-## setMethod("format",
-##           signature("nanoival"),
-##           function(x, ..., justify = "none") {
-##               ## like in nanotime, we must prevent the conversion to printout to be too large LLL
-##               oldClass(x) <- "integer64"
-##               j <- 1
-##               s <- character(0)
-##               while (j < length(x)) {
-##                   s <- c(s, 
-##                          paste0(ifelse(x[j+2] > 1, "-", "+"),
-##                                 format(nanotime(x[j])), " -> ",
-##                                 format(nanotime(x[j+1])),
-##                                 ifelse(x[j+2]==1 | x[j+2]==4294967297, "-", "+")))
-##                   j <- j + 3
-##               }
-##               if (!is.null(attr(x, "names", exact=TRUE))) {
-##                   names(s) <- names(x)[c(TRUE, FALSE, FALSE)]
-##               }
-##               s
-##           })
 
 
 .secondaryNanoivalParse <- function(x, format="", tz="") {
@@ -506,7 +492,9 @@ setMethod("[[",
 setMethod("[",
           signature("nanoival", "logical"),
           function (x, i, j, ..., drop=FALSE) {
-              ## verify ... is empty LLL
+              if (!missing(j) || length(list(...)) > 0) {
+                  warning("unused indices or arguments in 'nanoival' subsetting")
+              }
               x <- S3Part(x, strictS3=TRUE)
               new("nanoival", x[i])
           })
@@ -515,7 +503,9 @@ setMethod("[",
 setMethod("[",
           signature("nanoival", "numeric"),
           function (x, i, j, ..., drop=FALSE) {
-              ## verify ... is empty LLL
+              if (!missing(j) || length(list(...)) > 0) {
+                  warning("unused indices or arguments in 'nanoival' subsetting")
+              }
               x <- S3Part(x, strictS3=TRUE)
               new("nanoival", x[i])
           })
@@ -696,8 +686,6 @@ setMethod("[",
 setGeneric("intersect.idx", function(x, y) standardGeneric("intersect.idx"))
 
 
-## need to add nanotime/nanotime LLL
-
 ##' @rdname set_operations
 ##' @aliases intersect.idx
 setMethod("intersect.idx",
@@ -740,6 +728,37 @@ setMethod("setdiff.idx",
               if (is.unsorted(x)) stop("x must be sorted")
               y <- sort(y)
               .Call('_nanoival_setdiff_idx_time_interval', x, y)
+          })
+
+
+## provide 'nanotime'-'nanotime' set operations and document here
+## ---------------------
+
+##' @rdname set_operations
+setMethod("intersect",
+          c("nanotime", "nanotime"),
+          function(x, y) {
+              res <- callNextMethod()
+              oldClass(res) <- "integer64"
+              new("nanotime", res)
+          })
+
+##' @rdname set_operations
+setMethod("union",
+          c("nanotime", "nanotime"),
+          function(x, y) {
+              res <- callNextMethod()
+              oldClass(res) <- "integer64"
+              new("nanotime", res)
+          })
+
+##' @rdname set_operations
+setMethod("setdiff",
+          c("nanotime", "nanotime"),
+          function(x, y) {
+              res <- callNextMethod()
+              oldClass(res) <- "integer64"
+              new("nanotime", res)
           })
 
 

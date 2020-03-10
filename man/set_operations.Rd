@@ -10,6 +10,9 @@
 \alias{setdiff,nanotime,nanoival-method}
 \alias{setdiff.idx,nanotime,nanoival-method}
 \alias{setdiff.idx}
+\alias{intersect,nanotime,nanotime-method}
+\alias{union,nanotime,nanotime-method}
+\alias{setdiff,nanotime,nanotime-method}
 \title{Set operations}
 \usage{
 \S4method{intersect}{nanoival,nanoival}(x, y)
@@ -25,6 +28,12 @@
 \S4method{setdiff}{nanotime,nanoival}(x, y)
 
 \S4method{setdiff.idx}{nanotime,nanoival}(x, y)
+
+\S4method{intersect}{nanotime,nanotime}(x, y)
+
+\S4method{union}{nanotime,nanotime}(x, y)
+
+\S4method{setdiff}{nanotime,nanotime}(x, y)
 }
 \arguments{
 \item{x, y}{a temporal type}
