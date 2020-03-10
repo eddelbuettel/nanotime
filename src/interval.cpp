@@ -61,8 +61,9 @@ static void print(const interval& i) {
 template <typename T, typename U>
 static Rcpp::List intersect_idx(const T* v1, size_t v1_size, const U* v2, size_t v2_size) 
 {
-  Rcpp::NumericVector res_first;
-  Rcpp::NumericVector res_second;
+  // because 'push_back' on R structures is crazy expensive, we use STL vector and copy afterwards:
+  std::vector<double> res_first;
+  std::vector<double> res_second;
   size_t i1 = 0, i2 = 0;
   while (i1 < v1_size && i2 < v2_size) {
     if (v1[i1] < v2[i2]) {
@@ -71,16 +72,23 @@ static Rcpp::List intersect_idx(const T* v1, size_t v1_size, const U* v2, size_t
       ++i2;
     } else { 
       if (v1_size==0 || v1[i1] != v1[i1-1]) {
-        res_first.push_back(i1+1);  // push_back too slow? LLL
-        res_second.push_back(i2+1); // push_back too slow? LLL
+        res_first.push_back(i1+1);
+        res_second.push_back(i2+1);
       }      
       ++i1;
       //++i2; this is correct for T==U, but not for example when
       //T==time and U==interval
     }
   }
-  return Rcpp::List::create(Rcpp::Named("x") = res_first,
-                            Rcpp::Named("y") = res_second);
+
+  // copy out result:
+  Rcpp::NumericVector res_first_rcpp(res_first.size());
+  Rcpp::NumericVector res_second_rcpp(res_second.size());
+  memcpy(&res_first_rcpp[0],  &res_first[0],  sizeof(double)*res_first.size()); 
+  memcpy(&res_second_rcpp[0], &res_second[0], sizeof(double)*res_second.size()); 
+  
+  return Rcpp::List::create(Rcpp::Named("x") = res_first_rcpp,
+                            Rcpp::Named("y") = res_second_rcpp);
 }
 
 
@@ -549,11 +557,11 @@ RcppExport SEXP _nanoival_minus(SEXP n1, SEXP n2) {
 template <typename T, typename U>
 static Rcpp::NumericVector setdiff_idx(const T* v1, size_t v1_size, const U* v2, size_t v2_size)
 {
-  Rcpp::NumericVector res_first;
+  std::vector<double> res_first;
   size_t i1 = 0, i2 = 0;
   while (i1 < v1_size && i2 < v2_size) {
     if (v1[i1] < v2[i2]) {
-      res_first.push_back(i1+1); // too expensive LLL
+      res_first.push_back(i1+1);
       ++i1;
     } else if (v1[i1] > v2[i2]) {
       ++i2;
@@ -567,8 +575,12 @@ static Rcpp::NumericVector setdiff_idx(const T* v1, size_t v1_size, const U* v2,
     res_first.push_back(i1+1);
     ++i1;
   }
- 
-  return res_first;
+
+  // copy out result:
+  Rcpp::NumericVector res_first_rcpp(res_first.size());
+  memcpy(&res_first_rcpp[0],  &res_first[0],  sizeof(double)*res_first.size()); 
+
+  return res_first_rcpp;
 }
 
 
@@ -735,7 +747,10 @@ static Rcomplex readNanoival(const char*& sp, const char* const se, const char* 
     }
     auto sopen = *sp++ == '+' ? false : true;
   
-    auto ss = Global::readDtime(sp, se, tzstr);
+    auto ss = Global::readDtime(sp, se);
+    if (ss.tzstr.size() && strnlen(tzstr, Global::MAX_TZ_STR_LENGTH)) {
+      throw std::range_error("timezone is specified twice: in the string and as an argument");
+    }
     Global::skipWhitespace(sp, se);
 
     // read the middle portion
@@ -745,7 +760,10 @@ static Rcomplex readNanoival(const char*& sp, const char* const se, const char* 
     sp += 2;
     
     Global::skipWhitespace(sp, se);
-    auto es = Global::readDtime(sp, se-1, tzstr); // -1 because we don't want to read the -+ as a timezone
+    auto es = Global::readDtime(sp, se-1); // -1 because we don't want to read the -+ as a timezone
+    if (es.tzstr.size() && strnlen(tzstr, Global::MAX_TZ_STR_LENGTH)) {
+      throw std::range_error("timezone is specified twice: in the string and as an argument"); // ## nocov
+    }
 
     // read the +- at the end:
     if (sp >= se || (*sp != '+' && *sp != '-')) {
@@ -762,12 +780,10 @@ static Rcomplex readNanoival(const char*& sp, const char* const se, const char* 
     CONVERT_TO_TIMEPOINT *convertToTimePoint = (CONVERT_TO_TIMEPOINT*)  R_GetCCallable("RcppCCTZ", "_RcppCCTZ_convertToTimePoint" );
 
     const cctz::civil_second start_cvt(ss.y, ss.m, ss.d, ss.hh, ss.mm, ss.ss);    
-    // warn double specification of timezone LLL
     auto start_tp = convertToTimePoint(start_cvt, ss.tzstr.size() ? ss.tzstr.c_str() : tzstr);  
     auto start = Global::dtime{std::chrono::nanoseconds((start_tp.time_since_epoch().count() - ss.offset) * 1000000000ll + ss.ns)};
 
     const cctz::civil_second end_cvt(es.y, es.m, es.d, es.hh, es.mm, es.ss);    
-    // warn double specification of timezone LLL
     auto end_tp = convertToTimePoint(end_cvt, es.tzstr.size() ? es.tzstr.c_str() : tzstr);  
     auto end = Global::dtime{std::chrono::nanoseconds((end_tp.time_since_epoch().count() - es.offset) * 1000000000ll + es.ns)};
   

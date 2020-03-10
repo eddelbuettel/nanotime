@@ -11,19 +11,21 @@ typedef ConstPseudoVector<STRSXP,  const Rcpp::CharacterVector::const_Proxy> Con
 
 static std::int64_t readNanotime(const char*& sp, const char* const se, const char* tzstr) {
   try {
-    auto tt = Global::readDtime(sp, se, tzstr);
+    auto tt = Global::readDtime(sp, se);
 
     // check we read until the end
     if (sp != se) {
       throw std::range_error("Error parsing");
     }
-     
+
+    if (tt.tzstr.size() && strnlen(tzstr, Global::MAX_TZ_STR_LENGTH)) {
+      throw std::range_error("timezone is specified twice: in the string and as an argument");
+    }
+    
     const cctz::civil_second cvt(tt.y, tt.m, tt.d, tt.hh, tt.mm, tt.ss);
 
     typedef Global::time_point<Global::seconds> CONVERT_TO_TIMEPOINT(const cctz::civil_second& cs, const char* tzstr);
     CONVERT_TO_TIMEPOINT *convertToTimePoint = (CONVERT_TO_TIMEPOINT*)  R_GetCCallable("RcppCCTZ", "_RcppCCTZ_convertToTimePoint" );
-
-    // warn double specification of timezone LLL
 
     auto final_tzstr = tt.tzstr.size() ? tt.tzstr.c_str() : tzstr;
     if (final_tzstr[0] == 0) {

@@ -151,7 +151,8 @@ setAs("integer64", "nanotime", function(from) new("nanotime", as.integer64(from,
 
 .nanotime_character <- function(from, format="", tz="") {
     tryCatch(.Call("_nanotime_make", from, tz), error=function(e) {
-        if (e$message == "Cannot retrieve timezone") {
+        if (e$message == "Cannot retrieve timezone" ||
+            e$message == "timezone is specified twice: in the string and as an argument") {
             stop(e$message)
         } else {
             .secondaryNanotimeParse(from, format, tz)

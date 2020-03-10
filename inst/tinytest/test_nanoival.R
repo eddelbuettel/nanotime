@@ -1,5 +1,6 @@
-
 library(nanotime)
+
+isSolaris <- Sys.info()[["sysname"]] == "SunOS"
 
 savedFormat <- NULL
 one_second  <- 1e9
@@ -34,26 +35,32 @@ expect_identical(nanoival.start(ni),  c(a=nanotime("2013-01-01 00:00:00"),
     expect_identical(nanoival.sopen(ni), c(a=FALSE, b=FALSE, c=TRUE, d=TRUE)) &
     expect_identical(nanoival.eopen(ni), c(a=TRUE, b=FALSE, c=TRUE, d=FALSE))
 
-expect_identical(length(as.nanoival(vector("character", 0))), 0L)
-expect_identical(as.nanoival("-2013-01-01 00:00:00 America/New_York -> 2014-01-01 00:00:00 America/New_York+"),
-               nanoival(nanotime("2013-01-01 00:00:00 America/New_York"),
-                        nanotime("2014-01-01 00:00:00 America/New_York"), TRUE, FALSE))
+if (!isSolaris) {
+    expect_identical(length(as.nanoival(vector("character", 0))), 0L)
+    expect_identical(as.nanoival("-2013-01-01 00:00:00 America/New_York -> 2014-01-01 00:00:00 America/New_York+"),
+                     nanoival(nanotime("2013-01-01 00:00:00 America/New_York"),
+                              nanotime("2014-01-01 00:00:00 America/New_York"), TRUE, FALSE))
 
-##test_as.nanoival_vector_fail <- function() {
-expect_error(as.nanoival("-2013-01-01 00:00:00 -> 2014-01-01 00:00:00"), "`nanoival` must end with '\\+' or '-'")
-expect_error(as.nanoival("2013-01-01 00:00:00 -> 2014-01-01 00:00:00-"), "`nanoival` must start with '\\+' or '-'") 
-expect_error(as.nanoival("+2013-01-01 00:00:00 $$ 2014-01-01 00:00:00-"), "Parse error on 2013-01-01 00:00:00 \\$\\$ 2014-01-01 00:00:00")
-expect_error(as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00- "), "`nanoival` must end with '\\+' or '-'")
-expect_error(as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00a"), "`nanoival` must end with '\\+' or '-'")
-expect_error(as.nanoival("+2013-01-01 00:00:00 America/New_York -> 2014-01-01 00:00:00 America/New_York %%"), "`nanoival` must end with '\\+' or '-'")
-expect_error(as.nanoival("+2013-01-01 00:00:00 America/New_York -> 2014-01-01 00:00:00 America/New_York + "), "`nanoival` must end with '\\+' or '-'")
-expect_error(as.nanoival("-2013-01-01 00:00:00 America/New_York -> 2014-01-01 00:00:00 America/New_YYork+"),
-               "Cannot retrieve timezone")
+    ## test warning when we double specify the timezone:
+    expect_error(as.nanoival("-2013-01-01 00:00:00 America/New_York -> 2014-01-01 00:00:00+00:00+", tz="Europe/London"),
+                 "timezone is specified twice: in the string and as an argument")
+
+    ##test_as.nanoival_vector_fail <- function() {
+    expect_error(as.nanoival("-2013-01-01 00:00:00 -> 2014-01-01 00:00:00"), "`nanoival` must end with '\\+' or '-'")
+    expect_error(as.nanoival("2013-01-01 00:00:00 -> 2014-01-01 00:00:00-"), "`nanoival` must start with '\\+' or '-'") 
+    expect_error(as.nanoival("+2013-01-01 00:00:00 $$ 2014-01-01 00:00:00-"), "Parse error on 2013-01-01 00:00:00 \\$\\$ 2014-01-01 00:00:00")
+    expect_error(as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00- "), "`nanoival` must end with '\\+' or '-'")
+    expect_error(as.nanoival("+2013-01-01 00:00:00 -> 2014-01-01 00:00:00a"), "`nanoival` must end with '\\+' or '-'")
+    expect_error(as.nanoival("+2013-01-01 00:00:00 America/New_York -> 2014-01-01 00:00:00 America/New_York %%"), "`nanoival` must end with '\\+' or '-'")
+    expect_error(as.nanoival("+2013-01-01 00:00:00 America/New_York -> 2014-01-01 00:00:00 America/New_York + "), "`nanoival` must end with '\\+' or '-'")
+    expect_error(as.nanoival("-2013-01-01 00:00:00 America/New_York -> 2014-01-01 00:00:00 America/New_YYork+"),
+                 "Cannot retrieve timezone")
+}
 
 ##test_nanoival <- function() {
 expect_identical(nanoival(nanotime("2013-01-01 00:00:00"),
-                        nanotime("2014-01-01 00:00:00"), TRUE, TRUE),
-               as.nanoival("-2013-01-01 00:00:00 -> 2014-01-01 00:00:00-"))
+                          nanotime("2014-01-01 00:00:00"), TRUE, TRUE),
+                 as.nanoival("-2013-01-01 00:00:00 -> 2014-01-01 00:00:00-"))
 expect_error(nanoival(nanotime(2), nanotime(1)), "interval end \\(1\\) smaller than interval start \\(2\\)")
 expect_identical(nanoival(), as.nanoival(NULL))
 expect_identical(length(nanoival()), 0L)

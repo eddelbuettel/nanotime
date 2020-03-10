@@ -151,7 +151,7 @@ namespace Global {
   };
 
   
-  inline tmdet readDtime(const char*& sp, const char* const se, const char* tzstr) 
+  inline tmdet readDtime(const char*& sp, const char* const se) 
   {
     try {
       const unsigned y = readInt(sp, se, 4, 4);
@@ -231,6 +231,8 @@ namespace Global {
 
   const int64_t NA_INTEGER64 = std::numeric_limits<int64_t>::min();
 
+  const int MAX_TZ_STR_LENGTH = 1000;
+  
 } // end namespace Global
 
 

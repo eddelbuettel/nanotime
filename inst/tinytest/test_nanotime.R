@@ -63,29 +63,33 @@ if (!isSolaris) {
 
     expect_identical(as.nanotime("2018/01/01T05:00:00.99 Europe/London"),             nanotime(as.integer64("1514782800990000000")))
     expect_identical(as.nanotime("2018 01 01T05:00:00.99 Europe/London"),             nanotime(as.integer64("1514782800990000000")))   
-}
-expect_identical(as.nanotime(NULL), nanotime())
-expect_identical(as.nanotime(NULL), as.nanotime())
 
-##test_nanotime_character_first_pass_fail <- function() {
-## none of these should parse
-expect_error(nanotime("2018-01-01T05:00:00.99 America/New_dYork"),  "Cannot retrieve timezone")
-expect_error(nanotime("2018--01-01T05:00:00.99 America/New_York"),  "Parse error")
-expect_error(nanotime("2018-01-01T05:00:00.99 America/New_York s"), "Parse error")
-expect_error(nanotime("2018-01-01T05:00:s0.99 America/New_York"),   "Parse error")
-expect_error(nanotime("2018-01-01T05:00:00.a99 America/New_York"), "Parse error")
-expect_error(nanotime("2018-01-01T05:00:00.0000000000 America/New_York"), "Parse error")
-expect_error(nanotime("201"), "Parse error")
-expect_error(nanotime("2018-13-01T05:00:00.99 Europe/London"), "Parse error")
-expect_error(nanotime("2018"), "Parse error")
-expect_error(nanotime("2018-1"), "Parse error")
-expect_error(nanotime("2018-01-32T05:00:00.99 Europe/London"), "Parse error")
-expect_error(nanotime("2018-01-01T25:00:00.99 Europe/London"), "Parse error")
-expect_error(nanotime("2018-01-01T05:61:00.99 Europe/London"), "Parse error")
-expect_error(nanotime("2018-01-01T05:00:61.99 Europe/London"), "Parse error")
-expect_error(nanotime("2018-01-01T05:00:00.99999999999 Europe/London"), "Parse error")
-expect_error(nanotime("2018-01-01T05:00:00.99 Europe/London%"), "Parse error")
-expect_error(nanotime("2018-01-01T05:00:00.99 %"), "Parse error")
+    expect_identical(as.nanotime(NULL), nanotime())
+    expect_identical(as.nanotime(NULL), as.nanotime())
+
+    ##test_nanotime_character_first_pass_fail <- function() {
+    ## none of these should parse
+    expect_error(nanotime("2018-01-01T05:00:00.99 America/New_dYork"),  "Cannot retrieve timezone")
+    expect_error(nanotime("2018--01-01T05:00:00.99 America/New_York"),  "Parse error")
+    expect_error(nanotime("2018-01-01T05:00:00.99 America/New_York s"), "Parse error")
+    expect_error(nanotime("2018-01-01T05:00:s0.99 America/New_York"),   "Parse error")
+    expect_error(nanotime("2018-01-01T05:00:00.a99 America/New_York"), "Parse error")
+    expect_error(nanotime("2018-01-01T05:00:00.0000000000 America/New_York"), "Parse error")
+    expect_error(nanotime("201"), "Parse error")
+    expect_error(nanotime("2018-13-01T05:00:00.99 Europe/London"), "Parse error")
+    expect_error(nanotime("2018"), "Parse error")
+    expect_error(nanotime("2018-1"), "Parse error")
+    expect_error(nanotime("2018-01-32T05:00:00.99 Europe/London"), "Parse error")
+    expect_error(nanotime("2018-01-01T25:00:00.99 Europe/London"), "Parse error")
+    expect_error(nanotime("2018-01-01T05:61:00.99 Europe/London"), "Parse error")
+    expect_error(nanotime("2018-01-01T05:00:61.99 Europe/London"), "Parse error")
+    expect_error(nanotime("2018-01-01T05:00:00.99999999999 Europe/London"), "Parse error")
+    expect_error(nanotime("2018-01-01T05:00:00.99 Europe/London%"), "Parse error")
+    expect_error(nanotime("2018-01-01T05:00:00.99 %"), "Parse error")
+
+    expect_error(as.nanotime("2013-01-01 00:00:00 America/New_York", tz="Europe/London"),
+                 "timezone is specified twice: in the string and as an argument")
+}
 
 ##test_nanotime_character_second_pass  <- function() {
 ## if the parsing above has failed, then we use a second parsing
