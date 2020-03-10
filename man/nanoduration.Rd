@@ -4,6 +4,19 @@
 \name{nanoduration-class}
 \alias{nanoduration-class}
 \alias{nanoduration}
+\alias{*,ANY,nanoduration-method}
+\alias{*,nanoduration,ANY-method}
+\alias{*,nanoduration,nanoduration-method}
+\alias{+,ANY,nanoduration-method}
+\alias{/,ANY,nanoduration-method}
+\alias{/,nanoduration,ANY-method}
+\alias{Complex,nanoduration-method}
+\alias{Logic,ANY,nanoduration-method}
+\alias{Logic,nanoduration,ANY-method}
+\alias{Logic,nanoduration,nanoduration-method}
+\alias{Math2,nanoduration-method}
+\alias{Math,nanoduration-method}
+\alias{Summary,nanoduration-method}
 \alias{as.nanoduration,character-method}
 \alias{as.nanoduration}
 \alias{as.nanoduration,integer64-method}
@@ -33,36 +46,23 @@
 \alias{+,nanoduration,numeric-method}
 \alias{+,nanotime,nanoduration-method}
 \alias{+,nanoival,nanoduration-method}
-\alias{+,ANY,nanoduration-method}
 \alias{+,integer64,nanoduration-method}
 \alias{+,numeric,nanoduration-method}
-\alias{*,nanoduration,nanoduration-method}
 \alias{*,nanoduration,numeric-method}
 \alias{*,nanoduration,integer64-method}
 \alias{*,numeric,nanoduration-method}
 \alias{*,integer64,nanoduration-method}
-\alias{*,nanoduration,ANY-method}
-\alias{*,ANY,nanoduration-method}
 \alias{/,nanoduration,nanoduration-method}
 \alias{/,nanoduration,integer64-method}
 \alias{/,nanoduration,numeric-method}
-\alias{/,nanoduration,ANY-method}
-\alias{/,ANY,nanoduration-method}
 \alias{Arith,nanoduration,ANY-method}
 \alias{Compare,nanoduration,ANY-method}
-\alias{Logic,nanoduration,nanoduration-method}
-\alias{Logic,nanoduration,ANY-method}
-\alias{Logic,ANY,nanoduration-method}
 \alias{abs,nanoduration-method}
 \alias{sign,nanoduration-method}
-\alias{Math,nanoduration-method}
-\alias{Math2,nanoduration-method}
-\alias{Summary,nanoduration-method}
 \alias{sum,nanoduration-method}
 \alias{min,nanoduration-method}
 \alias{max,nanoduration-method}
 \alias{range,nanoduration-method}
-\alias{Complex,nanoduration-method}
 \alias{[[,nanoduration-method}
 \alias{[,nanoduration,ANY-method}
 \alias{[<-,nanoduration,ANY,ANY,ANY-method}
@@ -129,13 +129,9 @@ nanoduration(hours, minutes, seconds, nanoseconds)
 
 \S4method{+}{nanoival,nanoduration}(e1, e2)
 
-\S4method{+}{ANY,nanoduration}(e1, e2)
-
 \S4method{+}{integer64,nanoduration}(e1, e2)
 
 \S4method{+}{numeric,nanoduration}(e1, e2)
-
-\S4method{*}{nanoduration,nanoduration}(e1, e2)
 
 \S4method{*}{nanoduration,numeric}(e1, e2)
 
@@ -145,39 +141,19 @@ nanoduration(hours, minutes, seconds, nanoseconds)
 
 \S4method{*}{integer64,nanoduration}(e1, e2)
 
-\S4method{*}{nanoduration,ANY}(e1, e2)
-
-\S4method{*}{ANY,nanoduration}(e1, e2)
-
 \S4method{/}{nanoduration,nanoduration}(e1, e2)
 
 \S4method{/}{nanoduration,integer64}(e1, e2)
 
 \S4method{/}{nanoduration,numeric}(e1, e2)
 
-\S4method{/}{nanoduration,ANY}(e1, e2)
-
-\S4method{/}{ANY,nanoduration}(e1, e2)
-
 \S4method{Arith}{nanoduration,ANY}(e1, e2)
 
 \S4method{Compare}{nanoduration,ANY}(e1, e2)
 
-\S4method{Logic}{nanoduration,nanoduration}(e1, e2)
-
-\S4method{Logic}{nanoduration,ANY}(e1, e2)
-
-\S4method{Logic}{ANY,nanoduration}(e1, e2)
-
 \S4method{abs}{nanoduration}(x)
 
 \S4method{sign}{nanoduration}(x)
-
-\S4method{Math}{nanoduration}(x)
-
-\S4method{Math2}{nanoduration}(x, digits)
-
-\S4method{Summary}{nanoduration}(x, ..., na.rm = FALSE)
 
 \S4method{sum}{nanoduration}(x, ..., na.rm = FALSE)
 
@@ -186,8 +162,6 @@ nanoduration(hours, minutes, seconds, nanoseconds)
 \S4method{max}{nanoduration}(x, ..., na.rm = FALSE)
 
 \S4method{range}{nanoduration}(x, ..., na.rm = FALSE)
-
-\S4method{Complex}{nanoduration}(z)
 
 \S4method{[[}{nanoduration}(x, i, j, ..., drop = FALSE)
 
@@ -221,12 +195,8 @@ quoted}
 
 \item{e2}{Operand of class \code{nanoival}}
 
-\item{digits}{Required for \code{Math2} signature but ignored here}
-
 \item{na.rm}{if \code{TRUE} NA values are removed for the
 computation}
-
-\item{z}{Required for \code{Complex} signature but ignored here}
 
 \item{i}{index specifying elements to extract or replace.}
 
@@ -240,25 +210,41 @@ computation}
 A nanoduration object
 }
 \description{
-\code{nanoduration} is a length of time type (implemented as an S4
-class) with nanosecond precision. It is a count of nanoseconds
-which may be negative.
+The type \code{nanoduration} is a length of time (implemented as
+an S4 class) with nanosecond precision. It is a count of
+nanoseconds and may be negative. The expected arithmetic
+operations are provided, including sequence generation.
 }
 \details{
-A nanoduration can be constructed with the function 'as.nanoduration'
-which can take the types 'integer64', 'integer' and 'numeric' (all
-indicating the count in nanosecond units) or the type 'character'.
-}
-\section{Output Format}{
+A \code{nanoduration} can be constructed with the function
+\code{as.nanoduration} which can take the types \code{integer64},
+\code{integer} and \code{numeric} (all indicating the count in
+nanosecond units) or the type \code{character}.
 
+It can also be constructed by specifying with individual arguments
+the hours, minutes, seconds and nanoseconds with a call to
+\code{nanoduration}.
 
 A \code{nanoduration} is displayed as hours, minutes, seconds and
-nanoseconds like this: \code{110:12:34.123_453_000}.
+nanoseconds like this: \code{110:12:34.123_453_001}. The nanosecond
+precision displayed is adjusted as necessary, so e.g. 1 second is
+displayed as \code{00:00:01}.
 }
-
 \examples{
+## constructors:
 nanoduration(hours=10, minutes=3, seconds=2, nanoseconds=999999999)
 as.nanoduration("10:03:02.999_999_999")
+as.nanoduration(36182999999999)
+
+## arithmetic:
+as.nanoduration(10e9) - as.nanoduration(9e9)
+as.nanoduration(10e9) + as.nanoduration(-9e9)
+as.nanoduration("24:00:00") / 2
+as.nanoduration("24:00:00") / as.nanoduration("12:00:00")
+
+}
+\seealso{
+\code{\link{nanotime}}
 }
 \author{
 Dirk Eddelbuettel

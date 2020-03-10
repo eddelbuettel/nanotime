@@ -326,10 +326,8 @@ setMethod("Complex", c("nanoperiod"),
 ##' @rdname nanoperiod
 setMethod("-", c("nanoperiod", "ANY"),
           function(e1, e2) {
-              print("entering - nanoperiod ANY")
               if (missing(e2)) {
-                  ## incorrect LLL
-                  new("nanoperiod", -S3Part(e1, strictS3=TRUE))
+                  .Call("minus_period", e1)
               }
               else {
                   stop("invalid operand types")
@@ -343,11 +341,6 @@ setMethod("-", c("nanoperiod", "nanoperiod"),
           })
 
 ## --
-##' @noRd
-setMethod("-", c("nanoperiod", "ANY"),
-          function(e1, e2) {
-              stop("invalid operand types")
-          })
 
 ##' @rdname nanoperiod
 ##' @aliases -,nanoperiod,ANY-method
@@ -416,7 +409,7 @@ setMethod("-", c("numeric", "nanoperiod"),
 setMethod("+", c("nanoperiod", "ANY"),
           function(e1, e2) {
               if (missing(e2)) {
-                  e2
+                  e1
               }
               else {
                   stop("invalid operand types")

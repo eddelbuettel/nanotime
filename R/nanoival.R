@@ -13,7 +13,7 @@ setClass("nanoival", contains="complex")
 ##' Interval type with nanosecond precision
 ##'
 ##' \code{nanoival} is a time interval type (an S4 class) with
-##' nanosecond functionality. One of its purposes is to allow quick
+##' nanosecond precision. One of its purposes is to allow quick
 ##' subsetting of a \code{nanotime} vector. \code{nanoival} is
 ##' composed of a \code{nanotime} pair which defines the start and end
 ##' of the time interval. Additionally, it has a pair of logical
@@ -59,7 +59,7 @@ setClass("nanoival", contains="complex")
 ##' \code{nanotimeFormat} and a suitable value. Similarly,
 ##' \code{nanotimeTz} can be used to select a different timezone.
 ##' 
-##' @param x,y,from a \code{nanoival} object
+##' @param x,from a \code{nanoival} object
 ##' @param tz \code{character} indicating a timezone
 ##' @param ... further arguments passed to or from methods.
 ##' @param e1 Operand of class \code{nanoival}
@@ -68,13 +68,10 @@ setClass("nanoival", contains="complex")
 ##'     \code{options("nanotimeFormat")} and uses
 ##'     \sQuote{\%Y-\%m-\%dT\%H:\%M:\%E9S\%Ez} as a default and
 ##'     fallback
-##' @param digits Required for \code{Math2} signature but ignored here
 ##' @param object argument for method \code{show}
-##' @param na.rm a logical indicating whether missing values should be removed.
 ##' @param i index specifying elements to extract or replace.
 ##' @param j Required for \code{[} signature but ignored here
 ##' @param drop Required for \code{[} signature but ignored here
-##' @param z Required for \code{Complex} signature but ignored here
 ##' @param value argument for \code{nanoival-class}
 ##' @param start \code{nanotime} start of interval
 ##' @param end \code{nanotime} end of interval
@@ -97,37 +94,29 @@ setClass("nanoival", contains="complex")
 ##' end <- nanotime("2013-03-01T21:21:00.000000001+00:00")
 ##' nanoival(start, end)
 ##'
-##' ## a vector of \code{nanotime} can be subsetted by an interval:
-##' fmt <- "%Y-%m-%d %H:%M:%S"
+##' ## a vector of 'nanotime' can be subsetted by a 'nanoival':
 ##' one_second <- 1e9
-##' a <- seq(nanotime("2012-12-12 12:12:12", fmt), length.out=10, by=one_second)
-##' idx <- c(as.nanoival("-2012-12-12 12:12:10 -> 2012-12-12 12:12:14-", fmt),
-##'          as.nanoival("+2012-12-12 12:12:18 -> 2012-12-12 12:12:20+", fmt))
+##' a <- seq(nanotime("2012-12-12 12:12:12+00:00"), length.out=10, by=one_second)
+##' idx <- c(as.nanoival("-2012-12-12 12:12:10+00:00 -> 2012-12-12 12:12:14+00:00-"),
+##'          as.nanoival("+2012-12-12 12:12:18+00:00 -> 2012-12-12 12:12:20+00:00+"))
 ##' a[idx]
-##'
-##' ## \code{nanoival} also has the set operations \code{union}, \code{intersect},
-##' ## \code{setdiff}
-##' a <- seq(nanotime("2012-12-12 12:12:12", fmt), length.out=10, by=one_second)
-##' i <- as.nanoival("-2012-12-12 12:12:14 -> 2012-12-12 12:12:18-", fmt)
-##' setdiff(a, i)
-##'
-##' i1 <- as.nanoival("+2012-12-12 12:12:14 -> 2012-12-12 12:12:17-", fmt)
-##' i2 <- as.nanoival("+2012-12-12 12:12:16 -> 2012-12-12 12:12:18-", fmt)
-##' union(i1, i2)
-##'
-##' ## Finally, \code{intersect.idx} which gives back the indices of the intersection is
-##' ## defined:
-##' a <- seq(nanotime("2012-12-12 12:12:12", fmt), length.out=10, by=one_second)      
-##' idx <- as.nanoival("+2012-12-12 12:12:14 -> 2012-12-12 12:12:19+", fmt)
-##' intersect.idx(a, idx)                                                        
-##' ## which gives back:                                                               
-##' ## $x                                                                        
-##' ## [1] 3 4 5 6 7 8                                                           
-##' ##                                                                           
-##' ## $y                                                                        
-##' ## [1] 1 1 1 1 1 1                                                           
-##'                                                                              
-
+##' @aliases +,ANY,nanoival-method             
+##' @aliases +,nanoival,ANY-method             
+##' @aliases +,nanoival,nanoival-method        
+##' @aliases -,ANY,nanoival-method             
+##' @aliases -,nanoival,ANY-method             
+##' @aliases -,nanoival,nanoival-method        
+##' @aliases Arith,nanoival,ANY-method         
+##' @aliases Compare,nanoival,ANY-method       
+##' @aliases Complex,nanoival-method           
+##' @aliases Logic,ANY,nanoival-method         
+##' @aliases Logic,nanoival,ANY-method         
+##' @aliases Logic,nanoival,nanoival-method    
+##' @aliases Math2,nanoival-method             
+##' @aliases Math,nanoival-method              
+##' @aliases Summary,nanoival-method           
+##' 
+##' @seealso \code{\link{intersect.idx}}, \code{\link{setdiff.idx}}, 
 ##' @rdname nanoival
 nanoival <- function(start, end, sopen=FALSE, eopen=TRUE) {
     if (nargs() == 0) {
@@ -358,7 +347,7 @@ setMethod("!=", c("nanoival", "nanoival"),
 
 
 ## ------------ `-`
-##' @rdname nanoival
+##' @noRd
 setMethod("-", c("nanoival", "ANY"),
           function(e1, e2) {
               stop("invalid operand types")
@@ -377,13 +366,13 @@ setMethod("-", c("nanoival", "numeric"),
               new("nanoival", .Call("_nanoival_minus", e1, as.integer64(e2)))
           })
 
-##' @rdname nanoival
+##' @noRd
 setMethod("-", c("ANY", "nanoival"),
           function(e1, e2) {
               stop("invalid operand types")
           })
 
-##' @rdname nanoival
+##' @noRd
 setMethod("-", c("nanoival", "nanoival"),
           function(e1, e2) {
               stop("invalid operand types")
@@ -391,13 +380,13 @@ setMethod("-", c("nanoival", "nanoival"),
 
 
 ## ----------- `+`
-##' @rdname nanoival
+##' @noRd
 setMethod("+", c("nanoival", "nanoival"),
           function(e1, e2) {
               stop("invalid operand types")
           })
 
-##' @rdname nanoival
+##' @noRd
 setMethod("+", c("nanoival", "ANY"),
           function(e1, e2) {
               stop("invalid operand types")
@@ -415,7 +404,7 @@ setMethod("+", c("nanoival", "numeric"),
               new("nanoival", .Call("_nanoival_plus", e1, as.integer64(e2)))
           })
 
-##' @rdname nanoival
+##' @noRd
 setMethod("+", c("ANY", "nanoival"),
           function(e1, e2) {
               stop("invalid operand types")
@@ -433,7 +422,7 @@ setMethod("+", c("numeric", "nanoival"),
               new("nanoival", .Call("_nanoival_plus", e2, as.integer64(e1)))
           })
 
-##' @rdname nanoival
+##' @noRd
 setMethod("+", c("nanoival", "nanoival"),
           function(e1, e2) {
               stop("invalid operand types")
@@ -442,62 +431,62 @@ setMethod("+", c("nanoival", "nanoival"),
 
 ## ---------- other ops
 
-##' @rdname nanoival
+##' @noRd
 setMethod("Arith", c("nanoival", "ANY"),
           function(e1, e2) {
               stop("operation not defined for \"nanoival\" objects")           
           })
 
-##' @rdname nanoival
+##' @noRd
 setMethod("Compare", c("nanoival", "ANY"),
           function(e1, e2) {
               stop("invalid operand types")
           })
 
 
-##' @rdname nanoival
+##' @noRd
 setMethod("Logic", c("nanoival", "nanoival"),
           function(e1, e2) {
               ## this is the same error message that R gives for "A" | "A"
               stop("operations are possible only for numeric, logical or complex types")
           })
 
-##' @rdname nanoival
+##' @noRd
 setMethod("Logic", c("nanoival", "ANY"),
           function(e1, e2) {
               ## this is the same error message that R gives for "A" | "A"
               stop("operations are possible only for numeric, logical or complex types")
           })
 
-##' @rdname nanoival
+##' @noRd
 setMethod("Logic", c("ANY", "nanoival"),
           function(e1, e2) {
               ## this is the same error message that R gives for "A" | "A"
               stop("operations are possible only for numeric, logical or complex types")
           })
 
-##' @rdname nanoival
+##' @noRd
 setMethod("Math", c("nanoival"),
           function(x) {
               ## this is the same error message that R gives for abs("A")
               stop("non-numeric argument to mathematical function")
           })
 
-##' @rdname nanoival
+##' @noRd
 setMethod("Math2", c("nanoival"),
           function(x, digits) {
               ## this is the same error message that R gives for round("A")
               stop("non-numeric argument to mathematical function")
           })
 
-##' @rdname nanoival
+##' @noRd
 setMethod("Summary", c("nanoival"),
           function(x, ..., na.rm = FALSE) {
               ## this is the same error message that R gives for sum("A")
               stop("invalid 'type' (nanoival) of argument")
           })
 
-##' @rdname nanoival
+##' @noRd
 setMethod("Complex", c("nanoival"),
           function(z) {
               ## this is the same error message that R gives for Arg("A")
@@ -614,7 +603,52 @@ setMethod("t", c("nanoival"),
 ## set functions
 ## -------------
 
-##' @rdname nanoival
+##' Set operations
+##'
+##' Performs set intersection, union and difference between vectors of
+##' temporal types from the \code{nanotime} package.
+##'
+##' @param x,y a temporal type
+##' @return \code{intersect}, \code{union}, \code{setdiff} return
+##'     temporal types that are the result of the intersection. For
+##'     instance, set operations on two \code{nanoival} return a
+##'     \code{nanoival}, whereas intersection between a
+##'     \code{nanoival} and a \code{nanotime} returns a
+##'     \code{nanotime}. \code{intersect.idx} return a list of vectors
+##'     representing the element indices that intersect and
+##'     \code{setdiff.idx} returns a vector representing the element
+##'     indices to be removed.
+##' @examples
+##' ## a vector of 'nanotime' can be subsetted by a 'nanoival' which is equivalent to 'intersect':
+##' one_second <- 1e9
+##' a <- seq(nanotime("2012-12-12 12:12:12+00:00"), length.out=10, by=one_second)
+##' idx <- c(as.nanoival("-2012-12-12 12:12:10+00:00 -> 2012-12-12 12:12:14+00:00-"),
+##'          as.nanoival("+2012-12-12 12:12:18+00:00 -> 2012-12-12 12:12:20+00:00+"))
+##' a[idx]
+##' intersect(a, idx)
+##'
+##' ## 'nanoival' also has the set operations 'union', 'intersect', 'setdiff':
+##' a <- seq(nanotime("2012-12-12 12:12:12+00:00"), length.out=10, by=one_second)
+##' i <- as.nanoival("-2012-12-12 12:12:14+00:00 -> 2012-12-12 12:12:18+00:00-")
+##' setdiff(a, i)
+##'
+##' i1 <- as.nanoival("+2012-12-12 12:12:14+00:00 -> 2012-12-12 12:12:17+00:00-")
+##' i2 <- as.nanoival("+2012-12-12 12:12:16+00:00 -> 2012-12-12 12:12:18+00:00-")
+##' union(i1, i2)
+##'
+##' ## Finally, 'intersect.idx' returns the indices of the intersection:
+##' a <- seq(nanotime("2012-12-12 12:12:12+00:00"), length.out=10, by=one_second)
+##' idx <- as.nanoival("+2012-12-12 12:12:14+00:00 -> 2012-12-12 12:12:19+00:00+")
+##' idx_intersect <- intersect.idx(a, idx)
+##'
+##' ## Intersection can be performed using these indices:
+##' a[idx_intersect$x]
+##'
+##' ## which is equivalent to:
+##' a[idx]
+##' 
+##' @rdname set_operations
+##' 
 setMethod("intersect",
           c("nanoival", "nanoival"),
           function(x, y) {
@@ -624,7 +658,7 @@ setMethod("intersect",
               new("nanoival", res)
           })
 
-##' @rdname nanoival
+##' @rdname set_operations
 setMethod("union",
           c("nanoival", "nanoival"),
           function(x, y) {
@@ -634,7 +668,7 @@ setMethod("union",
               new("nanoival", res)
           })
 
-##' @rdname nanoival
+##' @rdname set_operations
 setMethod("setdiff",
           c("nanoival", "nanoival"),
           function(x, y) {
@@ -664,7 +698,7 @@ setGeneric("intersect.idx", function(x, y) standardGeneric("intersect.idx"))
 
 ## need to add nanotime/nanotime LLL
 
-##' @rdname nanoival
+##' @rdname set_operations
 ##' @aliases intersect.idx
 setMethod("intersect.idx",
           c("nanotime", "nanoival"),
@@ -675,7 +709,7 @@ setMethod("intersect.idx",
           })
 
 
-##' @rdname nanoival
+##' @rdname set_operations
 setMethod("intersect",
           c("nanotime", "nanoival"),
           function(x, y) {
@@ -684,7 +718,7 @@ setMethod("intersect",
               .Call('_nanoival_intersect_time_interval', x, y)
           })
 
-##' @rdname nanoival
+##' @rdname set_operations
 setMethod("setdiff",
           c("nanotime", "nanoival"),
           function(x, y) {
@@ -698,7 +732,7 @@ setMethod("setdiff",
 ##' @noRd
 setGeneric("setdiff.idx", function(x, y) standardGeneric("setdiff.idx"))
 
-##' @rdname nanoival
+##' @rdname set_operations
 ##' @aliases setdiff.idx
 setMethod("setdiff.idx",
           c("nanotime", "nanoival"),
@@ -764,7 +798,9 @@ setMethod("sort", c("nanoival"),
 ##'     \code{character} type indicating a timezone
 ##' @param length.out an integer desired length of the sequence
 ##' @param along.with take the length from the length of this argument.
-##' 
+##' @examples
+##' from <- as.nanoival("-2018-01-14T13:00:00+00:00 -> 2018-01-14T15:00:00+00:00+")
+##' seq(from, by=as.nanoperiod("1m"), length.out=5, tz="America/New_York")
 setMethod("seq", c("nanoival"),
           function(from, to = NULL, by = NULL, length.out = NULL, along.with = NULL, ...)
           {

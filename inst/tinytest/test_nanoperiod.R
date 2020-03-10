@@ -184,6 +184,7 @@ expect_identical(pp_nonames[3], pp[[3]])
 ## ops
 ## -
 ##test_nanoperiod_minus_nanoperiod <- function() {
+expect_identical(-as.nanoperiod("2m2d/00:00:02"), as.nanoperiod("-2m-2d/-00:00:02"))
 expect_identical(as.nanoperiod("2m2d") - as.nanoperiod("1m1d"), as.nanoperiod("1m1d"))
 expect_identical(as.nanoperiod("-1m-1d/-00:00:01") - as.nanoperiod("1m1d/00:00:01"),
                as.nanoperiod("-2m-2d/-00:00:02"))
@@ -247,10 +248,12 @@ expect_error(as.nanoperiod(1) - "a", "invalid operand types")
 
 ##test_any_minus_nanoperiod <- function() {
 expect_error("a" - as.nanoperiod(1), "invalid operand types")
+expect_error(as.nanoperiod(1) - nanotime(1), "invalid operand types")
 
 
 ## +
 ##test_nanoperiod_plus_nanoperiod <- function() {
+expect_identical(+as.nanoperiod("2m"), as.nanoperiod("2m"))
 expect_identical(as.nanoperiod("2m2d") + as.nanoperiod("1m1d"), as.nanoperiod("3m3d"))
 expect_identical(as.nanoperiod("-1m-1d/00:00:01") + as.nanoperiod("1m1d/00:00:01"),
                as.nanoperiod("0m0d/00:00:02"))

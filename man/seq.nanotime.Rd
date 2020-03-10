@@ -29,3 +29,9 @@ interesting additional argument is \code{tz} where the
 \description{
 Generate a sequence of \code{nanotime}
 }
+\examples{
+from <- as.nanotime("2018-01-14T12:44:00+00:00")
+to   <- as.nanotime("2019-01-14T12:44:00+00:00")
+seq(from, to, by=as.nanoperiod("1m"), tz="America/New_York")
+seq(from, by=as.nanoperiod("1y"), length.out=4, tz="Europe/London")
+}

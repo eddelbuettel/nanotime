@@ -4,6 +4,21 @@
 \name{nanoival-class}
 \alias{nanoival-class}
 \alias{nanoival}
+\alias{+,ANY,nanoival-method}
+\alias{+,nanoival,ANY-method}
+\alias{+,nanoival,nanoival-method}
+\alias{-,ANY,nanoival-method}
+\alias{-,nanoival,ANY-method}
+\alias{-,nanoival,nanoival-method}
+\alias{Arith,nanoival,ANY-method}
+\alias{Compare,nanoival,ANY-method}
+\alias{Complex,nanoival-method}
+\alias{Logic,ANY,nanoival-method}
+\alias{Logic,nanoival,ANY-method}
+\alias{Logic,nanoival,nanoival-method}
+\alias{Math2,nanoival-method}
+\alias{Math,nanoival-method}
+\alias{Summary,nanoival-method}
 \alias{nanoival.start,nanoival-method}
 \alias{nanoival.start}
 \alias{nanoival.end,nanoival-method}
@@ -27,43 +42,19 @@
 \alias{>=,nanoival,nanoival-method}
 \alias{==,nanoival,nanoival-method}
 \alias{!=,nanoival,nanoival-method}
-\alias{-,nanoival,ANY-method}
 \alias{-,nanoival,integer64-method}
 \alias{-,nanoival,numeric-method}
-\alias{-,ANY,nanoival-method}
-\alias{-,nanoival,nanoival-method}
-\alias{+,nanoival,nanoival-method}
-\alias{+,nanoival,ANY-method}
 \alias{+,nanoival,integer64-method}
 \alias{+,nanoival,numeric-method}
-\alias{+,ANY,nanoival-method}
 \alias{+,integer64,nanoival-method}
 \alias{+,numeric,nanoival-method}
-\alias{Arith,nanoival,ANY-method}
-\alias{Compare,nanoival,ANY-method}
-\alias{Logic,nanoival,nanoival-method}
-\alias{Logic,nanoival,ANY-method}
-\alias{Logic,ANY,nanoival-method}
-\alias{Math,nanoival-method}
-\alias{Math2,nanoival-method}
-\alias{Summary,nanoival-method}
-\alias{Complex,nanoival-method}
 \alias{[[,nanoival-method}
 \alias{[,nanoival,logical-method}
 \alias{[,nanoival,numeric-method}
 \alias{[<-,nanoival,logical,ANY,nanoival-method}
 \alias{c.nanoival}
 \alias{t,nanoival-method}
-\alias{intersect,nanoival,nanoival-method}
-\alias{union,nanoival,nanoival-method}
-\alias{setdiff,nanoival,nanoival-method}
 \alias{[,nanotime,nanoival-method}
-\alias{intersect.idx,nanotime,nanoival-method}
-\alias{intersect.idx}
-\alias{intersect,nanotime,nanoival-method}
-\alias{setdiff,nanotime,nanoival-method}
-\alias{setdiff.idx,nanotime,nanoival-method}
-\alias{setdiff.idx}
 \alias{NA_nanoival_}
 \title{Interval type with nanosecond precision}
 \format{An object of class \code{nanoival} of length 1.}
@@ -106,49 +97,17 @@ nanoival(start, end, sopen = FALSE, eopen = TRUE)
 
 \S4method{!=}{nanoival,nanoival}(e1, e2)
 
-\S4method{-}{nanoival,ANY}(e1, e2)
-
 \S4method{-}{nanoival,integer64}(e1, e2)
 
 \S4method{-}{nanoival,numeric}(e1, e2)
-
-\S4method{-}{ANY,nanoival}(e1, e2)
-
-\S4method{-}{nanoival,nanoival}(e1, e2)
-
-\S4method{+}{nanoival,nanoival}(e1, e2)
-
-\S4method{+}{nanoival,ANY}(e1, e2)
 
 \S4method{+}{nanoival,integer64}(e1, e2)
 
 \S4method{+}{nanoival,numeric}(e1, e2)
 
-\S4method{+}{ANY,nanoival}(e1, e2)
-
 \S4method{+}{integer64,nanoival}(e1, e2)
 
 \S4method{+}{numeric,nanoival}(e1, e2)
-
-\S4method{+}{nanoival,nanoival}(e1, e2)
-
-\S4method{Arith}{nanoival,ANY}(e1, e2)
-
-\S4method{Compare}{nanoival,ANY}(e1, e2)
-
-\S4method{Logic}{nanoival,nanoival}(e1, e2)
-
-\S4method{Logic}{nanoival,ANY}(e1, e2)
-
-\S4method{Logic}{ANY,nanoival}(e1, e2)
-
-\S4method{Math}{nanoival}(x)
-
-\S4method{Math2}{nanoival}(x, digits)
-
-\S4method{Summary}{nanoival}(x, ..., na.rm = FALSE)
-
-\S4method{Complex}{nanoival}(z)
 
 \S4method{[[}{nanoival}(x, i, j, ..., drop = FALSE)
 
@@ -162,21 +121,7 @@ nanoival(start, end, sopen = FALSE, eopen = TRUE)
 
 \S4method{t}{nanoival}(x)
 
-\S4method{intersect}{nanoival,nanoival}(x, y)
-
-\S4method{union}{nanoival,nanoival}(x, y)
-
-\S4method{setdiff}{nanoival,nanoival}(x, y)
-
 \S4method{[}{nanotime,nanoival}(x, i, j, ..., drop = TRUE)
-
-\S4method{intersect.idx}{nanotime,nanoival}(x, y)
-
-\S4method{intersect}{nanotime,nanoival}(x, y)
-
-\S4method{setdiff}{nanotime,nanoival}(x, y)
-
-\S4method{setdiff.idx}{nanotime,nanoival}(x, y)
 
 NA_nanoival_
 }
@@ -189,7 +134,7 @@ NA_nanoival_
 
 \item{eopen}{logical indicating if the end of the interval is open}
 
-\item{x, y, from}{a \code{nanoival} object}
+\item{x, from}{a \code{nanoival} object}
 
 \item{...}{further arguments passed to or from methods.}
 
@@ -211,12 +156,6 @@ fallback}
 
 \item{e2}{Operand of class \code{nanoival}}
 
-\item{digits}{Required for \code{Math2} signature but ignored here}
-
-\item{na.rm}{a logical indicating whether missing values should be removed.}
-
-\item{z}{Required for \code{Complex} signature but ignored here}
-
 \item{i}{index specifying elements to extract or replace.}
 
 \item{j}{Required for \code{[} signature but ignored here}
@@ -228,7 +167,7 @@ A nanoival object
 }
 \description{
 \code{nanoival} is a time interval type (an S4 class) with
-nanosecond functionality. One of its purposes is to allow quick
+nanosecond precision. One of its purposes is to allow quick
 subsetting of a \code{nanotime} vector. \code{nanoival} is
 composed of a \code{nanotime} pair which defines the start and end
 of the time interval. Additionally, it has a pair of logical
@@ -289,36 +228,15 @@ start <- nanotime("2012-03-01T21:21:00.000000001+00:00")
 end <- nanotime("2013-03-01T21:21:00.000000001+00:00")
 nanoival(start, end)
 
-## a vector of \code{nanotime} can be subsetted by an interval:
-fmt <- "\%Y-\%m-\%d \%H:\%M:\%S"
+## a vector of 'nanotime' can be subsetted by a 'nanoival':
 one_second <- 1e9
-a <- seq(nanotime("2012-12-12 12:12:12", fmt), length.out=10, by=one_second)
-idx <- c(as.nanoival("-2012-12-12 12:12:10 -> 2012-12-12 12:12:14-", fmt),
-         as.nanoival("+2012-12-12 12:12:18 -> 2012-12-12 12:12:20+", fmt))
+a <- seq(nanotime("2012-12-12 12:12:12+00:00"), length.out=10, by=one_second)
+idx <- c(as.nanoival("-2012-12-12 12:12:10+00:00 -> 2012-12-12 12:12:14+00:00-"),
+         as.nanoival("+2012-12-12 12:12:18+00:00 -> 2012-12-12 12:12:20+00:00+"))
 a[idx]
-
-## \code{nanoival} also has the set operations \code{union}, \code{intersect},
-## \code{setdiff}
-a <- seq(nanotime("2012-12-12 12:12:12", fmt), length.out=10, by=one_second)
-i <- as.nanoival("-2012-12-12 12:12:14 -> 2012-12-12 12:12:18-", fmt)
-setdiff(a, i)
-
-i1 <- as.nanoival("+2012-12-12 12:12:14 -> 2012-12-12 12:12:17-", fmt)
-i2 <- as.nanoival("+2012-12-12 12:12:16 -> 2012-12-12 12:12:18-", fmt)
-union(i1, i2)
-
-## Finally, \code{intersect.idx} which gives back the indices of the intersection is
-## defined:
-a <- seq(nanotime("2012-12-12 12:12:12", fmt), length.out=10, by=one_second)      
-idx <- as.nanoival("+2012-12-12 12:12:14 -> 2012-12-12 12:12:19+", fmt)
-intersect.idx(a, idx)                                                        
-## which gives back:                                                               
-## $x                                                                        
-## [1] 3 4 5 6 7 8                                                           
-##                                                                           
-## $y                                                                        
-## [1] 1 1 1 1 1 1                                                           
-                                                                             
+}
+\seealso{
+\code{\link{intersect.idx}}, \code{\link{setdiff.idx}},
 }
 \author{
 Dirk Eddelbuettel

@@ -606,7 +606,11 @@ setMethod("is.na",
 ##'     \code{character} type indicating a timezone
 ##' @param length.out integer indicating the desired length of the sequence
 ##' @param along.with take the length from the length of this argument.
-##'
+##' @examples
+##' from <- as.nanotime("2018-01-14T12:44:00+00:00")
+##' to   <- as.nanotime("2019-01-14T12:44:00+00:00")
+##' seq(from, to, by=as.nanoperiod("1m"), tz="America/New_York")
+##' seq(from, by=as.nanoperiod("1y"), length.out=4, tz="Europe/London")
 ##' @method seq nanotime
 seq.nanotime <-
     function(from, to = NULL, by = NULL, length.out = NULL, along.with = NULL, ...)

@@ -3,19 +3,24 @@ setClass("nanoduration", contains = "integer64")
 
 ##' Duration type with nanosecond precision
 ##'
-##' \code{nanoduration} is a length of time type (implemented as an S4
-##' class) with nanosecond precision. It is a count of nanoseconds
-##' which may be negative.
+##' The type \code{nanoduration} is a length of time (implemented as
+##' an S4 class) with nanosecond precision. It is a count of
+##' nanoseconds and may be negative. The expected arithmetic
+##' operations are provided, including sequence generation.
 ##'
-##' A nanoduration can be constructed with the function 'as.nanoduration'
-##' which can take the types 'integer64', 'integer' and 'numeric' (all
-##' indicating the count in nanosecond units) or the type 'character'.
-
-##' @section Output Format:
+##' A \code{nanoduration} can be constructed with the function
+##' \code{as.nanoduration} which can take the types \code{integer64},
+##' \code{integer} and \code{numeric} (all indicating the count in
+##' nanosecond units) or the type \code{character}.
 ##'
+##' It can also be constructed by specifying with individual arguments
+##' the hours, minutes, seconds and nanoseconds with a call to
+##' \code{nanoduration}.
+##' 
 ##' A \code{nanoduration} is displayed as hours, minutes, seconds and
-##' nanoseconds like this: \code{110:12:34.123_453_000}.
-##'
+##' nanoseconds like this: \code{110:12:34.123_453_001}. The nanosecond
+##' precision displayed is adjusted as necessary, so e.g. 1 second is
+##' displayed as \code{00:00:01}.
 ##'
 ##' @param hours number of hours
 ##' @param minutes number of minutes
@@ -25,12 +30,10 @@ setClass("nanoduration", contains = "integer64")
 ##' @param ... further arguments passed to or from methods.
 ##' @param e1 Operand of class \code{nanoival}
 ##' @param e2 Operand of class \code{nanoival}
-##' @param digits Required for \code{Math2} signature but ignored here
 ##' @param object argument for method \code{show}
 ##' @param i index specifying elements to extract or replace.
 ##' @param j Required for \code{[} signature but ignored here
 ##' @param drop Required for \code{[} signature but ignored here
-##' @param z Required for \code{Complex} signature but ignored here
 ##' @param value argument for \code{nanoduration-class}
 ##' @param na.rm if \code{TRUE} NA values are removed for the
 ##'     computation
@@ -40,8 +43,34 @@ setClass("nanoduration", contains = "integer64")
 ##' @author Dirk Eddelbuettel
 ##' @author Leonardo Silvestri
 ##' @examples
+##' ## constructors:
 ##' nanoduration(hours=10, minutes=3, seconds=2, nanoseconds=999999999)
 ##' as.nanoduration("10:03:02.999_999_999")
+##' as.nanoduration(36182999999999)
+##' 
+##' ## arithmetic:
+##' as.nanoduration(10e9) - as.nanoduration(9e9)
+##' as.nanoduration(10e9) + as.nanoduration(-9e9)
+##' as.nanoduration("24:00:00") / 2
+##' as.nanoduration("24:00:00") / as.nanoduration("12:00:00")
+##'
+##' @seealso
+##' \code{\link{nanotime}}
+##' 
+##' @aliases  *,ANY,nanoduration-method
+##' @aliases  *,nanoduration,ANY-method
+##' @aliases  *,nanoduration,nanoduration-method
+##' @aliases  +,ANY,nanoduration-method
+##' @aliases  /,ANY,nanoduration-method
+##' @aliases  /,nanoduration,ANY-method
+##' @aliases  Complex,nanoduration-method
+##' @aliases  Logic,ANY,nanoduration-method
+##' @aliases  Logic,nanoduration,ANY-method
+##' @aliases  Logic,nanoduration,nanoduration-method
+##' @aliases  Math2,nanoduration-method
+##' @aliases  Math,nanoduration-method
+##' @aliases  Summary,nanoduration-method
+##' 
 ##' @rdname nanoduration
 nanoduration <- function(hours, minutes, seconds, nanoseconds) {
     if (nargs()==0) {
@@ -269,7 +298,7 @@ setMethod("+", c("nanoival", "nanoduration"),
               new("nanoival", .Call("_nanoival_plus", e1, e2))
           })
 
-##' @rdname nanoduration
+##' @noRd
 setMethod("+", c("ANY", "nanoduration"),
           function(e1, e2) {
               stop("invalid operand types")
@@ -287,7 +316,7 @@ setMethod("+", c("numeric", "nanoduration"),
 
 ## ----------- `*`
 
-##' @rdname nanoduration
+##' @noRd
 setMethod("*", c("nanoduration", "nanoduration"),
           function(e1, e2) {
               stop("invalid operand types")              
@@ -312,12 +341,12 @@ setMethod("*", c("integer64", "nanoduration"),
           function(e1, e2) {
               new("nanoduration", e1 * S3Part(e2, strictS3=TRUE))
           })
-##' @rdname nanoduration
+##' @noRd
 setMethod("*", c("nanoduration", "ANY"),
           function(e1, e2) {
               stop("invalid operand types")
           })
-##' @rdname nanoduration
+##' @noRd
 setMethod("*", c("ANY", "nanoduration"),
           function(e1, e2) {
               stop("invalid operand types")
@@ -340,12 +369,12 @@ setMethod("/", c("nanoduration", "numeric"),
           function(e1, e2) {
               new("nanoduration", as.integer64(S3Part(e1, strictS3=TRUE) / e2))
           })
-##' @rdname nanoduration
+##' @noRd
 setMethod("/", c("nanoduration", "ANY"),
           function(e1, e2) {
               stop("invalid operand types")
           })
-##' @rdname nanoduration
+##' @noRd
 setMethod("/", c("ANY", "nanoduration"),
           function(e1, e2) {
               stop("invalid operand types")
@@ -365,21 +394,21 @@ setMethod("Compare", c("nanoduration", "ANY"),
               callNextMethod(S3Part(e1, strictS3=TRUE), e2)
           })
 
-##' @rdname nanoduration
+##' @noRd
 setMethod("Logic", c("nanoduration", "nanoduration"),
           function(e1, e2) {
               ## this is the same error message that R gives for "A" | "A"
               stop("operations are possible only for numeric, logical or complex types")
           })
 
-##' @rdname nanoduration
+##' @noRd
 setMethod("Logic", c("nanoduration", "ANY"),
           function(e1, e2) {
               ## this is the same error message that R gives for "A" | "A"
               stop("operations are possible only for numeric, logical or complex types")
           })
 
-##' @rdname nanoduration
+##' @noRd
 setMethod("Logic", c("ANY", "nanoduration"),
           function(e1, e2) {
               ## this is the same error message that R gives for "A" | "A"
@@ -398,21 +427,21 @@ setMethod("sign", c("nanoduration"),
           })
 
 
-##' @rdname nanoduration
+##' @noRd
 setMethod("Math", c("nanoduration"),
           function(x) {
               ## this is the same error message that R gives for abs("A")
               stop("non-numeric argument to mathematical function")
           })
 
-##' @rdname nanoduration
+##' @noRd
 setMethod("Math2", c("nanoduration"),
           function(x, digits) {
               ## this is the same error message that R gives for round("A")
               stop("non-numeric argument to mathematical function")
           })
 
-##' @rdname nanoduration
+##' @noRd
 setMethod("Summary", c("nanoduration"),
           function(x, ..., na.rm = FALSE) {
               ## this is the same error message that R gives for sum("A")
@@ -444,7 +473,7 @@ setMethod("range", c("nanoduration"),
           })
 
 
-##' @rdname nanoduration
+##' @noRd
 setMethod("Complex", c("nanoduration"),
           function(z) {
               ## this is the same error message that R gives for Arg("A")
@@ -492,6 +521,20 @@ as.data.frame.nanoduration <- function(x, ...) {
     ret
 }
 
+##' Sequence Generation
+##'
+##' Generate a sequence of \code{nanoduration}
+##'
+##' @param ... arguments passed to or from methods
+##' @param from,to the starting and (maximal) end values of the
+##'     sequence
+##' @param by the increment of the sequence
+##' @param length.out integer indicating the desired length of the sequence
+##' @param along.with take the length from the length of this argument.
+##'
+##' @examples
+##' seq(from=as.nanoduration(0), by=as.nanoduration("01:00:00"), length.out=10)
+##' @method seq nanoduration
 seq.nanoduration <- function(from, to=NULL, by=NULL, length.out=NULL, along.with=NULL, ...) {
     ## workaroud 'bit64' bug:
     if (is.null(by)) {

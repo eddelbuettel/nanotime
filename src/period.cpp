@@ -131,30 +131,6 @@ period minus(Global::duration d, const period& p) {
   return period(-p.getMonths(), -p.getDays(), -p.getDuration() + d);
 }
 
-
-// Global::dtime tz::plus(const Global::dtime& dt, const tz::period& p, const tz::Zone& z) {
-//   int pos = -1;
-//   int direction = 1;            // unimportant, it's a fresh start
-//   auto offset = z.getoffset(dt, pos, direction);
-//   auto res = dt;
-//   if (p.getMonths()) {
-//     auto dt_floor = date::floor<date::days>(dt + offset);
-//     auto timeofday_offset = (dt + offset) - dt_floor;
-//     auto dt_ymd = date::year_month_day{dt_floor};
-//     dt_ymd += date::months(p.getMonths());
-//     res = date::sys_days(dt_ymd) - offset + timeofday_offset;
-//   }
-//   offset = z.getoffset(dt, pos, direction);
-//   res += p.getDays()*24h;
-//   res += p.getDuration();
-//   direction = res >= dt ? 1 : -1;
-//   auto newoffset = z.getoffset(res, pos, direction);
-//   if (newoffset != offset) {
-//     res += offset - newoffset; // adjust for DST or any other event that changed the TZ
-//   }
-//   return res;
-// }
-
 Global::dtime plus (const Global::dtime& dt, const period& p, const std::string& z) {
   auto res = dt;
   auto offset = getOffsetCnv(res, z);
@@ -434,6 +410,29 @@ RcppExport SEXP plus_period_period(SEXP e1_p, SEXP e2_p) {
       memcpy(&pres[i], &prd, sizeof(prd)); 
     }
     copyNames(e1_nv, e2_nv, res);    
+    return assignS4("nanoperiod", res);
+  } catch(std::exception &ex) {	
+    forward_exception_to_r(ex);
+  } catch(...) { 
+    ::Rf_error("c++ exception (unknown reason)"); 
+  }
+  return R_NilValue;             // not reached
+}
+
+
+// unary '-'
+RcppExport SEXP minus_period(SEXP e1_p) {
+  try {
+    const Rcpp::ComplexVector e1_cv(e1_p);
+    const ConstPseudoVectorPrd e1_n(e1_cv);
+    Rcpp::ComplexVector res(e1_cv.size());
+    PseudoVectorPrd pres(res); // wrap it to get correct indexing
+    for (R_xlen_t i=0; i<res.size(); ++i) {
+      period pu1; memcpy(&pu1, reinterpret_cast<const char*>(&e1_n[i]), sizeof(period));
+      auto prd = -pu1;
+      memcpy(&pres[i], reinterpret_cast<const char*>(&prd), sizeof(prd)); 
+    }
+    copyNames(e1_cv, e1_cv, res);    
     return assignS4("nanoperiod", res);
   } catch(std::exception &ex) {	
     forward_exception_to_r(ex);
