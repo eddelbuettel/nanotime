@@ -18,35 +18,18 @@ setClass("nanotime", contains = "integer64")
 ##'
 ##' @section Caveats:
 ##'
-##' Working with dates and times is \emph{difficult}. One
-##' needs a representation of both \emph{time points} and
-##' \emph{time duration}. In R, think of \code{Date} or
-##' \code{POSIXct} objects for the former, and \code{difftime}
-##' for the later. Here we (currently) only have time points,
-##' but they are effectively also durations relative to the
-##' epoch of January 1, 1970.
+##' Working with dates and times is \emph{difficult}. One needs a
+##' representation of both \emph{time points} and \emph{time
+##' duration}. In R, think of \code{Date} or \code{POSIXct} objects
+##' for the former, and \code{difftime} for the later. Here we have
+##' time points \code{nanotime}, an interval type \code{nanoival} and
+##' two flavors of duration which are a simple count of nanoseconds
+##' \code{nanoduration} and a calendar duration that is able to track
+##' concepts such as months and days \code{nanoperiod}. Point in time
+##' and intervals are all based on durations relative to the epoch of
+##' January 1, 1970.
 ##'
-##' @section Design:
-##'
-##' There are two external libraries doing two key components.
-##'
-##' We rely on the \code{\link{bit64}} package for \code{integer64}
-##' types to represent nanoseconds relative to the epoch.  This is
-##' similar to \code{POSIXct} which uses fractional seconds since the
-##' epoch---so here we are essentially having the same values, but
-##' multiplied by 10 to the power 9 and stored as integers.  We need
-##' to rely on the external package as we require 64-bit integers
-##' whereas R itself only has 32-bit integers.  The
-##' \code{\link{bit64}} package is clever about how it manages to
-##' provide such an integer using only the 64-bit double type and very
-##' clever (and efficient) transformations.
-##'
-##' The other is the CCTZ library in C++, which we access via the
-##' \code{\link{RcppCCTZ}} package. CCTZ extends the C++11 standard
-##' library type \code{chrono} type in very useful ways for time zones and
-##' localtime.  We use its formating and parsing features.
-##'
-##' @section Output Format:
+##' @section Input and Output Format:
 ##'
 ##' Formatting and character conversion for \code{nanotime} objects is
 ##' done by functions from the \code{\link{RcppCCTZ}} package relying
@@ -59,11 +42,17 @@ setClass("nanotime", contains = "integer64")
 ##' \code{nanotimeFormat} and a suitable value. Similarly,
 ##' \code{nanotimeTz} can be used to select a different timezone.
 ##'
+##' For input, some slack it cut, and various shortened formats are
+##' accepted by default such as \code{2020-03-10} or \code{2020-03-10
+##' 18:16:00}, or \code{2020-03-10 18:16:00.001} (and the \sQuote{T}
+##' separator is optional.
+##'
 ##' @param x,from \code{nanotime} objects
 ##' @param tz character specifying a timezone which is required for
-##'     \code{as.POSIXct} and \code{as.POSIXlt}, can be set via
-##'     \code{options("nanotimeTz")} and uses \sQuote{UTC} as a
-##'     default and fallback
+##'     \code{as.POSIXct}, \code{as.POSIXlt} and can be specified for
+##'     \code{as.nanotime}, \code{format} and \code{print}; it can
+##'     also be set via \code{options("nanotimeTz")} and uses
+##'     \sQuote{UTC} as a default and fallback
 ##' @param ... further arguments passed to or from methods.
 ##' @param e1 Operand of class \code{nanotime}
 ##' @param e2 Operand of class \code{nanotime}
@@ -86,15 +75,22 @@ setClass("nanotime", contains = "integer64")
 ##' @author Dirk Eddelbuettel
 ##' @author Leonardo Silvestri
 ##' @examples
-##' x <- nanotime("1970-01-01T00:00:00.000000001+00:00")
+##' x <- nanotime(1)
 ##' print(x)
+##' as.nanotime("1970-01-01T00:00:00.000000001+00:00")
+##' as.nanotime("2020-03-10 Europe/Berlin")
+##' as.nanotime("2020-03-10 18:31:23.001", tz="America/New_York")
 ##' x <- x + 1
 ##' print(x)
 ##' format(x)
 ##' x <- x + 10
 ##' print(x)
 ##' format(x)
-##' format(nanotime(Sys.time()) + 1:3)  # three elements each 1 ns apart
+##' nanotime(Sys.time()) + 1:3  # three elements each 1 ns apart
+##' seq(x, by=as.nanoperiod("1d"), length.out=5, tz="Asia/Tokyo")
+##' @seealso \code{\link{nanoival}}, \code{\link{nanoduration}},
+##'     \code{\link{nanoperiod}}, \code{\link{seq.nanotime}}
+
 nanotime <- function(from, ...) {
     if (missing(from)) {
         from = NULL
@@ -722,3 +718,53 @@ setMethod("all.equal", c(target = "ANY", current = "nanotime"),
 
 ##' @rdname nanotime
 NA_nanotime_ <- nanotime(NA)
+
+##' Get a component of a date time
+##' 
+##' Get a component of a date time. \code{nano_wday} returns the
+##' numeric position in a week, with Sunday == 0. \code{nano_mday}
+##' returns the numeric day (i.e. a value from 1 to
+##' 31). \code{nano_month} returns the month (i.e. a value from 1 to
+##' 12). \code{nano_year} returns the year.
+##'
+##' Note that the \code{tz} parameter is mandatory because the day
+##' boundary is different depending on the time zone and
+##' \code{nanotime} does not store the timezone as it is just an
+##' offset in nanoseconds from the epoch.
+##'
+##' @param x a \code{nanotime} object
+##' @param tz \code{character} a string representing a timezone
+##' @examples
+##' nano_wday(as.nanotime("2020-03-14 23:32:00-04:00"), "America/New_York")
+##' nano_wday(as.nanotime("2020-03-14 23:32:00 America/New_York"), "Europe/Paris")
+##' nano_mday(as.nanotime("2020-03-14 23:32:00-04:00"), "America/New_York")
+##' nano_mday(as.nanotime("2020-03-14 23:32:00 America/New_York"), "Europe/Paris")
+##' nano_month(as.nanotime("2020-12-31 23:32:00-04:00"), "America/New_York")
+##' nano_month(as.nanotime("2020-12-31 23:32:00 America/New_York"), "Europe/Paris")
+##' nano_year(as.nanotime("2020-12-31 23:32:00-04:00"), "America/New_York")
+##' nano_year(as.nanotime("2020-12-31 23:32:00 America/New_York"), "Europe/Paris")
+##' 
+##' @rdname nano_year
+##' @aliases nano_wday
+##' @aliases nano_wday,nanotime-method nano_mday,nanotime-method
+##' @aliases nano_month,nanotime-method nano_year,nanotime-method 
+##'
+setGeneric("nano_wday", function(x, tz) standardGeneric("nano_wday"))
+setMethod("nano_wday", c("nanotime"), function(x, tz) .Call("_nanotime_wday", x, tz))
+           
+##' @rdname nano_year
+##' @aliases nano_mday
+##' 
+setGeneric("nano_mday", function(x, tz) standardGeneric("nano_mday"))
+setMethod("nano_mday", c("nanotime"), function(x, tz) .Call("_nanotime_mday", x, tz))
+
+##' @rdname nano_year
+##' @aliases nano_month
+##'
+setGeneric("nano_month", function(x, tz) standardGeneric("nano_month"))
+setMethod("nano_month", c("nanotime"), function(x, tz) .Call("_nanotime_month", x, tz))
+
+##' @rdname nano_year
+##'
+setGeneric("nano_year", function(x, tz) standardGeneric("nano_year"))
+setMethod("nano_year", c("nanotime"), function(x, tz) .Call("_nanotime_year", x, tz))

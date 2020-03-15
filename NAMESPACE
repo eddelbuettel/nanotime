@@ -102,3 +102,8 @@ S3method(seq, nanoduration)
 S3method(format,nanoival)
 S3method(format,nanoduration)
 S3method(format,nanoperiod)
+
+exportMethods(nano_wday)
+exportMethods(nano_mday)
+exportMethods(nano_month)
+exportMethods(nano_year)

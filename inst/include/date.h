@@ -2579,7 +2579,7 @@ year_month_day::from_days(days dp) NOEXCEPT
     static_assert(std::numeric_limits<int>::digits >= 20,
              "This algorithm has not been ported to a 16 bit signed integer");
     auto const z = dp.count() + 719468;
-    auto const era = (z >= 0 ? z : z - 146096) / 146097;
+    auto const era = (z >= 0 ? z : z - 146096) / 146097;               // # nocov
     auto const doe = static_cast<unsigned>(z - era * 146097);          // [0, 146096]
     auto const yoe = (doe - doe/1460 + doe/36524 - doe/146096) / 365;  // [0, 399]
     auto const y = static_cast<days::rep>(yoe) + era * 400;

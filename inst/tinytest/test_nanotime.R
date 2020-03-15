@@ -547,3 +547,22 @@ expect_error(seq(as.nanotime(1), by=c(1e9,2), length.out=10), "'by' must be of l
 expect_error(seq(as.nanotime(1), to=as.nanotime(10), by=c(1e9,2)), "'by' must be of length 1")
 expect_error(seq(as.nanotime(1), by=as.nanoperiod("1d"), length.out=10), "'tz' is a mandatory argument for sequences with a 'period' step")
 expect_error(seq(as.nanotime(1), to=as.nanotime(10), by=as.nanoperiod("1d")), "'tz' is a mandatory argument for sequences with a 'period' step")
+
+## test date time component access
+if (!isSolaris) {
+    expect_identical(nano_wday(as.nanotime("2020-03-14 23:32:00-04:00"), "America/New_York"), 6L)
+    expect_identical(nano_wday(as.nanotime("2020-03-14 23:32:00 America/New_York"), "Europe/Paris"), 0L)
+    expect_identical(nano_mday(as.nanotime("2020-03-14 23:32:00-04:00"), "America/New_York"), 14L)
+    expect_identical(nano_mday(as.nanotime("2020-03-14 23:32:00 America/New_York"), "Europe/Paris"), 15L)
+    expect_identical(nano_month(as.nanotime("2020-12-31 23:32:00-04:00"), "America/New_York"), 12L)
+    expect_identical(nano_month(as.nanotime("2020-12-31 23:32:00 America/New_York"), "Europe/Paris"), 1L)
+    expect_identical(nano_year(as.nanotime("2020-12-31 23:32:00-04:00"), "America/New_York"), 2020L)
+    expect_identical(nano_year(as.nanotime("2020-12-31 23:32:00 America/New_York"), "Europe/Paris"), 2021L)
+    expect_identical(nano_year(nanotime(1:10), "America/New_York"), rep(1969L, 10))
+    expect_identical(nano_year(as.nanotime("1916-03-14 12:32:00-04:00"), "America/New_York"), 1916L)
+
+    expect_error(nano_wday(as.nanotime("2020-03-14 23:32:00-04:00"), "America/Nu_York"), "Cannot retrieve timezone")
+    expect_error(nano_mday(as.nanotime("2020-03-14 23:32:00-04:00"), "America/Nu_York"), "Cannot retrieve timezone")
+    expect_error(nano_month(as.nanotime("2020-03-14 23:32:00-04:00"), "America/Nu_York"), "Cannot retrieve timezone")
+    expect_error(nano_year(as.nanotime("2020-03-14 23:32:00-04:00"), "America/Nu_York"), "Cannot retrieve timezone")
+}

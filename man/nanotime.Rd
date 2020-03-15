@@ -190,9 +190,10 @@ NA_nanotime_
 fallback}
 
 \item{tz}{character specifying a timezone which is required for
-\code{as.POSIXct} and \code{as.POSIXlt}, can be set via
-\code{options("nanotimeTz")} and uses \sQuote{UTC} as a
-default and fallback}
+\code{as.POSIXct}, \code{as.POSIXlt} and can be specified for
+\code{as.nanotime}, \code{format} and \code{print}; it can
+also be set via \code{options("nanotimeTz")} and uses
+\sQuote{UTC} as a default and fallback}
 
 \item{x, from}{\code{nanotime} objects}
 
@@ -240,38 +241,19 @@ zeros.
 \section{Caveats}{
 
 
-Working with dates and times is \emph{difficult}. One
-needs a representation of both \emph{time points} and
-\emph{time duration}. In R, think of \code{Date} or
-\code{POSIXct} objects for the former, and \code{difftime}
-for the later. Here we (currently) only have time points,
-but they are effectively also durations relative to the
-epoch of January 1, 1970.
+Working with dates and times is \emph{difficult}. One needs a
+representation of both \emph{time points} and \emph{time
+duration}. In R, think of \code{Date} or \code{POSIXct} objects
+for the former, and \code{difftime} for the later. Here we have
+time points \code{nanotime}, an interval type \code{nanoival} and
+two flavors of duration which are a simple count of nanoseconds
+\code{nanoduration} and a calendar duration that is able to track
+concepts such as months and days \code{nanoperiod}. Point in time
+and intervals are all based on durations relative to the epoch of
+January 1, 1970.
 }
 
-\section{Design}{
-
-
-There are two external libraries doing two key components.
-
-We rely on the \code{\link{bit64}} package for \code{integer64}
-types to represent nanoseconds relative to the epoch.  This is
-similar to \code{POSIXct} which uses fractional seconds since the
-epoch---so here we are essentially having the same values, but
-multiplied by 10 to the power 9 and stored as integers.  We need
-to rely on the external package as we require 64-bit integers
-whereas R itself only has 32-bit integers.  The
-\code{\link{bit64}} package is clever about how it manages to
-provide such an integer using only the 64-bit double type and very
-clever (and efficient) transformations.
-
-The other is the CCTZ library in C++, which we access via the
-\code{\link{RcppCCTZ}} package. CCTZ extends the C++11 standard
-library type \code{chrono} type in very useful ways for time zones and
-localtime.  We use its formating and parsing features.
-}
-
-\section{Output Format}{
+\section{Input and Output Format}{
 
 
 Formatting and character conversion for \code{nanotime} objects is
@@ -284,18 +266,31 @@ nanoseconds) and on offset (typically zero as we default to UTC).
 It can be overriden by using \code{options()} with the key of
 \code{nanotimeFormat} and a suitable value. Similarly,
 \code{nanotimeTz} can be used to select a different timezone.
+
+For input, some slack it cut, and various shortened formats are
+accepted by default such as \code{2020-03-10} or \code{2020-03-10
+18:16:00}, or \code{2020-03-10 18:16:00.001} (and the \sQuote{T}
+separator is optional.
 }
 
 \examples{
-x <- nanotime("1970-01-01T00:00:00.000000001+00:00")
+x <- nanotime(1)
 print(x)
+as.nanotime("1970-01-01T00:00:00.000000001+00:00")
+as.nanotime("2020-03-10 Europe/Berlin")
+as.nanotime("2020-03-10 18:31:23.001", tz="America/New_York")
 x <- x + 1
 print(x)
 format(x)
 x <- x + 10
 print(x)
 format(x)
-format(nanotime(Sys.time()) + 1:3)  # three elements each 1 ns apart
+nanotime(Sys.time()) + 1:3  # three elements each 1 ns apart
+seq(x, by=as.nanoperiod("1d"), length.out=5, tz="Asia/Tokyo")
+}
+\seealso{
+\code{\link{nanoival}}, \code{\link{nanoduration}},
+    \code{\link{nanoperiod}}, \code{\link{seq.nanotime}}
 }
 \author{
 Dirk Eddelbuettel
