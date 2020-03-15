@@ -11,7 +11,6 @@
 #include "pseudovector.hpp"
 #include "utilities.hpp"
 
-
 Global::duration from_string(const std::string& str) {
   Global::duration d = std::chrono::seconds(0);
   const char* s = str.c_str();
@@ -119,7 +118,8 @@ RcppExport SEXP duration_from_string(SEXP s) {
     Rcpp::NumericVector res(str.size());
     for (R_xlen_t i=0; i<str.size(); ++i) {
       auto dur = from_string(Rcpp::as<std::string>(str[i]));
-      res[i] = *reinterpret_cast<double*>(&dur);
+      double* ptr = reinterpret_cast<double*>(&dur);
+      res[i] = *ptr;
     }
     if (str.hasAttribute("names")) {
       res.names() = str.names();
@@ -201,7 +201,8 @@ RcppExport SEXP make_duration(SEXP h, SEXP m, SEXP s, SEXP n) {
     auto s64 = *reinterpret_cast<const std::int64_t*>(&s_i[i]);
     auto n64 = *reinterpret_cast<const std::int64_t*>(&n_i[i]);
     auto dur = (h64*3600 + m64*60 + s64) * 1000000000L + n64;
-    res[i] = *reinterpret_cast<double*>(&dur);
+    double *ptr = reinterpret_cast<double*>(&dur);
+    res[i] = *ptr;
   }
   return assignS4("nanoduration", res, "integer64");
 }

@@ -2,7 +2,13 @@
 
 	* DESCRIPTION (Version, Date): Roll minor version
 
+	* src/duration.cpp: Small fix to cast to plain old type
+	* src/interval.cpp: Idem
+	* src/nanotime.cpp: Idem
+	
 	* src/Makevars (PKG_CXXFLAGS): Minor edits
+
+	* cleanup: Added minor helper
 
 2020-03-14  Leonardo Silvestri  <lsilvestri@ztsdb.org>
 

@@ -523,7 +523,8 @@ SEXP nanoival_op(SEXP n1, SEXP n2, OP op) {
       const interval ival = *reinterpret_cast<const interval*>(&e1[i]);
       const Global::duration dur = *reinterpret_cast<const Global::duration*>(&e2[i]);
       const auto ires = op(ival, dur);
-      res[i] = *reinterpret_cast<const Rcomplex*>(&ires);
+      const Rcomplex *ptr = reinterpret_cast<const Rcomplex*>(&ires);
+      res[i] = *ptr;
     }
   
     copyNames(cv1, nv2, res);    

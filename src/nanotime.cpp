@@ -175,7 +175,8 @@ RcppExport SEXP _nanotime_make(SEXP nt_p, SEXP tz_p) {
   for (R_xlen_t i=0; i<nt.size(); ++i) {
     auto str = (const char*)(nt[i]);
     const auto t = readNanotime(str, str + nt[i].size(), tz[i]);
-    res[i] = *reinterpret_cast<const double*>(&t);
+    const double *ptr = reinterpret_cast<const double*>(&t);
+    res[i] = *ptr;
   }
   copyNames(nt_v, tz_v, res);
   return assignS4("nanotime", res, "integer64");
