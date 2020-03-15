@@ -1,11 +1,13 @@
-2019-11-28  Dirk Eddelbuettel  <edd@debian.org>
+2020-03-15  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): Roll minor version
 
-	* .travis.yml: Load development version of RcppCCTZ from GitHub
+	* src/Makevars (PKG_CXXFLAGS): Minor edits
 
-2019-11-27  Leonardo Silvestri  <lsilvestri@ztsdb.org>
+2020-03-14  Leonardo Silvestri  <lsilvestri@ztsdb.org>
 
+	[ The following reflects a fairly substantial set of changes made
+	over a longer period and are just summarized here ]
 	* DESCRIPTION: Add versioned Depends on RcppCCTZ
 	* NAMESPACE: Load dynamic library
 	* R/duration.R: Add new nanoival, duration, and period
@@ -34,6 +36,8 @@
 	* src/interval.cpp: Idem
 	* src/nanotime.cpp: Idem
 	* src/period.cpp: Idem
+
+	* .travis.yml: For now load development version of RcppCCTZ from GitHub
 
 2019-11-21  Dirk Eddelbuettel  <edd@debian.org>
 
