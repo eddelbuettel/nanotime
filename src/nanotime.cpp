@@ -18,157 +18,116 @@ static inline Global::duration getOffsetCnv(const Global::dtime& dt, const std::
   return Global::duration(offset).count() * std::chrono::seconds(1);
 }
 
+// [[Rcpp::export]]
+Rcpp::IntegerVector nanotime_wday_impl(const Rcpp::NumericVector tm_v,
+                                       const Rcpp::CharacterVector tz_v) {
+  checkVectorsLengths(tm_v, tz_v);
+  ConstPseudoVectorInt64 tm(tm_v);
+  ConstPseudoVectorChar  tz(tz_v);
+  Rcpp::IntegerVector    res(tm_v.size());
 
-RcppExport SEXP _nanotime_wday(SEXP tm_p, SEXP tz_p) {
-  try {
-    checkVectorsLengths(tm_p, tz_p);
-    const Rcpp::NumericVector   tm_v(tm_p);
-    const Rcpp::CharacterVector tz_v(tz_p);
-    ConstPseudoVectorInt64 tm(tm_v);
-    ConstPseudoVectorChar  tz(tz_v);
-    Rcpp::IntegerVector    res(tm_v.size());
-
-    for (R_xlen_t i=0; i<tm_v.size(); ++i) {
-      const auto tz_i = Rcpp::as<std::string>(tz[i]);
-      const auto tm_i = *reinterpret_cast<const Global::dtime*>(&tm[i]);
-      const auto offset = getOffsetCnv(tm_i, tz_i.c_str());
-      date::sys_days t_days = date::floor<date::days>(tm_i + offset);
-      res[i] = unsigned(date::weekday(t_days));
-    }
-    copyNames(tm_v, tz_v, res);    
-    return res;
-  } catch(std::exception &ex) {	
-    forward_exception_to_r(ex);
-  } catch(...) { 
-    ::Rf_error("c++ exception (unknown reason)"); 
+  for (R_xlen_t i=0; i<tm_v.size(); ++i) {
+    const auto tz_i = Rcpp::as<std::string>(tz[i]);
+    const auto tm_i = *reinterpret_cast<const Global::dtime*>(&tm[i]);
+    const auto offset = getOffsetCnv(tm_i, tz_i.c_str());
+    date::sys_days t_days = date::floor<date::days>(tm_i + offset);
+    res[i] = unsigned(date::weekday(t_days));
   }
-
-  return 0;                     // not reached
+  copyNames(tm_v, tz_v, res);
+  return res;
 }
 
-RcppExport SEXP _nanotime_mday(SEXP tm_p, SEXP tz_p) {
-  try {
-    checkVectorsLengths(tm_p, tz_p);
-    const Rcpp::NumericVector   tm_v(tm_p);
-    const Rcpp::CharacterVector tz_v(tz_p);
-    ConstPseudoVectorInt64 tm(tm_v);
-    ConstPseudoVectorChar  tz(tz_v);
-    Rcpp::IntegerVector    res(tm_v.size());
+// [[Rcpp::export]]
+Rcpp::IntegerVector nanotime_mday_impl(const Rcpp::NumericVector tm_v,
+                                       const Rcpp::CharacterVector tz_v) {
+  checkVectorsLengths(tm_v, tz_v);
+  ConstPseudoVectorInt64 tm(tm_v);
+  ConstPseudoVectorChar  tz(tz_v);
+  Rcpp::IntegerVector    res(tm_v.size());
 
-    for (R_xlen_t i=0; i<tm_v.size(); ++i) {
-      const auto tz_i = Rcpp::as<std::string>(tz[i]);
-      const auto tm_i = *reinterpret_cast<const Global::dtime*>(&tm[i]);
-      const auto offset = getOffsetCnv(tm_i, tz_i.c_str());
-      date::sys_days t_days = date::floor<date::days>(tm_i + offset);
-      date::weekday wd(t_days);
-      res[i] = unsigned(date::year_month_day(t_days).day());
-    }
-    copyNames(tm_v, tz_v, res);    
-    return res;
-  } catch(std::exception &ex) {	
-    forward_exception_to_r(ex);
-  } catch(...) { 
-    ::Rf_error("c++ exception (unknown reason)"); 
+  for (R_xlen_t i=0; i<tm_v.size(); ++i) {
+    const auto tz_i = Rcpp::as<std::string>(tz[i]);
+    const auto tm_i = *reinterpret_cast<const Global::dtime*>(&tm[i]);
+    const auto offset = getOffsetCnv(tm_i, tz_i.c_str());
+    date::sys_days t_days = date::floor<date::days>(tm_i + offset);
+    date::weekday wd(t_days);
+    res[i] = unsigned(date::year_month_day(t_days).day());
   }
-
-  return 0;                     // not reached
+  copyNames(tm_v, tz_v, res);
+  return res;
 }
 
-RcppExport SEXP _nanotime_month(SEXP tm_p, SEXP tz_p) {
-  try {
-    checkVectorsLengths(tm_p, tz_p);
-    const Rcpp::NumericVector   tm_v(tm_p);
-    const Rcpp::CharacterVector tz_v(tz_p);
-    ConstPseudoVectorInt64 tm(tm_v);
-    ConstPseudoVectorChar  tz(tz_v);
-    Rcpp::IntegerVector    res(tm_v.size());
+// [[Rcpp::export]]
+Rcpp::IntegerVector nanotime_month_impl(const Rcpp::NumericVector tm_v,
+                                        const Rcpp::CharacterVector tz_v) {
+  checkVectorsLengths(tm_v, tz_v);
+  ConstPseudoVectorInt64 tm(tm_v);
+  ConstPseudoVectorChar  tz(tz_v);
+  Rcpp::IntegerVector    res(tm_v.size());
 
-    for (R_xlen_t i=0; i<tm_v.size(); ++i) {
-      const auto tz_i = Rcpp::as<std::string>(tz[i]);
-      const auto tm_i = *reinterpret_cast<const Global::dtime*>(&tm[i]);
-      const auto offset = getOffsetCnv(tm_i, tz_i.c_str());
-      date::sys_days t_days = date::floor<date::days>(tm_i + offset);
-      date::weekday wd(t_days);
-      res[i] = unsigned(date::year_month_day(t_days).month());
-    }
-    copyNames(tm_v, tz_v, res);    
-    return res;
-  } catch(std::exception &ex) {	
-    forward_exception_to_r(ex);
-  } catch(...) { 
-    ::Rf_error("c++ exception (unknown reason)"); 
+  for (R_xlen_t i=0; i<tm_v.size(); ++i) {
+    const auto tz_i = Rcpp::as<std::string>(tz[i]);
+    const auto tm_i = *reinterpret_cast<const Global::dtime*>(&tm[i]);
+    const auto offset = getOffsetCnv(tm_i, tz_i.c_str());
+    date::sys_days t_days = date::floor<date::days>(tm_i + offset);
+    date::weekday wd(t_days);
+    res[i] = unsigned(date::year_month_day(t_days).month());
   }
-
-  return 0;                     // not reached
+  copyNames(tm_v, tz_v, res);    
+  return res;
 }
 
-RcppExport SEXP _nanotime_year(SEXP tm_p, SEXP tz_p) {
-  try {
-    checkVectorsLengths(tm_p, tz_p);
-    const Rcpp::NumericVector   tm_v(tm_p);
-    const Rcpp::CharacterVector tz_v(tz_p);
-    ConstPseudoVectorInt64 tm(tm_v);
-    ConstPseudoVectorChar  tz(tz_v);
-    Rcpp::IntegerVector    res(tm_v.size());
+// [[Rcpp::export]]
+Rcpp::IntegerVector nanotime_year_impl(const Rcpp::NumericVector tm_v,
+                                       const Rcpp::CharacterVector tz_v) {
+  checkVectorsLengths(tm_v, tz_v);
+  ConstPseudoVectorInt64 tm(tm_v);
+  ConstPseudoVectorChar  tz(tz_v);
+  Rcpp::IntegerVector    res(tm_v.size());
 
-    for (R_xlen_t i=0; i<tm_v.size(); ++i) {
-      const auto tz_i = Rcpp::as<std::string>(tz[i]);
-      const auto tm_i = *reinterpret_cast<const Global::dtime*>(&tm[i]);
-      const auto offset = getOffsetCnv(tm_i, tz_i.c_str());
-      date::sys_days t_days = date::floor<date::days>(tm_i + offset);
-      date::weekday wd(t_days);
-      res[i] = int(date::year_month_day(t_days).year());
-    }
-    copyNames(tm_v, tz_v, res);    
-    return res;
-  } catch(std::exception &ex) {	
-    forward_exception_to_r(ex);
-  } catch(...) { 
-    ::Rf_error("c++ exception (unknown reason)"); 
+  for (R_xlen_t i=0; i<tm_v.size(); ++i) {
+    const auto tz_i = Rcpp::as<std::string>(tz[i]);
+    const auto tm_i = *reinterpret_cast<const Global::dtime*>(&tm[i]);
+    const auto offset = getOffsetCnv(tm_i, tz_i.c_str());
+    date::sys_days t_days = date::floor<date::days>(tm_i + offset);
+    date::weekday wd(t_days);
+    res[i] = int(date::year_month_day(t_days).year());
   }
-
-  return 0;                     // not reached
+  copyNames(tm_v, tz_v, res);    
+  return res;
 }
 
 
 static std::int64_t readNanotime(const char*& sp, const char* const se, const char* tzstr) {
-  try {
-    auto tt = Global::readDtime(sp, se);
+  auto tt = Global::readDtime(sp, se);
 
-    // check we read until the end
-    if (sp != se) {
-      throw std::range_error("Error parsing");
-    }
+  // check we read until the end
+  if (sp != se)
+    Rcpp::stop("Error parsing");
 
-    if (tt.tzstr.size() && strnlen(tzstr, Global::MAX_TZ_STR_LENGTH)) {
-      throw std::range_error("timezone is specified twice: in the string and as an argument");
-    }
+  if (tt.tzstr.size() && strnlen(tzstr, Global::MAX_TZ_STR_LENGTH)) 
+    Rcpp::stop("timezone is specified twice: in the string and as an argument");
     
-    const cctz::civil_second cvt(tt.y, tt.m, tt.d, tt.hh, tt.mm, tt.ss);
+  const cctz::civil_second cvt(tt.y, tt.m, tt.d, tt.hh, tt.mm, tt.ss);
 
-    typedef Global::time_point<Global::seconds> CONVERT_TO_TIMEPOINT(const cctz::civil_second& cs, const char* tzstr);
-    CONVERT_TO_TIMEPOINT *convertToTimePoint = (CONVERT_TO_TIMEPOINT*)  R_GetCCallable("RcppCCTZ", "_RcppCCTZ_convertToTimePoint" );
+  typedef Global::time_point<Global::seconds>
+    CONVERT_TO_TIMEPOINT(const cctz::civil_second& cs, const char* tzstr);
+  CONVERT_TO_TIMEPOINT *convertToTimePoint =
+    (CONVERT_TO_TIMEPOINT*)  R_GetCCallable("RcppCCTZ", "_RcppCCTZ_convertToTimePoint" );
 
-    auto final_tzstr = tt.tzstr.size() ? tt.tzstr.c_str() : tzstr;
-    if (final_tzstr[0] == 0) {
-      throw std::range_error("Error parsing");
-    }
-    auto tp = convertToTimePoint(cvt, final_tzstr);
-    return (tp.time_since_epoch().count() - tt.offset) * 1000000000ll + tt.ns;
-  } catch(std::exception &ex) {	
-    forward_exception_to_r(ex);
-  } catch(...) { 
-    ::Rf_error("c++ exception (unknown reason)"); 
-  }
+  auto final_tzstr = tt.tzstr.size() ? tt.tzstr.c_str() : tzstr;
+  if (final_tzstr[0] == 0)
+    Rcpp::stop("Error parsing");
 
-  return 0;                     // not reached
+  auto tp = convertToTimePoint(cvt, final_tzstr);
+  return (tp.time_since_epoch().count() - tt.offset) * 1000000000ll + tt.ns;
 }
 
 
-RcppExport SEXP _nanotime_make(SEXP nt_p, SEXP tz_p) {
-  checkVectorsLengths(nt_p, tz_p);
-  const Rcpp::CharacterVector nt_v(nt_p);
-  const Rcpp::CharacterVector tz_v(tz_p);
+// [[Rcpp::export]]
+Rcpp::NumericVector nanotime_make_impl(const Rcpp::CharacterVector nt_v,
+                                       const Rcpp::CharacterVector tz_v) {
+  checkVectorsLengths(nt_v, tz_v);
   ConstPseudoVectorChar nt(nt_v);
   ConstPseudoVectorChar tz(tz_v);
   Rcpp::NumericVector res(nt.size());

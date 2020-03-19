@@ -1,3 +1,14 @@
+2020-03-18  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): Roll minor version
+
+	* DESCRIPTION (Imports): Updated versioned Depends: on RcppCCTZ
+
+	* NAMESPACE: Turn on registration
+
+	* src/nanotime.cpp: Slightly more idiomatic Rcpp
+	* R/nanotime.R: Idem
+
 2020-03-15  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): Roll minor version
@@ -5,7 +16,7 @@
 	* src/duration.cpp: Small fix to cast to plain old type
 	* src/interval.cpp: Idem
 	* src/nanotime.cpp: Idem
-	
+
 	* src/Makevars (PKG_CXXFLAGS): Minor edits
 
 	* cleanup: Added minor helper

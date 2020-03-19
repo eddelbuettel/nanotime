@@ -146,7 +146,7 @@ setAs("integer64", "nanotime", function(from) new("nanotime", as.integer64(from,
 
 
 .nanotime_character <- function(from, format="", tz="") {
-    tryCatch(.Call("_nanotime_make", from, tz), error=function(e) {
+    tryCatch(nanotime_make_impl(from, tz), error=function(e) {
         if (e$message == "Cannot retrieve timezone" ||
             e$message == "timezone is specified twice: in the string and as an argument") {
             stop(e$message)
@@ -251,7 +251,7 @@ format.nanotime <- function(x, format="", tz="", ...)
         bigint <- as.integer64(x)
         secs  <- as.integer64(bigint / as.integer64(1000000000))
         nanos <- bigint - secs * as.integer64(1000000000)
-        
+
         ## EXS has special meaning for us: print with the least number of nanotime digits
         if (isTRUE(as.logical(grep("%EXS", format)))) {
             if (all(nanos %% 1000000000 == 0)) {
@@ -264,7 +264,7 @@ format.nanotime <- function(x, format="", tz="", ...)
                 format <- gsub("%EXS", "%E9S", format)
             }
         }
-        
+
         res <- RcppCCTZ::formatDouble(as.double(secs), as.double(nanos), fmt=format, tgttzstr=tz)
         res[is.na(x)] <- as.character(NA)
         n <- names(x)
@@ -650,7 +650,7 @@ seq.nanotime <-
                 .Call("period_seq_from_to", from, to, by, args$tz)
             } else {
                 nanotime(seq(as.integer64(from), as.integer64(to), by=by))
-            }                
+            }
 	}
     }
     else if(!is.finite(length.out) || length.out < 0L)
@@ -692,16 +692,16 @@ setMethod("seq", c("nanotime"), seq.nanotime)
 ##' use \code{all.equal} directly in \code{if} expressions---either
 ##' use \code{isTRUE(all.equal(....))} or \code{\link{identical}} if
 ##' appropriate.
-##' 
+##'
 ##' @param target,current \code{nanotime} arguments to be compared
 ##' @param ... further arguments for different methods
 ##'
 ##' @seealso \code{\link{identical}}, \code{\link{isTRUE}},
 ##'     \code{\link{==}}, and \code{\link{all}} for exact equality
 ##'     testing.
-##' 
+##'
 ##' @method all.equal nanotime
-##' 
+##'
 all.equal.nanotime <- function(target, current, ...) all.equal(S3Part(target, strictS3=TRUE),
                                                    S3Part(current, strictS3=TRUE), ...)
 
@@ -720,7 +720,7 @@ setMethod("all.equal", c(target = "ANY", current = "nanotime"),
 NA_nanotime_ <- nanotime(NA)
 
 ##' Get a component of a date time
-##' 
+##'
 ##' Get a component of a date time. \code{nano_wday} returns the
 ##' numeric position in a week, with Sunday == 0. \code{nano_mday}
 ##' returns the numeric day (i.e. a value from 1 to
@@ -743,28 +743,28 @@ NA_nanotime_ <- nanotime(NA)
 ##' nano_month(as.nanotime("2020-12-31 23:32:00 America/New_York"), "Europe/Paris")
 ##' nano_year(as.nanotime("2020-12-31 23:32:00-04:00"), "America/New_York")
 ##' nano_year(as.nanotime("2020-12-31 23:32:00 America/New_York"), "Europe/Paris")
-##' 
+##'
 ##' @rdname nano_year
 ##' @aliases nano_wday
 ##' @aliases nano_wday,nanotime-method nano_mday,nanotime-method
-##' @aliases nano_month,nanotime-method nano_year,nanotime-method 
+##' @aliases nano_month,nanotime-method nano_year,nanotime-method
 ##'
 setGeneric("nano_wday", function(x, tz) standardGeneric("nano_wday"))
-setMethod("nano_wday", c("nanotime"), function(x, tz) .Call("_nanotime_wday", x, tz))
-           
+setMethod("nano_wday", c("nanotime"), function(x, tz) nanotime_wday_impl(x, tz))
+
 ##' @rdname nano_year
 ##' @aliases nano_mday
-##' 
+##'
 setGeneric("nano_mday", function(x, tz) standardGeneric("nano_mday"))
-setMethod("nano_mday", c("nanotime"), function(x, tz) .Call("_nanotime_mday", x, tz))
+setMethod("nano_mday", c("nanotime"), function(x, tz) nanotime_mday_impl(x, tz))
 
 ##' @rdname nano_year
 ##' @aliases nano_month
 ##'
 setGeneric("nano_month", function(x, tz) standardGeneric("nano_month"))
-setMethod("nano_month", c("nanotime"), function(x, tz) .Call("_nanotime_month", x, tz))
+setMethod("nano_month", c("nanotime"), function(x, tz) nanotime_month_impl(x, tz))
 
 ##' @rdname nano_year
 ##'
 setGeneric("nano_year", function(x, tz) standardGeneric("nano_year"))
-setMethod("nano_year", c("nanotime"), function(x, tz) .Call("_nanotime_year", x, tz))
+setMethod("nano_year", c("nanotime"), function(x, tz) nanotime_year_impl(x, tz))
