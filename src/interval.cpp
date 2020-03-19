@@ -107,212 +107,181 @@ static Rcpp::List intersect_idx(const T* v1, size_t v1_size, const U* v2, size_t
 //   return intersect_idx(v1, v1_size, v2, v2_size);
 // }
 
-
-RcppExport SEXP _nanoival_intersect_idx_time_interval(SEXP sv1, SEXP sv2)
-{
-  const Rcpp::NumericVector nv1(sv1);
-  const Rcpp::ComplexVector nv2(sv2);  
+// [[Rcpp::export]]
+Rcpp::List nanoival_intersect_idx_time_interval_impl(const Rcpp::NumericVector nv1,
+                                                     const Rcpp::ComplexVector nv2) {
   const Global::dtime* v1 = reinterpret_cast<const Global::dtime*>(&nv1[0]);
   const interval*      v2 = reinterpret_cast<const interval*>(&nv2[0]);
   return intersect_idx(v1, nv1.size(), v2, nv2.size());
 }
 
 
-RcppExport SEXP _nanoival_intersect_time_interval(SEXP nanotime, SEXP nanoival) {
-  try {
-    std::vector<Global::dtime> res;
-    const Rcpp::NumericVector nv1(nanotime);
-    const Rcpp::ComplexVector nv2(nanoival);  
-    const Global::dtime* v1 = reinterpret_cast<const Global::dtime*>(&nv1[0]);
-    const interval* v2 = reinterpret_cast<const interval*>(&nv2[0]);
+// [[Rcpp::export]]
+Rcpp::S4 nanoival_intersect_time_interval_impl(const Rcpp::NumericVector nv1,
+                                               const Rcpp::ComplexVector nv2) {
+  std::vector<Global::dtime> res;
+  const Global::dtime* v1 = reinterpret_cast<const Global::dtime*>(&nv1[0]);
+  const interval* v2 = reinterpret_cast<const interval*>(&nv2[0]);
 
-    R_xlen_t i1 = 0, i2 = 0;
-    while (i1 < nv1.size() && i2 < nv2.size()) {
-      if (v1[i1] < v2[i2]) {
-        ++i1;
-      } else if (v1[i1] > v2[i2]) {
-        ++i2;
-      } else { 
-        if (res.size()==0 || v1[i1] != res.back()) {
-          res.push_back(v1[i1]);
-        }      
-        ++i1;
+  R_xlen_t i1 = 0, i2 = 0;
+  while (i1 < nv1.size() && i2 < nv2.size()) {
+    if (v1[i1] < v2[i2]) {
+      ++i1;
+    } else if (v1[i1] > v2[i2]) {
+      ++i2;
+    } else {
+      if (res.size()==0 || v1[i1] != res.back()) {
+        res.push_back(v1[i1]);
       }
+      ++i1;
     }
-  
-    double* res_start = reinterpret_cast<double*>(&res[0]);
-    double* res_end   = res_start + res.size();
-    auto final_res = Rcpp::NumericVector(res_start, res_end);
-    return assignS4("nanotime", final_res, "integer64");  
-  } catch(std::exception &ex) {	
-    forward_exception_to_r(ex);
-  } catch(...) { 
-    ::Rf_error("c++ exception (unknown reason)"); 
   }
-  return R_NilValue;             // not reached
+  
+  double* res_start = reinterpret_cast<double*>(&res[0]);
+  double* res_end   = res_start + res.size();
+  auto final_res = Rcpp::NumericVector(res_start, res_end);
+  return assignS4("nanotime", final_res, "integer64");
 }
 
-RcppExport SEXP _nanoival_setdiff_time_interval(SEXP nanotime, SEXP nanoival) {
-  try {
-    std::vector<Global::dtime> res;
-    const Rcpp::NumericVector nv1(nanotime);
-    const Rcpp::ComplexVector nv2(nanoival);  
-    const Global::dtime* v1 = reinterpret_cast<const Global::dtime*>(&nv1[0]);
-    const interval* v2 = reinterpret_cast<const interval*>(&nv2[0]);
+// [[Rcpp::export]]
+Rcpp::NumericVector nanoival_setdiff_time_interval_impl(const Rcpp::NumericVector nv1,
+                                                        const Rcpp::ComplexVector nv2) {
+  std::vector<Global::dtime> res;
+  const Global::dtime* v1 = reinterpret_cast<const Global::dtime*>(&nv1[0]);
+  const interval* v2 = reinterpret_cast<const interval*>(&nv2[0]);
 
-    R_xlen_t i1 = 0, i2 = 0;
-    while (i1 < nv1.size() && i2 < nv2.size()) {
-      if (v1[i1] < v2[i2]) {
-        res.push_back(v1[i1++]);
-      } else if (v1[i1] > v2[i2]) {
-        ++i2;
-      } else { 
-        ++i1;
-      }
-    }
-    // pick up elts left in v1:
-    while (i1 < nv1.size()) {
+  R_xlen_t i1 = 0, i2 = 0;
+  while (i1 < nv1.size() && i2 < nv2.size()) {
+    if (v1[i1] < v2[i2]) {
       res.push_back(v1[i1++]);
+    } else if (v1[i1] > v2[i2]) {
+      ++i2;
+    } else {
+      ++i1;
     }
-  
-    double* res_start = reinterpret_cast<double*>(&res[0]);
-    double* res_end   = res_start + res.size();
-    return Rcpp::NumericVector(res_start, res_end);  
-  } catch(std::exception &ex) {	
-    forward_exception_to_r(ex);
-  } catch(...) { 
-    ::Rf_error("c++ exception (unknown reason)"); 
   }
-  return R_NilValue;             // not reached
+  // pick up elts left in v1:
+  while (i1 < nv1.size()) {
+    res.push_back(v1[i1++]);
+  }
+  
+  double* res_start = reinterpret_cast<double*>(&res[0]);
+  double* res_end   = res_start + res.size();
+  return Rcpp::NumericVector(res_start, res_end);
 }
 
-RcppExport SEXP _nanoival_union(SEXP nanoival1, SEXP nanoival2) {
-  try {
-    // assume 'nanoival1/2' were sorted at the R level
-    std::vector<interval> res;
-    const Rcpp::ComplexVector nv1(nanoival1);
-    const Rcpp::ComplexVector nv2(nanoival2);
-    const interval* v1 = reinterpret_cast<const interval*>(&nv1[0]);
-    const interval* v2 = reinterpret_cast<const interval*>(&nv2[0]);
+// [[Rcpp::export]]
+Rcpp::ComplexVector nanoival_union_impl(const Rcpp::ComplexVector nv1,
+                                        const Rcpp::ComplexVector nv2) {
+  // assume 'nanoival1/2' were sorted at the R level
+  std::vector<interval> res;
+  const interval* v1 = reinterpret_cast<const interval*>(&nv1[0]);
+  const interval* v2 = reinterpret_cast<const interval*>(&nv2[0]);
 
-    R_xlen_t i1 = 0, i2 = 0;
-    if (nv1.size() > 0 && nv2.size() > 0) {
-      auto v1_lt_v2 = start_lt(v1[i1], v2[i2]);
-      auto start = v1_lt_v2 ? v1[i1].getStart() : v2[i2].getStart();
-      auto sopen = v1_lt_v2 ? v1[i1].sopen : v2[i2].sopen;
+  R_xlen_t i1 = 0, i2 = 0;
+  if (nv1.size() > 0 && nv2.size() > 0) {
+    auto v1_lt_v2 = start_lt(v1[i1], v2[i2]);
+    auto start = v1_lt_v2 ? v1[i1].getStart() : v2[i2].getStart();
+    auto sopen = v1_lt_v2 ? v1[i1].sopen : v2[i2].sopen;
   
-      for (;;) {
-        if (union_end_ge_start(v1[i1], v2[i2]) && union_end_le(v1[i1], v2[i2])) {
-          // v1 |------------|         or     |--------|
-          // v2      |------------|         |------------|
-          if (i1 >= nv1.size() - 1) {
-            // if equal ends, have to do the union of the eopens:
-            auto eopen = union_end_le(v2[i2], v1[i1]) ? v1[i1].eopen && v2[i2].eopen : v2[i2].eopen;
-            // v2 interval done, as there's no more v1 elts to overlap
-            res.push_back(interval(start, v2[i2].getEnd(), sopen, eopen));
-            ++i1; ++i2;
-            break;
-          }
-          ++i1;
-        } else if (union_end_ge_start(v2[i2], v1[i1]) && union_end_le(v2[i2], v1[i1])) {
-          // v1      |------------|   or    |------------|
-          // v2 |------------|                |--------|
-          if (i2 >= nv2.size() - 1) {
-            // if equal ends, have to do the union of the eopens:
-            auto eopen = union_end_le(v1[i1], v2[i2]) ? v1[i1].eopen && v2[i2].eopen : v1[i1].eopen;
-            // v1 interval done, as there's no more v2 elts to overlap
-            res.push_back(interval(start, v1[i1].getEnd(), sopen, eopen));
-            ++i1; ++i2;
-            break;
-          }
-          ++i2;
-        } else {
-          if (v1[i1].getEnd() == v2[i2].getEnd() && v1[i1].eopen && v2[i2].eopen) {
-            // special case where the intervals are ends are equal and open:
-            res.push_back(interval(start, v1[i1].getEnd(), sopen, v1[i1].eopen));
-            ++i1; ++i2;            
-          } else if (union_end_lt(v1[i1], v2[i2])) {
-            // no interval overlap
-            res.push_back(interval(start, v1[i1].getEnd(), sopen, v1[i1].eopen));
-            ++i1;
-          } else {
-            // no interval overlap
-            res.push_back(interval(start, v2[i2].getEnd(), sopen, v2[i2].eopen));
-            ++i2;
-          }
-          // set the start of the next interval:
-          if (i1 < nv1.size() && i2 < nv2.size()) {
-            auto v1_lt_v2 = start_lt(v1[i1], v2[i2]);
-            start = v1_lt_v2 ? v1[i1].getStart() : v2[i2].getStart();
-            sopen = v1_lt_v2 ? v1[i1].sopen : v2[i2].sopen;            
-          } else {
-            break;
-          }
-        }  
-      }
-    }
-    // remaining non-overlapping intervals in v1:
-    while (i1 < nv1.size()) {
-      res.push_back(v1[i1++]);
-    }
-    while (i2 < nv2.size()) {
-      res.push_back(v2[i2++]);
-    }
-
-    // build the ComplexVector that we will return to R:
-    Rcpp::ComplexVector finalres(res.size());
-    memcpy(&finalres[0], &res[0], sizeof(Rcomplex)*res.size());
-    return finalres;
-  } catch(std::exception &ex) {	
-    forward_exception_to_r(ex);
-  } catch(...) { 
-    ::Rf_error("c++ exception (unknown reason)"); 
-  }
-  return R_NilValue;             // not reached
-}
-
-RcppExport SEXP _nanoival_intersect(SEXP nanoival1, SEXP nanoival2) {
-  try {
-    // assume 'nanoival1/2' were sorted at the R level
-    std::vector<interval> res;
-    const Rcpp::ComplexVector nv1(nanoival1);
-    const Rcpp::ComplexVector nv2(nanoival2);
-    const interval* v1 = reinterpret_cast<const interval*>(&nv1[0]);
-    const interval* v2 = reinterpret_cast<const interval*>(&nv2[0]);
-
-    R_xlen_t i1 = 0, i2 = 0;
-    while (i1 < nv1.size() && i2 < nv2.size()) {
-      if (v1[i1].getEnd() < v2[i2].getStart() || (v1[i1].getEnd() == v2[i2].getStart() && (v1[i1].eopen || v2[i2].sopen))) {
+    for (;;) {
+      if (union_end_ge_start(v1[i1], v2[i2]) && union_end_le(v1[i1], v2[i2])) {
+        // v1 |------------|         or     |--------|
+        // v2      |------------|         |------------|
+        if (i1 >= nv1.size() - 1) {
+          // if equal ends, have to do the union of the eopens:
+          auto eopen = union_end_le(v2[i2], v1[i1]) ? v1[i1].eopen && v2[i2].eopen : v2[i2].eopen;
+          // v2 interval done, as there's no more v1 elts to overlap
+          res.push_back(interval(start, v2[i2].getEnd(), sopen, eopen));
+          ++i1; ++i2;
+          break;
+        }
         ++i1;
-        continue;
-      } else if (v2[i2].getEnd() < v1[i1].getStart() || (v2[i2].getEnd() == v1[i1].getStart() && (v1[i1].sopen || v2[i2].eopen))) {
+      } else if (union_end_ge_start(v2[i2], v1[i1]) && union_end_le(v2[i2], v1[i1])) {
+        // v1      |------------|   or    |------------|
+        // v2 |------------|                |--------|
+        if (i2 >= nv2.size() - 1) {
+          // if equal ends, have to do the union of the eopens:
+          auto eopen = union_end_le(v1[i1], v2[i2]) ? v1[i1].eopen && v2[i2].eopen : v1[i1].eopen;
+          // v1 interval done, as there's no more v2 elts to overlap
+          res.push_back(interval(start, v1[i1].getEnd(), sopen, eopen));
+          ++i1; ++i2;
+          break;
+        }
         ++i2;
-        continue;
       } else {
-        auto v1_gt_v2 = start_gt(v1[i1], v2[i2]);
-        auto start = v1_gt_v2 ? v1[i1].getStart() : v2[i2].getStart();
-        auto sopen = v1_gt_v2 ? v1[i1].sopen : v2[i2].sopen;
-        
-        if (end_lt(v1[i1], v2[i2])) {
+        if (v1[i1].getEnd() == v2[i2].getEnd() && v1[i1].eopen && v2[i2].eopen) {
+          // special case where the intervals are ends are equal and open:
+          res.push_back(interval(start, v1[i1].getEnd(), sopen, v1[i1].eopen));
+          ++i1; ++i2;
+        } else if (union_end_lt(v1[i1], v2[i2])) {
+          // no interval overlap
           res.push_back(interval(start, v1[i1].getEnd(), sopen, v1[i1].eopen));
           ++i1;
-        } else {
+          } else {
+          // no interval overlap
           res.push_back(interval(start, v2[i2].getEnd(), sopen, v2[i2].eopen));
           ++i2;
         }
+        // set the start of the next interval:
+        if (i1 < nv1.size() && i2 < nv2.size()) {
+          auto v1_lt_v2 = start_lt(v1[i1], v2[i2]);
+          start = v1_lt_v2 ? v1[i1].getStart() : v2[i2].getStart();
+          sopen = v1_lt_v2 ? v1[i1].sopen : v2[i2].sopen;
+        } else {
+          break;
+        }
       }
     }
-  
-    // build the ComplexVector that we will return to R:
-    Rcpp::ComplexVector finalres(res.size());
-    memcpy(&finalres[0], &res[0], sizeof(Rcomplex)*res.size());
-    return assignS4("nanoival", finalres);
-  } catch(std::exception &ex) {	
-    forward_exception_to_r(ex);
-  } catch(...) { 
-    ::Rf_error("c++ exception (unknown reason)"); 
   }
-  return R_NilValue;             // not reached
+  // remaining non-overlapping intervals in v1:
+  while (i1 < nv1.size()) {
+    res.push_back(v1[i1++]);
+  }
+  while (i2 < nv2.size()) {
+    res.push_back(v2[i2++]);
+  }
+
+  // build the ComplexVector that we will return to R:
+  Rcpp::ComplexVector finalres(res.size());
+  memcpy(&finalres[0], &res[0], sizeof(Rcomplex)*res.size());
+  return finalres;
+}
+// [[Rcpp::export]]
+Rcpp::ComplexVector nanoival_intersect_impl(const Rcpp::ComplexVector nv1,
+                                            const Rcpp::ComplexVector nv2) {
+  // assume 'nanoival1/2' were sorted at the R level
+  std::vector<interval> res;
+  const interval* v1 = reinterpret_cast<const interval*>(&nv1[0]);
+  const interval* v2 = reinterpret_cast<const interval*>(&nv2[0]);
+
+  R_xlen_t i1 = 0, i2 = 0;
+  while (i1 < nv1.size() && i2 < nv2.size()) {
+    if (v1[i1].getEnd() < v2[i2].getStart() || (v1[i1].getEnd() == v2[i2].getStart() && (v1[i1].eopen || v2[i2].sopen))) {
+      ++i1;
+      continue;
+    } else if (v2[i2].getEnd() < v1[i1].getStart() || (v2[i2].getEnd() == v1[i1].getStart() && (v1[i1].sopen || v2[i2].eopen))) {
+      ++i2;
+      continue;
+    } else {
+      auto v1_gt_v2 = start_gt(v1[i1], v2[i2]);
+      auto start = v1_gt_v2 ? v1[i1].getStart() : v2[i2].getStart();
+      auto sopen = v1_gt_v2 ? v1[i1].sopen : v2[i2].sopen;
+        
+      if (end_lt(v1[i1], v2[i2])) {
+        res.push_back(interval(start, v1[i1].getEnd(), sopen, v1[i1].eopen));
+        ++i1;
+      } else {
+        res.push_back(interval(start, v2[i2].getEnd(), sopen, v2[i2].eopen));
+        ++i2;
+      }
+    }
+  }
+  
+  // build the ComplexVector that we will return to R:
+  Rcpp::ComplexVector finalres(res.size());
+  memcpy(&finalres[0], &res[0], sizeof(Rcomplex)*res.size());
+  return assignS4("nanoival", finalres);
 }
 
 RcppExport SEXP _nanoival_setdiff(SEXP nanoival1, SEXP nanoival2) {

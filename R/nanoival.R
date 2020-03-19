@@ -3,7 +3,7 @@
 ## - prevent matrix, array, cbind, rbind, compared with non-interval
 ## - see how we can better organize documentation for S4 methods that are
 ##   defined only to produce an error
-## 
+##
 
 
 
@@ -46,7 +46,7 @@ setClass("nanoival", contains="complex")
 ##' start (\code{sopen}) and the open/close status of the end
 ##' (\code{eopen}). The former return a \code{nanotime} while the
 ##' latter return a \code{logical}.
-##' 
+##'
 ##' @section Output Format:
 ##'
 ##' Formatting and character conversion for \code{nanoival} objects is
@@ -58,7 +58,7 @@ setClass("nanoival", contains="complex")
 ##' It can be overriden by using \code{options()} with the key of
 ##' \code{nanotimeFormat} and a suitable value. Similarly,
 ##' \code{nanotimeTz} can be used to select a different timezone.
-##' 
+##'
 ##' @param x,from a \code{nanoival} object
 ##' @param tz \code{character} indicating a timezone
 ##' @param ... further arguments passed to or from methods.
@@ -100,23 +100,23 @@ setClass("nanoival", contains="complex")
 ##' idx <- c(as.nanoival("-2012-12-12 12:12:10+00:00 -> 2012-12-12 12:12:14+00:00-"),
 ##'          as.nanoival("+2012-12-12 12:12:18+00:00 -> 2012-12-12 12:12:20+00:00+"))
 ##' a[idx]
-##' @aliases +,ANY,nanoival-method             
-##' @aliases +,nanoival,ANY-method             
-##' @aliases +,nanoival,nanoival-method        
-##' @aliases -,ANY,nanoival-method             
-##' @aliases -,nanoival,ANY-method             
-##' @aliases -,nanoival,nanoival-method        
-##' @aliases Arith,nanoival,ANY-method         
-##' @aliases Compare,nanoival,ANY-method       
-##' @aliases Complex,nanoival-method           
-##' @aliases Logic,ANY,nanoival-method         
-##' @aliases Logic,nanoival,ANY-method         
-##' @aliases Logic,nanoival,nanoival-method    
-##' @aliases Math2,nanoival-method             
-##' @aliases Math,nanoival-method              
-##' @aliases Summary,nanoival-method           
-##' 
-##' @seealso \code{\link{intersect.idx}}, \code{\link{setdiff.idx}}, 
+##' @aliases +,ANY,nanoival-method
+##' @aliases +,nanoival,ANY-method
+##' @aliases +,nanoival,nanoival-method
+##' @aliases -,ANY,nanoival-method
+##' @aliases -,nanoival,ANY-method
+##' @aliases -,nanoival,nanoival-method
+##' @aliases Arith,nanoival,ANY-method
+##' @aliases Compare,nanoival,ANY-method
+##' @aliases Complex,nanoival-method
+##' @aliases Logic,ANY,nanoival-method
+##' @aliases Logic,nanoival,ANY-method
+##' @aliases Logic,nanoival,nanoival-method
+##' @aliases Math2,nanoival-method
+##' @aliases Math,nanoival-method
+##' @aliases Summary,nanoival-method
+##'
+##' @seealso \code{\link{intersect.idx}}, \code{\link{setdiff.idx}},
 ##' @rdname nanoival
 nanoival <- function(start, end, sopen=FALSE, eopen=TRUE) {
     if (nargs() == 0) {
@@ -175,7 +175,7 @@ setMethod("nanoival.eopen",
           function(x) { .Call("_nanoival_get_eopen", x) })
 
 ##' @rdname nanoival
-format.nanoival <- 
+format.nanoival <-
   function(x, ...) {
     if (length(x) == 0) {
       "nanoival(0)"
@@ -257,7 +257,7 @@ setMethod("as.nanoival",
               } else {
                 .secondaryNanoivalParse(from, format, tz)
               }
-            }) 
+            })
           })
 
 setAs("character", "nanoival", function(from) as.nanoival(from))
@@ -420,7 +420,7 @@ setMethod("+", c("nanoival", "nanoival"),
 ##' @noRd
 setMethod("Arith", c("nanoival", "ANY"),
           function(e1, e2) {
-              stop("operation not defined for \"nanoival\" objects")           
+              stop("operation not defined for \"nanoival\" objects")
           })
 
 ##' @noRd
@@ -558,7 +558,7 @@ setMethod("t", c("nanoival"),
 ##               print("calling next method")
 ##               res <- callNextMethod()
 ##               print(attributes(res))
-##               new("nanoival", res)              
+##               new("nanoival", res)
 ##           })
 
 ## ##' @rdname nanoival
@@ -571,7 +571,7 @@ setMethod("t", c("nanoival"),
 ##               print("calling next method")
 ##               res <- callNextMethod()
 ##               print(attributes(res))
-##               new("nanoival", res)              
+##               new("nanoival", res)
 ##           })
 
 
@@ -587,7 +587,7 @@ setMethod("t", c("nanoival"),
 ##               print(dim(y))
 ##               print("rbind2 dimnames")
 ##               print(dimnames(x))
-##               new("nanoival", callNextMethod())              
+##               new("nanoival", callNextMethod())
 ##           })
 
 ## set functions
@@ -636,15 +636,15 @@ setMethod("t", c("nanoival"),
 ##'
 ##' ## which is equivalent to:
 ##' a[idx]
-##' 
+##'
 ##' @rdname set_operations
-##' 
+##'
 setMethod("intersect",
           c("nanoival", "nanoival"),
           function(x, y) {
               x <- sort(x)
               y <- sort(y)
-              res <- .Call('_nanoival_intersect', x, y)
+              res <- nanoival_intersect_impl(x, y)
               new("nanoival", res)
           })
 
@@ -654,7 +654,7 @@ setMethod("union",
           function(x, y) {
               x <- sort(x)
               y <- sort(y)
-              res <- .Call('_nanoival_union', x, y)
+              res <- nanoival_union_impl(x, y)
               new("nanoival", res)
           })
 
@@ -678,7 +678,7 @@ setMethod("[",
           function (x, i, ..., drop=FALSE) {
               if (is.unsorted(x)) stop("x must be sorted")
               i <- sort(i)
-              .Call('_nanoival_intersect_time_interval', x, i)
+              nanoival_intersect_time_interval_impl(x, i)
           })
 
 
@@ -693,7 +693,7 @@ setMethod("intersect.idx",
           function(x, y) {
               if (is.unsorted(x)) stop("x must be sorted")
               y <- sort(y)
-              .Call('_nanoival_intersect_idx_time_interval', x, y)
+              nanoival_intersect_idx_time_interval_impl(x, y)
           })
 
 
@@ -703,7 +703,7 @@ setMethod("intersect",
           function(x, y) {
               x <- sort(x)
               y <- sort(y)
-              .Call('_nanoival_intersect_time_interval', x, y)
+              nanoival_intersect_time_interval_impl(x, y)
           })
 
 ##' @rdname set_operations
@@ -712,7 +712,7 @@ setMethod("setdiff",
           function(x, y) {
               x <- sort(x)
               y <- sort(y)
-              res <- .Call('_nanoival_setdiff_time_interval', x, y)
+              res <- nanoival_setdiff_time_interval_impl(x, y)
               oldClass(res) <- "integer64"
               new("nanotime", res)
           })
@@ -777,7 +777,7 @@ setMethod("setdiff",
 ##'     _strictly_ increasing values.
 ##'
 ##' @seealso \code{\link{sort}}
-##' 
+##'
 setMethod("is.unsorted", "nanoival",
           function(x, na.rm=FALSE, strictly=FALSE) {
               if (typeof(strictly) != "logical") {
@@ -796,7 +796,7 @@ setMethod("is.unsorted", "nanoival",
 ##' @param decreasing logical.  Should the sort be increasing or
 ##'     decreasing?
 ##' @seealso \code{\link{is.unsorted}}
-##' 
+##'
 setMethod("sort", c("nanoival"),
           function(x, decreasing=FALSE)
             new("nanoival", .Call('_nanoival_sort', x, decreasing)))
