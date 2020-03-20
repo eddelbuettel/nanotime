@@ -16,7 +16,7 @@ setClass("nanoduration", contains = "integer64")
 ##' It can also be constructed by specifying with individual arguments
 ##' the hours, minutes, seconds and nanoseconds with a call to
 ##' \code{nanoduration}.
-##' 
+##'
 ##' A \code{nanoduration} is displayed as hours, minutes, seconds and
 ##' nanoseconds like this: \code{110:12:34.123_453_001}. The nanosecond
 ##' precision displayed is adjusted as necessary, so e.g. 1 second is
@@ -47,7 +47,7 @@ setClass("nanoduration", contains = "integer64")
 ##' nanoduration(hours=10, minutes=3, seconds=2, nanoseconds=999999999)
 ##' as.nanoduration("10:03:02.999_999_999")
 ##' as.nanoduration(36182999999999)
-##' 
+##'
 ##' ## arithmetic:
 ##' as.nanoduration(10e9) - as.nanoduration(9e9)
 ##' as.nanoduration(10e9) + as.nanoduration(-9e9)
@@ -56,7 +56,7 @@ setClass("nanoduration", contains = "integer64")
 ##'
 ##' @seealso
 ##' \code{\link{nanotime}}
-##' 
+##'
 ##' @aliases  *,ANY,nanoduration-method
 ##' @aliases  *,nanoduration,ANY-method
 ##' @aliases  *,nanoduration,nanoduration-method
@@ -70,7 +70,7 @@ setClass("nanoduration", contains = "integer64")
 ##' @aliases  Math2,nanoduration-method
 ##' @aliases  Math,nanoduration-method
 ##' @aliases  Summary,nanoduration-method
-##' 
+##'
 ##' @rdname nanoduration
 nanoduration <- function(hours, minutes, seconds, nanoseconds) {
     if (nargs()==0) {
@@ -172,7 +172,7 @@ format.nanoduration <- function(x, ...) {
     as.character(x)
 }
 
-  
+
 ##' @rdname nanoduration
 ##' @method as.integer64 nanoduration
 as.integer64.nanoduration <- function(x, ...) {
@@ -295,7 +295,7 @@ setMethod("+", c("nanotime", "nanoduration"),
 ##' @rdname nanoduration
 setMethod("+", c("nanoival", "nanoduration"),
           function(e1, e2) {
-              new("nanoival", .Call("_nanoival_plus", e1, e2))
+              new("nanoival", nanoival_plus_impl(e1, e2))
           })
 
 ##' @noRd
@@ -319,7 +319,7 @@ setMethod("+", c("numeric", "nanoduration"),
 ##' @noRd
 setMethod("*", c("nanoduration", "nanoduration"),
           function(e1, e2) {
-              stop("invalid operand types")              
+              stop("invalid operand types")
           })
 ##' @rdname nanoduration
 setMethod("*", c("nanoduration", "numeric"),

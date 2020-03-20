@@ -21,6 +21,86 @@ nanoival_intersect_impl <- function(nv1, nv2) {
     .Call(`_nanotime_nanoival_intersect_impl`, nv1, nv2)
 }
 
+nanoival_setdiff_impl <- function(nv1, nv2) {
+    .Call(`_nanotime_nanoival_setdiff_impl`, nv1, nv2)
+}
+
+nanoival_is_unsorted_impl <- function(nvec, strictlyvec) {
+    .Call(`_nanotime_nanoival_is_unsorted_impl`, nvec, strictlyvec)
+}
+
+nanoival_sort_impl <- function(nvec, decreasingvec) {
+    .Call(`_nanotime_nanoival_sort_impl`, nvec, decreasingvec)
+}
+
+nanoival_sort_impl2 <- function(nvec, decreasing) {
+    .Call(`_nanotime_nanoival_sort_impl2`, nvec, decreasing)
+}
+
+nanoival_lt_impl <- function(n1, n2) {
+    .Call(`_nanotime_nanoival_lt_impl`, n1, n2)
+}
+
+nanoival_le_impl <- function(n1, n2) {
+    .Call(`_nanotime_nanoival_le_impl`, n1, n2)
+}
+
+nanoival_gt_impl <- function(n1, n2) {
+    .Call(`_nanotime_nanoival_gt_impl`, n1, n2)
+}
+
+nanoival_ge_impl <- function(n1, n2) {
+    .Call(`_nanotime_nanoival_ge_impl`, n1, n2)
+}
+
+nanoival_eq_impl <- function(n1, n2) {
+    .Call(`_nanotime_nanoival_eq_impl`, n1, n2)
+}
+
+nanoival_ne_impl <- function(n1, n2) {
+    .Call(`_nanotime_nanoival_ne_impl`, n1, n2)
+}
+
+nanoival_plus_impl <- function(n1, n2) {
+    .Call(`_nanotime_nanoival_plus_impl`, n1, n2)
+}
+
+nanoival_minus_impl <- function(n1, n2) {
+    .Call(`_nanotime_nanoival_minus_impl`, n1, n2)
+}
+
+nanoival_setdiff_idx_time_interval_impl <- function(nv1, cv2) {
+    .Call(`_nanotime_nanoival_setdiff_idx_time_interval_impl`, nv1, cv2)
+}
+
+nanoival_new_impl <- function(sv, ev, sopenv, eopenv) {
+    .Call(`_nanotime_nanoival_new_impl`, sv, ev, sopenv, eopenv)
+}
+
+nanoival_get_start_impl <- function(cv) {
+    .Call(`_nanotime_nanoival_get_start_impl`, cv)
+}
+
+nanoival_get_end_impl <- function(cv) {
+    .Call(`_nanotime_nanoival_get_end_impl`, cv)
+}
+
+nanoival_get_sopen_impl <- function(cv) {
+    .Call(`_nanotime_nanoival_get_sopen_impl`, cv)
+}
+
+nanoival_get_eopen_impl <- function(cv) {
+    .Call(`_nanotime_nanoival_get_eopen_impl`, cv)
+}
+
+nanoival_isna_impl <- function(cv) {
+    .Call(`_nanotime_nanoival_isna_impl`, cv)
+}
+
+nanoival_make_impl <- function(nt_v, tz_v) {
+    .Call(`_nanotime_nanoival_make_impl`, nt_v, tz_v)
+}
+
 nanotime_wday_impl <- function(tm_v, tz_v) {
     .Call(`_nanotime_nanotime_wday_impl`, tm_v, tz_v)
 }

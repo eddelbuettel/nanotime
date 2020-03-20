@@ -122,11 +122,8 @@ nanoival <- function(start, end, sopen=FALSE, eopen=TRUE) {
     if (nargs() == 0) {
         new("nanoival", as.complex(NULL))
     } else {
-        .Call("_nanoival_new",
-              as.integer64(start),
-              as.integer64(end),
-              as.logical(sopen),
-              as.logical(eopen))
+        nanoival_new_impl(as.integer64(start), as.integer64(end),
+                          as.logical(sopen), as.logical(eopen))
     }
 }
 
@@ -138,7 +135,7 @@ setGeneric("nanoival.start", function(x) standardGeneric("nanoival.start"))
 setMethod("nanoival.start",
           "nanoival",
           function(x) {
-            res <- .Call("_nanoival_get_start", x)
+            res <- nanoival_get_start_impl(x)
             oldClass(res)  <- "integer64"
             new("nanotime", res)
           })
@@ -151,7 +148,7 @@ setGeneric("nanoival.end", function(x) standardGeneric("nanoival.end"))
 setMethod("nanoival.end",
           "nanoival",
           function(x) {
-            res <- .Call("_nanoival_get_end", x)
+            res <- nanoival_get_end_impl(x)
             oldClass(res)  <- "integer64"
             new("nanotime", res)
           })
@@ -163,7 +160,7 @@ setGeneric("nanoival.sopen", function(x) standardGeneric("nanoival.sopen"))
 ##' @aliases nanoival.sopen
 setMethod("nanoival.sopen",
           "nanoival",
-          function(x) { .Call("_nanoival_get_sopen", x) })
+          function(x) { nanoival_get_sopen_impl(x) })
 
 ##' @noRd
 setGeneric("nanoival.eopen", function(x) standardGeneric("nanoival.eopen"))
@@ -172,7 +169,7 @@ setGeneric("nanoival.eopen", function(x) standardGeneric("nanoival.eopen"))
 ##' @aliases nanoival.eopen
 setMethod("nanoival.eopen",
           "nanoival",
-          function(x) { .Call("_nanoival_get_eopen", x) })
+          function(x) { nanoival_get_eopen_impl(x) })
 
 ##' @rdname nanoival
 format.nanoival <-
@@ -187,7 +184,7 @@ format.nanoival <-
       if (!is.null(attr(x, "names", exact=TRUE))) {
         names(s) <- names(x)
       }
-      s[.Call("_nanoival_isna", x)] = NA_character_
+      s[nanoival_isna_impl(x)] = NA_character_
       s
     }
   }
@@ -251,7 +248,7 @@ setGeneric("as.nanoival", function(from, format="", tz="") standardGeneric("as.n
 setMethod("as.nanoival",
           "character",
           function(from, format="", tz="") {
-            tryCatch(.Call("_nanoival_make", from, tz), error=function(e) {
+            tryCatch(nanoival_make_impl(from, tz), error=function(e) {
               if (e$message == "Cannot retrieve timezone") {
                 stop(e$message)
               } else {
@@ -281,7 +278,7 @@ setMethod("as.nanoival",
 setMethod("is.na",
           "nanoival",
           function(x) {
-              .Call("_nanoival_isna", x)
+              nanoival_isna_impl(x)
           })
 
 
@@ -298,37 +295,37 @@ setMethod("is.na<-",
 ##' @rdname nanoival
 setMethod("<", c("nanoival", "nanoival"),
           function(e1, e2) {
-              .Call('_nanoival_lt', e1, e2)
+              nanoival_lt_impl(e1, e2)
           })
 
 ##' @rdname nanoival
 setMethod("<=", c("nanoival", "nanoival"),
           function(e1, e2) {
-              .Call('_nanoival_le', e1, e2)
+              nanoival_le_impl(e1, e2)
           })
 
 ##' @rdname nanoival
 setMethod(">", c("nanoival", "nanoival"),
           function(e1, e2) {
-              .Call('_nanoival_gt', e1, e2)
+              nanoival_gt_impl(e1, e2)
           })
 
 ##' @rdname nanoival
 setMethod(">=", c("nanoival", "nanoival"),
           function(e1, e2) {
-              .Call('_nanoival_ge', e1, e2)
+              nanoival_ge_impl(e1, e2)
           })
 
 ##' @rdname nanoival
 setMethod("==", c("nanoival", "nanoival"),
           function(e1, e2) {
-              .Call('_nanoival_eq', e1, e2)
+              nanoival_eq_impl(e1, e2)
           })
 
 ##' @rdname nanoival
 setMethod("!=", c("nanoival", "nanoival"),
           function(e1, e2) {
-              .Call('_nanoival_ne', e1, e2)
+              nanoival_ne_impl(e1, e2)
           })
 
 
@@ -343,13 +340,13 @@ setMethod("-", c("nanoival", "ANY"),
 ##' @rdname nanoival
 setMethod("-", c("nanoival", "integer64"),
           function(e1, e2) {
-              new("nanoival", .Call("_nanoival_minus", e1, e2))
+              new("nanoival", nanoival_minus_impl(e1, e2))
           })
 
 ##' @rdname nanoival
 setMethod("-", c("nanoival", "numeric"),
           function(e1, e2) {
-              new("nanoival", .Call("_nanoival_minus", e1, as.integer64(e2)))
+              new("nanoival", nanoival_minus_impl(e1, as.integer64(e2)))
           })
 
 ##' @noRd
@@ -381,13 +378,13 @@ setMethod("+", c("nanoival", "ANY"),
 ##' @rdname nanoival
 setMethod("+", c("nanoival", "integer64"),
           function(e1, e2) {
-              new("nanoival", .Call("_nanoival_plus", e1, e2))
+              new("nanoival", nanoival_plus_impl(e1, e2))
           })
 
 ##' @rdname nanoival
 setMethod("+", c("nanoival", "numeric"),
           function(e1, e2) {
-              new("nanoival", .Call("_nanoival_plus", e1, as.integer64(e2)))
+              new("nanoival", nanoival_plus_impl(e1, as.integer64(e2)))
           })
 
 ##' @noRd
@@ -399,13 +396,13 @@ setMethod("+", c("ANY", "nanoival"),
 ##' @rdname nanoival
 setMethod("+", c("integer64", "nanoival"),
           function(e1, e2) {
-              new("nanoival", .Call("_nanoival_plus", e2, e1))
+              new("nanoival", nanoival_plus_impl(e2, e1))
           })
 
 ##' @rdname nanoival
 setMethod("+", c("numeric", "nanoival"),
           function(e1, e2) {
-              new("nanoival", .Call("_nanoival_plus", e2, as.integer64(e1)))
+              new("nanoival", nanoival_plus_impl(e2, as.integer64(e1)))
           })
 
 ##' @noRd
@@ -664,7 +661,7 @@ setMethod("setdiff",
           function(x, y) {
               x <- sort(x)
               y <- sort(y)
-              res <- .Call('_nanoival_setdiff', x, y)
+              res <- nanoival_setdiff_impl(x, y)
               new("nanoival", res)
           })
 
@@ -727,7 +724,7 @@ setMethod("setdiff.idx",
           function(x, y) {
               if (is.unsorted(x)) stop("x must be sorted")
               y <- sort(y)
-              .Call('_nanoival_setdiff_idx_time_interval', x, y)
+              nanoival_setdiff_idx_time_interval_impl(x, y)
           })
 
 
@@ -783,7 +780,7 @@ setMethod("is.unsorted", "nanoival",
               if (typeof(strictly) != "logical") {
                   stop("argument 'strictly' must be a logical")
               }
-              .Call('_nanoival_is_unsorted', x, strictly)
+              nanoival_is_unsorted_impl(x, strictly)
           })
 
 
@@ -799,7 +796,7 @@ setMethod("is.unsorted", "nanoival",
 ##'
 setMethod("sort", c("nanoival"),
           function(x, decreasing=FALSE)
-            new("nanoival", .Call('_nanoival_sort', x, decreasing)))
+            new("nanoival", nanoival_sort_impl(x, decreasing)))
 
 
 ##' Sequence Generation

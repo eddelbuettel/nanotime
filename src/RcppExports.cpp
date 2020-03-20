@@ -65,6 +65,243 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// nanoival_setdiff_impl
+Rcpp::ComplexVector nanoival_setdiff_impl(const Rcpp::ComplexVector nv1, const Rcpp::ComplexVector nv2);
+RcppExport SEXP _nanotime_nanoival_setdiff_impl(SEXP nv1SEXP, SEXP nv2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type nv1(nv1SEXP);
+    Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type nv2(nv2SEXP);
+    rcpp_result_gen = Rcpp::wrap(nanoival_setdiff_impl(nv1, nv2));
+    return rcpp_result_gen;
+END_RCPP
+}
+// nanoival_is_unsorted_impl
+bool nanoival_is_unsorted_impl(const Rcpp::ComplexVector nvec, const Rcpp::NumericVector strictlyvec);
+RcppExport SEXP _nanotime_nanoival_is_unsorted_impl(SEXP nvecSEXP, SEXP strictlyvecSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type nvec(nvecSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector >::type strictlyvec(strictlyvecSEXP);
+    rcpp_result_gen = Rcpp::wrap(nanoival_is_unsorted_impl(nvec, strictlyvec));
+    return rcpp_result_gen;
+END_RCPP
+}
+// nanoival_sort_impl
+const Rcpp::ComplexVector nanoival_sort_impl(const Rcpp::ComplexVector nvec, const Rcpp::LogicalVector decreasingvec);
+RcppExport SEXP _nanotime_nanoival_sort_impl(SEXP nvecSEXP, SEXP decreasingvecSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type nvec(nvecSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::LogicalVector >::type decreasingvec(decreasingvecSEXP);
+    rcpp_result_gen = Rcpp::wrap(nanoival_sort_impl(nvec, decreasingvec));
+    return rcpp_result_gen;
+END_RCPP
+}
+// nanoival_sort_impl2
+const Rcpp::ComplexVector nanoival_sort_impl2(const Rcpp::ComplexVector nvec, bool decreasing);
+RcppExport SEXP _nanotime_nanoival_sort_impl2(SEXP nvecSEXP, SEXP decreasingSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type nvec(nvecSEXP);
+    Rcpp::traits::input_parameter< bool >::type decreasing(decreasingSEXP);
+    rcpp_result_gen = Rcpp::wrap(nanoival_sort_impl2(nvec, decreasing));
+    return rcpp_result_gen;
+END_RCPP
+}
+// nanoival_lt_impl
+Rcpp::LogicalVector nanoival_lt_impl(Rcpp::ComplexVector n1, Rcpp::ComplexVector n2);
+RcppExport SEXP _nanotime_nanoival_lt_impl(SEXP n1SEXP, SEXP n2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::ComplexVector >::type n1(n1SEXP);
+    Rcpp::traits::input_parameter< Rcpp::ComplexVector >::type n2(n2SEXP);
+    rcpp_result_gen = Rcpp::wrap(nanoival_lt_impl(n1, n2));
+    return rcpp_result_gen;
+END_RCPP
+}
+// nanoival_le_impl
+Rcpp::LogicalVector nanoival_le_impl(Rcpp::ComplexVector n1, Rcpp::ComplexVector n2);
+RcppExport SEXP _nanotime_nanoival_le_impl(SEXP n1SEXP, SEXP n2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::ComplexVector >::type n1(n1SEXP);
+    Rcpp::traits::input_parameter< Rcpp::ComplexVector >::type n2(n2SEXP);
+    rcpp_result_gen = Rcpp::wrap(nanoival_le_impl(n1, n2));
+    return rcpp_result_gen;
+END_RCPP
+}
+// nanoival_gt_impl
+Rcpp::LogicalVector nanoival_gt_impl(Rcpp::ComplexVector n1, Rcpp::ComplexVector n2);
+RcppExport SEXP _nanotime_nanoival_gt_impl(SEXP n1SEXP, SEXP n2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::ComplexVector >::type n1(n1SEXP);
+    Rcpp::traits::input_parameter< Rcpp::ComplexVector >::type n2(n2SEXP);
+    rcpp_result_gen = Rcpp::wrap(nanoival_gt_impl(n1, n2));
+    return rcpp_result_gen;
+END_RCPP
+}
+// nanoival_ge_impl
+Rcpp::LogicalVector nanoival_ge_impl(Rcpp::ComplexVector n1, Rcpp::ComplexVector n2);
+RcppExport SEXP _nanotime_nanoival_ge_impl(SEXP n1SEXP, SEXP n2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::ComplexVector >::type n1(n1SEXP);
+    Rcpp::traits::input_parameter< Rcpp::ComplexVector >::type n2(n2SEXP);
+    rcpp_result_gen = Rcpp::wrap(nanoival_ge_impl(n1, n2));
+    return rcpp_result_gen;
+END_RCPP
+}
+// nanoival_eq_impl
+Rcpp::LogicalVector nanoival_eq_impl(Rcpp::ComplexVector n1, Rcpp::ComplexVector n2);
+RcppExport SEXP _nanotime_nanoival_eq_impl(SEXP n1SEXP, SEXP n2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::ComplexVector >::type n1(n1SEXP);
+    Rcpp::traits::input_parameter< Rcpp::ComplexVector >::type n2(n2SEXP);
+    rcpp_result_gen = Rcpp::wrap(nanoival_eq_impl(n1, n2));
+    return rcpp_result_gen;
+END_RCPP
+}
+// nanoival_ne_impl
+Rcpp::LogicalVector nanoival_ne_impl(Rcpp::ComplexVector n1, Rcpp::ComplexVector n2);
+RcppExport SEXP _nanotime_nanoival_ne_impl(SEXP n1SEXP, SEXP n2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::ComplexVector >::type n1(n1SEXP);
+    Rcpp::traits::input_parameter< Rcpp::ComplexVector >::type n2(n2SEXP);
+    rcpp_result_gen = Rcpp::wrap(nanoival_ne_impl(n1, n2));
+    return rcpp_result_gen;
+END_RCPP
+}
+// nanoival_plus_impl
+Rcpp::ComplexVector nanoival_plus_impl(const Rcpp::ComplexVector n1, const Rcpp::NumericVector n2);
+RcppExport SEXP _nanotime_nanoival_plus_impl(SEXP n1SEXP, SEXP n2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type n1(n1SEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector >::type n2(n2SEXP);
+    rcpp_result_gen = Rcpp::wrap(nanoival_plus_impl(n1, n2));
+    return rcpp_result_gen;
+END_RCPP
+}
+// nanoival_minus_impl
+Rcpp::ComplexVector nanoival_minus_impl(const Rcpp::ComplexVector n1, const Rcpp::NumericVector n2);
+RcppExport SEXP _nanotime_nanoival_minus_impl(SEXP n1SEXP, SEXP n2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type n1(n1SEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector >::type n2(n2SEXP);
+    rcpp_result_gen = Rcpp::wrap(nanoival_minus_impl(n1, n2));
+    return rcpp_result_gen;
+END_RCPP
+}
+// nanoival_setdiff_idx_time_interval_impl
+Rcpp::NumericVector nanoival_setdiff_idx_time_interval_impl(const Rcpp::NumericVector nv1, const Rcpp::ComplexVector cv2);
+RcppExport SEXP _nanotime_nanoival_setdiff_idx_time_interval_impl(SEXP nv1SEXP, SEXP cv2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector >::type nv1(nv1SEXP);
+    Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type cv2(cv2SEXP);
+    rcpp_result_gen = Rcpp::wrap(nanoival_setdiff_idx_time_interval_impl(nv1, cv2));
+    return rcpp_result_gen;
+END_RCPP
+}
+// nanoival_new_impl
+Rcpp::S4 nanoival_new_impl(const Rcpp::NumericVector sv, const Rcpp::NumericVector ev, const Rcpp::LogicalVector sopenv, const Rcpp::LogicalVector eopenv);
+RcppExport SEXP _nanotime_nanoival_new_impl(SEXP svSEXP, SEXP evSEXP, SEXP sopenvSEXP, SEXP eopenvSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector >::type sv(svSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector >::type ev(evSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::LogicalVector >::type sopenv(sopenvSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::LogicalVector >::type eopenv(eopenvSEXP);
+    rcpp_result_gen = Rcpp::wrap(nanoival_new_impl(sv, ev, sopenv, eopenv));
+    return rcpp_result_gen;
+END_RCPP
+}
+// nanoival_get_start_impl
+Rcpp::NumericVector nanoival_get_start_impl(const Rcpp::ComplexVector cv);
+RcppExport SEXP _nanotime_nanoival_get_start_impl(SEXP cvSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type cv(cvSEXP);
+    rcpp_result_gen = Rcpp::wrap(nanoival_get_start_impl(cv));
+    return rcpp_result_gen;
+END_RCPP
+}
+// nanoival_get_end_impl
+Rcpp::NumericVector nanoival_get_end_impl(const Rcpp::ComplexVector cv);
+RcppExport SEXP _nanotime_nanoival_get_end_impl(SEXP cvSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type cv(cvSEXP);
+    rcpp_result_gen = Rcpp::wrap(nanoival_get_end_impl(cv));
+    return rcpp_result_gen;
+END_RCPP
+}
+// nanoival_get_sopen_impl
+Rcpp::LogicalVector nanoival_get_sopen_impl(const Rcpp::ComplexVector cv);
+RcppExport SEXP _nanotime_nanoival_get_sopen_impl(SEXP cvSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type cv(cvSEXP);
+    rcpp_result_gen = Rcpp::wrap(nanoival_get_sopen_impl(cv));
+    return rcpp_result_gen;
+END_RCPP
+}
+// nanoival_get_eopen_impl
+Rcpp::LogicalVector nanoival_get_eopen_impl(const Rcpp::ComplexVector cv);
+RcppExport SEXP _nanotime_nanoival_get_eopen_impl(SEXP cvSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type cv(cvSEXP);
+    rcpp_result_gen = Rcpp::wrap(nanoival_get_eopen_impl(cv));
+    return rcpp_result_gen;
+END_RCPP
+}
+// nanoival_isna_impl
+Rcpp::LogicalVector nanoival_isna_impl(const Rcpp::ComplexVector cv);
+RcppExport SEXP _nanotime_nanoival_isna_impl(SEXP cvSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type cv(cvSEXP);
+    rcpp_result_gen = Rcpp::wrap(nanoival_isna_impl(cv));
+    return rcpp_result_gen;
+END_RCPP
+}
+// nanoival_make_impl
+Rcpp::ComplexVector nanoival_make_impl(const Rcpp::CharacterVector nt_v, const Rcpp::CharacterVector tz_v);
+RcppExport SEXP _nanotime_nanoival_make_impl(SEXP nt_vSEXP, SEXP tz_vSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::CharacterVector >::type nt_v(nt_vSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::CharacterVector >::type tz_v(tz_vSEXP);
+    rcpp_result_gen = Rcpp::wrap(nanoival_make_impl(nt_v, tz_v));
+    return rcpp_result_gen;
+END_RCPP
+}
 // nanotime_wday_impl
 Rcpp::IntegerVector nanotime_wday_impl(const Rcpp::NumericVector tm_v, const Rcpp::CharacterVector tz_v);
 RcppExport SEXP _nanotime_nanotime_wday_impl(SEXP tm_vSEXP, SEXP tz_vSEXP) {
@@ -126,25 +363,6 @@ BEGIN_RCPP
 END_RCPP
 }
 
-RcppExport SEXP _nanoival_eq(SEXP, SEXP);
-RcppExport SEXP _nanoival_ge(SEXP, SEXP);
-RcppExport SEXP _nanoival_get_end(SEXP);
-RcppExport SEXP _nanoival_get_eopen(SEXP);
-RcppExport SEXP _nanoival_get_sopen(SEXP);
-RcppExport SEXP _nanoival_get_start(SEXP);
-RcppExport SEXP _nanoival_gt(SEXP, SEXP);
-RcppExport SEXP _nanoival_is_unsorted(SEXP, SEXP);
-RcppExport SEXP _nanoival_isna(SEXP);
-RcppExport SEXP _nanoival_le(SEXP, SEXP);
-RcppExport SEXP _nanoival_lt(SEXP, SEXP);
-RcppExport SEXP _nanoival_make(SEXP, SEXP);
-RcppExport SEXP _nanoival_minus(SEXP, SEXP);
-RcppExport SEXP _nanoival_ne(SEXP, SEXP);
-RcppExport SEXP _nanoival_new(SEXP, SEXP, SEXP, SEXP);
-RcppExport SEXP _nanoival_plus(SEXP, SEXP);
-RcppExport SEXP _nanoival_setdiff(SEXP, SEXP);
-RcppExport SEXP _nanoival_setdiff_idx_time_interval(SEXP, SEXP);
-RcppExport SEXP _nanoival_sort(SEXP, SEXP);
 RcppExport SEXP divides_period_double(SEXP, SEXP);
 RcppExport SEXP divides_period_integer64(SEXP, SEXP);
 RcppExport SEXP duration_from_string(SEXP);
@@ -183,61 +401,62 @@ static const R_CallMethodDef CallEntries[] = {
     {"_nanotime_nanoival_setdiff_time_interval_impl", (DL_FUNC) &_nanotime_nanoival_setdiff_time_interval_impl, 2},
     {"_nanotime_nanoival_union_impl", (DL_FUNC) &_nanotime_nanoival_union_impl, 2},
     {"_nanotime_nanoival_intersect_impl", (DL_FUNC) &_nanotime_nanoival_intersect_impl, 2},
+    {"_nanotime_nanoival_setdiff_impl", (DL_FUNC) &_nanotime_nanoival_setdiff_impl, 2},
+    {"_nanotime_nanoival_is_unsorted_impl", (DL_FUNC) &_nanotime_nanoival_is_unsorted_impl, 2},
+    {"_nanotime_nanoival_sort_impl", (DL_FUNC) &_nanotime_nanoival_sort_impl, 2},
+    {"_nanotime_nanoival_sort_impl2", (DL_FUNC) &_nanotime_nanoival_sort_impl2, 2},
+    {"_nanotime_nanoival_lt_impl", (DL_FUNC) &_nanotime_nanoival_lt_impl, 2},
+    {"_nanotime_nanoival_le_impl", (DL_FUNC) &_nanotime_nanoival_le_impl, 2},
+    {"_nanotime_nanoival_gt_impl", (DL_FUNC) &_nanotime_nanoival_gt_impl, 2},
+    {"_nanotime_nanoival_ge_impl", (DL_FUNC) &_nanotime_nanoival_ge_impl, 2},
+    {"_nanotime_nanoival_eq_impl", (DL_FUNC) &_nanotime_nanoival_eq_impl, 2},
+    {"_nanotime_nanoival_ne_impl", (DL_FUNC) &_nanotime_nanoival_ne_impl, 2},
+    {"_nanotime_nanoival_plus_impl", (DL_FUNC) &_nanotime_nanoival_plus_impl, 2},
+    {"_nanotime_nanoival_minus_impl", (DL_FUNC) &_nanotime_nanoival_minus_impl, 2},
+    {"_nanotime_nanoival_setdiff_idx_time_interval_impl", (DL_FUNC) &_nanotime_nanoival_setdiff_idx_time_interval_impl, 2},
+    {"_nanotime_nanoival_new_impl", (DL_FUNC) &_nanotime_nanoival_new_impl, 4},
+    {"_nanotime_nanoival_get_start_impl", (DL_FUNC) &_nanotime_nanoival_get_start_impl, 1},
+    {"_nanotime_nanoival_get_end_impl", (DL_FUNC) &_nanotime_nanoival_get_end_impl, 1},
+    {"_nanotime_nanoival_get_sopen_impl", (DL_FUNC) &_nanotime_nanoival_get_sopen_impl, 1},
+    {"_nanotime_nanoival_get_eopen_impl", (DL_FUNC) &_nanotime_nanoival_get_eopen_impl, 1},
+    {"_nanotime_nanoival_isna_impl", (DL_FUNC) &_nanotime_nanoival_isna_impl, 1},
+    {"_nanotime_nanoival_make_impl", (DL_FUNC) &_nanotime_nanoival_make_impl, 2},
     {"_nanotime_nanotime_wday_impl", (DL_FUNC) &_nanotime_nanotime_wday_impl, 2},
     {"_nanotime_nanotime_mday_impl", (DL_FUNC) &_nanotime_nanotime_mday_impl, 2},
     {"_nanotime_nanotime_month_impl", (DL_FUNC) &_nanotime_nanotime_month_impl, 2},
     {"_nanotime_nanotime_year_impl", (DL_FUNC) &_nanotime_nanotime_year_impl, 2},
     {"_nanotime_nanotime_make_impl", (DL_FUNC) &_nanotime_nanotime_make_impl, 2},
-    {"_nanoival_eq",                        (DL_FUNC) &_nanoival_eq,                        2},
-    {"_nanoival_ge",                        (DL_FUNC) &_nanoival_ge,                        2},
-    {"_nanoival_get_end",                   (DL_FUNC) &_nanoival_get_end,                   1},
-    {"_nanoival_get_eopen",                 (DL_FUNC) &_nanoival_get_eopen,                 1},
-    {"_nanoival_get_sopen",                 (DL_FUNC) &_nanoival_get_sopen,                 1},
-    {"_nanoival_get_start",                 (DL_FUNC) &_nanoival_get_start,                 1},
-    {"_nanoival_gt",                        (DL_FUNC) &_nanoival_gt,                        2},
-    {"_nanoival_is_unsorted",               (DL_FUNC) &_nanoival_is_unsorted,               2},
-    {"_nanoival_isna",                      (DL_FUNC) &_nanoival_isna,                      1},
-    {"_nanoival_le",                        (DL_FUNC) &_nanoival_le,                        2},
-    {"_nanoival_lt",                        (DL_FUNC) &_nanoival_lt,                        2},
-    {"_nanoival_make",                      (DL_FUNC) &_nanoival_make,                      2},
-    {"_nanoival_minus",                     (DL_FUNC) &_nanoival_minus,                     2},
-    {"_nanoival_ne",                        (DL_FUNC) &_nanoival_ne,                        2},
-    {"_nanoival_new",                       (DL_FUNC) &_nanoival_new,                       4},
-    {"_nanoival_plus",                      (DL_FUNC) &_nanoival_plus,                      2},
-    {"_nanoival_setdiff",                   (DL_FUNC) &_nanoival_setdiff,                   2},
-    {"_nanoival_setdiff_idx_time_interval", (DL_FUNC) &_nanoival_setdiff_idx_time_interval, 2},
-    {"_nanoival_sort",                      (DL_FUNC) &_nanoival_sort,                      2},
-    {"divides_period_double",               (DL_FUNC) &divides_period_double,               2},
-    {"divides_period_integer64",            (DL_FUNC) &divides_period_integer64,            2},
-    {"duration_from_string",                (DL_FUNC) &duration_from_string,                1},
-    {"duration_is_na",                      (DL_FUNC) &duration_is_na,                      1},
-    {"duration_to_string",                  (DL_FUNC) &duration_to_string,                  1},
-    {"eq_period_period",                    (DL_FUNC) &eq_period_period,                    2},
-    {"make_duration",                       (DL_FUNC) &make_duration,                       4},
-    {"minus_integer64_period",              (DL_FUNC) &minus_integer64_period,              2},
-    {"minus_nanoival_period",               (DL_FUNC) &minus_nanoival_period,               3},
-    {"minus_nanotime_period",               (DL_FUNC) &minus_nanotime_period,               3},
-    {"minus_period",                        (DL_FUNC) &minus_period,                        1},
-    {"minus_period_integer64",              (DL_FUNC) &minus_period_integer64,              2},
-    {"minus_period_period",                 (DL_FUNC) &minus_period_period,                 2},
-    {"multiplies_period_double",            (DL_FUNC) &multiplies_period_double,            2},
-    {"multiplies_period_integer64",         (DL_FUNC) &multiplies_period_integer64,         2},
-    {"ne_period_period",                    (DL_FUNC) &ne_period_period,                    2},
-    {"period_day",                          (DL_FUNC) &period_day,                          1},
-    {"period_duration",                     (DL_FUNC) &period_duration,                     1},
-    {"period_from_double",                  (DL_FUNC) &period_from_double,                  1},
-    {"period_from_integer",                 (DL_FUNC) &period_from_integer,                 1},
-    {"period_from_integer64",               (DL_FUNC) &period_from_integer64,               1},
-    {"period_from_string",                  (DL_FUNC) &period_from_string,                  1},
-    {"period_isna",                         (DL_FUNC) &period_isna,                         1},
-    {"period_month",                        (DL_FUNC) &period_month,                        1},
-    {"period_seq_from_length",              (DL_FUNC) &period_seq_from_length,              4},
-    {"period_seq_from_to",                  (DL_FUNC) &period_seq_from_to,                  4},
-    {"period_to_string",                    (DL_FUNC) &period_to_string,                    1},
-    {"plus_nanoival_period",                (DL_FUNC) &plus_nanoival_period,                3},
-    {"plus_nanotime_period",                (DL_FUNC) &plus_nanotime_period,                3},
-    {"plus_period_integer64",               (DL_FUNC) &plus_period_integer64,               2},
-    {"plus_period_period",                  (DL_FUNC) &plus_period_period,                  2},
+    {"divides_period_double",       (DL_FUNC) &divides_period_double,       2},
+    {"divides_period_integer64",    (DL_FUNC) &divides_period_integer64,    2},
+    {"duration_from_string",        (DL_FUNC) &duration_from_string,        1},
+    {"duration_is_na",              (DL_FUNC) &duration_is_na,              1},
+    {"duration_to_string",          (DL_FUNC) &duration_to_string,          1},
+    {"eq_period_period",            (DL_FUNC) &eq_period_period,            2},
+    {"make_duration",               (DL_FUNC) &make_duration,               4},
+    {"minus_integer64_period",      (DL_FUNC) &minus_integer64_period,      2},
+    {"minus_nanoival_period",       (DL_FUNC) &minus_nanoival_period,       3},
+    {"minus_nanotime_period",       (DL_FUNC) &minus_nanotime_period,       3},
+    {"minus_period",                (DL_FUNC) &minus_period,                1},
+    {"minus_period_integer64",      (DL_FUNC) &minus_period_integer64,      2},
+    {"minus_period_period",         (DL_FUNC) &minus_period_period,         2},
+    {"multiplies_period_double",    (DL_FUNC) &multiplies_period_double,    2},
+    {"multiplies_period_integer64", (DL_FUNC) &multiplies_period_integer64, 2},
+    {"ne_period_period",            (DL_FUNC) &ne_period_period,            2},
+    {"period_day",                  (DL_FUNC) &period_day,                  1},
+    {"period_duration",             (DL_FUNC) &period_duration,             1},
+    {"period_from_double",          (DL_FUNC) &period_from_double,          1},
+    {"period_from_integer",         (DL_FUNC) &period_from_integer,         1},
+    {"period_from_integer64",       (DL_FUNC) &period_from_integer64,       1},
+    {"period_from_string",          (DL_FUNC) &period_from_string,          1},
+    {"period_isna",                 (DL_FUNC) &period_isna,                 1},
+    {"period_month",                (DL_FUNC) &period_month,                1},
+    {"period_seq_from_length",      (DL_FUNC) &period_seq_from_length,      4},
+    {"period_seq_from_to",          (DL_FUNC) &period_seq_from_to,          4},
+    {"period_to_string",            (DL_FUNC) &period_to_string,            1},
+    {"plus_nanoival_period",        (DL_FUNC) &plus_nanoival_period,        3},
+    {"plus_nanotime_period",        (DL_FUNC) &plus_nanotime_period,        3},
+    {"plus_period_integer64",       (DL_FUNC) &plus_period_integer64,       2},
+    {"plus_period_period",          (DL_FUNC) &plus_period_period,          2},
     {NULL, NULL, 0}
 };
 

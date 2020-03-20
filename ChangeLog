@@ -1,3 +1,8 @@
+2020-03-19  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/interval.cpp: Slightly more idiomatic Rcpp
+	* R/nanoival.R: Idem
+
 2020-03-18  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): Roll minor version

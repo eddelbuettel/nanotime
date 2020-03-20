@@ -247,6 +247,7 @@ Rcpp::ComplexVector nanoival_union_impl(const Rcpp::ComplexVector nv1,
   memcpy(&finalres[0], &res[0], sizeof(Rcomplex)*res.size());
   return finalres;
 }
+
 // [[Rcpp::export]]
 Rcpp::ComplexVector nanoival_intersect_impl(const Rcpp::ComplexVector nv1,
                                             const Rcpp::ComplexVector nv2) {
@@ -284,233 +285,218 @@ Rcpp::ComplexVector nanoival_intersect_impl(const Rcpp::ComplexVector nv1,
   return assignS4("nanoival", finalres);
 }
 
-RcppExport SEXP _nanoival_setdiff(SEXP nanoival1, SEXP nanoival2) {
-  try {
-    // assume 'nanoival1/2' were sorted at the R level
-    std::vector<interval> res;
-    const Rcpp::ComplexVector nv1(nanoival1);
-    const Rcpp::ComplexVector nv2(nanoival2);
-    const interval* v1 = reinterpret_cast<const interval*>(&nv1[0]);
-    const interval* v2 = reinterpret_cast<const interval*>(&nv2[0]);
+// [[Rcpp::export]]
+Rcpp::ComplexVector nanoival_setdiff_impl(const Rcpp::ComplexVector nv1,
+                                          const Rcpp::ComplexVector nv2) {
+  // assume 'nanoival1/2' were sorted at the R level
+  std::vector<interval> res;
+  const interval* v1 = reinterpret_cast<const interval*>(&nv1[0]);
+  const interval* v2 = reinterpret_cast<const interval*>(&nv2[0]);
 
-    R_xlen_t i1 = 0, i2 = 0;
-    auto start = v1[i1].getStart();
-    auto sopen = v1[i1].sopen;
-    while (i1 < nv1.size() && i2 < nv2.size()) {
-      if (end_lt_start(v1[i1], v2[i2])) {
+  R_xlen_t i1 = 0, i2 = 0;
+  auto start = v1[i1].getStart();
+  auto sopen = v1[i1].sopen;
+  while (i1 < nv1.size() && i2 < nv2.size()) {
+    if (end_lt_start(v1[i1], v2[i2])) {
+      // |-------------|
+      //                 |------------|
+      res.push_back(interval(start, v1[i1].getEnd(), sopen, v1[i1].eopen));
+      if (++i1 >= nv1.size()) break;
+      start = v1[i1].getStart();
+      sopen = v1[i1].sopen;
+    } else if (start_lt(v2[i2].getEnd(), v2[i2].eopen, start, sopen)) {
+      //                 |------------|
+      // |-------------|
+      ++i2;
+    } else if (start_lt(start, sopen, v2[i2].getStart(), v2[i2].sopen)) {
+      // |-------------|         or   |-------------|
+      //        |------------|           |-------|
+      res.push_back(interval(start, v2[i2].getStart(), sopen, !v2[i2].sopen));
+      if (end_gt(v1[i1], v2[i2])) {
         // |-------------|
-        //                 |------------|
-        res.push_back(interval(start, v1[i1].getEnd(), sopen, v1[i1].eopen));
-        if (++i1 >= nv1.size()) break;
-        start = v1[i1].getStart();
-        sopen = v1[i1].sopen;
-      } else if (start_lt(v2[i2].getEnd(), v2[i2].eopen, start, sopen)) {
-        //                 |------------|
-        // |-------------|
-        ++i2;
-      } else if (start_lt(start, sopen, v2[i2].getStart(), v2[i2].sopen)) {
-        // |-------------|         or   |-------------| 
-        //        |------------|           |-------|
-        res.push_back(interval(start, v2[i2].getStart(), sopen, !v2[i2].sopen));
-        if (end_gt(v1[i1], v2[i2])) {
-          // |-------------| 
-          //    |-------|
-          start = v2[i2].getEnd();
-          sopen = !v2[i2].eopen;
-          ++i2;
-        } else {
-          // |-------------|
-          //        |------------|
-          if (++i1 >= nv1.size()) break;
-          start = v1[i1].getStart();
-          sopen = v1[i1].sopen;
-        }
-      } else if (start_ge(start, sopen, v2[i2].getStart(), v2[i2].sopen) &&
-                 end_ge(v2[i2], v1[i1])) {
         //    |-------|
-        // |-------------| 
-        if (++i1 >= nv1.size()) break;
-        start = v1[i1].getStart();
-        sopen = v1[i1].sopen;
-      } else {
-        //         |------------|
-        //     |----------| 
         start = v2[i2].getEnd();
         sopen = !v2[i2].eopen;
         ++i2;
+      } else {
+        // |-------------|
+        //        |------------|
+        if (++i1 >= nv1.size()) break;
+        start = v1[i1].getStart();
+        sopen = v1[i1].sopen;
       }
+    } else if (start_ge(start, sopen, v2[i2].getStart(), v2[i2].sopen) &&
+               end_ge(v2[i2], v1[i1])) {
+      //    |-------|
+      // |-------------|
+      if (++i1 >= nv1.size()) break;
+      start = v1[i1].getStart();
+      sopen = v1[i1].sopen;
+    } else {
+      //         |------------|
+      //     |----------|
+      start = v2[i2].getEnd();
+      sopen = !v2[i2].eopen;
+      ++i2;
+    }
 
+  }
+  // remaining non-overlapping intervals in v1:
+  if (i1 < nv1.size()) {
+    res.push_back(interval(start, v1[i1].getEnd(), sopen, v1[i1].eopen));
+    ++i1;
+    while (i1 < nv1.size()) {
+      res.push_back(v1[i1++]);
     }
-    // remaining non-overlapping intervals in v1:
-    if (i1 < nv1.size()) {
-      res.push_back(interval(start, v1[i1].getEnd(), sopen, v1[i1].eopen));
-      ++i1;
-      while (i1 < nv1.size()) {
-        res.push_back(v1[i1++]);
-      }        
-    }
+  }
   
-    // build the ComplexVector that we will return to R:
-    Rcpp::ComplexVector finalres(res.size());
-    memcpy(&finalres[0], &res[0], sizeof(Rcomplex)*res.size());
-    return finalres;
-  } catch(std::exception &ex) {	
-    forward_exception_to_r(ex);
-  } catch(...) { 
-    ::Rf_error("c++ exception (unknown reason)"); 
-  }
-  return R_NilValue;             // not reached
+  // build the ComplexVector that we will return to R:
+  Rcpp::ComplexVector finalres(res.size());
+  memcpy(&finalres[0], &res[0], sizeof(Rcomplex)*res.size());
+  return finalres;
 }
 
 
-RcppExport SEXP _nanoival_is_unsorted(SEXP nanoival, SEXP strictly) {
-  try {
-    const Rcpp::ComplexVector nvec(nanoival);
-    const Rcpp::NumericVector strictlyvec(strictly);
-    if (strictlyvec.size() == 0) {
-      Rcpp::stop("argument 'strictly' cannot have length 0");
-    }
-    const bool strictlybool = strictlyvec[0];
-    const interval* ival_ptr = reinterpret_cast<const interval*>(&nvec[0]);
-    const auto ival_len = nvec.size();
-    if (strictlybool) {
-      for (R_xlen_t i=1; i<ival_len; ++i) {
-        if (ival_ptr[i-1] >= ival_ptr[i]) {
-          return Rcpp::LogicalVector(true);
-        }
+// [[Rcpp::export]]
+bool nanoival_is_unsorted_impl(const Rcpp::ComplexVector nvec,
+                               const Rcpp::NumericVector strictlyvec) {
+  if (strictlyvec.size() == 0) {
+    Rcpp::stop("argument 'strictly' cannot have length 0");
+  }
+  const bool strictlybool = strictlyvec[0];
+  const interval* ival_ptr = reinterpret_cast<const interval*>(&nvec[0]);
+  const auto ival_len = nvec.size();
+  if (strictlybool) {
+    for (R_xlen_t i=1; i<ival_len; ++i) {
+      if (ival_ptr[i-1] >= ival_ptr[i]) {
+        return true;
       }
     }
-    else {
-      for (R_xlen_t i=1; i<ival_len; ++i) {
-        if (ival_ptr[i-1] > ival_ptr[i]) {
-          return Rcpp::LogicalVector(true);
-        }
+  }
+  else {
+    for (R_xlen_t i=1; i<ival_len; ++i) {
+      if (ival_ptr[i-1] > ival_ptr[i]) {
+        return true;
       }
     }
-    return Rcpp::LogicalVector(false);
-  } catch(std::exception &ex) {	
-    forward_exception_to_r(ex);
-  } catch(...) { 
-    ::Rf_error("c++ exception (unknown reason)"); 
   }
-  return R_NilValue;             // not reached
+  return false;
 }
 
+// [[Rcpp::export]]
+const Rcpp::ComplexVector nanoival_sort_impl(const Rcpp::ComplexVector nvec,
+                                             const Rcpp::LogicalVector decreasingvec) {
+  Rcpp::ComplexVector res = clone(nvec);
+  interval* ival_ptr = reinterpret_cast<interval*>(&res[0]);
+  const auto ival_len = res.size();
+  interval* start = ival_ptr;
+  interval* end   = start + ival_len;
 
-RcppExport SEXP _nanoival_sort(SEXP nanoival, SEXP decreasing) {
-  try {
-    const Rcpp::ComplexVector nvec(nanoival);
-    Rcpp::ComplexVector res = clone(nvec);
-    interval* ival_ptr = reinterpret_cast<interval*>(&res[0]);
-    const auto ival_len = res.size();
-    interval* start = ival_ptr;
-    interval* end   = start + ival_len;
-    const Rcpp::LogicalVector decreasingvec(decreasing);
-    
-    if (decreasingvec.size() == 0) {
-      Rcpp::stop("argument 'decreasing' cannot have length 0");      
-    } else if (!decreasingvec[0]) {
-      std::sort(start, end);
-    }
-    else {
-      std::sort(start, end, std::greater<interval>());
-    }
-
-    return res;
-  } catch(std::exception &ex) {	
-    forward_exception_to_r(ex);
-  } catch(...) { 
-    ::Rf_error("c++ exception (unknown reason)"); 
+  if (decreasingvec.size() == 0) {
+    Rcpp::stop("argument 'decreasing' cannot have length 0");
+  } else if (!decreasingvec[0]) {
+    std::sort(start, end);
   }
-  return R_NilValue;             // not reached
+  else {
+    std::sort(start, end, std::greater<interval>());
+  }
+  return res;
 }
 
+// [[Rcpp::export]]
+const Rcpp::ComplexVector nanoival_sort_impl2(const Rcpp::ComplexVector nvec,
+                                              bool decreasing) {
+  Rcpp::ComplexVector res = clone(nvec);
+  interval* ival_ptr = reinterpret_cast<interval*>(&res[0]);
+  const auto ival_len = res.size();
+  interval* start = ival_ptr;
+  interval* end   = start + ival_len;
+
+  if (!decreasing) {
+    std::sort(start, end);
+  } else {
+    std::sort(start, end, std::greater<interval>());
+  }
+  return res;
+}
 
 template<typename COMP>
-SEXP nanoival_comp(SEXP n1, SEXP n2, COMP cmp) {
-  try {
-    checkVectorsLengths(n1, n2);
-    const Rcpp::ComplexVector v1(n1);
-    const Rcpp::ComplexVector v2(n2);
-    const ConstPseudoVectorIval cv1(v1);
-    const ConstPseudoVectorIval cv2(v2);
-    const auto ival_len = cv1.size();
-    Rcpp::LogicalVector res(ival_len);
-    const interval* n1_ptr = reinterpret_cast<const interval*>(&cv1[0]);
-    const interval* n2_ptr = reinterpret_cast<const interval*>(&cv2[0]);
+Rcpp::LogicalVector nanoival_comp(const Rcpp::ComplexVector v1,
+                                  const Rcpp::ComplexVector v2, COMP cmp) {
+  checkVectorsLengths(v1, v2);
+  const ConstPseudoVectorIval cv1(v1);
+  const ConstPseudoVectorIval cv2(v2);
+  const auto ival_len = cv1.size();
+  Rcpp::LogicalVector res(ival_len);
+  const interval* n1_ptr = reinterpret_cast<const interval*>(&cv1[0]);
+  const interval* n2_ptr = reinterpret_cast<const interval*>(&cv2[0]);
 
-    for (R_xlen_t i=0; i<ival_len; ++i) {
-      res[i] = cmp(n1_ptr[i], n2_ptr[i]);
-    }
-  
-    copyNames(v1, v2, res);
-    return res;
-  } catch(std::exception &ex) {	
-    forward_exception_to_r(ex);
-  } catch(...) { 
-    ::Rf_error("c++ exception (unknown reason)"); 
+  for (R_xlen_t i=0; i<ival_len; ++i) {
+    res[i] = cmp(n1_ptr[i], n2_ptr[i]);
   }
-  return R_NilValue;             // not reached
+  
+  copyNames(v1, v2, res);
+  return res;
 }
 
-RcppExport SEXP _nanoival_lt(SEXP n1, SEXP n2) {
+// [[Rcpp::export]]
+Rcpp::LogicalVector nanoival_lt_impl(Rcpp::ComplexVector n1, Rcpp::ComplexVector n2) {
   return nanoival_comp(n1, n2, std::less<interval>());
 }
 
-RcppExport SEXP _nanoival_le(SEXP n1, SEXP n2) {
+// [[Rcpp::export]]
+Rcpp::LogicalVector nanoival_le_impl(Rcpp::ComplexVector n1, Rcpp::ComplexVector n2) {
   return nanoival_comp(n1, n2, std::less_equal<interval>());
 }
 
-RcppExport SEXP _nanoival_gt(SEXP n1, SEXP n2) {
+// [[Rcpp::export]]
+Rcpp::LogicalVector nanoival_gt_impl(Rcpp::ComplexVector n1, Rcpp::ComplexVector n2) {
   return nanoival_comp(n1, n2, std::greater<interval>());
 }
 
-RcppExport SEXP _nanoival_ge(SEXP n1, SEXP n2) {
+// [[Rcpp::export]]
+Rcpp::LogicalVector nanoival_ge_impl(Rcpp::ComplexVector n1, Rcpp::ComplexVector n2) {
   return nanoival_comp(n1, n2, std::greater_equal<interval>());
 }
 
-RcppExport SEXP _nanoival_eq(SEXP n1, SEXP n2) {
+// [[Rcpp::export]]
+Rcpp::LogicalVector nanoival_eq_impl(Rcpp::ComplexVector n1, Rcpp::ComplexVector n2) {
   return nanoival_comp(n1, n2, std::equal_to<interval>());
 }
 
-RcppExport SEXP _nanoival_ne(SEXP n1, SEXP n2) {
+// [[Rcpp::export]]
+Rcpp::LogicalVector nanoival_ne_impl(Rcpp::ComplexVector n1, Rcpp::ComplexVector n2) {
   return nanoival_comp(n1, n2, std::not_equal_to<interval>());
 }
 
 
 template<typename OP>
-SEXP nanoival_op(SEXP n1, SEXP n2, OP op) {
-  try {
-    checkVectorsLengths(n1, n2);
-    const Rcpp::ComplexVector   cv1(n1);
-    const Rcpp::NumericVector   nv2(n2);
-    const ConstPseudoVectorIval e1(cv1);
-    const ConstPseudoVectorDur  e2(nv2);
-    Rcpp::ComplexVector res(std::max(e1.size(), e2.size()));
+Rcpp::ComplexVector nanoival_op(const Rcpp::ComplexVector cv1,
+                                const Rcpp::NumericVector nv2, OP op) {
+  checkVectorsLengths(cv1, nv2);
+  const ConstPseudoVectorIval e1(cv1);
+  const ConstPseudoVectorDur  e2(nv2);
+  Rcpp::ComplexVector res(std::max(e1.size(), e2.size()));
     
-    for (R_xlen_t i=0; i<res.size(); ++i) {
-      const interval ival = *reinterpret_cast<const interval*>(&e1[i]);
-      const Global::duration dur = *reinterpret_cast<const Global::duration*>(&e2[i]);
-      const auto ires = op(ival, dur);
-      const Rcomplex *ptr = reinterpret_cast<const Rcomplex*>(&ires);
-      res[i] = *ptr;
-    }
-  
-    copyNames(cv1, nv2, res);    
-    return res;
-  } catch(std::exception &ex) {	
-    forward_exception_to_r(ex);
-  } catch(...) { 
-    ::Rf_error("c++ exception (unknown reason)"); 
+  for (R_xlen_t i=0; i<res.size(); ++i) {
+    const interval ival = *reinterpret_cast<const interval*>(&e1[i]);
+    const Global::duration dur = *reinterpret_cast<const Global::duration*>(&e2[i]);
+    const auto ires = op(ival, dur);
+    const Rcomplex *ptr = reinterpret_cast<const Rcomplex*>(&ires);
+    res[i] = *ptr;
   }
-  return R_NilValue;             // not reached
+  
+  copyNames(cv1, nv2, res);
+  return res;
 }
 
-RcppExport SEXP _nanoival_plus(SEXP n1, SEXP n2) {
+// [[Rcpp::export]]
+Rcpp::ComplexVector nanoival_plus_impl(const Rcpp::ComplexVector n1, const Rcpp::NumericVector n2) {
   return nanoival_op(n1, n2, Global::plus<interval, Global::duration, interval>());
 }
 
-RcppExport SEXP _nanoival_minus(SEXP n1, SEXP n2) {
+// [[Rcpp::export]]
+Rcpp::ComplexVector nanoival_minus_impl(const Rcpp::ComplexVector n1, const Rcpp::NumericVector n2) {
   return nanoival_op(n1, n2, Global::minus<interval, Global::duration, interval>());
 }
 
@@ -525,8 +511,7 @@ RcppExport SEXP _nanoival_minus(SEXP n1, SEXP n2) {
 
 
 template <typename T, typename U>
-static Rcpp::NumericVector setdiff_idx(const T* v1, size_t v1_size, const U* v2, size_t v2_size)
-{
+static Rcpp::NumericVector setdiff_idx(const T* v1, size_t v1_size, const U* v2, size_t v2_size) {
   std::vector<double> res_first;
   size_t i1 = 0, i2 = 0;
   while (i1 < v1_size && i2 < v2_size) {
@@ -553,64 +538,47 @@ static Rcpp::NumericVector setdiff_idx(const T* v1, size_t v1_size, const U* v2,
   return res_first_rcpp;
 }
 
-
-RcppExport SEXP _nanoival_setdiff_idx_time_interval(SEXP sv1, SEXP sv2)
-{
-  try {
-    const Rcpp::NumericVector nv1(sv1);
-    const Rcpp::ComplexVector cv2(sv2);  
-    const Global::dtime* v1 = reinterpret_cast<const Global::dtime*>(&nv1[0]);
-    const interval*      v2 = reinterpret_cast<const interval*>(&cv2[0]);
-    return setdiff_idx(v1, nv1.size(), v2, cv2.size());
-  } catch(std::exception &ex) {	
-    forward_exception_to_r(ex);
-  } catch(...) { 
-    ::Rf_error("c++ exception (unknown reason)"); 
-  }
-  return R_NilValue;             // not reached
+// [[Rcpp::export]]
+Rcpp::NumericVector nanoival_setdiff_idx_time_interval_impl(const Rcpp::NumericVector nv1,
+                                                            const Rcpp::ComplexVector cv2) {
+  const Global::dtime* v1 = reinterpret_cast<const Global::dtime*>(&nv1[0]);
+  const interval*      v2 = reinterpret_cast<const interval*>(&cv2[0]);
+  return setdiff_idx(v1, nv1.size(), v2, cv2.size());
 }
 
-
-RcppExport SEXP _nanoival_new(SEXP start, SEXP end, SEXP sopen, SEXP eopen) {
-  checkVectorsLengths(start, end);
-  checkVectorsLengths(sopen, eopen);
-  checkVectorsLengths(start, sopen);
-  checkVectorsLengths(start, eopen);
-  checkVectorsLengths(end, sopen);
-  checkVectorsLengths(end, eopen);
-  const Rcpp::NumericVector sv(start);
-  const Rcpp::NumericVector ev(end);
-  const Rcpp::LogicalVector sopenv(sopen);
-  const Rcpp::LogicalVector eopenv(eopen);
+// [[Rcpp::export]]
+Rcpp::S4 nanoival_new_impl(const Rcpp::NumericVector sv,
+                           const Rcpp::NumericVector ev,
+                           const Rcpp::LogicalVector sopenv,
+                           const Rcpp::LogicalVector eopenv) {
+  checkVectorsLengths(sv, ev);
+  checkVectorsLengths(sopenv, eopenv);
+  checkVectorsLengths(sv, sopenv);
+  checkVectorsLengths(sv, eopenv);
+  checkVectorsLengths(ev, sopenv);
+  checkVectorsLengths(ev, eopenv);
   const ConstPseudoVectorNum nvs(sv);
   const ConstPseudoVectorNum nve(ev);
   const ConstPseudoVectorLgl lvs(sopenv);
   const ConstPseudoVectorLgl lve(eopenv);
 
   Rcpp::ComplexVector res(nvs.size());
-  try {
-    for (R_xlen_t i=0; i < nvs.size(); ++i) {
-      const double d1 = nvs[i];
-      const double d2 = nve[i];
-      Global::dtime i1, i2;
-      memcpy(&i1, reinterpret_cast<const char*>(&d1), sizeof(d1));
-      memcpy(&i2, reinterpret_cast<const char*>(&d2), sizeof(d2));
-      const interval ival { i1, i2, lvs[i], lve[i] };
-      memcpy(&res[i], &ival, sizeof(ival));
-    }
-  } catch(std::exception &ex) {	
-    forward_exception_to_r(ex);
-  } catch(...) { 
-    ::Rf_error("c++ exception (unknown reason)"); 
+  for (R_xlen_t i=0; i < nvs.size(); ++i) {
+    const double d1 = nvs[i];
+    const double d2 = nve[i];
+    Global::dtime i1, i2;
+    memcpy(&i1, reinterpret_cast<const char*>(&d1), sizeof(d1));
+    memcpy(&i2, reinterpret_cast<const char*>(&d2), sizeof(d2));
+    const interval ival { i1, i2, lvs[i], lve[i] };
+    memcpy(&res[i], &ival, sizeof(ival));
   }
-
   return assignS4("nanoival", res);
 }
 
 
 // R accessor functions:
-RcppExport SEXP _nanoival_get_start(SEXP sv) {
-  const Rcpp::ComplexVector cv(sv);
+// [[Rcpp::export]]
+Rcpp::NumericVector nanoival_get_start_impl(const Rcpp::ComplexVector cv) {
   Rcpp::NumericVector res(cv.size());
   for (R_xlen_t i=0; i<cv.size(); ++i) {
     interval ival;
@@ -633,8 +601,8 @@ RcppExport SEXP _nanoival_get_start(SEXP sv) {
 }
 
 
-RcppExport SEXP _nanoival_get_end(SEXP sv) {
-  const Rcpp::ComplexVector cv(sv);
+// [[Rcpp::export]]
+Rcpp::NumericVector nanoival_get_end_impl(const Rcpp::ComplexVector cv) {
   Rcpp::NumericVector res(cv.size());
   for (R_xlen_t i=0; i<cv.size(); ++i) {
     interval ival;
@@ -656,9 +624,8 @@ RcppExport SEXP _nanoival_get_end(SEXP sv) {
   return assignS4("nanotime", res, "integer64");
 }
 
-
-RcppExport SEXP _nanoival_get_sopen(SEXP sv) {
-  const Rcpp::ComplexVector cv(sv);
+// [[Rcpp::export]]
+Rcpp::LogicalVector nanoival_get_sopen_impl(const Rcpp::ComplexVector cv) {
   Rcpp::LogicalVector res(cv.size());
   for (R_xlen_t i=0; i<cv.size(); ++i) {
     interval ival;
@@ -676,8 +643,8 @@ RcppExport SEXP _nanoival_get_sopen(SEXP sv) {
 }
 
 
-RcppExport SEXP _nanoival_get_eopen(SEXP sv) {
-  const Rcpp::ComplexVector cv(sv);
+// [[Rcpp::export]]
+Rcpp::LogicalVector nanoival_get_eopen_impl(const Rcpp::ComplexVector cv) {
   Rcpp::LogicalVector res(cv.size());
   for (R_xlen_t i=0; i<cv.size(); ++i) {
     interval ival;
@@ -694,9 +661,8 @@ RcppExport SEXP _nanoival_get_eopen(SEXP sv) {
   return res;
 }
 
-
-RcppExport SEXP _nanoival_isna(SEXP sv) {
-  const Rcpp::ComplexVector cv(sv);
+// [[Rcpp::export]]
+Rcpp::LogicalVector nanoival_isna_impl(const Rcpp::ComplexVector cv) {
   Rcpp::LogicalVector res(cv.size());
   for (R_xlen_t i=0; i<cv.size(); ++i) {
     interval ival;
@@ -710,71 +676,63 @@ RcppExport SEXP _nanoival_isna(SEXP sv) {
 
 
 static Rcomplex readNanoival(const char*& sp, const char* const se, const char* tzstr) {
-  try {
-    // read the +- at the beginning:
-    if (sp >= se || (*sp != '+' && *sp != '-')) {
-      throw std::range_error("Error parsing");
-    }
-    auto sopen = *sp++ == '+' ? false : true;
+  // read the +- at the beginning:
+  if (sp >= se || (*sp != '+' && *sp != '-')) {
+    throw std::range_error("Error parsing");
+  }
+  auto sopen = *sp++ == '+' ? false : true;
   
-    auto ss = Global::readDtime(sp, se);
-    if (ss.tzstr.size() && strnlen(tzstr, Global::MAX_TZ_STR_LENGTH)) {
-      throw std::range_error("timezone is specified twice: in the string and as an argument");
-    }
-    Global::skipWhitespace(sp, se);
+  auto ss = Global::readDtime(sp, se);
+  if (ss.tzstr.size() && strnlen(tzstr, Global::MAX_TZ_STR_LENGTH)) {
+    throw std::range_error("timezone is specified twice: in the string and as an argument");
+  }
+  Global::skipWhitespace(sp, se);
 
-    // read the middle portion
-    if (sp+2 >= se || (*sp != '-' && *(sp+1) != '>')) {
-      throw std::range_error("Error parsing");
-    }
-    sp += 2;
+  // read the middle portion
+  if (sp+2 >= se || (*sp != '-' && *(sp+1) != '>')) {
+    throw std::range_error("Error parsing");
+  }
+  sp += 2;
     
-    Global::skipWhitespace(sp, se);
-    auto es = Global::readDtime(sp, se-1); // -1 because we don't want to read the -+ as a timezone
-    if (es.tzstr.size() && strnlen(tzstr, Global::MAX_TZ_STR_LENGTH)) {
-      throw std::range_error("timezone is specified twice: in the string and as an argument"); // ## nocov
-    }
-
-    // read the +- at the end:
-    if (sp >= se || (*sp != '+' && *sp != '-')) {
-      throw std::range_error("Error parsing aa");
-    }
-    auto eopen = *sp++ == '+' ? false : true;
-    
-    // check we read until the end
-    if (sp != se) {
-      throw std::range_error("Error parsing");
-    }
-
-    typedef Global::time_point<Global::seconds> CONVERT_TO_TIMEPOINT(const cctz::civil_second& cs, const char* tzstr);
-    CONVERT_TO_TIMEPOINT *convertToTimePoint = (CONVERT_TO_TIMEPOINT*)  R_GetCCallable("RcppCCTZ", "_RcppCCTZ_convertToTimePoint" );
-
-    const cctz::civil_second start_cvt(ss.y, ss.m, ss.d, ss.hh, ss.mm, ss.ss);    
-    auto start_tp = convertToTimePoint(start_cvt, ss.tzstr.size() ? ss.tzstr.c_str() : tzstr);  
-    auto start = Global::dtime{std::chrono::nanoseconds((start_tp.time_since_epoch().count() - ss.offset) * 1000000000ll + ss.ns)};
-
-    const cctz::civil_second end_cvt(es.y, es.m, es.d, es.hh, es.mm, es.ss);    
-    auto end_tp = convertToTimePoint(end_cvt, es.tzstr.size() ? es.tzstr.c_str() : tzstr);  
-    auto end = Global::dtime{std::chrono::nanoseconds((end_tp.time_since_epoch().count() - es.offset) * 1000000000ll + es.ns)};
-  
-    Rcomplex res;
-    const interval ival { start, end, sopen, eopen };
-    memcpy(&res, &ival, sizeof(ival));
-    return res;
-  } catch(std::exception &ex) {	
-    forward_exception_to_r(ex);
-  } catch(...) { 
-    ::Rf_error("c++ exception (unknown reason)"); 
+  Global::skipWhitespace(sp, se);
+  auto es = Global::readDtime(sp, se-1); // -1 because we don't want to read the -+ as a timezone
+  if (es.tzstr.size() && strnlen(tzstr, Global::MAX_TZ_STR_LENGTH)) {
+    throw std::range_error("timezone is specified twice: in the string and as an argument"); // ## nocov
   }
 
-  return Rcomplex{0,0};         // not reached
+  // read the +- at the end:
+  if (sp >= se || (*sp != '+' && *sp != '-')) {
+    throw std::range_error("Error parsing aa");
+  }
+  auto eopen = *sp++ == '+' ? false : true;
+    
+  // check we read until the end
+  if (sp != se) {
+    throw std::range_error("Error parsing");
+  }
+
+  typedef Global::time_point<Global::seconds> CONVERT_TO_TIMEPOINT(const cctz::civil_second& cs, const char* tzstr);
+  CONVERT_TO_TIMEPOINT *convertToTimePoint = (CONVERT_TO_TIMEPOINT*)  R_GetCCallable("RcppCCTZ", "_RcppCCTZ_convertToTimePoint" );
+
+  const cctz::civil_second start_cvt(ss.y, ss.m, ss.d, ss.hh, ss.mm, ss.ss);
+  auto start_tp = convertToTimePoint(start_cvt, ss.tzstr.size() ? ss.tzstr.c_str() : tzstr);
+  auto start = Global::dtime{std::chrono::nanoseconds((start_tp.time_since_epoch().count() - ss.offset) * 1000000000ll + ss.ns)};
+
+  const cctz::civil_second end_cvt(es.y, es.m, es.d, es.hh, es.mm, es.ss);
+  auto end_tp = convertToTimePoint(end_cvt, es.tzstr.size() ? es.tzstr.c_str() : tzstr);
+  auto end = Global::dtime{std::chrono::nanoseconds((end_tp.time_since_epoch().count() - es.offset) * 1000000000ll + es.ns)};
+  
+  Rcomplex res;
+  const interval ival { start, end, sopen, eopen };
+  memcpy(&res, &ival, sizeof(ival));
+  return res;
 }
 
 
-RcppExport SEXP _nanoival_make(SEXP nt_p, SEXP tz_p) {
-  checkVectorsLengths(nt_p, tz_p);
-  const Rcpp::CharacterVector nt_v(nt_p);
-  const Rcpp::CharacterVector tz_v(tz_p);
+// [[Rcpp::export]]
+Rcpp::ComplexVector nanoival_make_impl(const Rcpp::CharacterVector nt_v,
+                                       const Rcpp::CharacterVector tz_v) {
+  checkVectorsLengths(nt_v, tz_v);
   ConstPseudoVectorChar nt(nt_v);
   ConstPseudoVectorChar tz(tz_v);
   Rcpp::ComplexVector res(nt.size());
