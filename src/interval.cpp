@@ -404,7 +404,7 @@ const Rcpp::ComplexVector nanoival_sort_impl(const Rcpp::ComplexVector nvec,
 }
 
 // [[Rcpp::export]]
-const Rcpp::ComplexVector nanoival_sort_impl2(const Rcpp::ComplexVector nvec,
+const Rcpp::ComplexVector nanoival_sort_impl2(const Rcpp::ComplexVector nvec,	// #nocov start
                                               bool decreasing) {
   Rcpp::ComplexVector res = clone(nvec);
   interval* ival_ptr = reinterpret_cast<interval*>(&res[0]);
@@ -418,7 +418,7 @@ const Rcpp::ComplexVector nanoival_sort_impl2(const Rcpp::ComplexVector nvec,
     std::sort(start, end, std::greater<interval>());
   }
   return res;
-}
+}                                                                               // #nocov end
 
 template<typename COMP>
 Rcpp::LogicalVector nanoival_comp(const Rcpp::ComplexVector v1,
