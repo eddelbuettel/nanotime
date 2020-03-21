@@ -14,9 +14,9 @@ setClass("nanoperiod", contains = "complex")
 ##' need the additional argument \code{tz}.
 ##'
 ##' @section Constructors:
-##' 
-##' The true constructor is 
-##' 
+##'
+##' The true constructor is
+##'
 ##' @section Output Format:
 ##'
 ##' A \code{nanoperiod} is displayed as months, days, and \code{nanoduration}
@@ -24,14 +24,14 @@ setClass("nanoperiod", contains = "complex")
 ##'
 ##' @section Details:
 ##'
-##' 
-##' 
+##'
+##'
 ##' Adding or subtracting \code{nanoperiod} and \code{nanotime} require a
 ##' timezone as third argument. For this reason it is not possible to
 ##' use the binary operator `code{+}`. Instead the functions
 ##' `\code{plus}` and `\code{minus}` are defined.
 ##'
-##' 
+##'
 ##' @param x,value An object of class \code{nanoperiod}
 ##' @param ... further arguments
 ##' @param e1 Operand of class \code{nanoperiod}
@@ -70,7 +70,7 @@ setClass("nanoperiod", contains = "complex")
 ##' @aliases Complex,nanoperiod-method Math,nanoperiod-method Math2,nanoperiod-method
 ##' @aliases Summary,nanoperiod-method
 ##' @aliases minus,nanoperiod,nanoival,character-method
-##' 
+##'
 ##' @rdname nanoperiod
 nanoperiod <- function(months=0, days=0, duration=as.nanoduration(0)) {
     if (nargs() == 0) {
@@ -92,7 +92,7 @@ setGeneric("as.nanoperiod", function(x) standardGeneric("as.nanoperiod"))
 setMethod("as.nanoperiod",
           "character",
           function(x) {
-              new("nanoperiod", .Call('period_from_string', x))
+              new("nanoperiod", period_from_string_impl(x))
           })
 
 setAs("character", "nanoperiod", function(from) as.nanoperiod(from))
@@ -101,7 +101,7 @@ setAs("character", "nanoperiod", function(from) as.nanoperiod(from))
 setMethod("as.nanoperiod",
           "integer64",
           function(x) {
-              new("nanoperiod", .Call('period_from_integer64', x))
+              new("nanoperiod", period_from_integer64_impl(x))
           })
 
 setAs("integer64", "nanoperiod", function(from) as.nanoperiod(from))
@@ -110,7 +110,7 @@ setAs("integer64", "nanoperiod", function(from) as.nanoperiod(from))
 setMethod("as.nanoperiod",
           "numeric",
           function(x) {
-              new("nanoperiod", .Call('period_from_double', x))
+              new("nanoperiod", period_from_double_impl(x))
           })
 
 setAs("numeric", "nanoperiod", function(from) as.nanoperiod(from))
@@ -119,7 +119,7 @@ setAs("numeric", "nanoperiod", function(from) as.nanoperiod(from))
 setMethod("as.nanoperiod",
           "integer",
           function(x) {
-              new("nanoperiod", .Call('period_from_integer', x))
+              new("nanoperiod", period_from_integer_impl(x))
           })
 
 setAs("integer", "nanoperiod", function(from) as.nanoperiod(from))
@@ -128,7 +128,7 @@ setAs("integer", "nanoperiod", function(from) as.nanoperiod(from))
 setMethod("as.nanoperiod",
           "nanoduration",
           function(x) {
-              new("nanoperiod", .Call('period_from_integer64', x))
+              new("nanoperiod", period_from_integer64_impl(x))
           })
 
 setAs("nanoduration", "nanoperiod", function(from) as.nanoperiod(from))
@@ -137,14 +137,14 @@ setAs("nanoduration", "nanoperiod", function(from) as.nanoperiod(from))
 setMethod("as.nanoperiod",
           "NULL",
           function(x) {
-              new("nanoperiod", .Call('period_from_string', character()))
+              new("nanoperiod", period_from_string_impl(character()))
           })
 
 ##' @rdname nanoperiod
 setMethod("as.nanoperiod",
           "missing",
           function(x) {
-              new("nanoperiod", .Call('period_from_string', character()))
+              new("nanoperiod", period_from_string_impl(character()))
           })
 
 
@@ -160,27 +160,27 @@ setMethod("print",
               if (length(x)==0) {
                   print("nanoperiod(0)", quote=quote)
               } else {
-                  print(.Call('period_to_string', x), quote=quote)
+                  print(period_to_string_impl(x), quote=quote)
               }
           })
 
 ##' @rdname nanoperiod
 format.nanoperiod <- function(x, ...) {
-  .Call('period_to_string', x)
+  period_to_string_impl(x)
 }
 
 ##' @rdname nanoperiod
 setMethod("as.character",
           signature("nanoperiod"),
           function(x) {
-              .Call('period_to_string', x)
+              period_to_string_impl(x)
           })
 
 ##' @rdname nanoperiod
 setMethod("is.na",
           "nanoperiod",
           function(x) {
-              .Call("period_isna", x)
+              period_isna_impl(x)
           })
 
 ##' @rdname nanoperiod
@@ -229,9 +229,9 @@ c.nanoperiod <- function(...) {
 setGeneric("nanoperiod.month", function(x) standardGeneric("nanoperiod.month"))
 
 ##' Nanoperiod accessors
-##' 
+##'
 ##' These functions allow access to the components of a \code{nanoperiod}
-##' 
+##'
 ##' @rdname nanoperiod.month
 ##' @aliases nanoperiod.month nanoperiod.day nanoperiod.nanoduration
 ##' @param x A \code{nanoperiod}
@@ -249,7 +249,7 @@ setGeneric("nanoperiod.month", function(x) standardGeneric("nanoperiod.month"))
 setMethod("nanoperiod.month",
           "nanoperiod",
           function(x) {
-              .Call('period_month', x)
+              period_month_impl(x)
           })
 
 ##' @noRd
@@ -258,7 +258,7 @@ setGeneric("nanoperiod.day", function(x) standardGeneric("nanoperiod.day"))
 setMethod("nanoperiod.day",
           "nanoperiod",
           function(x) {
-              .Call('period_day', x)
+              period_day_impl(x)
           })
 
 ##' @noRd
@@ -267,7 +267,7 @@ setGeneric("nanoperiod.nanoduration", function(x) standardGeneric("nanoperiod.na
 setMethod("nanoperiod.nanoduration",
           "nanoperiod",
           function(x) {
-              .Call('period_duration', x)
+              period_duration_impl(x)
           })
 
 ##' @rdname nanoperiod
@@ -327,7 +327,7 @@ setMethod("Complex", c("nanoperiod"),
 setMethod("-", c("nanoperiod", "ANY"),
           function(e1, e2) {
               if (missing(e2)) {
-                  .Call("minus_period", e1)
+                  minus_period_impl(e1)
               }
               else {
                   stop("invalid operand types")
@@ -337,7 +337,7 @@ setMethod("-", c("nanoperiod", "ANY"),
 ##' @rdname nanoperiod
 setMethod("-", c("nanoperiod", "nanoperiod"),
           function(e1, e2) {
-              .Call("minus_period_period", e1, e2)
+              minus_period_period_impl(e1, e2)
           })
 
 ## --
@@ -346,13 +346,13 @@ setMethod("-", c("nanoperiod", "nanoperiod"),
 ##' @aliases -,nanoperiod,ANY-method
 setMethod("-", c("nanoperiod", "nanoduration"),
           function(e1, e2) {
-              .Call("minus_period_integer64", e1, e2)
+              minus_period_integer64_impl(e1, e2)
           })
 
 ##' @rdname nanoperiod
 setMethod("-", c("nanoperiod", "integer64"),
           function(e1, e2) {
-              .Call("minus_period_integer64", e1, e2)
+              minus_period_integer64_impl(e1, e2)
           })
 
 ##' @noRd
@@ -370,7 +370,7 @@ setMethod("-", c("nanoperiod", "nanotime"),
 ##' @rdname nanoperiod
 setMethod("-", c("nanoperiod", "numeric"),
           function(e1, e2) {
-              .Call("minus_period_integer64", e1, as.integer64(e2))
+              minus_period_integer64_impl(e1, as.integer64(e2))
           })
 
 ## --
@@ -384,21 +384,21 @@ setMethod("-", c("ANY", "nanoperiod"),
 ##' @rdname nanoperiod
 setMethod("-", c("nanoduration", "nanoperiod"),
           function(e1, e2) {
-              .Call("minus_integer64_period", e1, e2)
+              minus_integer64_period_impl(e1, e2)
           })
 
 ## --
 ##' @rdname nanoperiod
 setMethod("-", c("integer64", "nanoperiod"),
           function(e1, e2) {
-              .Call("minus_integer64_period", as.integer64(e1), e2)
+              minus_integer64_period_impl(as.integer64(e1), e2)
           })
 
 ## --
 ##' @rdname nanoperiod
 setMethod("-", c("numeric", "nanoperiod"),
           function(e1, e2) {
-              .Call("minus_integer64_period", as.integer64(e1), e2)
+              minus_integer64_period_impl(as.integer64(e1), e2)
           })
 
 
@@ -419,7 +419,7 @@ setMethod("+", c("nanoperiod", "ANY"),
 ##' @rdname nanoperiod
 setMethod("+", c("nanoperiod", "nanoperiod"),
           function(e1, e2) {
-              .Call("plus_period_period", e1, e2)
+              plus_period_period_impl(e1, e2)
           })
 
 ## --
@@ -432,13 +432,13 @@ setMethod("+", c("ANY", "nanoperiod"),
 ##' @rdname nanoperiod
 setMethod("+", c("nanoperiod", "nanoduration"),
           function(e1, e2) {
-              .Call("plus_period_integer64", e1, S3Part(e2, strictS3=TRUE))
+              plus_period_integer64_impl(e1, S3Part(e2, strictS3=TRUE))
           })
 
 ##' @rdname nanoperiod
 setMethod("+", c("nanoperiod", "integer64"),
           function(e1, e2) {
-              .Call("plus_period_integer64", e1, e2)
+              plus_period_integer64_impl(e1, e2)
           })
 
 ##' @rdname nanoperiod
@@ -456,26 +456,26 @@ setMethod("+", c("nanotime", "nanoperiod"),
 ##' @rdname nanoperiod
 setMethod("+", c("nanoperiod", "numeric"),
           function(e1, e2) {
-              .Call("plus_period_integer64", e1, as.integer64(e2))
+              plus_period_integer64_impl(e1, as.integer64(e2))
           })
 
 ## --
 ##' @rdname nanoperiod
 setMethod("+", c("nanoduration", "nanoperiod"),
           function(e1, e2) {
-              .Call("plus_period_integer64", e2, e1)
+              plus_period_integer64_impl(e2, e1)
           })
 
 ##' @rdname nanoperiod
 setMethod("+", c("integer64", "nanoperiod"),
           function(e1, e2) {
-              .Call("plus_period_integer64", e2, e1)
+              plus_period_integer64_impl(e2, e1)
           })
 
 ##' @rdname nanoperiod
 setMethod("+", c("numeric", "nanoperiod"),
           function(e1, e2) {
-              .Call("plus_period_integer64", e2, as.integer64(e1))
+              plus_period_integer64_impl(e2, as.integer64(e1))
           })
 
 ## ----------- `*`
@@ -496,25 +496,25 @@ setMethod("*", c("nanoperiod", "ANY"),
 ##' @aliases *,nanoperiod,ANY-method *,ANY,nanoperiod-method
 setMethod("*", c("nanoperiod", "integer64"),
           function(e1, e2) {
-              .Call("multiplies_period_integer64", e1, e2)
+              multiplies_period_integer64_impl(e1, e2)
           })
 
 ##' @rdname nanoperiod
 setMethod("*", c("nanoperiod", "numeric"),
           function(e1, e2) {
-              .Call("multiplies_period_double", e1, e2)
+              multiplies_period_double_impl(e1, e2)
           })
 
 ##' @rdname nanoperiod
 setMethod("*", c("integer64", "nanoperiod"),
           function(e1, e2) {
-              .Call("multiplies_period_integer64", e2, e1)
+              multiplies_period_integer64_impl(e2, e1)
           })
 
 ##' @rdname nanoperiod
 setMethod("*", c("numeric", "nanoperiod"),
           function(e1, e2) {
-              .Call("multiplies_period_double", e2, e1)
+              multiplies_period_double_impl(e2, e1)
           })
 
 ## ----------- `/`
@@ -536,13 +536,13 @@ setMethod("/", c("nanoperiod", "ANY"),
 ##' @rdname nanoperiod
 setMethod("/", c("nanoperiod", "integer64"),
           function(e1, e2) {
-              .Call("divides_period_integer64", e1, e2)
+              divides_period_integer64_impl(e1, e2)
           })
 
 ##' @rdname nanoperiod
 setMethod("/", c("nanoperiod", "numeric"),
           function(e1, e2) {
-              .Call("divides_period_double", e1, e2)
+              divides_period_double_impl(e1, e2)
           })
 
 ## Compare
@@ -560,10 +560,10 @@ setMethod("Compare", c("nanoperiod", "ANY"),
           })
 
 ##' @rdname nanoperiod
-setMethod("==", c("nanoperiod", "nanoperiod"), function(e1, e2) .Call("eq_period_period", e1, e2))
+setMethod("==", c("nanoperiod", "nanoperiod"), function(e1, e2) eq_period_period_impl(e1, e2))
 
 ##' @rdname nanoperiod
-setMethod("!=", c("nanoperiod", "nanoperiod"), function(e1, e2) .Call("ne_period_period", e1, e2))
+setMethod("!=", c("nanoperiod", "nanoperiod"), function(e1, e2) ne_period_period_impl(e1, e2))
 
 ##' Test if Two Objects are (Nearly) Equal
 ##'
@@ -573,15 +573,15 @@ setMethod("!=", c("nanoperiod", "nanoperiod"), function(e1, e2) .Call("ne_period
 ##' use \code{all.equal} directly in \code{if} expressions---either
 ##' use \code{isTRUE(all.equal(....))} or \code{\link{identical}} if
 ##' appropriate.
-##' 
+##'
 ##' @param target,current \code{nanoperiod} arguments to be compared
 ##'
 ##' @seealso \code{\link{identical}}, \code{\link{isTRUE}},
 ##'     \code{\link{==}}, and \code{\link{all}} for exact equality
 ##'     testing.
-##' 
+##'
 ##' @method all.equal nanoperiod
-##' 
+##'
 setMethod("all.equal",
           c("nanoperiod"),
           function(target, current) {
@@ -601,13 +601,13 @@ setGeneric("minus", function(e1, e2, tz) standardGeneric("minus"))
 ##' @aliases plus
 setMethod("plus", c("nanotime", "nanoperiod", "character"),
           function(e1, e2, tz) {
-            .Call("plus_nanotime_period", e1, e2, tz) 
+            plus_nanotime_period_impl(e1, e2, tz)
           })
 
 ##' @rdname nanoperiod
 setMethod("plus", c("nanoperiod", "nanotime", "character"),
           function(e1, e2, tz) {
-            .Call("plus_nanotime_period", e2, e1, tz) 
+            plus_nanotime_period_impl(e2, e1, tz)
           })
 
 
@@ -615,7 +615,7 @@ setMethod("plus", c("nanoperiod", "nanotime", "character"),
 ##' @aliases minus
 setMethod("minus", c("nanotime", "nanoperiod", "character"),
           function(e1, e2, tz) {
-            .Call("minus_nanotime_period", e1, e2, tz) 
+            minus_nanotime_period_impl(e1, e2, tz)
           })
 
 ##' @rdname nanoperiod
@@ -631,19 +631,19 @@ setMethod("minus", c("nanoperiod", "nanotime", "character"),
 ##' @rdname nanoperiod
 setMethod("plus", c("nanoival", "nanoperiod", "character"),
           function(e1, e2, tz) {
-            .Call("plus_nanoival_period", e1, e2, tz) 
+            plus_nanoival_period_impl(e1, e2, tz)
           })
 
 ##' @rdname nanoperiod
 setMethod("plus", c("nanoperiod", "nanoival", "character"),
           function(e1, e2, tz) {
-            .Call("plus_nanoival_period", e2, e1, tz) 
+            plus_nanoival_period_impl(e2, e1, tz)
           })
 
 ##' @rdname nanoperiod
 setMethod("minus", c("nanoival", "nanoperiod", "character"),
           function(e1, e2, tz) {
-            .Call("minus_nanoival_period", e1, e2, tz) 
+            minus_nanoival_period_impl(e1, e2, tz)
           })
 
 ##' @rdname nanoperiod

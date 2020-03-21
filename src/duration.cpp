@@ -112,82 +112,58 @@ bool is_na(Global::duration d) {
 }
 
 
-RcppExport SEXP duration_from_string(SEXP s) {
-  try {
-    Rcpp::CharacterVector str(s);
-    Rcpp::NumericVector res(str.size());
-    for (R_xlen_t i=0; i<str.size(); ++i) {
-      auto dur = from_string(Rcpp::as<std::string>(str[i]));
-      double* ptr = reinterpret_cast<double*>(&dur);
-      res[i] = *ptr;
-    }
-    if (str.hasAttribute("names")) {
-      res.names() = str.names();
-    } 
-    return assignS4("nanoduration", res, "integer64");
-  } catch(std::exception &ex) {	
-    forward_exception_to_r(ex);
-  } catch(...) { 
-    ::Rf_error("c++ exception (unknown reason)"); 
+// [[Rcpp::export]]
+Rcpp::NumericVector duration_from_string_impl(Rcpp::CharacterVector str) {
+  Rcpp::NumericVector res(str.size());
+  for (R_xlen_t i=0; i<str.size(); ++i) {
+    auto dur = from_string(Rcpp::as<std::string>(str[i]));
+    double* ptr = reinterpret_cast<double*>(&dur);
+    res[i] = *ptr;
   }
-  return R_NilValue;             // not reached
+  if (str.hasAttribute("names")) {
+    res.names() = str.names();
+  }
+  return assignS4("nanoduration", res, "integer64");
 }
 
-
-RcppExport SEXP duration_to_string(SEXP d) {
-  try {
-    Rcpp::NumericVector dur(d);
-    Rcpp::CharacterVector res(dur.size());
-    for (R_xlen_t i=0; i<dur.size(); ++i) {
-      const auto dur_i = reinterpret_cast<const Global::duration*>(&dur[i]);
+// [[Rcpp::export]]
+Rcpp::CharacterVector duration_to_string_impl(Rcpp::NumericVector dur) {
+  Rcpp::CharacterVector res(dur.size());
+  for (R_xlen_t i=0; i<dur.size(); ++i) {
+    const auto dur_i = reinterpret_cast<const Global::duration*>(&dur[i]);
       
-      res[i] = to_string(*dur_i);
-      if (res[i].size() == 0) {
-        res[i] = NA_STRING;
-      }
+    res[i] = to_string(*dur_i);
+    if (res[i].size() == 0) {
+      res[i] = NA_STRING;
     }
-    if (dur.hasAttribute("names")) {
-      res.names() = dur.names();
-    } 
-    return res;
-  } catch(std::exception &ex) {	
-    forward_exception_to_r(ex);
-  } catch(...) { 
-    ::Rf_error("c++ exception (unknown reason)"); 
   }
-  return R_NilValue;             // not reached
+  if (dur.hasAttribute("names")) {
+    res.names() = dur.names();
+  }
+  return res;
 }
 
-
-RcppExport SEXP duration_is_na(SEXP d) {
-  try {
-    Rcpp::NumericVector dur(d);
-    Rcpp::LogicalVector res(dur.size());
-    for (R_xlen_t i=0; i<dur.size(); ++i) {
-      const auto dur_i = reinterpret_cast<const Global::duration*>(&dur[i]);
+// [[Rcpp::export]]
+Rcpp::LogicalVector duration_is_na_impl(Rcpp::NumericVector dur) {
+  Rcpp::LogicalVector res(dur.size());
+  for (R_xlen_t i=0; i<dur.size(); ++i) {
+    const auto dur_i = reinterpret_cast<const Global::duration*>(&dur[i]);
       
-      res[i] = is_na(*dur_i);
-    }
-    if (dur.hasAttribute("names")) {
-      res.names() = dur.names();
-    } 
-    return res;
-  } catch(std::exception &ex) {	
-    forward_exception_to_r(ex);
-  } catch(...) { 
-    ::Rf_error("c++ exception (unknown reason)"); 
+    res[i] = is_na(*dur_i);
   }
-  return R_NilValue;             // not reached
+  if (dur.hasAttribute("names")) {
+    res.names() = dur.names();
+  }
+  return res;
 }
-
 
 typedef ConstPseudoVector<REALSXP, double>   ConstPseudoVectorInt64;
 
-RcppExport SEXP make_duration(SEXP h, SEXP m, SEXP s, SEXP n) {
-  const Rcpp::NumericVector    h_nv(h);
-  const Rcpp::NumericVector    m_nv(m);
-  const Rcpp::NumericVector    s_nv(s);
-  const Rcpp::NumericVector    n_nv(n);
+// [[Rcpp::export]]
+Rcpp::NumericVector make_duration_impl(const Rcpp::NumericVector h_nv,
+                                       const Rcpp::NumericVector m_nv,
+                                       const Rcpp::NumericVector s_nv,
+                                       const Rcpp::NumericVector n_nv) {
   const ConstPseudoVectorInt64 h_i(h_nv);
   const ConstPseudoVectorInt64 m_i(m_nv);
   const ConstPseudoVectorInt64 s_i(s_nv);

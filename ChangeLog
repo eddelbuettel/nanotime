@@ -1,3 +1,11 @@
+2020-03-20  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/duration.cpp: Slightly more idiomatic Rcpp
+	* src/period.cpp: Idem
+	* R/nanoduration.R: Idem
+	* R/nanoperiod.R: Idem
+	* R/nanotime.R: Idem
+
 2020-03-19  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/interval.cpp: Slightly more idiomatic Rcpp

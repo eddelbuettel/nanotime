@@ -76,11 +76,10 @@ nanoduration <- function(hours, minutes, seconds, nanoseconds) {
     if (nargs()==0) {
         as.nanoduration(NULL)
     } else {
-        .Call("make_duration",
-              as.integer64(hours),
-              as.integer64(minutes),
-              as.integer64(seconds),
-              as.integer64(nanoseconds))
+        make_duration_impl(as.integer64(hours),
+                           as.integer64(minutes),
+                           as.integer64(seconds),
+                           as.integer64(nanoseconds))
     }
 }
 
@@ -93,7 +92,7 @@ setGeneric("as.nanoduration", function(x) standardGeneric("as.nanoduration"))
 setMethod("as.nanoduration",
           "character",
           function(x) {
-              .Call('duration_from_string', x)
+              duration_from_string_impl(x)
           })
 
 setAs("character", "nanoduration", function(from) as.nanoduration(from))
@@ -163,7 +162,7 @@ setMethod("print",
               if (length(x) == 0) {
                   print("nanoduration(0)", quote=quote)
               } else {
-                  print(.Call('duration_to_string', x), quote=quote)
+                  print(duration_to_string_impl(x), quote=quote)
               }
           })
 
@@ -184,7 +183,7 @@ as.integer64.nanoduration <- function(x, ...) {
 setMethod("as.character",
           signature("nanoduration"),
           function(x) {
-              .Call('duration_to_string', x)
+              duration_to_string_impl(x)
           })
 
 
@@ -192,7 +191,7 @@ setMethod("as.character",
 setMethod("is.na",
           "nanoduration",
           function(x) {
-              .Call("duration_is_na", x)
+              duration_is_na_impl(x)
           })
 
 

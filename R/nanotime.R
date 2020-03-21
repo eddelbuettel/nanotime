@@ -647,7 +647,7 @@ seq.nanotime <-
                 if (!any("tz" %in% names(args))) {
                     stop("'tz' is a mandatory argument for sequences with a 'period' step")
                 }
-                .Call("period_seq_from_to", from, to, by, args$tz)
+                period_seq_from_to_impl(from, to, by, args$tz)
             } else {
                 nanotime(seq(as.integer64(from), as.integer64(to), by=by))
             }
@@ -670,7 +670,7 @@ seq.nanotime <-
             if (!any("tz" %in% names(args))) {
                 stop("'tz' is a mandatory argument for sequences with a 'period' step")
             }
-            .Call("period_seq_from_length", from, by, as.integer64(length.out), args$tz)
+            period_seq_from_length_impl(from, by, as.integer64(length.out), args$tz)
         } else {
             nanotime(seq(as.integer64(from), by=as.integer64(by),
                          length.out=length.out, along.with=along.with, ...))

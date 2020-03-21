@@ -253,626 +253,459 @@ typedef PseudoVector<REALSXP, double>   PseudoVectorInt64;
 typedef PseudoVector<REALSXP, double>   PseudoVectorNano;
 typedef PseudoVector<CPLXSXP, Rcomplex> PseudoVectorPrd;
 
-
-RcppExport SEXP period_from_string(SEXP s) {
-  try {
-    Rcpp::CharacterVector str(s);
-    Rcpp::ComplexVector res(str.size());
-    for (R_xlen_t i=0; i<str.size(); ++i) {
-      period prd(Rcpp::as<std::string>(str[i]));
-      period_union pu = { prd.getMonths(), prd.getDays(), prd.getDuration().count() };
-      res[i] = Rcomplex{pu.dbl2.d1, pu.dbl2.d2 };
-    }
-    if (str.hasAttribute("names")) {
-      res.names() = str.names();
-    } 
-    return res;
-  } catch(std::exception &ex) {	
-    forward_exception_to_r(ex);
-  } catch(...) { 
-    ::Rf_error("c++ exception (unknown reason)"); 
+// [[Rcpp::export]]
+Rcpp::ComplexVector period_from_string_impl(Rcpp::CharacterVector str) {
+  Rcpp::ComplexVector res(str.size());
+  for (R_xlen_t i=0; i<str.size(); ++i) {
+    period prd(Rcpp::as<std::string>(str[i]));
+    period_union pu = { prd.getMonths(), prd.getDays(), prd.getDuration().count() };
+    res[i] = Rcomplex{pu.dbl2.d1, pu.dbl2.d2 };
   }
-  return R_NilValue;             // not reached
+  if (str.hasAttribute("names")) {
+    res.names() = str.names();
+  }
+  return res;
 }
 
 
-RcppExport SEXP period_to_string(SEXP p) {
-  try {
-    Rcpp::ComplexVector prd(p);
-    Rcpp::CharacterVector res(prd.size());
-    for (R_xlen_t i=0; i<prd.size(); ++i) {
-      period pu;
-      memcpy(&pu, reinterpret_cast<const char*>(&prd[i]), sizeof(period));
-      if (pu.isNA()) {
-        res[i] = NA_STRING;
-      }
-      else {
-        res[i] = to_string(*reinterpret_cast<period*>(&pu));
-      }
+// [[Rcpp::export]]
+Rcpp::CharacterVector period_to_string_impl(Rcpp::ComplexVector prd) {
+  Rcpp::CharacterVector res(prd.size());
+  for (R_xlen_t i=0; i<prd.size(); ++i) {
+    period pu;
+    memcpy(&pu, reinterpret_cast<const char*>(&prd[i]), sizeof(period));
+    if (pu.isNA()) {
+      res[i] = NA_STRING;
+    }
+    else {
+      res[i] = to_string(*reinterpret_cast<period*>(&pu));
+    }
+  }
+  if (prd.hasAttribute("names")) {
+    Rcpp::CharacterVector prdnm(prd.names());
+    Rcpp::CharacterVector nm(prdnm.size());
+    for (R_xlen_t i=0; i<nm.size(); ++i) {
+      nm[i] = prdnm[i];
     }
     if (prd.hasAttribute("names")) {
-      Rcpp::CharacterVector prdnm(prd.names());
-      Rcpp::CharacterVector nm(prdnm.size());
-      for (R_xlen_t i=0; i<nm.size(); ++i) {
-        nm[i] = prdnm[i];
-      }
-      if (prd.hasAttribute("names")) {
-        res.names() = prd.names();
-      } 
-      res.names() = nm;
-    } 
-    return res;
-  } catch(std::exception &ex) {	
-    forward_exception_to_r(ex);
-  } catch(...) { 
-    ::Rf_error("c++ exception (unknown reason)"); 
+      res.names() = prd.names();
+    }
+    res.names() = nm;
   }
-  return R_NilValue;             // not reached
+  return res;
 }
 
 typedef std::numeric_limits< double > dbl;
 
-RcppExport SEXP period_from_integer64(SEXP ii) {
-  try {
-    Rcpp::NumericVector i64(ii);
-    Rcpp::ComplexVector res(i64.size());
-    for (R_xlen_t i=0; i<i64.size(); ++i) {
-      auto elt = *reinterpret_cast<std::int64_t*>(&i64[i]);
-      if (elt == Global::NA_INTEGER64) {
-        period_union pu = { NA_INTEGER, NA_INTEGER, Global::NA_INTEGER64 };
-        res[i] = Rcomplex{pu.dbl2.d1, pu.dbl2.d2 };
-      }
-      else {
-        period_union pu = { 0, 0, elt };
-        res[i] = Rcomplex{pu.dbl2.d1, pu.dbl2.d2 };
-      }
+// [[Rcpp::export]]
+Rcpp::ComplexVector period_from_integer64_impl(Rcpp::NumericVector i64) {
+  Rcpp::ComplexVector res(i64.size());
+  for (R_xlen_t i=0; i<i64.size(); ++i) {
+    auto elt = *reinterpret_cast<std::int64_t*>(&i64[i]);
+    if (elt == Global::NA_INTEGER64) {
+      period_union pu = { NA_INTEGER, NA_INTEGER, Global::NA_INTEGER64 };
+      res[i] = Rcomplex{pu.dbl2.d1, pu.dbl2.d2 };
     }
-    if (i64.hasAttribute("names")) {
-      res.names() = i64.names();
-    } 
-    return res;
-  } catch(std::exception &ex) {	
-    forward_exception_to_r(ex);
-  } catch(...) { 
-    ::Rf_error("c++ exception (unknown reason)"); 
+    else {
+      period_union pu = { 0, 0, elt };
+      res[i] = Rcomplex{pu.dbl2.d1, pu.dbl2.d2 };
+    }
   }
-  return R_NilValue;             // not reached
+  if (i64.hasAttribute("names")) {
+    res.names() = i64.names();
+  }
+  return res;
 }
 
 
-RcppExport SEXP period_from_integer(SEXP ii) {
-  try {
-    Rcpp::IntegerVector iint(ii);
-    Rcpp::ComplexVector res(iint.size());
-    for (R_xlen_t i=0; i<iint.size(); ++i) {
-      if (iint[i] == NA_INTEGER) {
-        period_union pu = { NA_INTEGER, NA_INTEGER, Global::NA_INTEGER64 };
-        res[i] = Rcomplex{pu.dbl2.d1, pu.dbl2.d2 };
-      }
-      else {
-        period_union pu = { 0, 0, static_cast<std::int64_t>(iint[i]) };
-        res[i] = Rcomplex{pu.dbl2.d1, pu.dbl2.d2 };
-      }
+// [[Rcpp::export]]
+Rcpp::ComplexVector period_from_integer_impl(Rcpp::IntegerVector iint) {
+  Rcpp::ComplexVector res(iint.size());
+  for (R_xlen_t i=0; i<iint.size(); ++i) {
+    if (iint[i] == NA_INTEGER) {
+      period_union pu = { NA_INTEGER, NA_INTEGER, Global::NA_INTEGER64 };
+      res[i] = Rcomplex{pu.dbl2.d1, pu.dbl2.d2 };
     }
-    if (iint.hasAttribute("names")) {
-      res.names() = iint.names();
-    } 
-    return res;
-  } catch(std::exception &ex) {	
-    forward_exception_to_r(ex);
-  } catch(...) { 
-    ::Rf_error("c++ exception (unknown reason)"); 
+    else {
+      period_union pu = { 0, 0, static_cast<std::int64_t>(iint[i]) };
+      res[i] = Rcomplex{pu.dbl2.d1, pu.dbl2.d2 };
+    }
   }
-  return R_NilValue;             // not reached
+  if (iint.hasAttribute("names")) {
+    res.names() = iint.names();
+  }
+  return res;
 }
 
 
-RcppExport SEXP period_from_double(SEXP d) {
-  try {
-    Rcpp::NumericVector dbl(d);
-    Rcpp::ComplexVector res(dbl.size());
-    for (R_xlen_t i=0; i<dbl.size(); ++i) {
-      if (ISNA(dbl[i])) {
-        period_union pu = { NA_INTEGER, NA_INTEGER, Global::NA_INTEGER64 };
-        res[i] = Rcomplex{pu.dbl2.d1, pu.dbl2.d2 };
-      }
-      else {
-        period_union pu = { 0, 0, static_cast<std::int64_t>(dbl[i]) };
-        res[i] = Rcomplex{pu.dbl2.d1, pu.dbl2.d2 };
-      }
+// [[Rcpp::export]]
+Rcpp::ComplexVector period_from_double_impl(Rcpp::NumericVector dbl) {
+  Rcpp::ComplexVector res(dbl.size());
+  for (R_xlen_t i=0; i<dbl.size(); ++i) {
+    if (ISNA(dbl[i])) {
+      period_union pu = { NA_INTEGER, NA_INTEGER, Global::NA_INTEGER64 };
+      res[i] = Rcomplex{pu.dbl2.d1, pu.dbl2.d2 };
     }
-    if (dbl.hasAttribute("names")) {
-      res.names() = dbl.names();
-    } 
-    return res;
-  } catch(std::exception &ex) {	
-    forward_exception_to_r(ex);
-  } catch(...) { 
-    ::Rf_error("c++ exception (unknown reason)"); 
+    else {
+      period_union pu = { 0, 0, static_cast<std::int64_t>(dbl[i]) };
+      res[i] = Rcomplex{pu.dbl2.d1, pu.dbl2.d2 };
+    }
   }
-  return R_NilValue;             // not reached
+  if (dbl.hasAttribute("names")) {
+    res.names() = dbl.names();
+  }
+  return res;
 }
 
 
-RcppExport SEXP plus_period_period(SEXP e1_p, SEXP e2_p) {
-  try {
-    checkVectorsLengths(e1_p, e2_p);
-    const Rcpp::ComplexVector e1_nv(e1_p);
-    const Rcpp::ComplexVector e2_nv(e2_p);
-    const ConstPseudoVectorPrd e1_n(e1_nv);
-    const ConstPseudoVectorPrd e2_n(e2_nv);
-    Rcpp::ComplexVector res(std::max(e1_nv.size(), e2_nv.size()));
-    PseudoVectorPrd pres(res);
-    for (R_xlen_t i=0; i<res.size(); ++i) {
-      period pu1; memcpy(&pu1, reinterpret_cast<const char*>(&e1_n[i]), sizeof(period));
-      period pu2; memcpy(&pu2, reinterpret_cast<const char*>(&e2_n[i]), sizeof(period));
-      auto prd = pu1 + pu2;
-      memcpy(&pres[i], &prd, sizeof(prd)); 
-    }
-    copyNames(e1_nv, e2_nv, res);    
-    return assignS4("nanoperiod", res);
-  } catch(std::exception &ex) {	
-    forward_exception_to_r(ex);
-  } catch(...) { 
-    ::Rf_error("c++ exception (unknown reason)"); 
+// [[Rcpp::export]]
+Rcpp::ComplexVector plus_period_period_impl(const Rcpp::ComplexVector e1_nv,
+                                            const Rcpp::ComplexVector e2_nv) {
+  checkVectorsLengths(e1_nv, e2_nv);
+  const ConstPseudoVectorPrd e1_n(e1_nv);
+  const ConstPseudoVectorPrd e2_n(e2_nv);
+  Rcpp::ComplexVector res(std::max(e1_nv.size(), e2_nv.size()));
+  PseudoVectorPrd pres(res);
+  for (R_xlen_t i=0; i<res.size(); ++i) {
+    period pu1; memcpy(&pu1, reinterpret_cast<const char*>(&e1_n[i]), sizeof(period));
+    period pu2; memcpy(&pu2, reinterpret_cast<const char*>(&e2_n[i]), sizeof(period));
+    auto prd = pu1 + pu2;
+    memcpy(&pres[i], &prd, sizeof(prd));
   }
-  return R_NilValue;             // not reached
+  copyNames(e1_nv, e2_nv, res);
+  return assignS4("nanoperiod", res);
 }
 
 
 // unary '-'
-RcppExport SEXP minus_period(SEXP e1_p) {
-  try {
-    const Rcpp::ComplexVector e1_cv(e1_p);
-    const ConstPseudoVectorPrd e1_n(e1_cv);
-    Rcpp::ComplexVector res(e1_cv.size());
-    PseudoVectorPrd pres(res); // wrap it to get correct indexing
-    for (R_xlen_t i=0; i<res.size(); ++i) {
-      period pu1; memcpy(&pu1, reinterpret_cast<const char*>(&e1_n[i]), sizeof(period));
-      auto prd = -pu1;
-      memcpy(&pres[i], reinterpret_cast<const char*>(&prd), sizeof(prd)); 
-    }
-    copyNames(e1_cv, e1_cv, res);    
-    return assignS4("nanoperiod", res);
-  } catch(std::exception &ex) {	
-    forward_exception_to_r(ex);
-  } catch(...) { 
-    ::Rf_error("c++ exception (unknown reason)"); 
+// [[Rcpp::export]]
+Rcpp::ComplexVector minus_period_impl(const Rcpp::ComplexVector e1_cv) {
+  const ConstPseudoVectorPrd e1_n(e1_cv);
+  Rcpp::ComplexVector res(e1_cv.size());
+  PseudoVectorPrd pres(res); // wrap it to get correct indexing
+  for (R_xlen_t i=0; i<res.size(); ++i) {
+    period pu1; memcpy(&pu1, reinterpret_cast<const char*>(&e1_n[i]), sizeof(period));
+    auto prd = -pu1;
+    memcpy(&pres[i], reinterpret_cast<const char*>(&prd), sizeof(prd));
   }
-  return R_NilValue;             // not reached
+  copyNames(e1_cv, e1_cv, res);
+  return assignS4("nanoperiod", res);
 }
 
 
-RcppExport SEXP minus_period_period(SEXP e1_p, SEXP e2_p) {
-  try {
-    checkVectorsLengths(e1_p, e2_p);
-    const Rcpp::ComplexVector e1_cv(e1_p);
-    const Rcpp::ComplexVector e2_cv(e2_p);
-    const ConstPseudoVectorPrd e1_n(e1_cv);
-    const ConstPseudoVectorPrd e2_n(e2_cv);
-    Rcpp::ComplexVector res(std::max(e1_cv.size(), e2_cv.size()));
-    PseudoVectorPrd pres(res); // wrap it to get correct indexing
-    for (R_xlen_t i=0; i<res.size(); ++i) {
-      period pu1; memcpy(&pu1, reinterpret_cast<const char*>(&e1_n[i]), sizeof(period));
-      period pu2; memcpy(&pu2, reinterpret_cast<const char*>(&e2_n[i]), sizeof(period));
-      auto prd = pu1 - pu2;
-      memcpy(&pres[i], reinterpret_cast<const char*>(&prd), sizeof(prd)); 
-    }
-    copyNames(e1_cv, e2_cv, res);    
-    return assignS4("nanoperiod", res);
-  } catch(std::exception &ex) {	
-    forward_exception_to_r(ex);
-  } catch(...) { 
-    ::Rf_error("c++ exception (unknown reason)"); 
+// [[Rcpp::export]]
+Rcpp::ComplexVector minus_period_period_impl(const Rcpp::ComplexVector e1_cv,
+                                             const Rcpp::ComplexVector e2_cv) {
+  checkVectorsLengths(e1_cv, e2_cv);
+  const ConstPseudoVectorPrd e1_n(e1_cv);
+  const ConstPseudoVectorPrd e2_n(e2_cv);
+  Rcpp::ComplexVector res(std::max(e1_cv.size(), e2_cv.size()));
+  PseudoVectorPrd pres(res); // wrap it to get correct indexing
+  for (R_xlen_t i=0; i<res.size(); ++i) {
+    period pu1; memcpy(&pu1, reinterpret_cast<const char*>(&e1_n[i]), sizeof(period));
+    period pu2; memcpy(&pu2, reinterpret_cast<const char*>(&e2_n[i]), sizeof(period));
+    auto prd = pu1 - pu2;
+    memcpy(&pres[i], reinterpret_cast<const char*>(&prd), sizeof(prd));
   }
-  return R_NilValue;             // not reached
+  copyNames(e1_cv, e2_cv, res);
+  return assignS4("nanoperiod", res);
 }
 
 
 template <typename OP>
-SEXP compare_period_period(SEXP e1_p, SEXP e2_p, const OP& op) {
-  try {
-    checkVectorsLengths(e1_p, e2_p);
-    const Rcpp::ComplexVector  e1_cv(e1_p);
-    const Rcpp::ComplexVector  e2_cv(e2_p);
-    const ConstPseudoVectorPrd e1_n(e1_cv);
-    const ConstPseudoVectorPrd e2_n(e2_cv);
-    Rcpp::LogicalVector res(std::max(e1_n.size(), e2_n.size()));
-    for (R_xlen_t i=0; i<res.size(); ++i) {
-      period pu1; memcpy(&pu1, reinterpret_cast<const char*>(&e1_n[i]), sizeof(period));
-      period pu2; memcpy(&pu2, reinterpret_cast<const char*>(&e2_n[i]), sizeof(period));
-      res[i] = op(pu1, pu2);
-    }
-    copyNames(e1_cv, e2_cv, res);    
-    return res;
-  } catch(std::exception &ex) {	
-    forward_exception_to_r(ex);
-  } catch(...) { 
-    ::Rf_error("c++ exception (unknown reason)"); 
+Rcpp::LogicalVector compare_period_period(const Rcpp::ComplexVector e1_cv,
+                                          const Rcpp::ComplexVector e2_cv,
+                                          const OP& op) {
+  checkVectorsLengths(e1_cv, e2_cv);
+  const ConstPseudoVectorPrd e1_n(e1_cv);
+  const ConstPseudoVectorPrd e2_n(e2_cv);
+  Rcpp::LogicalVector res(std::max(e1_n.size(), e2_n.size()));
+  for (R_xlen_t i=0; i<res.size(); ++i) {
+    period pu1; memcpy(&pu1, reinterpret_cast<const char*>(&e1_n[i]), sizeof(period));
+    period pu2; memcpy(&pu2, reinterpret_cast<const char*>(&e2_n[i]), sizeof(period));
+    res[i] = op(pu1, pu2);
   }
-  return R_NilValue;             // not reached
+  copyNames(e1_cv, e2_cv, res);
+  return res;
 }
 
-RcppExport SEXP eq_period_period(SEXP e1_p, SEXP e2_p) {
+// [[Rcpp::export]]
+Rcpp::LogicalVector eq_period_period_impl(const Rcpp::ComplexVector e1_p,
+                                          const Rcpp::ComplexVector e2_p) {
   return compare_period_period(e1_p, e2_p, std::equal_to<period>());
 }
 
-RcppExport SEXP ne_period_period(SEXP e1_p, SEXP e2_p) {
+// [[Rcpp::export]]
+Rcpp::LogicalVector ne_period_period_impl(const Rcpp::ComplexVector e1_p,
+                                          const Rcpp::ComplexVector e2_p) {
   return compare_period_period(e1_p, e2_p, std::not_equal_to<period>());
 }
 
-
-RcppExport SEXP plus_period_integer64(SEXP e1_p, SEXP e2_p) {
-  try {
-    checkVectorsLengths(e1_p, e2_p);
-    const Rcpp::ComplexVector e1_cv(e1_p);
-    const Rcpp::NumericVector e2_nv(e2_p);
-    const ConstPseudoVectorPrd   e1_n(e1_cv);
-    const ConstPseudoVectorInt64 e2_n(e2_nv);
-    Rcpp::ComplexVector res(std::max(e1_n.size(), e2_n.size()));
-    PseudoVectorPrd pres(res);
-    for (R_xlen_t i=0; i<pres.size(); ++i) {
-      period pu1; memcpy(&pu1, reinterpret_cast<const char*>(&e1_n[i]), sizeof(period));
-      Global::duration dur; memcpy(&dur, reinterpret_cast<const char*>(&e2_n[i]), sizeof(dur));
-      pu1 = plus(pu1, dur);
-      memcpy(&pres[i], &pu1, sizeof(pu1)); 
-    }
-    copyNames(e1_cv, e2_nv, res);    
-    return assignS4("nanoperiod", res);
-  } catch(std::exception &ex) {	
-    forward_exception_to_r(ex);
-  } catch(...) { 
-    ::Rf_error("c++ exception (unknown reason)"); 
+// [[Rcpp::export]]
+Rcpp::ComplexVector plus_period_integer64_impl(const Rcpp::ComplexVector e1_cv,
+                                               const Rcpp::NumericVector e2_nv) {
+  checkVectorsLengths(e1_cv, e2_nv);
+  const ConstPseudoVectorPrd   e1_n(e1_cv);
+  const ConstPseudoVectorInt64 e2_n(e2_nv);
+  Rcpp::ComplexVector res(std::max(e1_n.size(), e2_n.size()));
+  PseudoVectorPrd pres(res);
+  for (R_xlen_t i=0; i<pres.size(); ++i) {
+    period pu1; memcpy(&pu1, reinterpret_cast<const char*>(&e1_n[i]), sizeof(period));
+    Global::duration dur; memcpy(&dur, reinterpret_cast<const char*>(&e2_n[i]), sizeof(dur));
+    pu1 = plus(pu1, dur);
+    memcpy(&pres[i], &pu1, sizeof(pu1));
   }
-  return R_NilValue;             // not reached
+  copyNames(e1_cv, e2_nv, res);
+  return assignS4("nanoperiod", res);
 }
 
 
-RcppExport SEXP minus_period_integer64(SEXP e1_p, SEXP e2_p) {
-  try {
-    checkVectorsLengths(e1_p, e2_p);
-    const Rcpp::ComplexVector e1_cv(e1_p);
-    const Rcpp::NumericVector e2_nv(e2_p);
-    const ConstPseudoVectorPrd   e1_n(e1_cv);
-    const ConstPseudoVectorInt64 e2_n(e2_nv);
-    Rcpp::ComplexVector res(std::max(e1_n.size(), e2_n.size()));
-    PseudoVectorPrd pres(res);
-    for (R_xlen_t i=0; i<pres.size(); ++i) {
-      period pu1; memcpy(&pu1, reinterpret_cast<const char*>(&e1_n[i]), sizeof(period));
-      Global::duration dur; memcpy(&dur, reinterpret_cast<const char*>(&e2_n[i]), sizeof(dur));
-      pu1 = minus(pu1, dur);
-      memcpy(&pres[i], &pu1, sizeof(pu1)); 
-    }
-    copyNames(e1_cv, e2_nv, res);    
-    return assignS4("nanoperiod", res);
-  } catch(std::exception &ex) {	
-    forward_exception_to_r(ex);
-  } catch(...) { 
-    ::Rf_error("c++ exception (unknown reason)"); 
+// [[Rcpp::export]]
+Rcpp::ComplexVector  minus_period_integer64_impl(const Rcpp::ComplexVector e1_cv,
+                                                 const Rcpp::NumericVector e2_nv) {
+  checkVectorsLengths(e1_cv, e2_nv);
+  const ConstPseudoVectorPrd   e1_n(e1_cv);
+  const ConstPseudoVectorInt64 e2_n(e2_nv);
+  Rcpp::ComplexVector res(std::max(e1_n.size(), e2_n.size()));
+  PseudoVectorPrd pres(res);
+  for (R_xlen_t i=0; i<pres.size(); ++i) {
+    period pu1; memcpy(&pu1, reinterpret_cast<const char*>(&e1_n[i]), sizeof(period));
+    Global::duration dur; memcpy(&dur, reinterpret_cast<const char*>(&e2_n[i]), sizeof(dur));
+    pu1 = minus(pu1, dur);
+    memcpy(&pres[i], &pu1, sizeof(pu1));
   }
-  return R_NilValue;             // not reached
+  copyNames(e1_cv, e2_nv, res);
+  return assignS4("nanoperiod", res);
+}
+
+// [[Rcpp::export]]
+Rcpp::ComplexVector multiplies_period_integer64_impl(const Rcpp::ComplexVector e1_cv,
+                                                     const Rcpp::NumericVector e2_nv) {
+  checkVectorsLengths(e1_cv, e2_nv);
+  const ConstPseudoVectorPrd   e1_n(e1_cv);
+  const ConstPseudoVectorInt64 e2_n(e2_nv);
+  Rcpp::ComplexVector res(std::max(e1_n.size(), e2_n.size()));
+  PseudoVectorPrd pres(res);
+  for (R_xlen_t i=0; i<pres.size(); ++i) {
+    period pu1; memcpy(&pu1, reinterpret_cast<const char*>(&e1_n[i]), sizeof(period));
+    uint64_t m; memcpy(&m, reinterpret_cast<const char*>(&e2_n[i]), sizeof(m));
+    pu1 = pu1 * m;
+    memcpy(&pres[i], &pu1, sizeof(pu1));
+  }
+  copyNames(e1_cv, e2_nv, res);
+  return assignS4("nanoperiod", res);
+}
+
+// [[Rcpp::export]]
+Rcpp::ComplexVector divides_period_integer64_impl(const Rcpp::ComplexVector e1_cv,
+                                                  const Rcpp::NumericVector e2_nv) {
+  checkVectorsLengths(e1_cv, e2_nv);
+  const ConstPseudoVectorPrd   e1_n(e1_cv);
+  const ConstPseudoVectorInt64 e2_n(e2_nv);
+  Rcpp::ComplexVector res(std::max(e1_n.size(), e2_n.size()));
+  PseudoVectorPrd pres(res);
+  for (R_xlen_t i=0; i<pres.size(); ++i) {
+    period pu1; memcpy(&pu1, reinterpret_cast<const char*>(&e1_n[i]), sizeof(period));
+    uint64_t m; memcpy(&m,   reinterpret_cast<const char*>(&e2_n[i]), sizeof(m));
+    pu1 = pu1 / m;
+    memcpy(&pres[i], &pu1, sizeof(pu1));
+  }
+  copyNames(e1_cv, e2_nv, res);
+  return assignS4("nanoperiod", res);
+}
+
+// [[Rcpp::export]]
+Rcpp::ComplexVector multiplies_period_double_impl(const Rcpp::ComplexVector e1_cv,
+                                                  const Rcpp::NumericVector e2_nv) {
+  checkVectorsLengths(e1_cv, e2_nv);
+  const ConstPseudoVectorPrd e1_n(e1_cv);
+  const ConstPseudoVectorDbl e2_n(e2_nv);
+  Rcpp::ComplexVector res(std::max(e1_n.size(), e2_n.size()));
+  PseudoVectorPrd pres(res);
+  for (R_xlen_t i=0; i<pres.size(); ++i) {
+    period pu1; memcpy(&pu1, reinterpret_cast<const char*>(&e1_n[i]), sizeof(period));
+    double m;   memcpy(&m,   reinterpret_cast<const char*>(&e2_n[i]), sizeof(m));
+    pu1 = pu1 * m;
+    memcpy(&pres[i], &pu1, sizeof(pu1));
+  }
+  copyNames(e1_cv, e2_nv, res);
+  return assignS4("nanoperiod", res);
+}
+
+// [[Rcpp::export]]
+Rcpp::ComplexVector divides_period_double_impl(const Rcpp::ComplexVector e1_cv,
+                                               const Rcpp::NumericVector e2_nv) {
+  checkVectorsLengths(e1_cv, e2_nv);
+  const ConstPseudoVectorPrd e1_n(e1_cv);
+  const ConstPseudoVectorDbl e2_n(e2_nv);
+  Rcpp::ComplexVector res(std::max(e1_n.size(), e2_n.size()));
+  PseudoVectorPrd pres(res);
+  for (R_xlen_t i=0; i<pres.size(); ++i) {
+    period pu1; memcpy(&pu1, reinterpret_cast<const char*>(&e1_n[i]), sizeof(period));
+    double m;   memcpy(&m,   reinterpret_cast<const char*>(&e2_n[i]), sizeof(m));
+    pu1 = pu1 / m;
+    memcpy(&pres[i], &pu1, sizeof(pu1));
+  }
+  copyNames(e1_cv, e2_nv, res);
+  return assignS4("nanoperiod", res);
+}
+
+// [[Rcpp::export]]
+Rcpp::ComplexVector minus_integer64_period_impl(const Rcpp::NumericVector e1_nv,
+                                                const Rcpp::ComplexVector e2_cv) {
+  checkVectorsLengths(e1_nv, e2_cv);
+  const ConstPseudoVectorInt64 e1_n(e1_nv);
+  const ConstPseudoVectorPrd   e2_n(e2_cv);
+  Rcpp::ComplexVector res(std::max(e1_n.size(), e2_n.size()));
+  PseudoVectorPrd pres(res);
+  for (R_xlen_t i=0; i<pres.size(); ++i) {
+    period pu2;           memcpy(&pu2, reinterpret_cast<const char*>(&e2_n[i]), sizeof(pu2));
+    Global::duration dur; memcpy(&dur, reinterpret_cast<const char*>(&e1_n[i]), sizeof(dur));
+    pu2 = minus(dur, pu2);
+    memcpy(&pres[i], &pu2, sizeof(pu2));
+  }
+  copyNames(e1_nv, e2_cv, res);
+  return assignS4("nanoperiod", res);
+}
+
+// [[Rcpp::export]]
+Rcpp::NumericVector plus_nanotime_period_impl(const Rcpp::NumericVector e1_nv,
+                                              const Rcpp::ComplexVector e2_cv,
+                                              const Rcpp::CharacterVector tz) {
+  checkVectorsLengths(e1_nv, e2_cv);
+  const ConstPseudoVectorNano e1_n(e1_nv);
+  const ConstPseudoVectorPrd  e2_n(e2_cv);
+  Rcpp::NumericVector res(std::max(e1_n.size(), e2_n.size()));
+  PseudoVectorNano pres(res);
+  for (R_xlen_t i=0; i<pres.size(); ++i) {
+    Global::dtime nano; memcpy(&nano, reinterpret_cast<const char*>(&e1_n[i]), sizeof(nano));
+    period prd; memcpy(&prd, reinterpret_cast<const char*>(&e2_n[i]), sizeof(prd));
+    auto dt = plus(nano, prd, Rcpp::as<std::string>(tz[i]));
+    memcpy(&pres[i], &dt, sizeof(dt));
+  }
+  copyNames(e1_nv, e2_cv, res);
+  return assignS4("nanotime", res, "integer64");
+}
+
+// [[Rcpp::export]]
+Rcpp::NumericVector minus_nanotime_period_impl(const Rcpp::NumericVector e1_nv,
+                                               const Rcpp::ComplexVector e2_cv,
+                                               const Rcpp::CharacterVector tz) {
+  checkVectorsLengths(e1_nv, e2_cv);
+  const ConstPseudoVectorNano e1_n(e1_nv);
+  const ConstPseudoVectorPrd  e2_n(e2_cv);
+  Rcpp::NumericVector res(std::max(e1_n.size(), e2_n.size()));
+  PseudoVectorNano pres(res);
+  for (R_xlen_t i=0; i<pres.size(); ++i) {
+    Global::dtime nano; memcpy(&nano, reinterpret_cast<const char*>(&e1_n[i]), sizeof(nano));
+    period prd; memcpy(&prd, reinterpret_cast<const char*>(&e2_n[i]), sizeof(prd));
+    auto dt = minus(nano, prd, Rcpp::as<std::string>(tz[i % tz.size()]));
+    memcpy(&pres[i], &dt, sizeof(dt));
+  }
+  copyNames(e1_nv, e2_cv, res);
+  return assignS4("nanotime", res, "integer64");
+}
+
+// [[Rcpp::export]]
+Rcpp::ComplexVector plus_nanoival_period_impl(const Rcpp::ComplexVector e1_cv,
+                                              const Rcpp::ComplexVector e2_cv,
+                                              const Rcpp::CharacterVector tz) {
+  checkVectorsLengths(e1_cv, e2_cv);
+  const ConstPseudoVectorIval e1_n (e1_cv);
+  const ConstPseudoVectorPrd  e2_n (e2_cv);
+  Rcpp::ComplexVector res(std::max(e1_n.size(), e2_n.size()));
+  PseudoVectorPrd pres(res);
+  for (R_xlen_t i=0; i<pres.size(); ++i) {
+    interval ival; memcpy(&ival, reinterpret_cast<const char*>(&e1_n[i]), sizeof(ival));
+    period prd; memcpy(&prd, reinterpret_cast<const char*>(&e2_n[i]), sizeof(prd));
+    auto res_ival = plus(ival, prd, Rcpp::as<std::string>(tz[i % tz.size()]));
+    memcpy(&pres[i], &res_ival, sizeof(res_ival));
+  }
+  copyNames(e1_cv, e2_cv, res);
+  return assignS4("nanoival", res);
+}
+
+// [[Rcpp::export]]
+Rcpp::ComplexVector minus_nanoival_period_impl(const Rcpp::ComplexVector e1_cv,
+                                               const Rcpp::ComplexVector e2_cv,
+                                               const Rcpp::CharacterVector tz) {
+  checkVectorsLengths(e1_cv, e2_cv);
+  const ConstPseudoVectorIval e1_n (e1_cv);
+  const ConstPseudoVectorPrd  e2_n (e2_cv);
+  Rcpp::ComplexVector res(std::max(e1_n.size(), e2_n.size()));
+  PseudoVectorPrd pres(res);
+  for (R_xlen_t i=0; i<pres.size(); ++i) {
+    interval ival; memcpy(&ival, reinterpret_cast<const char*>(&e1_n[i]), sizeof(ival));
+    period prd; memcpy(&prd, reinterpret_cast<const char*>(&e2_n[i]), sizeof(prd));
+    auto res_ival = minus(ival, prd, Rcpp::as<std::string>(tz[i % tz.size()]));
+    memcpy(&pres[i], &res_ival, sizeof(res_ival));
+  }
+  copyNames(e1_cv, e2_cv, res);
+  return assignS4("nanoival", res);
 }
 
 
-RcppExport SEXP multiplies_period_integer64(SEXP e1_p, SEXP e2_p) {
-  try {
-    checkVectorsLengths(e1_p, e2_p);
-    const Rcpp::ComplexVector e1_cv(e1_p);
-    const Rcpp::NumericVector e2_nv(e2_p);
-    const ConstPseudoVectorPrd   e1_n(e1_cv);
-    const ConstPseudoVectorInt64 e2_n(e2_nv);
-    Rcpp::ComplexVector res(std::max(e1_n.size(), e2_n.size()));
-    PseudoVectorPrd pres(res);
-    for (R_xlen_t i=0; i<pres.size(); ++i) {
-      period pu1; memcpy(&pu1, reinterpret_cast<const char*>(&e1_n[i]), sizeof(period));
-      uint64_t m; memcpy(&m, reinterpret_cast<const char*>(&e2_n[i]), sizeof(m));
-      pu1 = pu1 * m;
-      memcpy(&pres[i], &pu1, sizeof(pu1)); 
+// [[Rcpp::export]]
+Rcpp::NumericVector period_month_impl(const Rcpp::ComplexVector e_n) {
+  Rcpp::NumericVector res(e_n.size());
+  for (R_xlen_t i=0; i<e_n.size(); ++i) {
+    period prd; memcpy(&prd, reinterpret_cast<const char*>(&e_n[i]), sizeof(period));
+    if (prd.isNA()) {
+      res[i] = NA_REAL;
     }
-    copyNames(e1_cv, e2_nv, res);    
-    return assignS4("nanoperiod", res);
-  } catch(std::exception &ex) {	
-    forward_exception_to_r(ex);
-  } catch(...) { 
-    ::Rf_error("c++ exception (unknown reason)"); 
+    else {
+      res[i] = prd.getMonths();
+    }
   }
-  return R_NilValue;             // not reached
+  if (e_n.hasAttribute("names")) {
+    res.names() = e_n.names();
+  }
+  return res;
 }
 
 
-RcppExport SEXP divides_period_integer64(SEXP e1_p, SEXP e2_p) {
-  try {
-    checkVectorsLengths(e1_p, e2_p);
-    const Rcpp::ComplexVector    e1_cv(e1_p);
-    const Rcpp::NumericVector    e2_nv(e2_p);
-    const ConstPseudoVectorPrd   e1_n(e1_cv);
-    const ConstPseudoVectorInt64 e2_n(e2_nv);
-    Rcpp::ComplexVector res(std::max(e1_n.size(), e2_n.size()));
-    PseudoVectorPrd pres(res);
-    for (R_xlen_t i=0; i<pres.size(); ++i) {
-      period pu1; memcpy(&pu1, reinterpret_cast<const char*>(&e1_n[i]), sizeof(period));
-      uint64_t m; memcpy(&m,   reinterpret_cast<const char*>(&e2_n[i]), sizeof(m));
-      pu1 = pu1 / m;
-      memcpy(&pres[i], &pu1, sizeof(pu1)); 
+// [[Rcpp::export]]
+Rcpp::NumericVector period_day_impl(const Rcpp::ComplexVector e_n) {
+  Rcpp::NumericVector res(e_n.size());
+  for (R_xlen_t i=0; i<e_n.size(); ++i) {
+    period prd; memcpy(&prd, reinterpret_cast<const char*>(&e_n[i]), sizeof(period));
+    if (prd.isNA()) {
+      res[i] = NA_REAL;
     }
-    copyNames(e1_cv, e2_nv, res);    
-    return assignS4("nanoperiod", res);
-  } catch(std::exception &ex) {	
-    forward_exception_to_r(ex);
-  } catch(...) { 
-    ::Rf_error("c++ exception (unknown reason)"); 
+    else {
+      res[i] = prd.getDays();
+    }
   }
-  return R_NilValue;             // not reached
+  if (e_n.hasAttribute("names")) {
+    res.names() = e_n.names();
+  }
+  return res;
 }
 
 
-RcppExport SEXP multiplies_period_double(SEXP e1_p, SEXP e2_p) {
-  try {
-    checkVectorsLengths(e1_p, e2_p);
-    const Rcpp::ComplexVector  e1_cv(e1_p);
-    const Rcpp::NumericVector  e2_nv(e2_p);
-    const ConstPseudoVectorPrd e1_n(e1_cv);
-    const ConstPseudoVectorDbl e2_n(e2_nv);
-    Rcpp::ComplexVector res(std::max(e1_n.size(), e2_n.size()));
-    PseudoVectorPrd pres(res);
-    for (R_xlen_t i=0; i<pres.size(); ++i) {
-      period pu1; memcpy(&pu1, reinterpret_cast<const char*>(&e1_n[i]), sizeof(period));
-      double m;   memcpy(&m,   reinterpret_cast<const char*>(&e2_n[i]), sizeof(m));
-      pu1 = pu1 * m;
-      memcpy(&pres[i], &pu1, sizeof(pu1)); 
+// [[Rcpp::export]]
+Rcpp::S4 period_duration_impl(const Rcpp::ComplexVector e_n) {
+  Rcpp::NumericVector res(e_n.size());
+  for (R_xlen_t i=0; i<e_n.size(); ++i) {
+    period prd; memcpy(&prd, reinterpret_cast<const char*>(&e_n[i]), sizeof(period));
+    if (prd.isNA()) {
+      auto dur = Global::duration::min();
+      memcpy(&res[i], &dur, sizeof(dur));
     }
-    copyNames(e1_cv, e2_nv, res);    
-    return assignS4("nanoperiod", res);
-  } catch(std::exception &ex) {	
-    forward_exception_to_r(ex);
-  } catch(...) { 
-    ::Rf_error("c++ exception (unknown reason)"); 
+    else {
+      auto dur = prd.getDuration();
+      memcpy(&res[i], &dur, sizeof(dur));
+    }
   }
-  return R_NilValue;             // not reached
+  if (e_n.hasAttribute("names")) {
+    res.names() = e_n.names();
+  }
+  return assignS4("nanoduration", res, "integer64");
 }
 
 
-RcppExport SEXP divides_period_double(SEXP e1_p, SEXP e2_p) {
-  try {
-    checkVectorsLengths(e1_p, e2_p);
-    const Rcpp::ComplexVector  e1_cv(e1_p);
-    const Rcpp::NumericVector  e2_nv(e2_p);
-    const ConstPseudoVectorPrd e1_n(e1_cv);
-    const ConstPseudoVectorDbl e2_n(e2_nv);
-    Rcpp::ComplexVector res(std::max(e1_n.size(), e2_n.size()));
-    PseudoVectorPrd pres(res);
-    for (R_xlen_t i=0; i<pres.size(); ++i) {
-      period pu1; memcpy(&pu1, reinterpret_cast<const char*>(&e1_n[i]), sizeof(period));
-      double m;   memcpy(&m,   reinterpret_cast<const char*>(&e2_n[i]), sizeof(m));
-      pu1 = pu1 / m;
-      memcpy(&pres[i], &pu1, sizeof(pu1)); 
-    }
-    copyNames(e1_cv, e2_nv, res);    
-    return assignS4("nanoperiod", res);
-  } catch(std::exception &ex) {	
-    forward_exception_to_r(ex);
-  } catch(...) { 
-    ::Rf_error("c++ exception (unknown reason)"); 
-  }
-  return R_NilValue;             // not reached
-}
-
-
-RcppExport SEXP minus_integer64_period(SEXP e1_p, SEXP e2_p) {
-  try {
-    checkVectorsLengths(e1_p, e2_p);
-    const Rcpp::NumericVector    e1_nv(e1_p);
-    const Rcpp::ComplexVector    e2_cv(e2_p);
-    const ConstPseudoVectorInt64 e1_n(e1_nv);
-    const ConstPseudoVectorPrd   e2_n(e2_cv);
-    Rcpp::ComplexVector res(std::max(e1_n.size(), e2_n.size()));
-    PseudoVectorPrd pres(res);
-    for (R_xlen_t i=0; i<pres.size(); ++i) {
-      period pu2;           memcpy(&pu2, reinterpret_cast<const char*>(&e2_n[i]), sizeof(pu2));
-      Global::duration dur; memcpy(&dur, reinterpret_cast<const char*>(&e1_n[i]), sizeof(dur));
-      pu2 = minus(dur, pu2);
-      memcpy(&pres[i], &pu2, sizeof(pu2));
-    }
-    copyNames(e1_nv, e2_cv, res);    
-    return assignS4("nanoperiod", res);
-  } catch(std::exception &ex) {	
-    forward_exception_to_r(ex);
-  } catch(...) { 
-    ::Rf_error("c++ exception (unknown reason)"); 
-  }
-  return R_NilValue;             // not reached
-}
-
-
-RcppExport SEXP plus_nanotime_period(SEXP e1_p, SEXP e2_p, SEXP tz_p) {
-  try {
-    checkVectorsLengths(e1_p, e2_p);
-    const Rcpp::NumericVector e1_nv(e1_p);
-    const Rcpp::ComplexVector e2_cv(e2_p);
-    const ConstPseudoVectorNano e1_n(e1_nv);
-    const ConstPseudoVectorPrd  e2_n(e2_cv);
-    Rcpp::NumericVector res(std::max(e1_n.size(), e2_n.size()));
-    PseudoVectorNano pres(res);
-    const Rcpp::CharacterVector tz(tz_p);
-    for (R_xlen_t i=0; i<pres.size(); ++i) {
-      Global::dtime nano; memcpy(&nano, reinterpret_cast<const char*>(&e1_n[i]), sizeof(nano));
-      period prd; memcpy(&prd, reinterpret_cast<const char*>(&e2_n[i]), sizeof(prd));      
-      auto dt = plus(nano, prd, Rcpp::as<std::string>(tz[i]));
-      memcpy(&pres[i], &dt, sizeof(dt));
-    }
-    copyNames(e1_nv, e2_cv, res);    
-    return assignS4("nanotime", res, "integer64");
-  } catch(std::exception &ex) {	
-    forward_exception_to_r(ex);
-  } catch(...) { 
-    ::Rf_error("c++ exception (unknown reason)"); 
-  }
-  return R_NilValue;             // not reached
-}
-
-
-RcppExport SEXP minus_nanotime_period(SEXP e1_p, SEXP e2_p, SEXP tz_p) {
-  try {
-    checkVectorsLengths(e1_p, e2_p);
-    const Rcpp::NumericVector   e1_nv(e1_p);
-    const Rcpp::ComplexVector   e2_cv(e2_p);
-    const ConstPseudoVectorNano e1_n(e1_nv);
-    const ConstPseudoVectorPrd  e2_n(e2_cv);
-    Rcpp::NumericVector res(std::max(e1_n.size(), e2_n.size()));
-    PseudoVectorNano pres(res);
-    const Rcpp::CharacterVector tz(tz_p);
-    for (R_xlen_t i=0; i<pres.size(); ++i) {
-      Global::dtime nano; memcpy(&nano, reinterpret_cast<const char*>(&e1_n[i]), sizeof(nano));
-      period prd; memcpy(&prd, reinterpret_cast<const char*>(&e2_n[i]), sizeof(prd));      
-      auto dt = minus(nano, prd, Rcpp::as<std::string>(tz[i % tz.size()]));
-      memcpy(&pres[i], &dt, sizeof(dt));
-    }
-    copyNames(e1_nv, e2_cv, res);    
-    return assignS4("nanotime", res, "integer64");
-  } catch(std::exception &ex) {	
-    forward_exception_to_r(ex);
-  } catch(...) { 
-    ::Rf_error("c++ exception (unknown reason)"); 
-  }
-  return R_NilValue;             // not reached
-}
-
-
-RcppExport SEXP plus_nanoival_period(SEXP e1_p, SEXP e2_p, SEXP tz_p) {
-  try {
-    checkVectorsLengths(e1_p, e2_p);
-    const Rcpp::ComplexVector   e1_cv(e1_p);
-    const Rcpp::ComplexVector   e2_cv(e2_p);
-    const ConstPseudoVectorIval e1_n (e1_cv);
-    const ConstPseudoVectorPrd  e2_n (e2_cv);
-    Rcpp::ComplexVector res(std::max(e1_n.size(), e2_n.size()));
-    PseudoVectorPrd pres(res);
-    const Rcpp::CharacterVector tz(tz_p);
-    for (R_xlen_t i=0; i<pres.size(); ++i) {
-      interval ival; memcpy(&ival, reinterpret_cast<const char*>(&e1_n[i]), sizeof(ival));      
-      period prd; memcpy(&prd, reinterpret_cast<const char*>(&e2_n[i]), sizeof(prd));
-      auto res_ival = plus(ival, prd, Rcpp::as<std::string>(tz[i % tz.size()]));
-      memcpy(&pres[i], &res_ival, sizeof(res_ival));
-    }
-    copyNames(e1_cv, e2_cv, res);    
-    return assignS4("nanoival", res);
-  } catch(std::exception &ex) {	
-    forward_exception_to_r(ex);
-  } catch(...) { 
-    ::Rf_error("c++ exception (unknown reason)"); 
-  }
-  return R_NilValue;             // not reached  
-}
-
-RcppExport SEXP minus_nanoival_period(SEXP e1_p, SEXP e2_p, SEXP tz_p) {
-  try {
-    checkVectorsLengths(e1_p, e2_p);
-    const Rcpp::ComplexVector   e1_cv(e1_p);
-    const Rcpp::ComplexVector   e2_cv(e2_p);
-    const ConstPseudoVectorIval e1_n (e1_cv);
-    const ConstPseudoVectorPrd  e2_n (e2_cv);
-    Rcpp::ComplexVector res(std::max(e1_n.size(), e2_n.size()));
-    PseudoVectorPrd pres(res);
-    const Rcpp::CharacterVector tz(tz_p);
-    for (R_xlen_t i=0; i<pres.size(); ++i) {
-      interval ival; memcpy(&ival, reinterpret_cast<const char*>(&e1_n[i]), sizeof(ival));      
-      period prd; memcpy(&prd, reinterpret_cast<const char*>(&e2_n[i]), sizeof(prd));
-      auto res_ival = minus(ival, prd, Rcpp::as<std::string>(tz[i % tz.size()]));
-      memcpy(&pres[i], &res_ival, sizeof(res_ival));
-    }
-    copyNames(e1_cv, e2_cv, res);    
-    return assignS4("nanoival", res);
-  } catch(std::exception &ex) {	
-    forward_exception_to_r(ex);
-  } catch(...) { 
-    ::Rf_error("c++ exception (unknown reason)"); 
-  }
-  return R_NilValue;             // not reached  
-}
-
-
-RcppExport SEXP period_month(SEXP e_p) {
-  try {
-    const Rcpp::ComplexVector e_n(e_p);
-    Rcpp::NumericVector res(e_n.size());
-    for (R_xlen_t i=0; i<e_n.size(); ++i) {
-      period prd; memcpy(&prd, reinterpret_cast<const char*>(&e_n[i]), sizeof(period));
-      if (prd.isNA()) {
-        res[i] = NA_REAL;
-      }
-      else {
-        res[i] = prd.getMonths();
-      }
-    }
-    if (e_n.hasAttribute("names")) {
-      res.names() = e_n.names();
-    }
-    return res;
-  } catch(std::exception &ex) {	
-    forward_exception_to_r(ex);
-  } catch(...) { 
-    ::Rf_error("c++ exception (unknown reason)"); 
-  }
-  return R_NilValue;             // not reached
-}
-
-
-RcppExport SEXP period_day(SEXP e_p) {
-  try {
-    const Rcpp::ComplexVector e_n(e_p);
-    Rcpp::NumericVector res(e_n.size());
-    for (R_xlen_t i=0; i<e_n.size(); ++i) {
-      period prd; memcpy(&prd, reinterpret_cast<const char*>(&e_n[i]), sizeof(period));
-      if (prd.isNA()) {
-        res[i] = NA_REAL;
-      }
-      else {
-        res[i] = prd.getDays();
-      }
-    }
-    if (e_n.hasAttribute("names")) {
-      res.names() = e_n.names();
-    }
-    return res;
-  } catch(std::exception &ex) {	
-    forward_exception_to_r(ex);
-  } catch(...) { 
-    ::Rf_error("c++ exception (unknown reason)"); 
-  }
-  return R_NilValue;             // not reached
-}
-
-
-RcppExport SEXP period_duration(SEXP e_p) {
-  try {
-    const Rcpp::ComplexVector e_n(e_p);
-    Rcpp::NumericVector res(e_n.size());
-    for (R_xlen_t i=0; i<e_n.size(); ++i) {
-      period prd; memcpy(&prd, reinterpret_cast<const char*>(&e_n[i]), sizeof(period));
-      if (prd.isNA()) {
-        auto dur = Global::duration::min();        
-        memcpy(&res[i], &dur, sizeof(dur));
-      }
-      else {
-        auto dur = prd.getDuration();
-        memcpy(&res[i], &dur, sizeof(dur));
-      }
-    }
-    if (e_n.hasAttribute("names")) {
-      res.names() = e_n.names();
-    }
-    return assignS4("nanoduration", res, "integer64");
-  } catch(std::exception &ex) {	
-    forward_exception_to_r(ex);
-  } catch(...) { 
-    ::Rf_error("c++ exception (unknown reason)"); 
-  }
-  return R_NilValue;             // not reached
-}
-
-
-RcppExport SEXP period_isna(SEXP sv) {
-  const Rcpp::ComplexVector cv(sv);
+// [[Rcpp::export]]
+Rcpp::LogicalVector period_isna_impl(const Rcpp::ComplexVector cv) {
   Rcpp::LogicalVector res(cv.size());
   for (R_xlen_t i=0; i<cv.size(); ++i) {
     period prd;
@@ -889,76 +722,60 @@ constexpr Global::duration abs(Global::duration d) {
   return d >= d.zero() ? d : -d;
 }
 
-RcppExport SEXP period_seq_from_to(SEXP from_p, SEXP to_p, SEXP by_p, SEXP tz_p) {
-  try {
-    const Rcpp::NumericVector   from_nv(from_p);
-    const ConstPseudoVectorNano from_n(from_nv);
-    const Rcpp::NumericVector   to_nv(to_p);
-    const ConstPseudoVectorNano to_n(to_nv);
-    const Rcpp::ComplexVector   by_cv(by_p);
-    const ConstPseudoVectorPrd  by_n(by_cv);
+// [[Rcpp::export]]
+Rcpp::NumericVector period_seq_from_to_impl(const Rcpp::NumericVector from_nv,
+                                            const Rcpp::NumericVector to_nv,
+                                            const Rcpp::ComplexVector by_cv,
+                                            const std::string tz) {
+  const ConstPseudoVectorNano from_n(from_nv);
+  const ConstPseudoVectorNano to_n(to_nv);
+  const ConstPseudoVectorPrd  by_n(by_cv);
+  Global::dtime from; memcpy(&from, reinterpret_cast<const char*>(&from_n[0]), sizeof(from));
+  Global::dtime to;   memcpy(&to,   reinterpret_cast<const char*>(&to_n[0]),   sizeof(to));
+  period by;          memcpy(&by,   reinterpret_cast<const char*>(&by_n[0]),   sizeof(by));
 
-    Global::dtime from; memcpy(&from, reinterpret_cast<const char*>(&from_n[0]), sizeof(from));
-    Global::dtime to;   memcpy(&to,   reinterpret_cast<const char*>(&to_n[0]),   sizeof(to));
-    period by;          memcpy(&by,   reinterpret_cast<const char*>(&by_n[0]),   sizeof(by));
-    const std::string tz = Rcpp::as<std::string>(tz_p);
-    
-    std::vector<Global::dtime> res{from};
+  std::vector<Global::dtime> res{from};
 
-    auto diff = to - from;
-    auto pos = diff >= std::chrono::seconds(0);
-    auto dist = abs(diff);
-    auto olddist = dist;
-    for (;;) {
-      auto next = plus(res.back(), by, tz);
-      if (pos ? next > to : next < to) break;
-      res.push_back(next);
-      olddist = dist;
-      dist = abs(to - next);
-      if (dist >= olddist) {
-        throw std::range_error("incorrect specification for 'to'/'by'"); // # nocov
-      }
+  auto diff = to - from;
+  auto pos = diff >= std::chrono::seconds(0);
+  auto dist = abs(diff);
+  auto olddist = dist;
+  for (;;) {
+    auto next = plus(res.back(), by, tz);
+    if (pos ? next > to : next < to) break;
+    res.push_back(next);
+    olddist = dist;
+    dist = abs(to - next);
+    if (dist >= olddist) {
+      Rcpp::stop("incorrect specification for 'to'/'by'"); // # nocov
     }
-
-    Rcpp::NumericVector res_rcpp(res.size());
-    memcpy(&res_rcpp[0], &res[0], sizeof(Global::dtime)*res.size()); 
-    return assignS4("nanotime", res_rcpp, "integer64");
-  } catch(std::exception &ex) {	
-    forward_exception_to_r(ex);
-  } catch(...) { 
-    ::Rf_error("c++ exception (unknown reason)"); 
   }
-  return R_NilValue;             // not reached
+
+  Rcpp::NumericVector res_rcpp(res.size());
+  memcpy(&res_rcpp[0], &res[0], sizeof(Global::dtime)*res.size());
+  return assignS4("nanotime", res_rcpp, "integer64");
 }
 
+// [[Rcpp::export]]
+Rcpp::NumericVector period_seq_from_length_impl(const Rcpp::NumericVector from_nv,
+                                                const Rcpp::ComplexVector by_cv,
+                                                const Rcpp::NumericVector n_nv,
+                                                const std::string tz) {
+  const ConstPseudoVectorNano from_n(from_nv);
+  const ConstPseudoVectorPrd  by_n(by_cv);
+  const ConstPseudoVectorNano n_n(n_nv);
 
-RcppExport SEXP period_seq_from_length(SEXP from_p, SEXP by_p, SEXP n_p, SEXP tz_p) {
-  try {
-    const Rcpp::NumericVector   from_nv(from_p);
-    const ConstPseudoVectorNano from_n(from_nv);
-    const Rcpp::ComplexVector   by_cv(by_p);
-    const ConstPseudoVectorPrd  by_n(by_cv);
-    const Rcpp::NumericVector   n_nv(n_p);
-    const ConstPseudoVectorNano n_n(n_nv);
+  Global::dtime from; memcpy(&from, reinterpret_cast<const char*>(&from_n[0]), sizeof(from));
+  period by;          memcpy(&by,   reinterpret_cast<const char*>(&by_n[0]),   sizeof(by));
+  size_t n;           memcpy(&n,    reinterpret_cast<const char*>(&n_n[0]),    sizeof(n));
 
-    Global::dtime from; memcpy(&from, reinterpret_cast<const char*>(&from_n[0]), sizeof(from));
-    period by;          memcpy(&by,   reinterpret_cast<const char*>(&by_n[0]),   sizeof(by));
-    size_t n;           memcpy(&n,    reinterpret_cast<const char*>(&n_n[0]),    sizeof(n));
-    const std::string tz = Rcpp::as<std::string>(tz_p);
-    
-    std::vector<Global::dtime> res{from};
+  std::vector<Global::dtime> res{from};
 
-    for (size_t i=1; i<n; ++i) {
-      res.push_back(plus(res[i-1], by, tz));
-    }
-
-    Rcpp::NumericVector res_rcpp(res.size());
-    memcpy(&res_rcpp[0], &res[0], sizeof(Global::dtime)*res.size()); 
-    return assignS4("nanotime", res_rcpp, "integer64");
-  } catch(std::exception &ex) {	
-    forward_exception_to_r(ex);
-  } catch(...) { 
-    ::Rf_error("c++ exception (unknown reason)"); 
+  for (size_t i=1; i<n; ++i) {
+    res.push_back(plus(res[i-1], by, tz));
   }
-  return R_NilValue;             // not reached
+
+  Rcpp::NumericVector res_rcpp(res.size());
+  memcpy(&res_rcpp[0], &res[0], sizeof(Global::dtime)*res.size());
+  return assignS4("nanotime", res_rcpp, "integer64");
 }

@@ -5,6 +5,53 @@
 
 using namespace Rcpp;
 
+// duration_from_string_impl
+Rcpp::NumericVector duration_from_string_impl(Rcpp::CharacterVector str);
+RcppExport SEXP _nanotime_duration_from_string_impl(SEXP strSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type str(strSEXP);
+    rcpp_result_gen = Rcpp::wrap(duration_from_string_impl(str));
+    return rcpp_result_gen;
+END_RCPP
+}
+// duration_to_string_impl
+Rcpp::CharacterVector duration_to_string_impl(Rcpp::NumericVector dur);
+RcppExport SEXP _nanotime_duration_to_string_impl(SEXP durSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type dur(durSEXP);
+    rcpp_result_gen = Rcpp::wrap(duration_to_string_impl(dur));
+    return rcpp_result_gen;
+END_RCPP
+}
+// duration_is_na_impl
+Rcpp::LogicalVector duration_is_na_impl(Rcpp::NumericVector dur);
+RcppExport SEXP _nanotime_duration_is_na_impl(SEXP durSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type dur(durSEXP);
+    rcpp_result_gen = Rcpp::wrap(duration_is_na_impl(dur));
+    return rcpp_result_gen;
+END_RCPP
+}
+// make_duration_impl
+Rcpp::NumericVector make_duration_impl(const Rcpp::NumericVector h_nv, const Rcpp::NumericVector m_nv, const Rcpp::NumericVector s_nv, const Rcpp::NumericVector n_nv);
+RcppExport SEXP _nanotime_make_duration_impl(SEXP h_nvSEXP, SEXP m_nvSEXP, SEXP s_nvSEXP, SEXP n_nvSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector >::type h_nv(h_nvSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector >::type m_nv(m_nvSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector >::type s_nv(s_nvSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector >::type n_nv(n_nvSEXP);
+    rcpp_result_gen = Rcpp::wrap(make_duration_impl(h_nv, m_nv, s_nv, n_nv));
+    return rcpp_result_gen;
+END_RCPP
+}
 // nanoival_intersect_idx_time_interval_impl
 Rcpp::List nanoival_intersect_idx_time_interval_impl(const Rcpp::NumericVector nv1, const Rcpp::ComplexVector nv2);
 RcppExport SEXP _nanotime_nanoival_intersect_idx_time_interval_impl(SEXP nv1SEXP, SEXP nv2SEXP) {
@@ -362,40 +409,334 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-
-RcppExport SEXP divides_period_double(SEXP, SEXP);
-RcppExport SEXP divides_period_integer64(SEXP, SEXP);
-RcppExport SEXP duration_from_string(SEXP);
-RcppExport SEXP duration_is_na(SEXP);
-RcppExport SEXP duration_to_string(SEXP);
-RcppExport SEXP eq_period_period(SEXP, SEXP);
-RcppExport SEXP make_duration(SEXP, SEXP, SEXP, SEXP);
-RcppExport SEXP minus_integer64_period(SEXP, SEXP);
-RcppExport SEXP minus_nanoival_period(SEXP, SEXP, SEXP);
-RcppExport SEXP minus_nanotime_period(SEXP, SEXP, SEXP);
-RcppExport SEXP minus_period(SEXP);
-RcppExport SEXP minus_period_integer64(SEXP, SEXP);
-RcppExport SEXP minus_period_period(SEXP, SEXP);
-RcppExport SEXP multiplies_period_double(SEXP, SEXP);
-RcppExport SEXP multiplies_period_integer64(SEXP, SEXP);
-RcppExport SEXP ne_period_period(SEXP, SEXP);
-RcppExport SEXP period_day(SEXP);
-RcppExport SEXP period_duration(SEXP);
-RcppExport SEXP period_from_double(SEXP);
-RcppExport SEXP period_from_integer(SEXP);
-RcppExport SEXP period_from_integer64(SEXP);
-RcppExport SEXP period_from_string(SEXP);
-RcppExport SEXP period_isna(SEXP);
-RcppExport SEXP period_month(SEXP);
-RcppExport SEXP period_seq_from_length(SEXP, SEXP, SEXP, SEXP);
-RcppExport SEXP period_seq_from_to(SEXP, SEXP, SEXP, SEXP);
-RcppExport SEXP period_to_string(SEXP);
-RcppExport SEXP plus_nanoival_period(SEXP, SEXP, SEXP);
-RcppExport SEXP plus_nanotime_period(SEXP, SEXP, SEXP);
-RcppExport SEXP plus_period_integer64(SEXP, SEXP);
-RcppExport SEXP plus_period_period(SEXP, SEXP);
+// period_from_string_impl
+Rcpp::ComplexVector period_from_string_impl(Rcpp::CharacterVector str);
+RcppExport SEXP _nanotime_period_from_string_impl(SEXP strSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type str(strSEXP);
+    rcpp_result_gen = Rcpp::wrap(period_from_string_impl(str));
+    return rcpp_result_gen;
+END_RCPP
+}
+// period_to_string_impl
+Rcpp::CharacterVector period_to_string_impl(Rcpp::ComplexVector prd);
+RcppExport SEXP _nanotime_period_to_string_impl(SEXP prdSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::ComplexVector >::type prd(prdSEXP);
+    rcpp_result_gen = Rcpp::wrap(period_to_string_impl(prd));
+    return rcpp_result_gen;
+END_RCPP
+}
+// period_from_integer64_impl
+Rcpp::ComplexVector period_from_integer64_impl(Rcpp::NumericVector i64);
+RcppExport SEXP _nanotime_period_from_integer64_impl(SEXP i64SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type i64(i64SEXP);
+    rcpp_result_gen = Rcpp::wrap(period_from_integer64_impl(i64));
+    return rcpp_result_gen;
+END_RCPP
+}
+// period_from_integer_impl
+Rcpp::ComplexVector period_from_integer_impl(Rcpp::IntegerVector iint);
+RcppExport SEXP _nanotime_period_from_integer_impl(SEXP iintSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type iint(iintSEXP);
+    rcpp_result_gen = Rcpp::wrap(period_from_integer_impl(iint));
+    return rcpp_result_gen;
+END_RCPP
+}
+// period_from_double_impl
+Rcpp::ComplexVector period_from_double_impl(Rcpp::NumericVector dbl);
+RcppExport SEXP _nanotime_period_from_double_impl(SEXP dblSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type dbl(dblSEXP);
+    rcpp_result_gen = Rcpp::wrap(period_from_double_impl(dbl));
+    return rcpp_result_gen;
+END_RCPP
+}
+// plus_period_period_impl
+Rcpp::ComplexVector plus_period_period_impl(const Rcpp::ComplexVector e1_nv, const Rcpp::ComplexVector e2_nv);
+RcppExport SEXP _nanotime_plus_period_period_impl(SEXP e1_nvSEXP, SEXP e2_nvSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type e1_nv(e1_nvSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type e2_nv(e2_nvSEXP);
+    rcpp_result_gen = Rcpp::wrap(plus_period_period_impl(e1_nv, e2_nv));
+    return rcpp_result_gen;
+END_RCPP
+}
+// minus_period_impl
+Rcpp::ComplexVector minus_period_impl(const Rcpp::ComplexVector e1_cv);
+RcppExport SEXP _nanotime_minus_period_impl(SEXP e1_cvSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type e1_cv(e1_cvSEXP);
+    rcpp_result_gen = Rcpp::wrap(minus_period_impl(e1_cv));
+    return rcpp_result_gen;
+END_RCPP
+}
+// minus_period_period_impl
+Rcpp::ComplexVector minus_period_period_impl(const Rcpp::ComplexVector e1_cv, const Rcpp::ComplexVector e2_cv);
+RcppExport SEXP _nanotime_minus_period_period_impl(SEXP e1_cvSEXP, SEXP e2_cvSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type e1_cv(e1_cvSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type e2_cv(e2_cvSEXP);
+    rcpp_result_gen = Rcpp::wrap(minus_period_period_impl(e1_cv, e2_cv));
+    return rcpp_result_gen;
+END_RCPP
+}
+// eq_period_period_impl
+Rcpp::LogicalVector eq_period_period_impl(const Rcpp::ComplexVector e1_p, const Rcpp::ComplexVector e2_p);
+RcppExport SEXP _nanotime_eq_period_period_impl(SEXP e1_pSEXP, SEXP e2_pSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type e1_p(e1_pSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type e2_p(e2_pSEXP);
+    rcpp_result_gen = Rcpp::wrap(eq_period_period_impl(e1_p, e2_p));
+    return rcpp_result_gen;
+END_RCPP
+}
+// ne_period_period_impl
+Rcpp::LogicalVector ne_period_period_impl(const Rcpp::ComplexVector e1_p, const Rcpp::ComplexVector e2_p);
+RcppExport SEXP _nanotime_ne_period_period_impl(SEXP e1_pSEXP, SEXP e2_pSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type e1_p(e1_pSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type e2_p(e2_pSEXP);
+    rcpp_result_gen = Rcpp::wrap(ne_period_period_impl(e1_p, e2_p));
+    return rcpp_result_gen;
+END_RCPP
+}
+// plus_period_integer64_impl
+Rcpp::ComplexVector plus_period_integer64_impl(const Rcpp::ComplexVector e1_cv, const Rcpp::NumericVector e2_nv);
+RcppExport SEXP _nanotime_plus_period_integer64_impl(SEXP e1_cvSEXP, SEXP e2_nvSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type e1_cv(e1_cvSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector >::type e2_nv(e2_nvSEXP);
+    rcpp_result_gen = Rcpp::wrap(plus_period_integer64_impl(e1_cv, e2_nv));
+    return rcpp_result_gen;
+END_RCPP
+}
+// minus_period_integer64_impl
+Rcpp::ComplexVector minus_period_integer64_impl(const Rcpp::ComplexVector e1_cv, const Rcpp::NumericVector e2_nv);
+RcppExport SEXP _nanotime_minus_period_integer64_impl(SEXP e1_cvSEXP, SEXP e2_nvSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type e1_cv(e1_cvSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector >::type e2_nv(e2_nvSEXP);
+    rcpp_result_gen = Rcpp::wrap(minus_period_integer64_impl(e1_cv, e2_nv));
+    return rcpp_result_gen;
+END_RCPP
+}
+// multiplies_period_integer64_impl
+Rcpp::ComplexVector multiplies_period_integer64_impl(const Rcpp::ComplexVector e1_cv, const Rcpp::NumericVector e2_nv);
+RcppExport SEXP _nanotime_multiplies_period_integer64_impl(SEXP e1_cvSEXP, SEXP e2_nvSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type e1_cv(e1_cvSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector >::type e2_nv(e2_nvSEXP);
+    rcpp_result_gen = Rcpp::wrap(multiplies_period_integer64_impl(e1_cv, e2_nv));
+    return rcpp_result_gen;
+END_RCPP
+}
+// divides_period_integer64_impl
+Rcpp::ComplexVector divides_period_integer64_impl(const Rcpp::ComplexVector e1_cv, const Rcpp::NumericVector e2_nv);
+RcppExport SEXP _nanotime_divides_period_integer64_impl(SEXP e1_cvSEXP, SEXP e2_nvSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type e1_cv(e1_cvSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector >::type e2_nv(e2_nvSEXP);
+    rcpp_result_gen = Rcpp::wrap(divides_period_integer64_impl(e1_cv, e2_nv));
+    return rcpp_result_gen;
+END_RCPP
+}
+// multiplies_period_double_impl
+Rcpp::ComplexVector multiplies_period_double_impl(const Rcpp::ComplexVector e1_cv, const Rcpp::NumericVector e2_nv);
+RcppExport SEXP _nanotime_multiplies_period_double_impl(SEXP e1_cvSEXP, SEXP e2_nvSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type e1_cv(e1_cvSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector >::type e2_nv(e2_nvSEXP);
+    rcpp_result_gen = Rcpp::wrap(multiplies_period_double_impl(e1_cv, e2_nv));
+    return rcpp_result_gen;
+END_RCPP
+}
+// divides_period_double_impl
+Rcpp::ComplexVector divides_period_double_impl(const Rcpp::ComplexVector e1_cv, const Rcpp::NumericVector e2_nv);
+RcppExport SEXP _nanotime_divides_period_double_impl(SEXP e1_cvSEXP, SEXP e2_nvSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type e1_cv(e1_cvSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector >::type e2_nv(e2_nvSEXP);
+    rcpp_result_gen = Rcpp::wrap(divides_period_double_impl(e1_cv, e2_nv));
+    return rcpp_result_gen;
+END_RCPP
+}
+// minus_integer64_period_impl
+Rcpp::ComplexVector minus_integer64_period_impl(const Rcpp::NumericVector e1_nv, const Rcpp::ComplexVector e2_cv);
+RcppExport SEXP _nanotime_minus_integer64_period_impl(SEXP e1_nvSEXP, SEXP e2_cvSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector >::type e1_nv(e1_nvSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type e2_cv(e2_cvSEXP);
+    rcpp_result_gen = Rcpp::wrap(minus_integer64_period_impl(e1_nv, e2_cv));
+    return rcpp_result_gen;
+END_RCPP
+}
+// plus_nanotime_period_impl
+Rcpp::NumericVector plus_nanotime_period_impl(const Rcpp::NumericVector e1_nv, const Rcpp::ComplexVector e2_cv, const Rcpp::CharacterVector tz);
+RcppExport SEXP _nanotime_plus_nanotime_period_impl(SEXP e1_nvSEXP, SEXP e2_cvSEXP, SEXP tzSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector >::type e1_nv(e1_nvSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type e2_cv(e2_cvSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::CharacterVector >::type tz(tzSEXP);
+    rcpp_result_gen = Rcpp::wrap(plus_nanotime_period_impl(e1_nv, e2_cv, tz));
+    return rcpp_result_gen;
+END_RCPP
+}
+// minus_nanotime_period_impl
+Rcpp::NumericVector minus_nanotime_period_impl(const Rcpp::NumericVector e1_nv, const Rcpp::ComplexVector e2_cv, const Rcpp::CharacterVector tz);
+RcppExport SEXP _nanotime_minus_nanotime_period_impl(SEXP e1_nvSEXP, SEXP e2_cvSEXP, SEXP tzSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector >::type e1_nv(e1_nvSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type e2_cv(e2_cvSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::CharacterVector >::type tz(tzSEXP);
+    rcpp_result_gen = Rcpp::wrap(minus_nanotime_period_impl(e1_nv, e2_cv, tz));
+    return rcpp_result_gen;
+END_RCPP
+}
+// plus_nanoival_period_impl
+Rcpp::ComplexVector plus_nanoival_period_impl(const Rcpp::ComplexVector e1_cv, const Rcpp::ComplexVector e2_cv, const Rcpp::CharacterVector tz);
+RcppExport SEXP _nanotime_plus_nanoival_period_impl(SEXP e1_cvSEXP, SEXP e2_cvSEXP, SEXP tzSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type e1_cv(e1_cvSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type e2_cv(e2_cvSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::CharacterVector >::type tz(tzSEXP);
+    rcpp_result_gen = Rcpp::wrap(plus_nanoival_period_impl(e1_cv, e2_cv, tz));
+    return rcpp_result_gen;
+END_RCPP
+}
+// minus_nanoival_period_impl
+Rcpp::ComplexVector minus_nanoival_period_impl(const Rcpp::ComplexVector e1_cv, const Rcpp::ComplexVector e2_cv, const Rcpp::CharacterVector tz);
+RcppExport SEXP _nanotime_minus_nanoival_period_impl(SEXP e1_cvSEXP, SEXP e2_cvSEXP, SEXP tzSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type e1_cv(e1_cvSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type e2_cv(e2_cvSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::CharacterVector >::type tz(tzSEXP);
+    rcpp_result_gen = Rcpp::wrap(minus_nanoival_period_impl(e1_cv, e2_cv, tz));
+    return rcpp_result_gen;
+END_RCPP
+}
+// period_month_impl
+Rcpp::NumericVector period_month_impl(const Rcpp::ComplexVector e_n);
+RcppExport SEXP _nanotime_period_month_impl(SEXP e_nSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type e_n(e_nSEXP);
+    rcpp_result_gen = Rcpp::wrap(period_month_impl(e_n));
+    return rcpp_result_gen;
+END_RCPP
+}
+// period_day_impl
+Rcpp::NumericVector period_day_impl(const Rcpp::ComplexVector e_n);
+RcppExport SEXP _nanotime_period_day_impl(SEXP e_nSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type e_n(e_nSEXP);
+    rcpp_result_gen = Rcpp::wrap(period_day_impl(e_n));
+    return rcpp_result_gen;
+END_RCPP
+}
+// period_duration_impl
+Rcpp::S4 period_duration_impl(const Rcpp::ComplexVector e_n);
+RcppExport SEXP _nanotime_period_duration_impl(SEXP e_nSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type e_n(e_nSEXP);
+    rcpp_result_gen = Rcpp::wrap(period_duration_impl(e_n));
+    return rcpp_result_gen;
+END_RCPP
+}
+// period_isna_impl
+Rcpp::LogicalVector period_isna_impl(const Rcpp::ComplexVector cv);
+RcppExport SEXP _nanotime_period_isna_impl(SEXP cvSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type cv(cvSEXP);
+    rcpp_result_gen = Rcpp::wrap(period_isna_impl(cv));
+    return rcpp_result_gen;
+END_RCPP
+}
+// period_seq_from_to_impl
+Rcpp::NumericVector period_seq_from_to_impl(const Rcpp::NumericVector from_nv, const Rcpp::NumericVector to_nv, const Rcpp::ComplexVector by_cv, const std::string tz);
+RcppExport SEXP _nanotime_period_seq_from_to_impl(SEXP from_nvSEXP, SEXP to_nvSEXP, SEXP by_cvSEXP, SEXP tzSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector >::type from_nv(from_nvSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector >::type to_nv(to_nvSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type by_cv(by_cvSEXP);
+    Rcpp::traits::input_parameter< const std::string >::type tz(tzSEXP);
+    rcpp_result_gen = Rcpp::wrap(period_seq_from_to_impl(from_nv, to_nv, by_cv, tz));
+    return rcpp_result_gen;
+END_RCPP
+}
+// period_seq_from_length_impl
+Rcpp::NumericVector period_seq_from_length_impl(const Rcpp::NumericVector from_nv, const Rcpp::ComplexVector by_cv, const Rcpp::NumericVector n_nv, const std::string tz);
+RcppExport SEXP _nanotime_period_seq_from_length_impl(SEXP from_nvSEXP, SEXP by_cvSEXP, SEXP n_nvSEXP, SEXP tzSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector >::type from_nv(from_nvSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type by_cv(by_cvSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector >::type n_nv(n_nvSEXP);
+    Rcpp::traits::input_parameter< const std::string >::type tz(tzSEXP);
+    rcpp_result_gen = Rcpp::wrap(period_seq_from_length_impl(from_nv, by_cv, n_nv, tz));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_nanotime_duration_from_string_impl", (DL_FUNC) &_nanotime_duration_from_string_impl, 1},
+    {"_nanotime_duration_to_string_impl", (DL_FUNC) &_nanotime_duration_to_string_impl, 1},
+    {"_nanotime_duration_is_na_impl", (DL_FUNC) &_nanotime_duration_is_na_impl, 1},
+    {"_nanotime_make_duration_impl", (DL_FUNC) &_nanotime_make_duration_impl, 4},
     {"_nanotime_nanoival_intersect_idx_time_interval_impl", (DL_FUNC) &_nanotime_nanoival_intersect_idx_time_interval_impl, 2},
     {"_nanotime_nanoival_intersect_time_interval_impl", (DL_FUNC) &_nanotime_nanoival_intersect_time_interval_impl, 2},
     {"_nanotime_nanoival_setdiff_time_interval_impl", (DL_FUNC) &_nanotime_nanoival_setdiff_time_interval_impl, 2},
@@ -426,37 +767,33 @@ static const R_CallMethodDef CallEntries[] = {
     {"_nanotime_nanotime_month_impl", (DL_FUNC) &_nanotime_nanotime_month_impl, 2},
     {"_nanotime_nanotime_year_impl", (DL_FUNC) &_nanotime_nanotime_year_impl, 2},
     {"_nanotime_nanotime_make_impl", (DL_FUNC) &_nanotime_nanotime_make_impl, 2},
-    {"divides_period_double",       (DL_FUNC) &divides_period_double,       2},
-    {"divides_period_integer64",    (DL_FUNC) &divides_period_integer64,    2},
-    {"duration_from_string",        (DL_FUNC) &duration_from_string,        1},
-    {"duration_is_na",              (DL_FUNC) &duration_is_na,              1},
-    {"duration_to_string",          (DL_FUNC) &duration_to_string,          1},
-    {"eq_period_period",            (DL_FUNC) &eq_period_period,            2},
-    {"make_duration",               (DL_FUNC) &make_duration,               4},
-    {"minus_integer64_period",      (DL_FUNC) &minus_integer64_period,      2},
-    {"minus_nanoival_period",       (DL_FUNC) &minus_nanoival_period,       3},
-    {"minus_nanotime_period",       (DL_FUNC) &minus_nanotime_period,       3},
-    {"minus_period",                (DL_FUNC) &minus_period,                1},
-    {"minus_period_integer64",      (DL_FUNC) &minus_period_integer64,      2},
-    {"minus_period_period",         (DL_FUNC) &minus_period_period,         2},
-    {"multiplies_period_double",    (DL_FUNC) &multiplies_period_double,    2},
-    {"multiplies_period_integer64", (DL_FUNC) &multiplies_period_integer64, 2},
-    {"ne_period_period",            (DL_FUNC) &ne_period_period,            2},
-    {"period_day",                  (DL_FUNC) &period_day,                  1},
-    {"period_duration",             (DL_FUNC) &period_duration,             1},
-    {"period_from_double",          (DL_FUNC) &period_from_double,          1},
-    {"period_from_integer",         (DL_FUNC) &period_from_integer,         1},
-    {"period_from_integer64",       (DL_FUNC) &period_from_integer64,       1},
-    {"period_from_string",          (DL_FUNC) &period_from_string,          1},
-    {"period_isna",                 (DL_FUNC) &period_isna,                 1},
-    {"period_month",                (DL_FUNC) &period_month,                1},
-    {"period_seq_from_length",      (DL_FUNC) &period_seq_from_length,      4},
-    {"period_seq_from_to",          (DL_FUNC) &period_seq_from_to,          4},
-    {"period_to_string",            (DL_FUNC) &period_to_string,            1},
-    {"plus_nanoival_period",        (DL_FUNC) &plus_nanoival_period,        3},
-    {"plus_nanotime_period",        (DL_FUNC) &plus_nanotime_period,        3},
-    {"plus_period_integer64",       (DL_FUNC) &plus_period_integer64,       2},
-    {"plus_period_period",          (DL_FUNC) &plus_period_period,          2},
+    {"_nanotime_period_from_string_impl", (DL_FUNC) &_nanotime_period_from_string_impl, 1},
+    {"_nanotime_period_to_string_impl", (DL_FUNC) &_nanotime_period_to_string_impl, 1},
+    {"_nanotime_period_from_integer64_impl", (DL_FUNC) &_nanotime_period_from_integer64_impl, 1},
+    {"_nanotime_period_from_integer_impl", (DL_FUNC) &_nanotime_period_from_integer_impl, 1},
+    {"_nanotime_period_from_double_impl", (DL_FUNC) &_nanotime_period_from_double_impl, 1},
+    {"_nanotime_plus_period_period_impl", (DL_FUNC) &_nanotime_plus_period_period_impl, 2},
+    {"_nanotime_minus_period_impl", (DL_FUNC) &_nanotime_minus_period_impl, 1},
+    {"_nanotime_minus_period_period_impl", (DL_FUNC) &_nanotime_minus_period_period_impl, 2},
+    {"_nanotime_eq_period_period_impl", (DL_FUNC) &_nanotime_eq_period_period_impl, 2},
+    {"_nanotime_ne_period_period_impl", (DL_FUNC) &_nanotime_ne_period_period_impl, 2},
+    {"_nanotime_plus_period_integer64_impl", (DL_FUNC) &_nanotime_plus_period_integer64_impl, 2},
+    {"_nanotime_minus_period_integer64_impl", (DL_FUNC) &_nanotime_minus_period_integer64_impl, 2},
+    {"_nanotime_multiplies_period_integer64_impl", (DL_FUNC) &_nanotime_multiplies_period_integer64_impl, 2},
+    {"_nanotime_divides_period_integer64_impl", (DL_FUNC) &_nanotime_divides_period_integer64_impl, 2},
+    {"_nanotime_multiplies_period_double_impl", (DL_FUNC) &_nanotime_multiplies_period_double_impl, 2},
+    {"_nanotime_divides_period_double_impl", (DL_FUNC) &_nanotime_divides_period_double_impl, 2},
+    {"_nanotime_minus_integer64_period_impl", (DL_FUNC) &_nanotime_minus_integer64_period_impl, 2},
+    {"_nanotime_plus_nanotime_period_impl", (DL_FUNC) &_nanotime_plus_nanotime_period_impl, 3},
+    {"_nanotime_minus_nanotime_period_impl", (DL_FUNC) &_nanotime_minus_nanotime_period_impl, 3},
+    {"_nanotime_plus_nanoival_period_impl", (DL_FUNC) &_nanotime_plus_nanoival_period_impl, 3},
+    {"_nanotime_minus_nanoival_period_impl", (DL_FUNC) &_nanotime_minus_nanoival_period_impl, 3},
+    {"_nanotime_period_month_impl", (DL_FUNC) &_nanotime_period_month_impl, 1},
+    {"_nanotime_period_day_impl", (DL_FUNC) &_nanotime_period_day_impl, 1},
+    {"_nanotime_period_duration_impl", (DL_FUNC) &_nanotime_period_duration_impl, 1},
+    {"_nanotime_period_isna_impl", (DL_FUNC) &_nanotime_period_isna_impl, 1},
+    {"_nanotime_period_seq_from_to_impl", (DL_FUNC) &_nanotime_period_seq_from_to_impl, 4},
+    {"_nanotime_period_seq_from_length_impl", (DL_FUNC) &_nanotime_period_seq_from_length_impl, 4},
     {NULL, NULL, 0}
 };
 
