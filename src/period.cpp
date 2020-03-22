@@ -248,6 +248,7 @@ typedef ConstPseudoVector<REALSXP, double>   ConstPseudoVectorNano;
 typedef ConstPseudoVector<CPLXSXP, Rcomplex> ConstPseudoVectorPrd;
 typedef ConstPseudoVector<REALSXP, double>   ConstPseudoVectorDbl;
 typedef ConstPseudoVector<CPLXSXP, Rcomplex> ConstPseudoVectorIval;
+typedef ConstPseudoVector<STRSXP,  const Rcpp::CharacterVector::const_Proxy> ConstPseudoVectorChar;
 
 typedef PseudoVector<REALSXP, double>   PseudoVectorInt64;
 typedef PseudoVector<REALSXP, double>   PseudoVectorNano;
@@ -365,12 +366,11 @@ Rcpp::ComplexVector plus_period_period_impl(const Rcpp::ComplexVector e1_nv,
   const ConstPseudoVectorPrd e1_n(e1_nv);
   const ConstPseudoVectorPrd e2_n(e2_nv);
   Rcpp::ComplexVector res(std::max(e1_nv.size(), e2_nv.size()));
-  PseudoVectorPrd pres(res);
   for (R_xlen_t i=0; i<res.size(); ++i) {
     period pu1; memcpy(&pu1, reinterpret_cast<const char*>(&e1_n[i]), sizeof(period));
     period pu2; memcpy(&pu2, reinterpret_cast<const char*>(&e2_n[i]), sizeof(period));
     auto prd = pu1 + pu2;
-    memcpy(&pres[i], &prd, sizeof(prd));
+    memcpy(&res[i], &prd, sizeof(prd));
   }
   copyNames(e1_nv, e2_nv, res);
   return assignS4("nanoperiod", res);
@@ -382,11 +382,10 @@ Rcpp::ComplexVector plus_period_period_impl(const Rcpp::ComplexVector e1_nv,
 Rcpp::ComplexVector minus_period_impl(const Rcpp::ComplexVector e1_cv) {
   const ConstPseudoVectorPrd e1_n(e1_cv);
   Rcpp::ComplexVector res(e1_cv.size());
-  PseudoVectorPrd pres(res); // wrap it to get correct indexing
   for (R_xlen_t i=0; i<res.size(); ++i) {
     period pu1; memcpy(&pu1, reinterpret_cast<const char*>(&e1_n[i]), sizeof(period));
     auto prd = -pu1;
-    memcpy(&pres[i], reinterpret_cast<const char*>(&prd), sizeof(prd));
+    memcpy(&res[i], reinterpret_cast<const char*>(&prd), sizeof(prd));
   }
   copyNames(e1_cv, e1_cv, res);
   return assignS4("nanoperiod", res);
@@ -400,12 +399,11 @@ Rcpp::ComplexVector minus_period_period_impl(const Rcpp::ComplexVector e1_cv,
   const ConstPseudoVectorPrd e1_n(e1_cv);
   const ConstPseudoVectorPrd e2_n(e2_cv);
   Rcpp::ComplexVector res(std::max(e1_cv.size(), e2_cv.size()));
-  PseudoVectorPrd pres(res); // wrap it to get correct indexing
   for (R_xlen_t i=0; i<res.size(); ++i) {
     period pu1; memcpy(&pu1, reinterpret_cast<const char*>(&e1_n[i]), sizeof(period));
     period pu2; memcpy(&pu2, reinterpret_cast<const char*>(&e2_n[i]), sizeof(period));
     auto prd = pu1 - pu2;
-    memcpy(&pres[i], reinterpret_cast<const char*>(&prd), sizeof(prd));
+    memcpy(&res[i], reinterpret_cast<const char*>(&prd), sizeof(prd));
   }
   copyNames(e1_cv, e2_cv, res);
   return assignS4("nanoperiod", res);
@@ -448,12 +446,11 @@ Rcpp::ComplexVector plus_period_integer64_impl(const Rcpp::ComplexVector e1_cv,
   const ConstPseudoVectorPrd   e1_n(e1_cv);
   const ConstPseudoVectorInt64 e2_n(e2_nv);
   Rcpp::ComplexVector res(std::max(e1_n.size(), e2_n.size()));
-  PseudoVectorPrd pres(res);
-  for (R_xlen_t i=0; i<pres.size(); ++i) {
+  for (R_xlen_t i=0; i<res.size(); ++i) {
     period pu1; memcpy(&pu1, reinterpret_cast<const char*>(&e1_n[i]), sizeof(period));
     Global::duration dur; memcpy(&dur, reinterpret_cast<const char*>(&e2_n[i]), sizeof(dur));
     pu1 = plus(pu1, dur);
-    memcpy(&pres[i], &pu1, sizeof(pu1));
+    memcpy(&res[i], &pu1, sizeof(pu1));
   }
   copyNames(e1_cv, e2_nv, res);
   return assignS4("nanoperiod", res);
@@ -467,12 +464,11 @@ Rcpp::ComplexVector  minus_period_integer64_impl(const Rcpp::ComplexVector e1_cv
   const ConstPseudoVectorPrd   e1_n(e1_cv);
   const ConstPseudoVectorInt64 e2_n(e2_nv);
   Rcpp::ComplexVector res(std::max(e1_n.size(), e2_n.size()));
-  PseudoVectorPrd pres(res);
-  for (R_xlen_t i=0; i<pres.size(); ++i) {
+  for (R_xlen_t i=0; i<res.size(); ++i) {
     period pu1; memcpy(&pu1, reinterpret_cast<const char*>(&e1_n[i]), sizeof(period));
     Global::duration dur; memcpy(&dur, reinterpret_cast<const char*>(&e2_n[i]), sizeof(dur));
     pu1 = minus(pu1, dur);
-    memcpy(&pres[i], &pu1, sizeof(pu1));
+    memcpy(&res[i], &pu1, sizeof(pu1));
   }
   copyNames(e1_cv, e2_nv, res);
   return assignS4("nanoperiod", res);
@@ -485,12 +481,11 @@ Rcpp::ComplexVector multiplies_period_integer64_impl(const Rcpp::ComplexVector e
   const ConstPseudoVectorPrd   e1_n(e1_cv);
   const ConstPseudoVectorInt64 e2_n(e2_nv);
   Rcpp::ComplexVector res(std::max(e1_n.size(), e2_n.size()));
-  PseudoVectorPrd pres(res);
-  for (R_xlen_t i=0; i<pres.size(); ++i) {
+  for (R_xlen_t i=0; i<res.size(); ++i) {
     period pu1; memcpy(&pu1, reinterpret_cast<const char*>(&e1_n[i]), sizeof(period));
     uint64_t m; memcpy(&m, reinterpret_cast<const char*>(&e2_n[i]), sizeof(m));
     pu1 = pu1 * m;
-    memcpy(&pres[i], &pu1, sizeof(pu1));
+    memcpy(&res[i], &pu1, sizeof(pu1));
   }
   copyNames(e1_cv, e2_nv, res);
   return assignS4("nanoperiod", res);
@@ -503,12 +498,11 @@ Rcpp::ComplexVector divides_period_integer64_impl(const Rcpp::ComplexVector e1_c
   const ConstPseudoVectorPrd   e1_n(e1_cv);
   const ConstPseudoVectorInt64 e2_n(e2_nv);
   Rcpp::ComplexVector res(std::max(e1_n.size(), e2_n.size()));
-  PseudoVectorPrd pres(res);
-  for (R_xlen_t i=0; i<pres.size(); ++i) {
+  for (R_xlen_t i=0; i<res.size(); ++i) {
     period pu1; memcpy(&pu1, reinterpret_cast<const char*>(&e1_n[i]), sizeof(period));
     uint64_t m; memcpy(&m,   reinterpret_cast<const char*>(&e2_n[i]), sizeof(m));
     pu1 = pu1 / m;
-    memcpy(&pres[i], &pu1, sizeof(pu1));
+    memcpy(&res[i], &pu1, sizeof(pu1));
   }
   copyNames(e1_cv, e2_nv, res);
   return assignS4("nanoperiod", res);
@@ -521,12 +515,11 @@ Rcpp::ComplexVector multiplies_period_double_impl(const Rcpp::ComplexVector e1_c
   const ConstPseudoVectorPrd e1_n(e1_cv);
   const ConstPseudoVectorDbl e2_n(e2_nv);
   Rcpp::ComplexVector res(std::max(e1_n.size(), e2_n.size()));
-  PseudoVectorPrd pres(res);
-  for (R_xlen_t i=0; i<pres.size(); ++i) {
+  for (R_xlen_t i=0; i<res.size(); ++i) {
     period pu1; memcpy(&pu1, reinterpret_cast<const char*>(&e1_n[i]), sizeof(period));
     double m;   memcpy(&m,   reinterpret_cast<const char*>(&e2_n[i]), sizeof(m));
     pu1 = pu1 * m;
-    memcpy(&pres[i], &pu1, sizeof(pu1));
+    memcpy(&res[i], &pu1, sizeof(pu1));
   }
   copyNames(e1_cv, e2_nv, res);
   return assignS4("nanoperiod", res);
@@ -539,12 +532,11 @@ Rcpp::ComplexVector divides_period_double_impl(const Rcpp::ComplexVector e1_cv,
   const ConstPseudoVectorPrd e1_n(e1_cv);
   const ConstPseudoVectorDbl e2_n(e2_nv);
   Rcpp::ComplexVector res(std::max(e1_n.size(), e2_n.size()));
-  PseudoVectorPrd pres(res);
-  for (R_xlen_t i=0; i<pres.size(); ++i) {
+  for (R_xlen_t i=0; i<res.size(); ++i) {
     period pu1; memcpy(&pu1, reinterpret_cast<const char*>(&e1_n[i]), sizeof(period));
     double m;   memcpy(&m,   reinterpret_cast<const char*>(&e2_n[i]), sizeof(m));
     pu1 = pu1 / m;
-    memcpy(&pres[i], &pu1, sizeof(pu1));
+    memcpy(&res[i], &pu1, sizeof(pu1));
   }
   copyNames(e1_cv, e2_nv, res);
   return assignS4("nanoperiod", res);
@@ -557,88 +549,99 @@ Rcpp::ComplexVector minus_integer64_period_impl(const Rcpp::NumericVector e1_nv,
   const ConstPseudoVectorInt64 e1_n(e1_nv);
   const ConstPseudoVectorPrd   e2_n(e2_cv);
   Rcpp::ComplexVector res(std::max(e1_n.size(), e2_n.size()));
-  PseudoVectorPrd pres(res);
-  for (R_xlen_t i=0; i<pres.size(); ++i) {
+  for (R_xlen_t i=0; i<res.size(); ++i) {
     period pu2;           memcpy(&pu2, reinterpret_cast<const char*>(&e2_n[i]), sizeof(pu2));
     Global::duration dur; memcpy(&dur, reinterpret_cast<const char*>(&e1_n[i]), sizeof(dur));
     pu2 = minus(dur, pu2);
-    memcpy(&pres[i], &pu2, sizeof(pu2));
+    memcpy(&res[i], &pu2, sizeof(pu2));
   }
   copyNames(e1_nv, e2_cv, res);
   return assignS4("nanoperiod", res);
 }
 
 // [[Rcpp::export]]
-Rcpp::NumericVector plus_nanotime_period_impl(const Rcpp::NumericVector e1_nv,
-                                              const Rcpp::ComplexVector e2_cv,
-                                              const Rcpp::CharacterVector tz) {
+Rcpp::NumericVector plus_nanotime_period_impl(const Rcpp::NumericVector   e1_nv,
+                                              const Rcpp::ComplexVector   e2_cv,
+                                              const Rcpp::CharacterVector tz_v) {
   checkVectorsLengths(e1_nv, e2_cv);
+  checkVectorsLengths(e1_nv, tz_v);
+  checkVectorsLengths(e2_cv, tz_v);
   const ConstPseudoVectorNano e1_n(e1_nv);
   const ConstPseudoVectorPrd  e2_n(e2_cv);
+  const ConstPseudoVectorChar tz(tz_v);
+
   Rcpp::NumericVector res(std::max(e1_n.size(), e2_n.size()));
-  PseudoVectorNano pres(res);
-  for (R_xlen_t i=0; i<pres.size(); ++i) {
+  for (R_xlen_t i=0; i<res.size(); ++i) {
     Global::dtime nano; memcpy(&nano, reinterpret_cast<const char*>(&e1_n[i]), sizeof(nano));
     period prd; memcpy(&prd, reinterpret_cast<const char*>(&e2_n[i]), sizeof(prd));
     auto dt = plus(nano, prd, Rcpp::as<std::string>(tz[i]));
-    memcpy(&pres[i], &dt, sizeof(dt));
+    memcpy(&res[i], &dt, sizeof(dt));
   }
   copyNames(e1_nv, e2_cv, res);
   return assignS4("nanotime", res, "integer64");
 }
 
 // [[Rcpp::export]]
-Rcpp::NumericVector minus_nanotime_period_impl(const Rcpp::NumericVector e1_nv,
-                                               const Rcpp::ComplexVector e2_cv,
-                                               const Rcpp::CharacterVector tz) {
+Rcpp::NumericVector minus_nanotime_period_impl(const Rcpp::NumericVector   e1_nv,
+                                               const Rcpp::ComplexVector   e2_cv,
+                                               const Rcpp::CharacterVector tz_v) {
   checkVectorsLengths(e1_nv, e2_cv);
+  checkVectorsLengths(e1_nv, tz_v);
+  checkVectorsLengths(e2_cv, tz_v);
   const ConstPseudoVectorNano e1_n(e1_nv);
   const ConstPseudoVectorPrd  e2_n(e2_cv);
+  const ConstPseudoVectorChar tz(tz_v);
+
   Rcpp::NumericVector res(std::max(e1_n.size(), e2_n.size()));
-  PseudoVectorNano pres(res);
-  for (R_xlen_t i=0; i<pres.size(); ++i) {
+  for (R_xlen_t i=0; i<res.size(); ++i) {
     Global::dtime nano; memcpy(&nano, reinterpret_cast<const char*>(&e1_n[i]), sizeof(nano));
     period prd; memcpy(&prd, reinterpret_cast<const char*>(&e2_n[i]), sizeof(prd));
     auto dt = minus(nano, prd, Rcpp::as<std::string>(tz[i % tz.size()]));
-    memcpy(&pres[i], &dt, sizeof(dt));
+    memcpy(&res[i], &dt, sizeof(dt));
   }
   copyNames(e1_nv, e2_cv, res);
   return assignS4("nanotime", res, "integer64");
 }
 
 // [[Rcpp::export]]
-Rcpp::ComplexVector plus_nanoival_period_impl(const Rcpp::ComplexVector e1_cv,
-                                              const Rcpp::ComplexVector e2_cv,
-                                              const Rcpp::CharacterVector tz) {
+Rcpp::ComplexVector plus_nanoival_period_impl(const Rcpp::ComplexVector   e1_cv,
+                                              const Rcpp::ComplexVector   e2_cv,
+                                              const Rcpp::CharacterVector tz_v) {
   checkVectorsLengths(e1_cv, e2_cv);
+  checkVectorsLengths(e1_cv, tz_v);
+  checkVectorsLengths(e2_cv, tz_v);
   const ConstPseudoVectorIval e1_n (e1_cv);
   const ConstPseudoVectorPrd  e2_n (e2_cv);
+  const ConstPseudoVectorChar tz(tz_v);
+
   Rcpp::ComplexVector res(std::max(e1_n.size(), e2_n.size()));
-  PseudoVectorPrd pres(res);
-  for (R_xlen_t i=0; i<pres.size(); ++i) {
+  for (R_xlen_t i=0; i<res.size(); ++i) {
     interval ival; memcpy(&ival, reinterpret_cast<const char*>(&e1_n[i]), sizeof(ival));
     period prd; memcpy(&prd, reinterpret_cast<const char*>(&e2_n[i]), sizeof(prd));
     auto res_ival = plus(ival, prd, Rcpp::as<std::string>(tz[i % tz.size()]));
-    memcpy(&pres[i], &res_ival, sizeof(res_ival));
+    memcpy(&res[i], &res_ival, sizeof(res_ival));
   }
   copyNames(e1_cv, e2_cv, res);
   return assignS4("nanoival", res);
 }
 
 // [[Rcpp::export]]
-Rcpp::ComplexVector minus_nanoival_period_impl(const Rcpp::ComplexVector e1_cv,
-                                               const Rcpp::ComplexVector e2_cv,
-                                               const Rcpp::CharacterVector tz) {
+Rcpp::ComplexVector minus_nanoival_period_impl(const Rcpp::ComplexVector   e1_cv,
+                                               const Rcpp::ComplexVector   e2_cv,
+                                               const Rcpp::CharacterVector tz_v) {
   checkVectorsLengths(e1_cv, e2_cv);
+  checkVectorsLengths(e1_cv, tz_v);
+  checkVectorsLengths(e2_cv, tz_v);
   const ConstPseudoVectorIval e1_n (e1_cv);
   const ConstPseudoVectorPrd  e2_n (e2_cv);
+  const ConstPseudoVectorChar tz(tz_v);
+  
   Rcpp::ComplexVector res(std::max(e1_n.size(), e2_n.size()));
-  PseudoVectorPrd pres(res);
-  for (R_xlen_t i=0; i<pres.size(); ++i) {
+  for (R_xlen_t i=0; i<res.size(); ++i) {
     interval ival; memcpy(&ival, reinterpret_cast<const char*>(&e1_n[i]), sizeof(ival));
     period prd; memcpy(&prd, reinterpret_cast<const char*>(&e2_n[i]), sizeof(prd));
     auto res_ival = minus(ival, prd, Rcpp::as<std::string>(tz[i % tz.size()]));
-    memcpy(&pres[i], &res_ival, sizeof(res_ival));
+    memcpy(&res[i], &res_ival, sizeof(res_ival));
   }
   copyNames(e1_cv, e2_cv, res);
   return assignS4("nanoival", res);

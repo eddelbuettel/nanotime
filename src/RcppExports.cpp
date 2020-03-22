@@ -608,54 +608,54 @@ BEGIN_RCPP
 END_RCPP
 }
 // plus_nanotime_period_impl
-Rcpp::NumericVector plus_nanotime_period_impl(const Rcpp::NumericVector e1_nv, const Rcpp::ComplexVector e2_cv, const Rcpp::CharacterVector tz);
-RcppExport SEXP _nanotime_plus_nanotime_period_impl(SEXP e1_nvSEXP, SEXP e2_cvSEXP, SEXP tzSEXP) {
+Rcpp::NumericVector plus_nanotime_period_impl(const Rcpp::NumericVector e1_nv, const Rcpp::ComplexVector e2_cv, const Rcpp::CharacterVector tz_v);
+RcppExport SEXP _nanotime_plus_nanotime_period_impl(SEXP e1_nvSEXP, SEXP e2_cvSEXP, SEXP tz_vSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const Rcpp::NumericVector >::type e1_nv(e1_nvSEXP);
     Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type e2_cv(e2_cvSEXP);
-    Rcpp::traits::input_parameter< const Rcpp::CharacterVector >::type tz(tzSEXP);
-    rcpp_result_gen = Rcpp::wrap(plus_nanotime_period_impl(e1_nv, e2_cv, tz));
+    Rcpp::traits::input_parameter< const Rcpp::CharacterVector >::type tz_v(tz_vSEXP);
+    rcpp_result_gen = Rcpp::wrap(plus_nanotime_period_impl(e1_nv, e2_cv, tz_v));
     return rcpp_result_gen;
 END_RCPP
 }
 // minus_nanotime_period_impl
-Rcpp::NumericVector minus_nanotime_period_impl(const Rcpp::NumericVector e1_nv, const Rcpp::ComplexVector e2_cv, const Rcpp::CharacterVector tz);
-RcppExport SEXP _nanotime_minus_nanotime_period_impl(SEXP e1_nvSEXP, SEXP e2_cvSEXP, SEXP tzSEXP) {
+Rcpp::NumericVector minus_nanotime_period_impl(const Rcpp::NumericVector e1_nv, const Rcpp::ComplexVector e2_cv, const Rcpp::CharacterVector tz_v);
+RcppExport SEXP _nanotime_minus_nanotime_period_impl(SEXP e1_nvSEXP, SEXP e2_cvSEXP, SEXP tz_vSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const Rcpp::NumericVector >::type e1_nv(e1_nvSEXP);
     Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type e2_cv(e2_cvSEXP);
-    Rcpp::traits::input_parameter< const Rcpp::CharacterVector >::type tz(tzSEXP);
-    rcpp_result_gen = Rcpp::wrap(minus_nanotime_period_impl(e1_nv, e2_cv, tz));
+    Rcpp::traits::input_parameter< const Rcpp::CharacterVector >::type tz_v(tz_vSEXP);
+    rcpp_result_gen = Rcpp::wrap(minus_nanotime_period_impl(e1_nv, e2_cv, tz_v));
     return rcpp_result_gen;
 END_RCPP
 }
 // plus_nanoival_period_impl
-Rcpp::ComplexVector plus_nanoival_period_impl(const Rcpp::ComplexVector e1_cv, const Rcpp::ComplexVector e2_cv, const Rcpp::CharacterVector tz);
-RcppExport SEXP _nanotime_plus_nanoival_period_impl(SEXP e1_cvSEXP, SEXP e2_cvSEXP, SEXP tzSEXP) {
+Rcpp::ComplexVector plus_nanoival_period_impl(const Rcpp::ComplexVector e1_cv, const Rcpp::ComplexVector e2_cv, const Rcpp::CharacterVector tz_v);
+RcppExport SEXP _nanotime_plus_nanoival_period_impl(SEXP e1_cvSEXP, SEXP e2_cvSEXP, SEXP tz_vSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type e1_cv(e1_cvSEXP);
     Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type e2_cv(e2_cvSEXP);
-    Rcpp::traits::input_parameter< const Rcpp::CharacterVector >::type tz(tzSEXP);
-    rcpp_result_gen = Rcpp::wrap(plus_nanoival_period_impl(e1_cv, e2_cv, tz));
+    Rcpp::traits::input_parameter< const Rcpp::CharacterVector >::type tz_v(tz_vSEXP);
+    rcpp_result_gen = Rcpp::wrap(plus_nanoival_period_impl(e1_cv, e2_cv, tz_v));
     return rcpp_result_gen;
 END_RCPP
 }
 // minus_nanoival_period_impl
-Rcpp::ComplexVector minus_nanoival_period_impl(const Rcpp::ComplexVector e1_cv, const Rcpp::ComplexVector e2_cv, const Rcpp::CharacterVector tz);
-RcppExport SEXP _nanotime_minus_nanoival_period_impl(SEXP e1_cvSEXP, SEXP e2_cvSEXP, SEXP tzSEXP) {
+Rcpp::ComplexVector minus_nanoival_period_impl(const Rcpp::ComplexVector e1_cv, const Rcpp::ComplexVector e2_cv, const Rcpp::CharacterVector tz_v);
+RcppExport SEXP _nanotime_minus_nanoival_period_impl(SEXP e1_cvSEXP, SEXP e2_cvSEXP, SEXP tz_vSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type e1_cv(e1_cvSEXP);
     Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type e2_cv(e2_cvSEXP);
-    Rcpp::traits::input_parameter< const Rcpp::CharacterVector >::type tz(tzSEXP);
-    rcpp_result_gen = Rcpp::wrap(minus_nanoival_period_impl(e1_cv, e2_cv, tz));
+    Rcpp::traits::input_parameter< const Rcpp::CharacterVector >::type tz_v(tz_vSEXP);
+    rcpp_result_gen = Rcpp::wrap(minus_nanoival_period_impl(e1_cv, e2_cv, tz_v));
     return rcpp_result_gen;
 END_RCPP
 }

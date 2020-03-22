@@ -455,6 +455,27 @@ tz <- "America/New_York"
 expected <- c(p=nanotime("2018-05-01T00:00:00.000000000-04:00"))
 expect_identical(plus(nt, p, tz), expected)
 
+##test_plus_nanotime_nanoperiod_vector1 <- function() {
+nt <- nanotime("2018-01-01T05:00:00.000000000+00") + 1:10
+p  <- as.nanoperiod("4m")
+tz <- "America/New_York"
+expected <- nanotime("2018-05-01T00:00:00.000000000-04:00") + 1:10
+expect_identical(plus(nt, p, tz), expected)
+
+##test_plus_nanotime_nanoperiod_vector2 <- function() {
+nt <- nanotime("2018-01-01T05:00:00.000000000+00")
+p  <- as.nanoperiod("4m") + 1:10
+tz <- "America/New_York"
+expected <- nanotime("2018-05-01T00:00:00.000000000-04:00") + 1:10
+expect_identical(plus(nt, p, tz), expected)
+
+##test_plus_nanotime_nanoperiod_vector3 <- function() {
+nt <- nanotime("2018-01-01T05:00:00.000000000+00")
+p  <- as.nanoperiod("4m") + 1:10
+tz <- rep("America/New_York", 10)
+expected <- nanotime("2018-05-01T00:00:00.000000000-04:00") + 1:10
+expect_identical(plus(nt, p, tz), expected)
+
 ##test_plus_nanoperiod_nanotime <- function() {
 nt <- nanotime("2018-01-01T05:00:00.000000000+00")
 p  <- c(p=as.nanoperiod("4m"))

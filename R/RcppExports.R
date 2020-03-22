@@ -205,20 +205,20 @@ minus_integer64_period_impl <- function(e1_nv, e2_cv) {
     .Call(`_nanotime_minus_integer64_period_impl`, e1_nv, e2_cv)
 }
 
-plus_nanotime_period_impl <- function(e1_nv, e2_cv, tz) {
-    .Call(`_nanotime_plus_nanotime_period_impl`, e1_nv, e2_cv, tz)
+plus_nanotime_period_impl <- function(e1_nv, e2_cv, tz_v) {
+    .Call(`_nanotime_plus_nanotime_period_impl`, e1_nv, e2_cv, tz_v)
 }
 
-minus_nanotime_period_impl <- function(e1_nv, e2_cv, tz) {
-    .Call(`_nanotime_minus_nanotime_period_impl`, e1_nv, e2_cv, tz)
+minus_nanotime_period_impl <- function(e1_nv, e2_cv, tz_v) {
+    .Call(`_nanotime_minus_nanotime_period_impl`, e1_nv, e2_cv, tz_v)
 }
 
-plus_nanoival_period_impl <- function(e1_cv, e2_cv, tz) {
-    .Call(`_nanotime_plus_nanoival_period_impl`, e1_cv, e2_cv, tz)
+plus_nanoival_period_impl <- function(e1_cv, e2_cv, tz_v) {
+    .Call(`_nanotime_plus_nanoival_period_impl`, e1_cv, e2_cv, tz_v)
 }
 
-minus_nanoival_period_impl <- function(e1_cv, e2_cv, tz) {
-    .Call(`_nanotime_minus_nanoival_period_impl`, e1_cv, e2_cv, tz)
+minus_nanoival_period_impl <- function(e1_cv, e2_cv, tz_v) {
+    .Call(`_nanotime_minus_nanoival_period_impl`, e1_cv, e2_cv, tz_v)
 }
 
 period_month_impl <- function(e_n) {
