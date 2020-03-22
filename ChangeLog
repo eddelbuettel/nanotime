@@ -1,3 +1,6 @@
+2020-03-21  Leonardo Silvestri  <lsilvestri@ztsdb.org>
+	* inst/include/globals.hpp: parse format ending with 'Z' for data.table compatibility
+
 2020-03-20  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/duration.cpp: Slightly more idiomatic Rcpp

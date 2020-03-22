@@ -218,6 +218,9 @@ namespace Global {
       }
       skipWhitespace(sp, se);
 
+      if (tzstr_str == "Z") {   // consider "Z" a shorhand for "UTC"
+        tzstr_str = "UTC";
+      }
       return tmdet{y, m, d, h, mn, s, ns, tzstr_str, offset};
       
     } catch(std::exception &ex) {	
