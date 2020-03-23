@@ -3,16 +3,16 @@ library(nanotime)
 
 ## ------------ `-`
 #"test_nanotime-nanotime" <- function() {
-expect_equal(nanotime(2)  - nanotime(1),  as.integer64(1))
-expect_equal(nanotime(-1) - nanotime(-2), as.integer64(1))
+expect_identical(nanotime(2)  - nanotime(1),  as.nanoduration(1))
+expect_identical(nanotime(-1) - nanotime(-2), as.nanoduration(1))
 
 #"test_nanotime-integer64" <- function() {
-expect_equal(nanotime(2)  - as.integer64(1),  nanotime(1))
-expect_equal(nanotime(-1) - as.integer64(-2), nanotime(1))
+expect_identical(nanotime(2)  - as.integer64(1),  nanotime(1))
+expect_identical(nanotime(-1) - as.integer64(-2), nanotime(1))
 
 #"test_nanotime-integer" <- function() {
-expect_equal(nanotime(2)  - 1L,  nanotime(1))
-expect_equal(nanotime(-1) - -2L, nanotime(1))
+expect_identical(nanotime(2)  - 1L,  nanotime(1))
+expect_identical(nanotime(-1) - -2L, nanotime(1))
 
 #"test_nanotime-character" <- function() {
 expect_error(nanotime(0) - "A", "invalid operand types")
@@ -27,17 +27,17 @@ expect_error(1 - nanotime(0), "invalid operand types")
 
 ## ----------- `+`
 #"test_nanotime+numeric" <- function() {
-expect_equal(nanotime(0) +  1, nanotime(1))
-expect_equal(nanotime(0) + -1, nanotime(-1))
+expect_identical(nanotime(0) +  1, nanotime(1))
+expect_identical(nanotime(0) + -1, nanotime(-1))
 
 
 #"test_nanotime+integer" <- function() {
-expect_equal(nanotime(0) +  1L, nanotime(1))
-expect_equal(nanotime(0) + -1L, nanotime(-1))
+expect_identical(nanotime(0) +  1L, nanotime(1))
+expect_identical(nanotime(0) + -1L, nanotime(-1))
 
 #"test_nanotime+integer64" <- function() {
-expect_equal(nanotime(0) + as.integer64(1), nanotime(1))
-expect_equal(nanotime(0) + as.integer64(-1), nanotime(-1))
+expect_identical(nanotime(0) + as.integer64(1), nanotime(1))
+expect_identical(nanotime(0) + as.integer64(-1), nanotime(-1))
 
 #"test_nanotime+character" <- function() {
 expect_error(nanotime(0) + "A", "invalid operand types")
@@ -49,16 +49,16 @@ expect_error("A" + nanotime(0), "invalid operand types")
 expect_error(nanotime(1) + nanotime(0), "invalid operand types")
 
 #"test_nanotime+integer64" <- function() {
-expect_equal(nanotime(0) + as.integer64(1), nanotime(1))
-expect_equal(nanotime(0) + as.integer64(-1), nanotime(-1))
+expect_identical(nanotime(0) + as.integer64(1), nanotime(1))
+expect_identical(nanotime(0) + as.integer64(-1), nanotime(-1))
 
 #"test_numeric+nanotime" <- function() {
-expect_equal(nanotime(0) +  1, nanotime( 1))
-expect_equal(nanotime(0) + -1, nanotime(-1))
+expect_identical(nanotime(0) +  1, nanotime( 1))
+expect_identical(nanotime(0) + -1, nanotime(-1))
 
 #"test_integer+nanotime" <- function() {
-expect_equal( 1L + nanotime(0), nanotime(1))
-expect_equal(-1L + nanotime(0), nanotime(-1))
+expect_identical( 1L + nanotime(0), nanotime(1))
+expect_identical(-1L + nanotime(0), nanotime(-1))
 
 
 
@@ -114,9 +114,9 @@ expect_error(round(nanotime(1), 2), "non-numeric argument to mathematical functi
 #test_Summary <- function() {
 expect_error(sum(nanotime(1)))#, "invalid 'type' (nanotime) of argument")
 
-expect_equal(min(nanotime(c(1,8,4,2,0,3,10))), nanotime(0))
-expect_equal(max(nanotime(c(1,8,4,2,0,3,10))), nanotime(10))
-expect_equal(range(nanotime(c(1,8,4,2,0,3,10))), nanotime(c(0, 10)))
+expect_identical(min(nanotime(c(1,8,4,2,0,3,10))), nanotime(0))
+expect_identical(max(nanotime(c(1,8,4,2,0,3,10))), nanotime(10))
+expect_identical(range(nanotime(c(1,8,4,2,0,3,10))), nanotime(c(0, 10)))
 
 #test_Complex <- function() {
 expect_error(Arg(nanotime(1)), "non-numeric argument to function")

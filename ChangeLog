@@ -1,3 +1,82 @@
+2020-03-22  Leonardo Silvestri  <lsilvestri@ztsdb.org>
+	* README.md: updated information
+
+2020-03-21  Leonardo Silvestri  <lsilvestri@ztsdb.org>
+	* inst/include/globals.hpp: parse format ending with 'Z' for data.table compatibility
+	* src/period.cpp: fix vectorized 'plus'/'minus' ops for 'nanoperiod'
+	* inst/tinytest/test_nanoperiod.R: Idem
+
+2020-03-20  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/duration.cpp: Slightly more idiomatic Rcpp
+	* src/period.cpp: Idem
+	* R/nanoduration.R: Idem
+	* R/nanoperiod.R: Idem
+	* R/nanotime.R: Idem
+
+2020-03-19  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/interval.cpp: Slightly more idiomatic Rcpp
+	* R/nanoival.R: Idem
+
+2020-03-18  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): Roll minor version
+
+	* DESCRIPTION (Imports): Updated versioned Depends: on RcppCCTZ
+
+	* NAMESPACE: Turn on registration
+
+	* src/nanotime.cpp: Slightly more idiomatic Rcpp
+	* R/nanotime.R: Idem
+
+2020-03-15  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): Roll minor version
+
+	* src/duration.cpp: Small fix to cast to plain old type
+	* src/interval.cpp: Idem
+	* src/nanotime.cpp: Idem
+
+	* src/Makevars (PKG_CXXFLAGS): Minor edits
+
+	* cleanup: Added minor helper
+
+2020-03-14  Leonardo Silvestri  <lsilvestri@ztsdb.org>
+
+	[ The following reflects a fairly substantial set of changes made
+	over a longer period and are just summarized here ]
+	* DESCRIPTION: Add versioned Depends on RcppCCTZ
+	* NAMESPACE: Load dynamic library
+	* R/duration.R: Add new nanoival, duration, and period
+	* R/nanoival.R: Idem
+	* R/nanotime.R: Idem
+	* R/period.R: Idem
+	* inst/include/date.h: Idem
+	* inst/include/duration.hpp: Idem
+	* inst/include/globals.hpp: Idem
+	* inst/include/interval.hpp: Idem
+	* inst/include/period.hpp: Idem
+	* inst/include/pseudovector.hpp: Idem
+	* inst/include/utilities.hpp: Idem
+	* inst/tinytest/test_data.frame.R: Idem
+	* inst/tinytest/test_duration.R: Idem
+	* inst/tinytest/test_nanoival.R: Idem
+	* inst/tinytest/test_nanotime.R: Idem
+	* inst/tinytest/test_ops.R: Idem
+	* inst/tinytest/test_period.R: Idem
+	* man/duration.Rd: Idem
+	* man/nanoival.Rd: Idem
+	* man/nanotime.Rd: Idem
+	* man/period.Rd: Idem
+	* src/Makevars: Idem
+	* src/duration.cpp: Idem
+	* src/interval.cpp: Idem
+	* src/nanotime.cpp: Idem
+	* src/period.cpp: Idem
+
+	* .travis.yml: For now load development version of RcppCCTZ from GitHub
+
 2019-11-21  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): New minor version
