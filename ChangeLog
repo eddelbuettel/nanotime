@@ -1,7 +1,9 @@
 2020-03-22  Leonardo Silvestri  <lsilvestri@ztsdb.org>
+
 	* README.md: updated information
 
 2020-03-21  Leonardo Silvestri  <lsilvestri@ztsdb.org>
+
 	* inst/include/globals.hpp: parse format ending with 'Z' for data.table compatibility
 	* src/period.cpp: fix vectorized 'plus'/'minus' ops for 'nanoperiod'
 	* inst/tinytest/test_nanoperiod.R: Idem

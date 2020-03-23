@@ -3,10 +3,13 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/nanotime/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/nanotime/issues/#1}{##1}}
 
-\section{Changes in version 0.2.5 (2019-xx-yy)}{
+\section{Changes in version 0.2.5 (2020-xx-yy)}{
   \itemize{
     \item Add new comparison operators for \code{nanotime} and
     \code{charcters} (Dirk in \ghpr{54} fixing \ghit{52}).
+    \item Substantial extension in functionality with new types
+    \code{nanoduration}, \code{nanoival} and \code{nanoperiod} (Leonardo
+    in \ghpr{58} with assistance from Dirk).
   }
 }
 
