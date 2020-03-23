@@ -1,3 +1,7 @@
+2020-03-23  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): Roll minor version
+
 2020-03-22  Leonardo Silvestri  <lsilvestri@ztsdb.org>
 
 	* README.md: updated information

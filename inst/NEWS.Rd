@@ -7,9 +7,11 @@
   \itemize{
     \item Add new comparison operators for \code{nanotime} and
     \code{charcters} (Dirk in \ghpr{54} fixing \ghit{52}).
-    \item Substantial extension in functionality with new types
+    \item Substantial functionality extension in with new types
     \code{nanoduration}, \code{nanoival} and \code{nanoperiod} (Leonardo
-    in \ghpr{58} with assistance from Dirk).
+    in \ghpr{58} fixing \ghit{47}, \ghit{51}, \ghit{57}, with assistance
+    from Dirk).
+    
   }
 }
 
