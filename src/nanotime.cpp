@@ -31,7 +31,7 @@ Rcpp::IntegerVector nanotime_wday_impl(const Rcpp::NumericVector tm_v,
     const auto tm_i = *reinterpret_cast<const Global::dtime*>(&tm[i]);
     const auto offset = getOffsetCnv(tm_i, tz_i.c_str());
     date::sys_days t_days = date::floor<date::days>(tm_i + offset);
-    res[i] = unsigned(date::weekday(t_days));
+    res[i] = unsigned(date::weekday(t_days).c_encoding());
   }
   copyNames(tm_v, tz_v, res);
   return res;

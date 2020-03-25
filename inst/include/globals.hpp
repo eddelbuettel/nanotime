@@ -219,7 +219,7 @@ namespace Global {
       skipWhitespace(sp, se);
 
       if (tzstr_str == "Z") {   // consider "Z" a shorhand for "UTC"
-        tzstr_str = "UTC";
+        tzstr_str = "UTC";	// #nocov
       }
       return tmdet{y, m, d, h, mn, s, ns, tzstr_str, offset};
       

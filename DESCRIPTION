@@ -10,7 +10,7 @@ Description: Full 64-bit resolution date and time support with resolution up
  standard 'POSIXct' type.
 Imports: methods, bit64, RcppCCTZ (>= 0.2.7), zoo
 Suggests: tinytest, data.table, xts
-LinkingTo: Rcpp, RcppCCTZ
+LinkingTo: Rcpp, RcppCCTZ, RcppDate
 License: GPL (>= 2)
 RoxygenNote: 7.1.0
 Collate:

@@ -1,3 +1,13 @@
+2020-03-25  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (LinkingTo): Add RcppDate providing date.h
+	* src/nanotime.cpp (nanotime_wday_impl): Update one accessor for
+	newer version of date.h
+
+	* inst/include/date.h: Deleted as no longer needed
+
+	* inst/include/globals.hpp: Add a single #nocov
+
 2020-03-23  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): Roll minor version
