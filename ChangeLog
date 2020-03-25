@@ -6,6 +6,8 @@
 
 	* inst/include/date.h: Deleted as no longer needed
 
+	* .travis.yml (install): Install RcppDate
+
 	* inst/include/globals.hpp: Add a single #nocov
 
 2020-03-23  Dirk Eddelbuettel  <edd@debian.org>
