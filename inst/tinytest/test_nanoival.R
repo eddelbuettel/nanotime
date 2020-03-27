@@ -529,17 +529,25 @@ expect_true(is.null(names(c_xy)))
 ## test_intersect_time_interval_null_interval <- function() {
 i1 <- as.nanoival(NULL)
 s1 <- seq(nanotime("2015-01-01 12:00:00"), length.out=10, by=one_second)
-expect_identical(s1[i1], as.nanotime(NULL))
+expect_identical(s1[i1], as.nanotime())
+expect_identical(s1 %in% i1, rep(FALSE, 10))
 
 ##test_intersect.idx_unsorted <- function() {
 a <- c(nanotime("2013-12-12 12:12:12"), nanotime("2012-12-12 12:12:12"))
 idx <- as.nanoival("+2012-12-12 12:12:14 -> 2012-12-12 12:12:19+")
 expect_error(intersect.idx(a, idx), "x must be sorted")
+expect_error(a %in% idx, "x must be sorted")
 
 ##test_subset_unsorted <- function() {
 a <- c(nanotime("2013-12-12 12:12:12"), nanotime("2012-12-12 12:12:12"))
 idx <- as.nanoival("+2012-12-12 12:12:14 -> 2012-12-12 12:12:19+")
 expect_error(a[idx], "x must be sorted")
+expect_error(a %in% idx, "x must be sorted")
+
+## test that nanotime %in% nanotime still works as it goes through the same S3
+a <- nanotime(3:6)
+idx <- nanotime(1:10)
+expect_identical(a %in% idx, 3:6 %in% 1:10)
 
 
 ## time - interval
@@ -551,6 +559,7 @@ a <- seq(nanotime("2012-12-12 12:12:12"), length.out=10, by=one_second)
 idx <- as.nanoival("+2012-12-12 12:12:14 -> 2012-12-12 12:12:19+")
 r <- list(x=c(3,4,5,6,7,8), y=c(1,1,1,1,1,1))
 expect_identical(intersect.idx(a, idx), r)
+expect_identical(a %in% idx, 1:10 %in% c(3,4,5,6,7,8))
 
 ## 1: ..............
 ## 2:   c----c

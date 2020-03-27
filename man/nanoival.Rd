@@ -57,7 +57,9 @@
 \alias{[,nanotime,nanoival-method}
 \alias{NA_nanoival_}
 \title{Interval type with nanosecond precision}
-\format{An object of class \code{nanoival} of length 1.}
+\format{
+An object of class \code{nanoival} of length 1.
+}
 \usage{
 nanoival(start, end, sopen = FALSE, eopen = TRUE)
 

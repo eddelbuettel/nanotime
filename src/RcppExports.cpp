@@ -64,6 +64,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// nanoival_intersect_idx_time_interval_logical_impl
+Rcpp::LogicalVector nanoival_intersect_idx_time_interval_logical_impl(const Rcpp::NumericVector nv1, const Rcpp::ComplexVector nv2);
+RcppExport SEXP _nanotime_nanoival_intersect_idx_time_interval_logical_impl(SEXP nv1SEXP, SEXP nv2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector >::type nv1(nv1SEXP);
+    Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type nv2(nv2SEXP);
+    rcpp_result_gen = Rcpp::wrap(nanoival_intersect_idx_time_interval_logical_impl(nv1, nv2));
+    return rcpp_result_gen;
+END_RCPP
+}
 // nanoival_intersect_time_interval_impl
 Rcpp::S4 nanoival_intersect_time_interval_impl(const Rcpp::NumericVector nv1, const Rcpp::ComplexVector nv2);
 RcppExport SEXP _nanotime_nanoival_intersect_time_interval_impl(SEXP nv1SEXP, SEXP nv2SEXP) {
@@ -738,6 +750,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_nanotime_duration_is_na_impl", (DL_FUNC) &_nanotime_duration_is_na_impl, 1},
     {"_nanotime_make_duration_impl", (DL_FUNC) &_nanotime_make_duration_impl, 4},
     {"_nanotime_nanoival_intersect_idx_time_interval_impl", (DL_FUNC) &_nanotime_nanoival_intersect_idx_time_interval_impl, 2},
+    {"_nanotime_nanoival_intersect_idx_time_interval_logical_impl", (DL_FUNC) &_nanotime_nanoival_intersect_idx_time_interval_logical_impl, 2},
     {"_nanotime_nanoival_intersect_time_interval_impl", (DL_FUNC) &_nanotime_nanoival_intersect_time_interval_impl, 2},
     {"_nanotime_nanoival_setdiff_time_interval_impl", (DL_FUNC) &_nanotime_nanoival_setdiff_time_interval_impl, 2},
     {"_nanotime_nanoival_union_impl", (DL_FUNC) &_nanotime_nanoival_union_impl, 2},

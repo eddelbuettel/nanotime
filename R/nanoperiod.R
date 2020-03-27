@@ -448,6 +448,18 @@ setMethod("+", c("nanoperiod", "nanotime"),
           })
 
 ##' @rdname nanoperiod
+setMethod("+", c("nanoival", "nanoperiod"),
+          function(e1, e2) {
+              stop(paste0("binary '+' is not defined for 'nanoival' and 'nanoperiod' objects; instead use 'plus(e1, e2, tz)'"))
+          })
+
+##' @rdname nanoperiod
+setMethod("+", c("nanoperiod", "nanoival"),
+          function(e1, e2) {
+              stop(paste0("binary '+' is not defined for 'nanoperiod' and 'nanoival' objects; instead use 'plus(e1, e2, tz)'"))
+          })
+
+##' @rdname nanoperiod
 setMethod("+", c("nanotime", "nanoperiod"),
           function(e1, e2) {
               stop(paste0("binary '+' is not defined for 'nanotime' and 'nanoperiod' objects; instead use 'plus(e1, e2, tz)'"))

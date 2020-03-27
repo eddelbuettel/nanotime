@@ -6,6 +6,7 @@
 \alias{setdiff,nanoival,nanoival-method}
 \alias{intersect.idx,nanotime,nanoival-method}
 \alias{intersect.idx}
+\alias{\%in\%.nanotime}
 \alias{intersect,nanotime,nanoival-method}
 \alias{setdiff,nanotime,nanoival-method}
 \alias{setdiff.idx,nanotime,nanoival-method}
@@ -23,6 +24,8 @@
 
 \S4method{intersect.idx}{nanotime,nanoival}(x, y)
 
+\method{\%in\%}{nanotime}(x, table)
+
 \S4method{intersect}{nanotime,nanoival}(x, y)
 
 \S4method{setdiff}{nanotime,nanoival}(x, y)
@@ -37,6 +40,8 @@
 }
 \arguments{
 \item{x, y}{a temporal type}
+
+\item{table}{\code{nanoival}: used in \code{\%in\%}}
 }
 \value{
 \code{intersect}, \code{union}, \code{setdiff} return
@@ -52,6 +57,18 @@
 \description{
 Performs set intersection, union and difference between vectors of
 temporal types from the \code{nanotime} package.
+}
+\details{
+Set operations between \code{nanoival} operands allow the
+construction of complex interval vectors (i.e. a \code{nanoival}
+vector can specify any number of inclusions and exclusions of
+time). Set operations between \code{nanotime} and \code{nanoival}
+allow to subset time vectors with interval vectors. In addition to
+the generic set functions, the function \code{intersect.idx} is
+defined which returns the indices of the intersection, and the
+operator \code{\%in\%} is overloaded for \code{nanotime-nanoival}
+which returns a logical vector that indicates which elements
+belong to the interval vector.
 }
 \examples{
 ## a vector of 'nanotime' can be subsetted by a 'nanoival' which is equivalent to 'intersect':
@@ -71,7 +88,7 @@ i1 <- as.nanoival("+2012-12-12 12:12:14+00:00 -> 2012-12-12 12:12:17+00:00-")
 i2 <- as.nanoival("+2012-12-12 12:12:16+00:00 -> 2012-12-12 12:12:18+00:00-")
 union(i1, i2)
 
-## Finally, 'intersect.idx' returns the indices of the intersection:
+## 'intersect.idx' returns the indices of the intersection:
 a <- seq(nanotime("2012-12-12 12:12:12+00:00"), length.out=10, by=one_second)
 idx <- as.nanoival("+2012-12-12 12:12:14+00:00 -> 2012-12-12 12:12:19+00:00+")
 idx_intersect <- intersect.idx(a, idx)
@@ -81,5 +98,8 @@ a[idx_intersect$x]
 
 ## which is equivalent to:
 a[idx]
+
+## The logical vector indicating intersection can be obtained like this:
+a \%in\% idx
 
 }
