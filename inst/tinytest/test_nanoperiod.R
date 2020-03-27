@@ -392,6 +392,14 @@ expect_error(as.nanoperiod(1) + nanotime(1),
 expect_error(nanotime(1) + as.nanoperiod(1),
              "binary '\\+' is not defined for 'nanotime' and 'nanoperiod' objects; instead use 'plus\\(e1, e2, tz\\)'")
 
+##test_binary_plus_nanoperiod_nanoival <- function() {
+expect_error(as.nanoperiod(1) + nanoival(nanotime(1), nanotime(2)),
+             "binary '\\+' is not defined for 'nanoperiod' and 'nanoival' objects; instead use 'plus\\(e1, e2, tz\\)'")
+
+##test_binary_plus_nanoival_nanoperiod <- function() {
+expect_error(nanoival(nanotime(1), nanotime(2)) + as.nanoperiod(1),
+             "binary '\\+' is not defined for 'nanoival' and 'nanoperiod' objects; instead use 'plus\\(e1, e2, tz\\)'")
+
 
 ## Compare
 ## ----------

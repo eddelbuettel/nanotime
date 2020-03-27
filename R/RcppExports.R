@@ -21,6 +21,10 @@ nanoival_intersect_idx_time_interval_impl <- function(nv1, nv2) {
     .Call(`_nanotime_nanoival_intersect_idx_time_interval_impl`, nv1, nv2)
 }
 
+nanoival_intersect_idx_time_interval_logical_impl <- function(nv1, nv2) {
+    .Call(`_nanotime_nanoival_intersect_idx_time_interval_logical_impl`, nv1, nv2)
+}
+
 nanoival_intersect_time_interval_impl <- function(nv1, nv2) {
     .Call(`_nanotime_nanoival_intersect_time_interval_impl`, nv1, nv2)
 }

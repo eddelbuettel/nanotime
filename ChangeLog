@@ -1,3 +1,19 @@
+2020-03-27  Leonardo Silvestri  <lsilvestri@ztsdb.org>
+
+	* DESCRIPTION: added %in%.nanotime
+	* NAMESPACE: Idem
+ 	* R/RcppExports.R: Idem
+ 	* R/nanoival.R: Idem
+ 	* R/nanoperiod.R: Idem
+ 	* inst/tinytest/test_nanoival.R: Idem
+ 	* man/nanoduration.Rd: Idem
+ 	* man/nanoival.Rd: Idem
+ 	* man/nanoperiod.Rd: Idem
+ 	* man/nanotime.Rd: Idem
+ 	* man/set_operations.Rd: Idem
+ 	* src/RcppExports.cpp: Idem
+ 	* src/interval.cpp: Idem
+ 
 2020-03-25  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): Roll minor version

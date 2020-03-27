@@ -63,7 +63,9 @@
 \alias{NA_nanotime_}
 \alias{as.data.frame.nanoduration}
 \title{Nanosecond resolution datetime functionality}
-\format{An object of class \code{nanotime} of length 1.}
+\format{
+An object of class \code{nanotime} of length 1.
+}
 \usage{
 nanotime(from, ...)
 

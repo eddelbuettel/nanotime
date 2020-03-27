@@ -92,6 +92,31 @@ static Rcpp::List intersect_idx(const T* v1, size_t v1_size, const U* v2, size_t
 }
 
 
+// do a fast intersect without caring about the second index, and
+// return the result as boolean; this is useful for `data.table`
+// subsetting:
+template <typename T, typename U>
+static std::vector<int> intersect_idx_logical(const T* v1, size_t v1_size, const U* v2, size_t v2_size) 
+{
+  std::vector<int> res(v1_size);
+  size_t i1 = 0, i2 = 0;
+  while (i1 < v1_size && i2 < v2_size) {
+    if (v1[i1] < v2[i2]) {
+      res[i1] = FALSE;
+      ++i1;
+    } else if (v1[i1] > v2[i2]) {
+      ++i2;
+    } else { 
+      if (v1_size==0 || v1[i1] != v1[i1-1]) {
+        res[i1] = TRUE;
+      }      
+      ++i1;
+    }
+  }
+  return res;
+}
+
+
 /// intersect_idx T=Global::dtime, U=Global::dtime doesn't need specialization.
 /// intersect_idx T=Global::dtime, U=tz::interval doesn't need specialization.
 /// intersect_idx interval/interval doesn't make sense.
@@ -107,12 +132,25 @@ static Rcpp::List intersect_idx(const T* v1, size_t v1_size, const U* v2, size_t
 //   return intersect_idx(v1, v1_size, v2, v2_size);
 // }
 
+
 // [[Rcpp::export]]
 Rcpp::List nanoival_intersect_idx_time_interval_impl(const Rcpp::NumericVector nv1,
                                                      const Rcpp::ComplexVector nv2) {
   const Global::dtime* v1 = reinterpret_cast<const Global::dtime*>(&nv1[0]);
   const interval*      v2 = reinterpret_cast<const interval*>(&nv2[0]);
   return intersect_idx(v1, nv1.size(), v2, nv2.size());
+}
+
+
+// [[Rcpp::export]]
+Rcpp::LogicalVector nanoival_intersect_idx_time_interval_logical_impl(const Rcpp::NumericVector nv1,
+                                                             const Rcpp::ComplexVector nv2) {
+  const Global::dtime* v1 = reinterpret_cast<const Global::dtime*>(&nv1[0]);
+  const interval*      v2 = reinterpret_cast<const interval*>(&nv2[0]);
+  auto res_c = intersect_idx_logical(v1, nv1.size(), v2, nv2.size());
+  Rcpp::LogicalVector res(nv1.size());
+  memcpy(&res[0], &res_c[0], sizeof(int)*nv1.size()); 
+  return res;
 }
 
 

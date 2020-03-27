@@ -595,7 +595,20 @@ setMethod("t", c("nanoival"),
 ##' Performs set intersection, union and difference between vectors of
 ##' temporal types from the \code{nanotime} package.
 ##'
+##' Set operations between \code{nanoival} operands allow the
+##' construction of complex interval vectors (i.e. a \code{nanoival}
+##' vector can specify any number of inclusions and exclusions of
+##' time). Set operations between \code{nanotime} and \code{nanoival}
+##' allow to subset time vectors with interval vectors. In addition to
+##' the generic set functions, the function \code{intersect.idx} is
+##' defined which returns the indices of the intersection, and the
+##' operator \code{\%in\%} is overloaded for \code{nanotime-nanoival}
+##' which returns a logical vector that indicates which elements
+##' belong to the interval vector.
+##'
+##' 
 ##' @param x,y a temporal type
+##' @param table \code{nanoival}: used in \code{\%in\%}
 ##' @return \code{intersect}, \code{union}, \code{setdiff} return
 ##'     temporal types that are the result of the intersection. For
 ##'     instance, set operations on two \code{nanoival} return a
@@ -623,7 +636,7 @@ setMethod("t", c("nanoival"),
 ##' i2 <- as.nanoival("+2012-12-12 12:12:16+00:00 -> 2012-12-12 12:12:18+00:00-")
 ##' union(i1, i2)
 ##'
-##' ## Finally, 'intersect.idx' returns the indices of the intersection:
+##' ## 'intersect.idx' returns the indices of the intersection:
 ##' a <- seq(nanotime("2012-12-12 12:12:12+00:00"), length.out=10, by=one_second)
 ##' idx <- as.nanoival("+2012-12-12 12:12:14+00:00 -> 2012-12-12 12:12:19+00:00+")
 ##' idx_intersect <- intersect.idx(a, idx)
@@ -634,6 +647,9 @@ setMethod("t", c("nanoival"),
 ##' ## which is equivalent to:
 ##' a[idx]
 ##'
+##' ## The logical vector indicating intersection can be obtained like this:
+##' a %in% idx
+##' 
 ##' @rdname set_operations
 ##'
 setMethod("intersect",
@@ -693,6 +709,28 @@ setMethod("intersect.idx",
               nanoival_intersect_idx_time_interval_impl(x, y)
           })
 
+
+##' @rdname set_operations
+##' @aliases %in%.nanotime
+`%in%.nanotime` <- function(x, table) {
+    if (class(table) == "nanoival") {
+        if (is.unsorted(x)) stop("x must be sorted")
+        table <- sort(table)
+        nanoival_intersect_idx_time_interval_logical_impl(x, table)
+    } else {
+        NextMethod()
+    }
+}
+
+## ##' @rdname set_operations
+## ##' @aliases %in%,nanotime,nanoival-method
+## setMethod("%in%",
+##           c("nanotime", "nanoival"),
+##           function(x, table) {
+##               if (is.unsorted(x)) stop("x must be sorted")
+##               table <- sort(table)
+##               nanoival_intersect_idx_time_interval_logical_impl(x, table)
+##           })
 
 ##' @rdname set_operations
 setMethod("intersect",

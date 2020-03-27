@@ -50,6 +50,8 @@
 \alias{+,nanoperiod,nanoduration-method}
 \alias{+,nanoperiod,integer64-method}
 \alias{+,nanoperiod,nanotime-method}
+\alias{+,nanoival,nanoperiod-method}
+\alias{+,nanoperiod,nanoival-method}
 \alias{+,nanotime,nanoperiod-method}
 \alias{+,nanoperiod,numeric-method}
 \alias{+,nanoduration,nanoperiod-method}
@@ -76,7 +78,9 @@
 \alias{minus,nanoival,nanoperiod,character-method}
 \alias{NA_nanoperiod_}
 \title{Period type with nanosecond precision}
-\format{An object of class \code{nanoperiod} of length 1.}
+\format{
+An object of class \code{nanoperiod} of length 1.
+}
 \usage{
 nanoperiod(months = 0, days = 0, duration = as.nanoduration(0))
 
@@ -143,6 +147,10 @@ nanoperiod(months = 0, days = 0, duration = as.nanoduration(0))
 \S4method{+}{nanoperiod,integer64}(e1, e2)
 
 \S4method{+}{nanoperiod,nanotime}(e1, e2)
+
+\S4method{+}{nanoival,nanoperiod}(e1, e2)
+
+\S4method{+}{nanoperiod,nanoival}(e1, e2)
 
 \S4method{+}{nanotime,nanoperiod}(e1, e2)
 

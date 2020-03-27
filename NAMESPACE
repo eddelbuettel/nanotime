@@ -107,3 +107,6 @@ exportMethods(nano_wday)
 exportMethods(nano_mday)
 exportMethods(nano_month)
 exportMethods(nano_year)
+
+export("%in%.nanotime")
+S3method("%in%", nanotime)

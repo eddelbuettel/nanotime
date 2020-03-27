@@ -69,7 +69,9 @@
 \alias{c.nanoduration}
 \alias{NA_nanoduration_}
 \title{Duration type with nanosecond precision}
-\format{An object of class \code{nanoduration} of length 1.}
+\format{
+An object of class \code{nanoduration} of length 1.
+}
 \usage{
 nanoduration(hours, minutes, seconds, nanoseconds)
 
