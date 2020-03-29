@@ -22,18 +22,20 @@ static inline Global::duration getOffsetCnv(const Global::dtime& dt, const std::
 Rcpp::IntegerVector nanotime_wday_impl(const Rcpp::NumericVector tm_v,
                                        const Rcpp::CharacterVector tz_v) {
   checkVectorsLengths(tm_v, tz_v);
-  ConstPseudoVectorInt64 tm(tm_v);
-  ConstPseudoVectorChar  tz(tz_v);
-  Rcpp::IntegerVector    res(tm_v.size());
+  Rcpp::IntegerVector    res(getVectorLengths(tm_v, tz_v));
+  if (res.size()) {
+    ConstPseudoVectorInt64 tm(tm_v);
+    ConstPseudoVectorChar  tz(tz_v);
 
-  for (R_xlen_t i=0; i<tm_v.size(); ++i) {
-    const auto tz_i = Rcpp::as<std::string>(tz[i]);
-    const auto tm_i = *reinterpret_cast<const Global::dtime*>(&tm[i]);
-    const auto offset = getOffsetCnv(tm_i, tz_i.c_str());
-    date::sys_days t_days = date::floor<date::days>(tm_i + offset);
-    res[i] = unsigned(date::weekday(t_days).c_encoding());
+    for (R_xlen_t i=0; i<res.size(); ++i) {
+      const auto tz_i = Rcpp::as<std::string>(tz[i]);
+      const auto tm_i = *reinterpret_cast<const Global::dtime*>(&tm[i]);
+      const auto offset = getOffsetCnv(tm_i, tz_i.c_str());
+      date::sys_days t_days = date::floor<date::days>(tm_i + offset);
+      res[i] = unsigned(date::weekday(t_days).c_encoding());
+    }
+    copyNames(tm_v, tz_v, res);
   }
-  copyNames(tm_v, tz_v, res);
   return res;
 }
 
@@ -41,19 +43,20 @@ Rcpp::IntegerVector nanotime_wday_impl(const Rcpp::NumericVector tm_v,
 Rcpp::IntegerVector nanotime_mday_impl(const Rcpp::NumericVector tm_v,
                                        const Rcpp::CharacterVector tz_v) {
   checkVectorsLengths(tm_v, tz_v);
-  ConstPseudoVectorInt64 tm(tm_v);
-  ConstPseudoVectorChar  tz(tz_v);
-  Rcpp::IntegerVector    res(tm_v.size());
-
-  for (R_xlen_t i=0; i<tm_v.size(); ++i) {
-    const auto tz_i = Rcpp::as<std::string>(tz[i]);
-    const auto tm_i = *reinterpret_cast<const Global::dtime*>(&tm[i]);
-    const auto offset = getOffsetCnv(tm_i, tz_i.c_str());
-    date::sys_days t_days = date::floor<date::days>(tm_i + offset);
-    date::weekday wd(t_days);
-    res[i] = unsigned(date::year_month_day(t_days).day());
+  Rcpp::IntegerVector    res(getVectorLengths(tm_v, tz_v));
+  if (res.size()) {
+    ConstPseudoVectorInt64 tm(tm_v);
+    ConstPseudoVectorChar  tz(tz_v);
+    for (R_xlen_t i=0; i<res.size(); ++i) {
+      const auto tz_i = Rcpp::as<std::string>(tz[i]);
+      const auto tm_i = *reinterpret_cast<const Global::dtime*>(&tm[i]);
+      const auto offset = getOffsetCnv(tm_i, tz_i.c_str());
+      date::sys_days t_days = date::floor<date::days>(tm_i + offset);
+      date::weekday wd(t_days);
+      res[i] = unsigned(date::year_month_day(t_days).day());
+    }
+    copyNames(tm_v, tz_v, res);
   }
-  copyNames(tm_v, tz_v, res);
   return res;
 }
 
@@ -61,19 +64,21 @@ Rcpp::IntegerVector nanotime_mday_impl(const Rcpp::NumericVector tm_v,
 Rcpp::IntegerVector nanotime_month_impl(const Rcpp::NumericVector tm_v,
                                         const Rcpp::CharacterVector tz_v) {
   checkVectorsLengths(tm_v, tz_v);
-  ConstPseudoVectorInt64 tm(tm_v);
-  ConstPseudoVectorChar  tz(tz_v);
-  Rcpp::IntegerVector    res(tm_v.size());
+  Rcpp::IntegerVector    res(getVectorLengths(tm_v, tz_v));
+  if (res.size()) {
+    ConstPseudoVectorInt64 tm(tm_v);
+    ConstPseudoVectorChar  tz(tz_v);
 
-  for (R_xlen_t i=0; i<tm_v.size(); ++i) {
-    const auto tz_i = Rcpp::as<std::string>(tz[i]);
-    const auto tm_i = *reinterpret_cast<const Global::dtime*>(&tm[i]);
-    const auto offset = getOffsetCnv(tm_i, tz_i.c_str());
-    date::sys_days t_days = date::floor<date::days>(tm_i + offset);
-    date::weekday wd(t_days);
-    res[i] = unsigned(date::year_month_day(t_days).month());
+    for (R_xlen_t i=0; i<res.size(); ++i) {
+      const auto tz_i = Rcpp::as<std::string>(tz[i]);
+      const auto tm_i = *reinterpret_cast<const Global::dtime*>(&tm[i]);
+      const auto offset = getOffsetCnv(tm_i, tz_i.c_str());
+      date::sys_days t_days = date::floor<date::days>(tm_i + offset);
+      date::weekday wd(t_days);
+      res[i] = unsigned(date::year_month_day(t_days).month());
+    }
+    copyNames(tm_v, tz_v, res);
   }
-  copyNames(tm_v, tz_v, res);    
   return res;
 }
 
@@ -81,19 +86,21 @@ Rcpp::IntegerVector nanotime_month_impl(const Rcpp::NumericVector tm_v,
 Rcpp::IntegerVector nanotime_year_impl(const Rcpp::NumericVector tm_v,
                                        const Rcpp::CharacterVector tz_v) {
   checkVectorsLengths(tm_v, tz_v);
-  ConstPseudoVectorInt64 tm(tm_v);
-  ConstPseudoVectorChar  tz(tz_v);
-  Rcpp::IntegerVector    res(tm_v.size());
+  Rcpp::IntegerVector    res(getVectorLengths(tm_v, tz_v));
+  if (res.size()) {
+    ConstPseudoVectorInt64 tm(tm_v);
+    ConstPseudoVectorChar  tz(tz_v);
 
-  for (R_xlen_t i=0; i<tm_v.size(); ++i) {
-    const auto tz_i = Rcpp::as<std::string>(tz[i]);
-    const auto tm_i = *reinterpret_cast<const Global::dtime*>(&tm[i]);
-    const auto offset = getOffsetCnv(tm_i, tz_i.c_str());
-    date::sys_days t_days = date::floor<date::days>(tm_i + offset);
-    date::weekday wd(t_days);
-    res[i] = int(date::year_month_day(t_days).year());
+    for (R_xlen_t i=0; i<res.size(); ++i) {
+      const auto tz_i = Rcpp::as<std::string>(tz[i]);
+      const auto tm_i = *reinterpret_cast<const Global::dtime*>(&tm[i]);
+      const auto offset = getOffsetCnv(tm_i, tz_i.c_str());
+      date::sys_days t_days = date::floor<date::days>(tm_i + offset);
+      date::weekday wd(t_days);
+      res[i] = int(date::year_month_day(t_days).year());
+    }
+    copyNames(tm_v, tz_v, res);
   }
-  copyNames(tm_v, tz_v, res);    
   return res;
 }
 
@@ -128,16 +135,18 @@ static std::int64_t readNanotime(const char*& sp, const char* const se, const ch
 Rcpp::NumericVector nanotime_make_impl(const Rcpp::CharacterVector nt_v,
                                        const Rcpp::CharacterVector tz_v) {
   checkVectorsLengths(nt_v, tz_v);
-  ConstPseudoVectorChar nt(nt_v);
-  ConstPseudoVectorChar tz(tz_v);
-  Rcpp::NumericVector res(nt.size());
-  for (R_xlen_t i=0; i<nt.size(); ++i) {
-    auto str = (const char*)(nt[i]);
-    const auto t = readNanotime(str, str + nt[i].size(), tz[i]);
-    const double *ptr = reinterpret_cast<const double*>(&t);
-    res[i] = *ptr;
+  Rcpp::NumericVector res(getVectorLengths(nt_v, tz_v));
+  if (res.size()) {
+    ConstPseudoVectorChar nt(nt_v);
+    ConstPseudoVectorChar tz(tz_v);
+    for (R_xlen_t i=0; i<res.size(); ++i) {
+      auto str = (const char*)(nt[i]);
+      const auto t = readNanotime(str, str + nt[i].size(), tz[i]);
+      const double *ptr = reinterpret_cast<const double*>(&t);
+      res[i] = *ptr;
+    }
+    copyNames(nt_v, tz_v, res);
   }
-  copyNames(nt_v, tz_v, res);
   return assignS4("nanotime", res, "integer64");
 }
 

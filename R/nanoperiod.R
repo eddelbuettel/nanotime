@@ -76,7 +76,7 @@ nanoperiod <- function(months=0, days=0, duration=as.nanoduration(0)) {
     if (nargs() == 0) {
         as.nanoperiod(NULL)
     } else {
-        as.nanoperiod(paste0(as.integer64(months), "m", as.integer64(days), "d", "/", as.nanoduration(duration)))
+        period_from_parts_impl(as.integer(months), as.integer(days), as.nanoduration(duration))
     }
 }
 
@@ -92,7 +92,7 @@ setGeneric("as.nanoperiod", function(x) standardGeneric("as.nanoperiod"))
 setMethod("as.nanoperiod",
           "character",
           function(x) {
-              new("nanoperiod", period_from_string_impl(x))
+              period_from_string_impl(x)
           })
 
 setAs("character", "nanoperiod", function(from) as.nanoperiod(from))
@@ -101,7 +101,7 @@ setAs("character", "nanoperiod", function(from) as.nanoperiod(from))
 setMethod("as.nanoperiod",
           "integer64",
           function(x) {
-              new("nanoperiod", period_from_integer64_impl(x))
+              period_from_integer64_impl(x)
           })
 
 setAs("integer64", "nanoperiod", function(from) as.nanoperiod(from))
@@ -110,7 +110,7 @@ setAs("integer64", "nanoperiod", function(from) as.nanoperiod(from))
 setMethod("as.nanoperiod",
           "numeric",
           function(x) {
-              new("nanoperiod", period_from_double_impl(x))
+              period_from_double_impl(x)
           })
 
 setAs("numeric", "nanoperiod", function(from) as.nanoperiod(from))
@@ -119,7 +119,7 @@ setAs("numeric", "nanoperiod", function(from) as.nanoperiod(from))
 setMethod("as.nanoperiod",
           "integer",
           function(x) {
-              new("nanoperiod", period_from_integer_impl(x))
+              period_from_integer_impl(x)
           })
 
 setAs("integer", "nanoperiod", function(from) as.nanoperiod(from))
@@ -128,7 +128,7 @@ setAs("integer", "nanoperiod", function(from) as.nanoperiod(from))
 setMethod("as.nanoperiod",
           "nanoduration",
           function(x) {
-              new("nanoperiod", period_from_integer64_impl(x))
+              period_from_integer64_impl(x)
           })
 
 setAs("nanoduration", "nanoperiod", function(from) as.nanoperiod(from))
@@ -137,14 +137,14 @@ setAs("nanoduration", "nanoperiod", function(from) as.nanoperiod(from))
 setMethod("as.nanoperiod",
           "NULL",
           function(x) {
-              new("nanoperiod", period_from_string_impl(character()))
+              period_from_string_impl(character())
           })
 
 ##' @rdname nanoperiod
 setMethod("as.nanoperiod",
           "missing",
           function(x) {
-              new("nanoperiod", period_from_string_impl(character()))
+              period_from_string_impl(character())
           })
 
 

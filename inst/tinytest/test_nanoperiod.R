@@ -573,4 +573,37 @@ expect_identical(as.nanoperiod(as.integer64(hour)), as(hour, "nanoperiod"))
 expect_identical(as.nanoperiod(hour), as(hour, "nanoperiod"))
 expect_identical(as.nanoperiod(hour), as(as.nanoduration(hour), "nanoperiod"))
 
-## test 'seq' where 'by' is 'period':
+## 0-length ops:
+## ------------
+
+## constructor:
+
+expect_identical(nanoperiod(integer(), integer(), nanoduration()), nanoperiod())
+expect_identical(nanoperiod(1, 1, nanoduration()), nanoperiod())
+expect_identical(nanoperiod(1,integer(), as.nanoduration(1)), nanoperiod())
+expect_identical(nanoperiod(numeric(), integer(), as.nanoduration(1)), nanoperiod())
+expect_identical(nanoperiod(character()), nanoperiod())
+
+## Comp:
+expect_identical(as.nanoperiod() == as.nanoperiod(), logical())
+expect_identical(as.nanoperiod(1) == as.nanoperiod(), logical())
+expect_identical(as.nanoperiod(1) != as.nanoperiod(), logical())
+
+
+## ops
+expect_identical(as.nanoperiod() + as.nanoperiod(), as.nanoperiod())
+expect_identical(nanoperiod(1)   + as.nanoperiod(), as.nanoperiod())
+expect_identical(nanoperiod()    + as.nanoperiod(1:10), as.nanoperiod())
+expect_identical(nanoperiod()    + as.nanoduration(1:10), as.nanoperiod())
+expect_identical(nanoperiod()    + as.integer64(1:10), as.nanoperiod())
+expect_identical(nanoperiod(1)   + as.integer(), as.nanoperiod())
+expect_identical(as.nanoperiod() - as.nanoperiod(), as.nanoperiod())
+expect_identical(nanoperiod(1)   - as.nanoperiod(), as.nanoperiod())
+expect_identical(nanoperiod()    - as.nanoperiod(1:10), as.nanoperiod())
+expect_identical(nanoperiod()    * 3, as.nanoperiod())
+expect_identical(nanoperiod(1)   * integer(), as.nanoperiod())
+
+## accessors
+expect_identical(nanoperiod.month(nanoperiod()), numeric())
+expect_identical(nanoperiod.day(nanoperiod()), numeric())
+expect_identical(nanoperiod.nanoduration(nanoperiod()), as.nanoduration())
