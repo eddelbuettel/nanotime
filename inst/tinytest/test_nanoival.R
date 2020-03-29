@@ -68,17 +68,35 @@ expect_identical(nanoival(), as.nanoival())
 expect_identical(length(as.nanoival()), 0L)
 
 ##test_nanoival_vector<- function() {
-    starts <- c(nanotime("2013-01-01 00:00:00"),
-                nanotime("2014-01-01 00:00:00"),
-                nanotime("2015-01-01 00:00:00"),
-                nanotime("2016-01-01 00:00:00"))
-    ends   <- c(nanotime("2014-01-01 00:00:00"),
-                nanotime("2015-01-01 00:00:00"),
-                nanotime("2016-01-01 00:00:00"),
-                nanotime("2017-01-01 00:00:00"))
-    sopens <- c(FALSE, FALSE, TRUE, TRUE)
-    eopens <- c(TRUE,  FALSE, TRUE, FALSE)
-    expect_identical(nanoival(starts, ends, sopens, eopens), as.nanoival(c(aa, bb, cc, dd)))
+starts <- c(nanotime("2013-01-01 00:00:00"),
+            nanotime("2014-01-01 00:00:00"),
+            nanotime("2015-01-01 00:00:00"),
+            nanotime("2016-01-01 00:00:00"))
+ends   <- c(nanotime("2014-01-01 00:00:00"),
+            nanotime("2015-01-01 00:00:00"),
+            nanotime("2016-01-01 00:00:00"),
+            nanotime("2017-01-01 00:00:00"))
+sopens <- c(FALSE, FALSE, TRUE, TRUE)
+eopens <- c(TRUE,  FALSE, TRUE, FALSE)
+expect_identical(nanoival(starts, ends, sopens, eopens), as.nanoival(c(aa, bb, cc, dd)))
+
+## different vector lengths:
+starts <- nanotime(1:3)
+ends   <- nanotime(4)
+sopens <- c(TRUE,  TRUE,  TRUE)
+eopens <- c(FALSE, FALSE, FALSE)
+expect_identical(nanoival(starts, ends, sopens, eopens),
+                 c(nanoival(nanotime(1), nanotime(4), TRUE, FALSE),
+                   nanoival(nanotime(2), nanotime(4), TRUE, FALSE),
+                   nanoival(nanotime(3), nanotime(4), TRUE, FALSE)))
+expect_identical(nanoival(starts, ends, sopens[1], eopens),
+                 c(nanoival(nanotime(1), nanotime(4), TRUE, FALSE),
+                   nanoival(nanotime(2), nanotime(4), TRUE, FALSE),
+                   nanoival(nanotime(3), nanotime(4), TRUE, FALSE)))
+expect_identical(nanoival(starts[1], ends, sopens, eopens[1]),
+                 c(nanoival(nanotime(1), nanotime(4), TRUE, FALSE),
+                   nanoival(nanotime(1), nanotime(4), TRUE, FALSE),
+                   nanoival(nanotime(1), nanotime(4), TRUE, FALSE)))
 
 
 ## show/print/format
@@ -1349,6 +1367,49 @@ expect_identical(seq(x, y, length.out=4),
                           seq(nanoival.end(x),   by=as.nanoperiod("1d"), length.out=4, tz="UTC"),
                           FALSE, TRUE))
 
+## 0-length ops:
+## ------------
 
+## constructor:
+expect_identical(nanoival(nanotime(), nanotime(1)), nanoival())
+expect_identical(nanoival(nanotime(), nanotime()), nanoival())
+expect_identical(nanoival(nanotime(1), nanotime()), nanoival())
+expect_identical(nanoival(nanotime(1), nanotime(2), logical()), nanoival())
+expect_identical(nanoival(nanotime(1), nanotime(2), logical(), logical()), nanoival())
+expect_identical(nanoival(nanotime(), nanotime(), logical(), logical()), nanoival())
+
+expect_identical(as.nanoival(character()), nanoival())
+
+## Comp:
+expect_identical(nanoival(nanotime(1), nanotime(2)) > nanoival(), logical())
+expect_identical(nanoival(nanotime(1), nanotime(2)) < nanoival(), logical())
+expect_identical(nanoival() <= nanoival(nanotime(1), nanotime(2)) , logical())
+expect_identical(nanoival() != nanoival(nanotime(1), nanotime(2)) , logical())
+
+## ops
+expect_identical(nanoival(nanotime(1), nanotime(2)) + integer(), as.nanoival())
+expect_identical(nanoival(nanotime(1), nanotime(2)) - integer(), as.nanoival())
+expect_identical(integer() + nanoival(), as.nanoival())
+
+## accessors
+expect_identical(nanoival.start(nanoival()), nanotime())
+expect_identical(nanoival.end(nanoival()), nanotime())
+expect_identical(nanoival.sopen(nanoival()), logical())
+expect_identical(nanoival.eopen(nanoival()), logical())
+
+## set ops:
+expect_identical(union(nanoival(nanotime(1), nanotime(2)), nanoival()), nanoival(nanotime(1), nanotime(2)))
+expect_identical(intersect(nanoival(nanotime(1), nanotime(2)), nanoival()), nanoival())
+expect_identical(setdiff(nanoival(nanotime(1), nanotime(2)), nanoival()), nanoival(nanotime(1), nanotime(2)))
+expect_identical(setdiff.idx(nanotime(), nanoival()), numeric())
+expect_identical(setdiff.idx(nanotime(1), nanoival()), 1)
+expect_identical(setdiff.idx(nanotime(), nanoival(nanotime(1), nanotime(2))), numeric())
+expect_identical(intersect(nanotime(1), nanoival()), nanotime())
+expect_identical(intersect(nanotime(), nanoival(nanotime(1), nanotime(2))), nanotime())
+expect_identical(intersect.idx(nanotime(1), nanoival()), list(x=numeric(), y=numeric()))
+expect_identical(intersect.idx(nanotime(), nanoival(nanotime(1), nanotime(2))), list(x=numeric(), y=numeric()))
+expect_identical(nanotime() %in% nanoival(nanotime(1), nanotime(2)), logical(0))
+expect_identical(nanotime(1:10) %in% nanoival(), rep(FALSE, 10))
+expect_identical(is.na(as.nanoival()), logical())
 
 options(nanotimeFormat=savedFormat)

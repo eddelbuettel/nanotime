@@ -566,3 +566,28 @@ if (!isSolaris) {
     expect_error(nano_month(as.nanotime("2020-03-14 23:32:00-04:00"), "America/Nu_York"), "Cannot retrieve timezone")
     expect_error(nano_year(as.nanotime("2020-03-14 23:32:00-04:00"), "America/Nu_York"), "Cannot retrieve timezone")
 }
+
+
+## 0-length ops:
+## ------------
+
+## constructor:
+expect_identical(nanotime(character(), character()), nanotime())
+expect_identical(nanotime(character(), tz="America/New_York"), nanotime())
+expect_identical(nanotime("2020-03-28 UTC", tz=character()), nanotime())
+
+## accessors/funcs
+expect_identical(nano_wday(nanotime(), tz=character()), integer())
+expect_identical(nano_wday(nanotime(1), tz=character()), integer())
+expect_identical(nano_wday(nanotime(), tz="America/New_York"), integer())
+expect_identical(nano_mday(nanotime(), tz=character()), integer())
+expect_identical(nano_mday(nanotime(1), tz=character()), integer())
+expect_identical(nano_mday(nanotime(), tz="America/New_York"), integer())
+expect_identical(nano_month(nanotime(), tz=character()), integer())
+expect_identical(nano_month(nanotime(1), tz=character()), integer())
+expect_identical(nano_month(nanotime(), tz="America/New_York"), integer())
+expect_identical(nano_year(nanotime(), tz=character()), integer())
+expect_identical(nano_year(nanotime(1), tz=character()), integer())
+expect_identical(nano_year(nanotime(), tz="America/New_York"), integer())
+
+

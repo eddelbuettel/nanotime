@@ -76,5 +76,41 @@ inline void checkVectorsLengths(SEXP x, SEXP y) {
   }
 }
 
+inline void checkVectorsLengths(SEXP x, SEXP y, SEXP z) {
+  checkVectorsLengths(x, y);
+  checkVectorsLengths(x, z);
+  checkVectorsLengths(y, z);
+}
+
+inline void checkVectorsLengths(SEXP x, SEXP y, SEXP z, SEXP u) {
+  checkVectorsLengths(x, y, z);
+  checkVectorsLengths(x, y, u);
+  checkVectorsLengths(y, z, u);
+}
+
+inline ssize_t getVectorLengths(SEXP x, SEXP y) {
+  if (XLENGTH(x) == 0 || XLENGTH(y) == 0) {
+    return 0;
+  } else {
+    return std::max(XLENGTH(x), XLENGTH(y));
+  }
+}
+
+inline ssize_t getVectorLengths(SEXP x, SEXP y, SEXP z) {
+  if (XLENGTH(x) == 0 || XLENGTH(y) == 0 || XLENGTH(z) == 0) {
+    return 0;
+  } else {
+    return std::max(XLENGTH(x), std::max(XLENGTH(y), XLENGTH(z)));
+  }
+}
+
+inline ssize_t getVectorLengths(SEXP x, SEXP y, SEXP z, SEXP u) {
+  if (XLENGTH(x) == 0 || XLENGTH(y) == 0 || XLENGTH(z) == 0 || XLENGTH(u)==0) {
+    return 0;
+  } else {
+    return std::max(std::max(XLENGTH(x), XLENGTH(y)), std::max(XLENGTH(z), XLENGTH(u)));
+  }
+}
+
 
 #endif

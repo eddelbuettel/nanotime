@@ -462,43 +462,44 @@ template<typename COMP>
 Rcpp::LogicalVector nanoival_comp(const Rcpp::ComplexVector v1,
                                   const Rcpp::ComplexVector v2, COMP cmp) {
   checkVectorsLengths(v1, v2);
-  const ConstPseudoVectorIval cv1(v1);
-  const ConstPseudoVectorIval cv2(v2);
-  const auto ival_len = cv1.size();
-  Rcpp::LogicalVector res(ival_len);
-  const interval* n1_ptr = reinterpret_cast<const interval*>(&cv1[0]);
-  const interval* n2_ptr = reinterpret_cast<const interval*>(&cv2[0]);
+  Rcpp::LogicalVector res(getVectorLengths(v1, v2));
+  if (res.size()) {
+    const ConstPseudoVectorIval cv1(v1);
+    const ConstPseudoVectorIval cv2(v2);
+    const interval* n1_ptr = reinterpret_cast<const interval*>(&cv1[0]);
+    const interval* n2_ptr = reinterpret_cast<const interval*>(&cv2[0]);
 
-  for (R_xlen_t i=0; i<ival_len; ++i) {
-    res[i] = cmp(n1_ptr[i], n2_ptr[i]);
-  }
+    for (R_xlen_t i=0; i<res.size(); ++i) {
+      res[i] = cmp(n1_ptr[i], n2_ptr[i]);
+    }
   
-  copyNames(v1, v2, res);
+    copyNames(v1, v2, res);
+  }
   return res;
 }
 
 // [[Rcpp::export]]
-Rcpp::LogicalVector nanoival_lt_impl(Rcpp::ComplexVector n1, Rcpp::ComplexVector n2) {
+Rcpp::LogicalVector nanoival_lt_impl(const Rcpp::ComplexVector n1, const Rcpp::ComplexVector n2) {
   return nanoival_comp(n1, n2, std::less<interval>());
 }
 
 // [[Rcpp::export]]
-Rcpp::LogicalVector nanoival_le_impl(Rcpp::ComplexVector n1, Rcpp::ComplexVector n2) {
+Rcpp::LogicalVector nanoival_le_impl(const Rcpp::ComplexVector n1, const Rcpp::ComplexVector n2) {
   return nanoival_comp(n1, n2, std::less_equal<interval>());
 }
 
 // [[Rcpp::export]]
-Rcpp::LogicalVector nanoival_gt_impl(Rcpp::ComplexVector n1, Rcpp::ComplexVector n2) {
+Rcpp::LogicalVector nanoival_gt_impl(const Rcpp::ComplexVector n1, const Rcpp::ComplexVector n2) {
   return nanoival_comp(n1, n2, std::greater<interval>());
 }
 
 // [[Rcpp::export]]
-Rcpp::LogicalVector nanoival_ge_impl(Rcpp::ComplexVector n1, Rcpp::ComplexVector n2) {
+Rcpp::LogicalVector nanoival_ge_impl(const Rcpp::ComplexVector n1, const Rcpp::ComplexVector n2) {
   return nanoival_comp(n1, n2, std::greater_equal<interval>());
 }
 
 // [[Rcpp::export]]
-Rcpp::LogicalVector nanoival_eq_impl(Rcpp::ComplexVector n1, Rcpp::ComplexVector n2) {
+Rcpp::LogicalVector nanoival_eq_impl(const Rcpp::ComplexVector n1, const Rcpp::ComplexVector n2) {
   return nanoival_comp(n1, n2, std::equal_to<interval>());
 }
 
@@ -512,19 +513,21 @@ template<typename OP>
 Rcpp::ComplexVector nanoival_op(const Rcpp::ComplexVector cv1,
                                 const Rcpp::NumericVector nv2, OP op) {
   checkVectorsLengths(cv1, nv2);
-  const ConstPseudoVectorIval e1(cv1);
-  const ConstPseudoVectorDur  e2(nv2);
-  Rcpp::ComplexVector res(std::max(e1.size(), e2.size()));
+  Rcpp::ComplexVector res(getVectorLengths(cv1, nv2));
+  if (res.size()) {
+    const ConstPseudoVectorIval e1(cv1);
+    const ConstPseudoVectorDur  e2(nv2);
     
-  for (R_xlen_t i=0; i<res.size(); ++i) {
-    const interval ival = *reinterpret_cast<const interval*>(&e1[i]);
-    const Global::duration dur = *reinterpret_cast<const Global::duration*>(&e2[i]);
-    const auto ires = op(ival, dur);
-    const Rcomplex *ptr = reinterpret_cast<const Rcomplex*>(&ires);
-    res[i] = *ptr;
-  }
+    for (R_xlen_t i=0; i<res.size(); ++i) {
+      const interval ival = *reinterpret_cast<const interval*>(&e1[i]);
+      const Global::duration dur = *reinterpret_cast<const Global::duration*>(&e2[i]);
+      const auto ires = op(ival, dur);
+      const Rcomplex *ptr = reinterpret_cast<const Rcomplex*>(&ires);
+      res[i] = *ptr;
+    }
   
-  copyNames(cv1, nv2, res);
+    copyNames(cv1, nv2, res);
+  }
   return res;
 }
 
@@ -589,19 +592,17 @@ Rcpp::S4 nanoival_new_impl(const Rcpp::NumericVector sv,
                            const Rcpp::NumericVector ev,
                            const Rcpp::LogicalVector sopenv,
                            const Rcpp::LogicalVector eopenv) {
-  checkVectorsLengths(sv, ev);
-  checkVectorsLengths(sopenv, eopenv);
-  checkVectorsLengths(sv, sopenv);
-  checkVectorsLengths(sv, eopenv);
-  checkVectorsLengths(ev, sopenv);
-  checkVectorsLengths(ev, eopenv);
+
+  // handle the special case where one of the operands has 0-length:
+  Rcpp::ComplexVector res(getVectorLengths(sv, ev, sopenv, eopenv));
+
+  checkVectorsLengths(sv, ev, sopenv, eopenv);
   const ConstPseudoVectorNum nvs(sv);
   const ConstPseudoVectorNum nve(ev);
   const ConstPseudoVectorLgl lvs(sopenv);
   const ConstPseudoVectorLgl lve(eopenv);
 
-  Rcpp::ComplexVector res(nvs.size());
-  for (R_xlen_t i=0; i < nvs.size(); ++i) {
+  for (R_xlen_t i=0; i < res.size(); ++i) {
     const double d1 = nvs[i];
     const double d2 = nve[i];
     Global::dtime i1, i2;
@@ -770,6 +771,12 @@ static Rcomplex readNanoival(const char*& sp, const char* const se, const char* 
 // [[Rcpp::export]]
 Rcpp::ComplexVector nanoival_make_impl(const Rcpp::CharacterVector nt_v,
                                        const Rcpp::CharacterVector tz_v) {
+  // handle the special case where one of the operands has 0-length:
+  if (nt_v.size() == 0 || tz_v.size() == 0) {
+    Rcpp::ComplexVector res(0);
+    return assignS4("nanoival", res);
+  }
+  
   checkVectorsLengths(nt_v, tz_v);
   ConstPseudoVectorChar nt(nt_v);
   ConstPseudoVectorChar tz(tz_v);

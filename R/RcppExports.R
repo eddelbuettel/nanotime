@@ -145,6 +145,10 @@ period_from_string_impl <- function(str) {
     .Call(`_nanotime_period_from_string_impl`, str)
 }
 
+period_from_parts_impl <- function(months_v, days_v, dur_v) {
+    .Call(`_nanotime_period_from_parts_impl`, months_v, days_v, dur_v)
+}
+
 period_to_string_impl <- function(prd) {
     .Call(`_nanotime_period_to_string_impl`, prd)
 }
