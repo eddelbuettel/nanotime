@@ -2,9 +2,7 @@
 % Please edit documentation in R/nanotime.R
 \name{all.equal.nanotime}
 \alias{all.equal.nanotime}
-\alias{all.equal,nanotime,nanotime-method}
-\alias{all.equal,nanotime,ANY-method}
-\alias{all.equal,ANY,nanotime-method}
+\alias{all.equal,nanotime-method}
 \title{Test if Two Objects are (Nearly) Equal}
 \usage{
 \method{all.equal}{nanotime}(
@@ -18,29 +16,7 @@
   check.attributes = TRUE
 )
 
-\S4method{all.equal}{nanotime,nanotime}(
-  target,
-  current,
-  tolerance = sqrt(.Machine$double.eps),
-  scale = NULL,
-  countEQ = FALSE,
-  formatFUN = function(err, what) format(err),
-  ...,
-  check.attributes = TRUE
-)
-
-\S4method{all.equal}{nanotime,ANY}(
-  target,
-  current,
-  tolerance = sqrt(.Machine$double.eps),
-  scale = NULL,
-  countEQ = FALSE,
-  formatFUN = function(err, what) format(err),
-  ...,
-  check.attributes = TRUE
-)
-
-\S4method{all.equal}{ANY,nanotime}(
+\S4method{all.equal}{nanotime}(
   target,
   current,
   tolerance = sqrt(.Machine$double.eps),

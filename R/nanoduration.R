@@ -594,14 +594,7 @@ all.equal.nanoduration <- function(target, current, tolerance = sqrt(.Machine$do
 }
 
 ##' @rdname all.equal.nanoduration
-setMethod("all.equal", c(target = "nanoduration", current = "nanoduration"), all.equal.nanoduration)
-
-##' @rdname all.equal.nanoduration
-setMethod("all.equal", c(target = "nanoduration", current = "ANY"), all.equal.nanoduration)
-
-##' @rdname all.equal.nanoduration
-setMethod("all.equal", c(target = "ANY", current = "nanoduration"), all.equal.nanoduration)
-
+setMethod("all.equal", c(target = "nanoduration", current="ANY"), all.equal.nanoduration)
 
 ##' @rdname nanoduration
 NA_nanoduration_  <- as.nanoduration(NA_integer_)

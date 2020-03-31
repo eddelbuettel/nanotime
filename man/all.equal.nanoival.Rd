@@ -2,18 +2,12 @@
 % Please edit documentation in R/nanoival.R
 \name{all.equal.nanoival}
 \alias{all.equal.nanoival}
-\alias{all.equal,nanoival,nanoival-method}
-\alias{all.equal,ANY,nanoival-method}
-\alias{all.equal,nanoival,ANY-method}
+\alias{all.equal,nanoival-method}
 \title{Test if Two Objects are (Nearly) Equal}
 \usage{
 \method{all.equal}{nanoival}(target, current, ..., check.attributes = TRUE)
 
-\S4method{all.equal}{nanoival,nanoival}(target, current, ..., check.attributes = TRUE)
-
-\S4method{all.equal}{ANY,nanoival}(target, current, ..., check.attributes = TRUE)
-
-\S4method{all.equal}{nanoival,ANY}(target, current, ..., check.attributes = TRUE)
+\S4method{all.equal}{nanoival}(target, current, ..., check.attributes = TRUE)
 }
 \arguments{
 \item{target, current}{\code{nanoival} arguments to be compared}

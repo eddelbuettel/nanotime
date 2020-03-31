@@ -798,13 +798,8 @@ all.equal.nanotime <- function(target, current, tolerance = sqrt(.Machine$double
 }
 
 ##' @rdname all.equal.nanotime
-setMethod("all.equal", c(target = "nanotime", current = "nanotime"), all.equal.nanotime)
+setMethod("all.equal", c(target = "nanotime", current="ANY"), all.equal.nanotime)
 
-##' @rdname all.equal.nanotime
-setMethod("all.equal", c(target = "nanotime", current = "ANY"), all.equal.nanotime)
-
-##' @rdname all.equal.nanotime
-setMethod("all.equal", c(target = "ANY", current = "nanotime"), all.equal.nanotime)
 
 ##' @rdname nanotime
 NA_nanotime_ <- nanotime(NA)

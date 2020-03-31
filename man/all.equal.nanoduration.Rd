@@ -2,9 +2,7 @@
 % Please edit documentation in R/nanoduration.R
 \name{all.equal.nanoduration}
 \alias{all.equal.nanoduration}
-\alias{all.equal,nanoduration,nanoduration-method}
-\alias{all.equal,nanoduration,ANY-method}
-\alias{all.equal,ANY,nanoduration-method}
+\alias{all.equal,nanoduration-method}
 \title{Test if Two Objects are (Nearly) Equal}
 \usage{
 \method{all.equal}{nanoduration}(
@@ -18,29 +16,7 @@
   check.attributes = TRUE
 )
 
-\S4method{all.equal}{nanoduration,nanoduration}(
-  target,
-  current,
-  tolerance = sqrt(.Machine$double.eps),
-  scale = NULL,
-  countEQ = FALSE,
-  formatFUN = function(err, what) format(err),
-  ...,
-  check.attributes = TRUE
-)
-
-\S4method{all.equal}{nanoduration,ANY}(
-  target,
-  current,
-  tolerance = sqrt(.Machine$double.eps),
-  scale = NULL,
-  countEQ = FALSE,
-  formatFUN = function(err, what) format(err),
-  ...,
-  check.attributes = TRUE
-)
-
-\S4method{all.equal}{ANY,nanoduration}(
+\S4method{all.equal}{nanoduration}(
   target,
   current,
   tolerance = sqrt(.Machine$double.eps),

@@ -669,14 +669,7 @@ all.equal.nanoperiod <-
 
 
 ##' @rdname all.equal.nanoperiod
-setMethod("all.equal", c(target = "nanoperiod", current = "nanoperiod"), all.equal.nanoperiod)
-
-##' @rdname all.equal.nanoperiod
-setMethod("all.equal", c(target = "ANY", current = "nanoperiod"),        all.equal.nanoperiod)
-
-##' @rdname all.equal.nanoperiod
-setMethod("all.equal", c(target = "nanoperiod", current = "ANY"),        all.equal.nanoperiod)
-
+setMethod("all.equal", c(target = "nanoperiod", current="ANY"), all.equal.nanoperiod)
 
 
 ##' @rdname nanoperiod

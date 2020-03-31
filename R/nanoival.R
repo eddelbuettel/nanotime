@@ -826,13 +826,7 @@ all.equal.nanoival <-
 
 
 ##' @rdname all.equal.nanoival
-setMethod("all.equal", c(target = "nanoival", current = "nanoival"), all.equal.nanoival)
-
-##' @rdname all.equal.nanoival
-setMethod("all.equal", c(target = "ANY", current = "nanoival"), all.equal.nanoival)
-
-##' @rdname all.equal.nanoival
-setMethod("all.equal", c(target = "nanoival", current = "ANY"), all.equal.nanoival)
+setMethod("all.equal", c(target = "nanoival", current="ANY"), all.equal.nanoival)
 
 
 ##' Test if a \code{nanoival} vector is Not Sorted

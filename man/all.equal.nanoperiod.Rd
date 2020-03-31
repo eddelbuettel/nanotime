@@ -2,18 +2,12 @@
 % Please edit documentation in R/nanoperiod.R
 \name{all.equal.nanoperiod}
 \alias{all.equal.nanoperiod}
-\alias{all.equal,nanoperiod,nanoperiod-method}
-\alias{all.equal,ANY,nanoperiod-method}
-\alias{all.equal,nanoperiod,ANY-method}
+\alias{all.equal,nanoperiod-method}
 \title{Test if Two Objects are (Nearly) Equal}
 \usage{
 \method{all.equal}{nanoperiod}(target, current, ..., check.attributes = TRUE)
 
-\S4method{all.equal}{nanoperiod,nanoperiod}(target, current, ..., check.attributes = TRUE)
-
-\S4method{all.equal}{ANY,nanoperiod}(target, current, ..., check.attributes = TRUE)
-
-\S4method{all.equal}{nanoperiod,ANY}(target, current, ..., check.attributes = TRUE)
+\S4method{all.equal}{nanoperiod}(target, current, ..., check.attributes = TRUE)
 }
 \arguments{
 \item{target, current}{\code{nanoperiod} arguments to be compared}
