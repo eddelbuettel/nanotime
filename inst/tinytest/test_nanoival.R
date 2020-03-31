@@ -1412,4 +1412,9 @@ expect_identical(nanotime() %in% nanoival(nanotime(1), nanotime(2)), logical(0))
 expect_identical(nanotime(1:10) %in% nanoival(), rep(FALSE, 10))
 expect_identical(is.na(as.nanoival()), logical())
 
+## all.equal:
+expect_identical(all.equal(nanoival(nanotime(1), nanotime(2)), nanoival(nanotime(1), nanotime(2))), TRUE)
+expect_false(isTRUE(all.equal(nanoival(nanotime(1), nanotime(2)), "A")))
+expect_identical(all.equal(nanoival(nanotime(1), nanotime(2)), NA_nanoival_), "'is.NA' value mismatch: 1 in current 0 in target")
+
 options(nanotimeFormat=savedFormat)

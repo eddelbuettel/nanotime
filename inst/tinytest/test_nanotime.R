@@ -483,8 +483,22 @@ expect_true(!isTRUE(all.equal("a", nanotime(1))))
 
 ##test_all.equal_nanotime_nanotime <- function() {
 expect_true(isTRUE(all.equal(nanotime(1), nanotime(1))))
-## LLL waiting for a fix from 'bit64'
-## expect_true(!isTRUE(all.equal(nanotime(1), nanotime(2))))  
+expect_true(!isTRUE(all.equal(nanotime(1), nanotime(2))))  
+expect_identical(all.equal(nanotime(1), nanotime(2)), "Mean relative difference: 1")  
+expect_identical(all.equal(nanotime(c(1L,NA)), nanotime(1:2)), "'is.NA' value mismatch: 0 in current 1 in target")
+
+expect_error(all.equal(nanotime(1), nanotime(1), tolerance="1"), "'tolerance' should be numeric")
+expect_error(all.equal(nanotime(1), nanotime(1), scale="1"), "'scale' should be numeric or NULL")
+expect_error(all.equal(nanotime(1), nanotime(1), check.attributes="1"), "'check.attributes' must be logical")
+expect_error(all.equal(nanotime(1), nanotime(2), scale=-1), "all\\(scale > 0\\) is not TRUE")
+
+expect_false(isTRUE(all.equal(nanotime(1), as.nanoperiod("1d"))))
+expect_identical(all.equal(nanotime(1), nanotime(1:2)), "Numeric: lengths (1, 2) differ")
+expect_identical(all.equal(nanotime(c(1,2,3)), nanotime(c(1,1,2)), countEQ=TRUE), "Mean relative difference: 0.3333333")
+expect_false(isTRUE(all.equal(nanotime(1), 1i)))
+expect_identical(all.equal(nanotime(1), nanotime(3), tolerance=1), "Mean absolute difference: 2")
+expect_identical(all.equal(nanotime(1), nanotime(2e9), scale=1e9), "Mean scaled difference: 2")
+expect_identical(all.equal(nanotime(1), nanotime(2e9), scale=1), "Mean absolute difference: 2e+09")
 
 
 ## test S4 conversions:

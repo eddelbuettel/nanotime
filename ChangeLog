@@ -1,3 +1,21 @@
+2020-03-31  Leonardo Silvestri  <lsilvestri@ztsdb.org>
+
+	* DESCRIPTION (Version, Date): Roll minor version
+
+	* R/nanoduration.R: Added all.equal
+ 	* R/nanoival.R: Idem
+ 	* R/nanoperiod.R: Idem
+ 	* R/nanotime.R: Idem
+ 	* inst/tinytest/test_nanoduration.R: Idem
+ 	* inst/tinytest/test_nanoival.R: Idem
+ 	* inst/tinytest/test_nanoperiod.R: Idem
+ 	* inst/tinytest/test_nanotime.R: Idem
+ 	* man/all.equal-nanoperiod-ANY-method.Rd: deleted
+	* man/all.equal.nanotime.Rd: Idem
+ 	* man/all.equal.nanoduration.Rd: Idem
+ 	* man/all.equal.nanoival.Rd: Idem
+ 	* man/all.equal.nanoperiod.Rd: Idem
+
 2020-03-29  Leonardo Silvestri  <lsilvestri@ztsdb.org>
 
 	* DESCRIPTION: fixed 0-length-vector ops
@@ -11,7 +29,7 @@
  	* src/interval.cpp: Idem
  	* src/nanotime.cpp: Idem
  	* src/period.cpp: Idem
- 
+
 2020-03-27  Leonardo Silvestri  <lsilvestri@ztsdb.org>
 
 	* DESCRIPTION: added %in%.nanotime

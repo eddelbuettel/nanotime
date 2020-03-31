@@ -607,3 +607,8 @@ expect_identical(nanoperiod(1)   * integer(), as.nanoperiod())
 expect_identical(nanoperiod.month(nanoperiod()), numeric())
 expect_identical(nanoperiod.day(nanoperiod()), numeric())
 expect_identical(nanoperiod.nanoduration(nanoperiod()), as.nanoduration())
+
+## all.equal:
+expect_identical(all.equal(as.nanoperiod("1m"), as.nanoperiod("1m")), TRUE)
+expect_false(isTRUE(all.equal(as.nanoperiod("1d"), "A")))
+expect_identical(all.equal(as.nanoperiod("1d"), NA_nanoperiod_), "'is.NA' value mismatch: 1 in current 0 in target")
