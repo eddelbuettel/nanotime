@@ -800,6 +800,41 @@ setMethod("setdiff",
 ## misc functions:
 ## --------------
 
+##' Test if Two Objects are (Nearly) Equal
+##'
+##' Compare \code{target} and \code{current} testing \sQuote{near
+##' equality}.  If they are different, comparison is still made to
+##' some extent, and a report of the differences is returned.  Do not
+##' use \code{all.equal} directly in \code{if} expressions---either
+##' use \code{isTRUE(all.equal(....))} or \code{\link{identical}} if
+##' appropriate.
+##'
+##' @param target,current \code{nanoival} arguments to be compared
+##' @param ... further arguments for different methods
+##' @param check.attributes logical indicating if the
+##'     \code{attributes} of \code{target} and \code{current} (other than
+##'     the names) should be compared.
+##'
+##' @seealso \code{\link{identical}}, \code{\link{isTRUE}},
+##'     \code{\link{==}}, and \code{\link{all}} for exact equality
+##'     testing.
+##'
+##' @method all.equal nanoival
+##'
+all.equal.nanoival <-
+    function(target, current, ..., check.attributes = TRUE) all.equal.raw(target, current, ..., check.attributes)
+
+
+##' @rdname all.equal.nanoival
+setMethod("all.equal", c(target = "nanoival", current = "nanoival"), all.equal.nanoival)
+
+##' @rdname all.equal.nanoival
+setMethod("all.equal", c(target = "ANY", current = "nanoival"), all.equal.nanoival)
+
+##' @rdname all.equal.nanoival
+setMethod("all.equal", c(target = "nanoival", current = "ANY"), all.equal.nanoival)
+
+
 ##' Test if a \code{nanoival} vector is Not Sorted
 ##'
 ##' Test if an object is not sorted (in increasing order), without the

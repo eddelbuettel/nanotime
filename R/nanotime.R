@@ -695,6 +695,22 @@ setMethod("seq", c("nanotime"), seq.nanotime)
 ##'
 ##' @param target,current \code{nanotime} arguments to be compared
 ##' @param ... further arguments for different methods
+##' @param tolerance numeric >= 0. Differences smaller than
+##'     \code{tolerance} are not reported.  The default value is close
+##'     to \code{1.5e-8}.
+##' @param  scale \code{NULL} or numeric > 0, typically of length 1 or
+##'          \code{length(target)}.  See \sQuote{Details}.
+##' @param  countEQ logical indicating if the \code{target == current} cases should be
+##'          counted when computing the mean (absolute or relative)
+##'          differences.  The default, \code{FALSE} may seem misleading in
+##'          cases where \code{target} and \code{current} only differ in a few
+##'          places; see the extensive example.
+##' @param formatFUN a \code{function} of two arguments, \code{err}, the relative, absolute
+##'          or scaled error, and \code{what}, a character string indicating
+##'          the _kind_ of error; maybe used, e.g., to format relative and
+##'          absolute errors differently.
+##' @param check.attributes logical indicating if the \code{attributes} of \code{target}
+##'          and \code{current} (other than the names) should be compared.
 ##'
 ##' @seealso \code{\link{identical}}, \code{\link{isTRUE}},
 ##'     \code{\link{==}}, and \code{\link{all}} for exact equality
@@ -702,19 +718,93 @@ setMethod("seq", c("nanotime"), seq.nanotime)
 ##'
 ##' @method all.equal nanotime
 ##'
-all.equal.nanotime <- function(target, current, ...) all.equal(S3Part(target, strictS3=TRUE),
-                                                   S3Part(current, strictS3=TRUE), ...)
+all.equal.nanotime <- function(target, current, tolerance = sqrt(.Machine$double.eps), 
+                               scale = NULL, countEQ = FALSE,
+                               formatFUN = function(err, what) format(err), ..., check.attributes = TRUE) {
+    if (class(target)  == "nanotime") target  <- as.integer64(target)
+    if (class(current) == "nanotime") current <- as.integer64(current)
+    
+    if (!is.numeric(tolerance)) 
+        stop("'tolerance' should be numeric")
+    if (!is.numeric(scale) && !is.null(scale)) 
+        stop("'scale' should be numeric or NULL")
+    if (!is.logical(check.attributes)) 
+        stop(gettextf("'%s' must be logical", "check.attributes"), 
+             domain = NA)
+    msg <- NULL
+    msg <- if (check.attributes) 
+               attr.all.equal(target, current, tolerance = tolerance, 
+                              scale = scale, ...)
+    if (data.class(target) != data.class(current)) {
+        msg <- c(msg, paste0("target is ", data.class(target), 
+                             ", current is ", data.class(current)))
+        return(msg)
+    }
+    lt <- length(target)
+    lc <- length(current)
+    cplx <- is.complex(target)
+    if (lt != lc) {
+        if (!is.null(msg)) 
+            msg <- msg[-grep("\\bLengths\\b", msg)]
+        msg <- c(msg, paste0(if (cplx) "Complex" else "Numeric", 
+                             ": lengths (", lt, ", ", lc, ") differ"))
+        return(msg)
+    }
+    out <- is.na(target)
+    if (any(out != is.na(current))) {
+        msg <- c(msg, paste("'is.NA' value mismatch:", sum(is.na(current)), 
+                            "in current", sum(out), "in target"))
+        return(msg)
+    }
+    out <- out | target == current
+    if (all(out)) 
+        return(if (is.null(msg)) TRUE else msg)
+    if (countEQ) {
+        N <- length(out)
+        sabst0 <- sum(abs(target[out]))
+    } else {
+        sabst0 <- 0
+    }
+    target <- target[!out]
+    current <- current[!out]
+    if (!countEQ) 
+        N <- length(target)
+## the following is in the orignal function, but can't be reached here:
+##    if (is.integer(target) && is.integer(current)) 
+##        target <- as.double(target)
+    xy <- sum(abs(target - current))/N
+    what <- if (is.null(scale)) {
+                xn <- (sabst0 + sum(abs(target)))/N
+                if (is.finite(xn) && xn > tolerance) {
+                    xy <- xy/xn
+                    "relative"
+                } else {
+                    "absolute"
+                }
+            } else {
+                stopifnot(all(scale > 0))
+                xy <- xy/scale
+                if (all(abs(scale - 1) < 1e-07)) 
+                    "absolute"
+                else "scaled"
+            }
+    if (cplx) 
+        what <- paste(what, "Mod")      # nocov
+    if (is.na(xy) || xy > tolerance) 
+        msg <- c(msg, paste("Mean", what, "difference:", formatFUN(xy, what)))
+    if (is.null(msg)) {
+        TRUE                            # nocov
+    } else msg
+}
 
 ##' @rdname all.equal.nanotime
 setMethod("all.equal", c(target = "nanotime", current = "nanotime"), all.equal.nanotime)
 
 ##' @rdname all.equal.nanotime
-setMethod("all.equal", c(target = "nanotime", current = "ANY"),
-          function(target, current, ...) callNextMethod())
+setMethod("all.equal", c(target = "nanotime", current = "ANY"), all.equal.nanotime)
 
 ##' @rdname all.equal.nanotime
-setMethod("all.equal", c(target = "ANY", current = "nanotime"),
-          function(target, current, ...) callNextMethod())
+setMethod("all.equal", c(target = "ANY", current = "nanotime"), all.equal.nanotime)
 
 ##' @rdname nanotime
 NA_nanotime_ <- nanotime(NA)

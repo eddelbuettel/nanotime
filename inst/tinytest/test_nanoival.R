@@ -1412,4 +1412,15 @@ expect_identical(nanotime() %in% nanoival(nanotime(1), nanotime(2)), logical(0))
 expect_identical(nanotime(1:10) %in% nanoival(), rep(FALSE, 10))
 expect_identical(is.na(as.nanoival()), logical())
 
+## all.equal:
+expect_identical(all.equal(nanoival(nanotime(1), nanotime(2)), nanoival(nanotime(1), nanotime(2))), TRUE)
+msg <- c("Modes: complex, character",
+         "Attributes: < Modes: list, NULL >",
+         "Attributes: < Lengths: 1, 0 >",
+         "Attributes: < names for target but not for current >",
+         "Attributes: < current is not list-like >",
+         "target is nanoival, current is character")         
+expect_identical(all.equal(nanoival(nanotime(1), nanotime(2)), "A"), msg)
+expect_identical(all.equal(nanoival(nanotime(1), nanotime(2)), NA_nanoival_), "'is.NA' value mismatch: 1 in current 0 in target")
+
 options(nanotimeFormat=savedFormat)

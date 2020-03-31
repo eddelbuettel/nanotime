@@ -577,29 +577,6 @@ setMethod("==", c("nanoperiod", "nanoperiod"), function(e1, e2) eq_period_period
 ##' @rdname nanoperiod
 setMethod("!=", c("nanoperiod", "nanoperiod"), function(e1, e2) ne_period_period_impl(e1, e2))
 
-##' Test if Two Objects are (Nearly) Equal
-##'
-##' Compare \code{target} and \code{current} testing \sQuote{near
-##' equality}.  If they are different, comparison is still made to
-##' some extent, and a report of the differences is returned.  Do not
-##' use \code{all.equal} directly in \code{if} expressions---either
-##' use \code{isTRUE(all.equal(....))} or \code{\link{identical}} if
-##' appropriate.
-##'
-##' @param target,current \code{nanoperiod} arguments to be compared
-##'
-##' @seealso \code{\link{identical}}, \code{\link{isTRUE}},
-##'     \code{\link{==}}, and \code{\link{all}} for exact equality
-##'     testing.
-##'
-##' @method all.equal nanoperiod
-##'
-setMethod("all.equal",
-          c("nanoperiod"),
-          function(target, current) {
-              callNextMethod(target, current, tolerance=0)
-          })
-
 
 ## ---------- plus/minus ops with nanotime and nanoperiod (which require 'tz')
 
@@ -664,6 +641,42 @@ setMethod("minus", c("nanoperiod", "nanoival", "character"),
           function(e1, e2, tz) {
             stop("operation not defined for 'nanoperiod' objects")
           })
+
+
+##' Test if Two Objects are (Nearly) Equal
+##'
+##' Compare \code{target} and \code{current} testing \sQuote{near
+##' equality}.  If they are different, comparison is still made to
+##' some extent, and a report of the differences is returned.  Do not
+##' use \code{all.equal} directly in \code{if} expressions---either
+##' use \code{isTRUE(all.equal(....))} or \code{\link{identical}} if
+##' appropriate.
+##'
+##' @param target,current \code{nanoperiod} arguments to be compared
+##' @param ... further arguments for different methods
+##' @param check.attributes logical indicating if the
+##'     \code{attributes} of \code{target} and \code{current} (other than
+##'     the names) should be compared.
+##'
+##' @seealso \code{\link{identical}}, \code{\link{isTRUE}},
+##'     \code{\link{==}}, and \code{\link{all}} for exact equality
+##'     testing.
+##'
+##' @method all.equal nanoperiod
+##'
+all.equal.nanoperiod <-
+    function(target, current, ..., check.attributes = TRUE) all.equal.raw(target, current, ..., check.attributes)
+
+
+##' @rdname all.equal.nanoperiod
+setMethod("all.equal", c(target = "nanoperiod", current = "nanoperiod"), all.equal.nanoperiod)
+
+##' @rdname all.equal.nanoperiod
+setMethod("all.equal", c(target = "ANY", current = "nanoperiod"),        all.equal.nanoperiod)
+
+##' @rdname all.equal.nanoperiod
+setMethod("all.equal", c(target = "nanoperiod", current = "ANY"),        all.equal.nanoperiod)
+
 
 
 ##' @rdname nanoperiod

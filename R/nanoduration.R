@@ -546,5 +546,62 @@ seq.nanoduration <- function(from, to=NULL, by=NULL, length.out=NULL, along.with
 }
 
 
+##' Test if Two Objects are (Nearly) Equal
+##'
+##' Compare \code{target} and \code{current} testing \sQuote{near
+##' equality}.  If they are different, comparison is still made to
+##' some extent, and a report of the differences is returned.  Do not
+##' use \code{all.equal} directly in \code{if} expressions---either
+##' use \code{isTRUE(all.equal(....))} or \code{\link{identical}} if
+##' appropriate.
+##'
+##' @param target,current \code{nanoduration} arguments to be compared
+##' @param ... further arguments for different methods
+##' @param tolerance numeric >= 0. Differences smaller than
+##'     \code{tolerance} are not reported.  The default value is close
+##'     to \code{1.5e-8}.
+##' @param  scale \code{NULL} or numeric > 0, typically of length 1 or
+##'          \code{length(target)}.  See \sQuote{Details}.
+##' @param  countEQ logical indicating if the \code{target == current} cases should be
+##'          counted when computing the mean (absolute or relative)
+##'          differences.  The default, \code{FALSE} may seem misleading in
+##'          cases where \code{target} and \code{current} only differ in a few
+##'          places; see the extensive example.
+##' @param formatFUN a \code{function} of two arguments, \code{err}, the relative, absolute
+##'          or scaled error, and \code{what}, a character string indicating
+##'          the _kind_ of error; maybe used, e.g., to format relative and
+##'          absolute errors differently.
+##' @param check.attributes logical indicating if the \code{attributes} of \code{target}
+##'          and \code{current} (other than the names) should be compared.
+##'
+##' @seealso \code{\link{identical}}, \code{\link{isTRUE}},
+##'     \code{\link{==}}, and \code{\link{all}} for exact equality
+##'     testing.
+##'
+##' @method all.equal nanoduration
+##'
+all.equal.nanoduration <- function(target, current, tolerance = sqrt(.Machine$double.eps), 
+                                   scale = NULL, countEQ = FALSE,
+                                   formatFUN = function(err, what) format(err), ..., check.attributes = TRUE) {
+    ## a bit of a kludge, but both 'nanoduration' and 'nanotime' are
+    ## based on 'integer64'; because of a bug in 'all.equal.integer64'
+    ## we have to redefine 'all.equal.nanotime' and it is correct for
+    ## all 'integer64'-based S4 classes; in theory they would all
+    ## three be the same function:
+    if (class(target)  == "nanoduration") target  <- as.nanotime(target)
+    if (class(current) == "nanoduration") current <- as.nanotime(current)
+    all.equal.nanotime(target, current, tolerance, scale, countEQ, formatFUN, ..., check.attributes=check.attributes)
+}
+
+##' @rdname all.equal.nanoduration
+setMethod("all.equal", c(target = "nanoduration", current = "nanoduration"), all.equal.nanoduration)
+
+##' @rdname all.equal.nanoduration
+setMethod("all.equal", c(target = "nanoduration", current = "ANY"), all.equal.nanoduration)
+
+##' @rdname all.equal.nanoduration
+setMethod("all.equal", c(target = "ANY", current = "nanoduration"), all.equal.nanoduration)
+
+
 ##' @rdname nanoduration
 NA_nanoduration_  <- as.nanoduration(NA_integer_)

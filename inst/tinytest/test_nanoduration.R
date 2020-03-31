@@ -403,3 +403,40 @@ expect_identical(seq(as.nanoduration("00:00:00"), to=as.nanoduration("00:00:09")
                  as.nanoduration(seq(0, by=1e9, length.out=10)))
 expect_identical(seq(as.nanoduration("00:00:00"), to=as.nanoduration("00:00:09"), along.with=1:10),
                  as.nanoduration(seq(0, by=1e9, along.with=1:10)))
+
+## all.equal
+##test_all.equal_nanotime_any <- function() {
+expect_true(!isTRUE(all.equal(nanotime(1), "a")))
+
+##test_all.equal_any_nanotime <- function() {
+expect_true(!isTRUE(all.equal("a", nanotime(1))))
+
+## all.equal
+expect_true(isTRUE(all.equal(as.nanoduration(1), as.nanoduration(1))))
+expect_true(!isTRUE(all.equal(as.nanoduration(1), as.nanoduration(2))))  
+expect_identical(all.equal(as.nanoduration(1), as.nanoduration(2)), "Mean relative difference: 1")  
+expect_identical(all.equal(as.nanoduration(c(1L,NA)), as.nanoduration(1:2)), "'is.NA' value mismatch: 0 in current 1 in target")
+
+expect_error(all.equal(as.nanoduration(1), as.nanoduration(1), tolerance="1"), "'tolerance' should be numeric")
+expect_error(all.equal(as.nanoduration(1), as.nanoduration(1), scale="a"), "'scale' should be numeric or NULL")
+expect_error(all.equal(as.nanoduration(1), as.nanoduration(1), check.attributes="a"), "'check.attributes' must be logical")
+expect_error(all.equal(as.nanoduration(1), as.nanoduration(2), scale=-1), "all\\(scale > 0\\) is not TRUE")
+
+result_diff_class  <- c("Modes: numeric, complex",
+                        "Attributes: < Component “class”: Attributes: < target is NULL, current is list > >",
+                        "Attributes: < Component “class”: 1 string mismatch >",
+                        "target is integer64, current is nanoperiod")
+expect_identical(all.equal(as.nanoduration(1), as.nanoperiod("1d")), result_diff_class)
+expect_identical(all.equal(as.nanoduration(1), as.nanoduration(1:2)), "Numeric: lengths (1, 2) differ")
+expect_identical(all.equal(as.nanoduration(c(1,2,3)), as.nanoduration(c(1,1,2)), countEQ=TRUE), "Mean relative difference: 0.3333333")
+
+result_diff_complex  <- c("Modes: numeric, complex",
+                          "Attributes: < Modes: list, NULL >",
+                          "Attributes: < Lengths: 1, 0 >",
+                          "Attributes: < names for target but not for current >",
+                          "Attributes: < current is not list-like >",
+                          "target is integer64, current is complex")
+expect_identical(all.equal(as.nanoduration(1), 1i), result_diff_complex)
+expect_identical(all.equal(as.nanoduration(1), as.nanoduration(3), tolerance=1), "Mean absolute difference: 2")
+expect_identical(all.equal(as.nanoduration(1), as.nanoduration(2e9), scale=1e9), "Mean scaled difference: 2")
+expect_identical(all.equal(as.nanoduration(1), as.nanoduration(2e9), scale=1), "Mean absolute difference: 2e+09")
