@@ -610,11 +610,5 @@ expect_identical(nanoperiod.nanoduration(nanoperiod()), as.nanoduration())
 
 ## all.equal:
 expect_identical(all.equal(as.nanoperiod("1m"), as.nanoperiod("1m")), TRUE)
-msg <- c("Modes: complex, character",
-         "Attributes: < Modes: list, NULL >",
-         "Attributes: < Lengths: 1, 0 >",
-         "Attributes: < names for target but not for current >",
-         "Attributes: < current is not list-like >",
-         "target is nanoperiod, current is character")         
-expect_identical(all.equal(as.nanoperiod("1d"), "A"), msg)
+expect_false(isTRUE(all.equal(as.nanoperiod("1d"), "A")))
 expect_identical(all.equal(as.nanoperiod("1d"), NA_nanoperiod_), "'is.NA' value mismatch: 1 in current 0 in target")
