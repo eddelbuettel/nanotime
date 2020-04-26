@@ -756,6 +756,60 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// ceiling_tz_impl
+Rcpp::NumericVector ceiling_tz_impl(const Rcpp::NumericVector& nt_v, const Rcpp::ComplexVector& prd_v, const Rcpp::NumericVector& orig_v, const Rcpp::CharacterVector& tz_v);
+RcppExport SEXP _nanotime_ceiling_tz_impl(SEXP nt_vSEXP, SEXP prd_vSEXP, SEXP orig_vSEXP, SEXP tz_vSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type nt_v(nt_vSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::ComplexVector& >::type prd_v(prd_vSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type orig_v(orig_vSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::CharacterVector& >::type tz_v(tz_vSEXP);
+    rcpp_result_gen = Rcpp::wrap(ceiling_tz_impl(nt_v, prd_v, orig_v, tz_v));
+    return rcpp_result_gen;
+END_RCPP
+}
+// ceiling_impl
+Rcpp::NumericVector ceiling_impl(const Rcpp::NumericVector& nt_v, const Rcpp::NumericVector& dur_v, const Rcpp::NumericVector& orig_v);
+RcppExport SEXP _nanotime_ceiling_impl(SEXP nt_vSEXP, SEXP dur_vSEXP, SEXP orig_vSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type nt_v(nt_vSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type dur_v(dur_vSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type orig_v(orig_vSEXP);
+    rcpp_result_gen = Rcpp::wrap(ceiling_impl(nt_v, dur_v, orig_v));
+    return rcpp_result_gen;
+END_RCPP
+}
+// floor_tz_impl
+Rcpp::NumericVector floor_tz_impl(const Rcpp::NumericVector& nt_v, const Rcpp::ComplexVector& prd_v, const Rcpp::NumericVector& orig_v, const Rcpp::CharacterVector& tz_v);
+RcppExport SEXP _nanotime_floor_tz_impl(SEXP nt_vSEXP, SEXP prd_vSEXP, SEXP orig_vSEXP, SEXP tz_vSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type nt_v(nt_vSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::ComplexVector& >::type prd_v(prd_vSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type orig_v(orig_vSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::CharacterVector& >::type tz_v(tz_vSEXP);
+    rcpp_result_gen = Rcpp::wrap(floor_tz_impl(nt_v, prd_v, orig_v, tz_v));
+    return rcpp_result_gen;
+END_RCPP
+}
+// floor_impl
+Rcpp::NumericVector floor_impl(const Rcpp::NumericVector& nt_v, const Rcpp::NumericVector& dur_v, const Rcpp::NumericVector& orig_v);
+RcppExport SEXP _nanotime_floor_impl(SEXP nt_vSEXP, SEXP dur_vSEXP, SEXP orig_vSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type nt_v(nt_vSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type dur_v(dur_vSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type orig_v(orig_vSEXP);
+    rcpp_result_gen = Rcpp::wrap(floor_impl(nt_v, dur_v, orig_v));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_nanotime_duration_from_string_impl", (DL_FUNC) &_nanotime_duration_from_string_impl, 1},
@@ -821,6 +875,10 @@ static const R_CallMethodDef CallEntries[] = {
     {"_nanotime_period_isna_impl", (DL_FUNC) &_nanotime_period_isna_impl, 1},
     {"_nanotime_period_seq_from_to_impl", (DL_FUNC) &_nanotime_period_seq_from_to_impl, 4},
     {"_nanotime_period_seq_from_length_impl", (DL_FUNC) &_nanotime_period_seq_from_length_impl, 4},
+    {"_nanotime_ceiling_tz_impl", (DL_FUNC) &_nanotime_ceiling_tz_impl, 4},
+    {"_nanotime_ceiling_impl", (DL_FUNC) &_nanotime_ceiling_impl, 3},
+    {"_nanotime_floor_tz_impl", (DL_FUNC) &_nanotime_floor_tz_impl, 4},
+    {"_nanotime_floor_impl", (DL_FUNC) &_nanotime_floor_impl, 3},
     {NULL, NULL, 0}
 };
 

@@ -253,3 +253,19 @@ period_seq_from_length_impl <- function(from_nv, by_cv, n_nv, tz) {
     .Call(`_nanotime_period_seq_from_length_impl`, from_nv, by_cv, n_nv, tz)
 }
 
+ceiling_tz_impl <- function(nt_v, prd_v, orig_v, tz_v) {
+    .Call(`_nanotime_ceiling_tz_impl`, nt_v, prd_v, orig_v, tz_v)
+}
+
+ceiling_impl <- function(nt_v, dur_v, orig_v) {
+    .Call(`_nanotime_ceiling_impl`, nt_v, dur_v, orig_v)
+}
+
+floor_tz_impl <- function(nt_v, prd_v, orig_v, tz_v) {
+    .Call(`_nanotime_floor_tz_impl`, nt_v, prd_v, orig_v, tz_v)
+}
+
+floor_impl <- function(nt_v, dur_v, orig_v) {
+    .Call(`_nanotime_floor_impl`, nt_v, dur_v, orig_v)
+}
+

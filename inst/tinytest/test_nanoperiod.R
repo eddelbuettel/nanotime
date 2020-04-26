@@ -612,3 +612,228 @@ expect_identical(nanoperiod.nanoduration(nanoperiod()), as.nanoduration())
 expect_identical(all.equal(as.nanoperiod("1m"), as.nanoperiod("1m")), TRUE)
 expect_false(isTRUE(all.equal(as.nanoperiod("1d"), "A")))
 expect_identical(all.equal(as.nanoperiod("1d"), NA_nanoperiod_), "'is.NA' value mismatch: 1 in current 0 in target")
+
+
+## test rounding functions:
+
+## nano_ceiling:
+
+## years:
+expect_identical(nano_ceiling(as.nanotime("2010-10-10 12:00:00 America/New_York"), as.nanoperiod("12m"), tz="America/New_York"),
+                 as.nanotime("2011-01-01T00:00:00-05:00"))
+expect_identical(nano_ceiling(as.nanotime("1970-01-01 America/New_York"), as.nanoperiod("12m"), tz="America/New_York"),
+                 as.nanotime("1970-01-01 America/New_York"))
+expect_identical(nano_ceiling(as.nanotime("1970-01-01 06:00:00 America/New_York"), as.nanoperiod("12m"), tz="America/New_York"),
+                 as.nanotime("1971-01-01 America/New_York"))
+
+expect_error(nano_ceiling(c(as.nanotime("2010-10-10 12:00:00 America/New_York"), as.nanotime("2010-10-10 11:00:00 America/New_York")),
+                          as.nanoperiod("12m"), tz="America/New_York"),
+             "'x' must be sorted")
+
+expect_error(nano_ceiling(as.nanotime("2010-10-10 12:00:00 America/New_York"), as.nanoperiod("12m"), tz=c("America/New_York", "UTC")),
+             "'tz' must be scalar")
+
+expect_identical(nano_ceiling(as.nanotime("1940-10-10 12:00:00 America/New_York"), as.nanoperiod("12m"), tz="America/New_York"),
+                 as.nanotime("1941-01-01T00:00:00-05:00"))
+
+expect_identical(nano_ceiling(as.nanotime("2010-10-10 12:00:00 America/New_York"),
+                              as.nanoperiod("12m"),
+                              origin=as.nanotime("2010-10-10 00:00:01 America/New_York"),
+                              tz="America/New_York"),
+                 as.nanotime("2011-10-10T04:00:01+00:00"))
+
+expect_error(nano_ceiling(as.nanotime("2010-10-10 12:00:00 America/New_York"),
+                          as.nanoperiod("12m"),
+                          origin=as.nanotime(1:10),
+                          tz="America/New_York"),
+             "'origin' must be scalar")
+
+expect_identical(nano_ceiling(as.nanotime("1904-10-10 12:00:00 America/New_York"),
+                              as.nanoperiod("12m"),
+                              origin=as.nanotime("1904-10-10 00:00:01 America/New_York"),
+                              tz="America/New_York"),
+                 as.nanotime("1905-10-10T05:00:01+00:00"))
+
+expect_error(nano_ceiling(as.nanotime("2010-10-10 12:00:00 America/New_York"),
+                          as.nanoperiod("12m"),
+                          origin=as.nanotime("2004-10-10 00:00:01 America/New_York"),
+                          tz="America/New_York"),
+             "when specifying 'origin', the first interval must contain at least one observation")
+
+expect_error(nano_ceiling(as.nanotime("2010-10-10 12:23:23 UTC"), as.nanoperiod("-12m"), tz="America/New_York"),
+             "'precision' must be strictly positive")
+
+expect_error(nano_ceiling(as.nanotime("2010-10-10 12:23:23 UTC"), as.nanoperiod("-12m"), tz="America/New_York", origin="wrong type"),
+             "'origin' must be of class 'nanotime'")
+
+expect_error(nano_ceiling(as.nanotime("2010-10-10 12:23:23 UTC"), as.nanoperiod("-12m"), tz=12),
+             "'tz' must be of type 'character'")
+
+## months:
+expect_identical(nano_ceiling(as.nanotime("2010-10-10 12:00:00 America/New_York"), as.nanoperiod("13m"), tz="America/New_York"),
+                 as.nanotime("2011-11-01T00:00:00-04:00"))
+expect_identical(nano_ceiling(as.nanotime("2010-08-10 12:00:00 America/New_York"), as.nanoperiod("3m"), tz="America/New_York"),
+                 as.nanotime("2010-10-01T00:00:00-04:00"))
+expect_identical(nano_ceiling(as.nanotime("2010-08-10 12:00:00 America/New_York"), as.nanoperiod("1m"), tz="America/New_York"),
+                 as.nanotime("2010-09-01T00:00:00-04:00"))
+expect_identical(nano_ceiling(as.nanotime("1940-08-10 12:00:00 America/New_York"), as.nanoperiod("1m"), tz="America/New_York"),
+                 as.nanotime("1940-09-01T00:00:00-04:00"))
+
+## days:
+expect_identical(nano_ceiling(as.nanotime("2010-10-10 12:00:00 America/New_York"), as.nanoperiod("1d"), tz="America/New_York"),
+                 as.nanotime("2010-10-11T00:00:00-04:00"))
+expect_identical(nano_ceiling(as.nanotime("2010-10-10 12:00:00 America/New_York"), as.nanoperiod("2d"), tz="America/New_York"),
+                 as.nanotime("2010-10-12T00:00:00-04:00"))
+expect_identical(nano_ceiling(as.nanotime("1940-10-10 12:00:00 America/New_York"), as.nanoperiod("2d"), tz="America/New_York"),
+                 as.nanotime("1940-10-12T00:00:00-05:00"))
+
+## hours:
+expect_identical(nano_ceiling(as.nanotime("2010-10-10 12:00:00 America/New_York"), as.nanoperiod("06:00:00"), tz="America/New_York"),
+                 as.nanotime("2010-10-10T12:00:00-04:00"))
+expect_identical(nano_ceiling(as.nanotime("1927-10-10 12:00:00 America/New_York"), as.nanoperiod("06:00:00"), tz="America/New_York"),
+                 as.nanotime("1927-10-10T12:00:00-05:00"))
+expect_identical(nano_ceiling(as.nanotime("2010-10-10 12:00:00 America/New_York"), as.nanoperiod("01:00:00"), tz="America/New_York"),
+                 as.nanotime("2010-10-10T12:00:00-04:00"))
+expect_identical(nano_ceiling(as.nanotime("2010-10-10 12:23:23 America/New_York"), as.nanoperiod("06:00:00"), tz="America/New_York"),
+                 as.nanotime("2010-10-10T18:00:00-04:00"))
+expect_identical(nano_ceiling(as.nanotime("2010-10-10 12:23:23 America/New_York"), as.nanoperiod("07:00:00"), tz="America/New_York"),
+                 as.nanotime("2010-10-10T19:00:00-04:00"))
+expect_identical(nano_ceiling(as.nanotime("1899-10-10 12:23:23 America/New_York"), as.nanoperiod("07:00:00"), tz="America/New_York"),
+                 as.nanotime("1899-10-10T19:00:00-05:00"))
+
+## minutes:
+expect_identical(nano_ceiling(as.nanotime("2010-10-10 12:23:23 America/New_York"), as.nanoperiod("00:05:00"), tz="America/New_York"),
+                 as.nanotime("2010-10-10T12:25:00-04:00"))
+expect_identical(nano_ceiling(as.nanotime("2010-10-10 12:25:00 America/New_York"), as.nanoperiod("00:05:00"), tz="America/New_York"),
+                 as.nanotime("2010-10-10T12:25:00-04:00"))
+expect_identical(nano_ceiling(as.nanotime("1922-10-10 12:23:23 America/New_York"), as.nanoperiod("00:05:00"), tz="America/New_York"),
+                 as.nanotime("1922-10-10T12:25:00-05:00"))
+expect_identical(nano_ceiling(as.nanotime("2010-10-10 12:23:23 America/New_York"), as.nanoperiod("00:01:00"), tz="America/New_York"),
+                 as.nanotime("2010-10-10T12:24:00-04:00"))
+expect_identical(nano_ceiling(as.nanotime("1922-10-10 12:25:00 America/New_York"), as.nanoperiod("00:05:00"), tz="America/New_York"),
+                 as.nanotime("1922-10-10T12:25:00-05:00"))
+
+## seconds:
+expect_identical(nano_ceiling(as.nanotime("2010-10-10 12:23:23 America/New_York"), as.nanoperiod("00:00:05"), tz="America/New_York"),
+                 as.nanotime("2010-10-10T12:23:25-04:00"))
+expect_identical(nano_ceiling(as.nanotime("1969-10-10 12:23:23 America/New_York"), as.nanoperiod("00:00:05"), tz="America/New_York"),
+                 as.nanotime("1969-10-10T12:23:25-04:00"))
+expect_identical(nano_ceiling(as.nanotime("2010-10-10 12:23:23.123 America/New_York"), as.nanoperiod("00:00:01"), tz="America/New_York"),
+                 as.nanotime("2010-10-10T12:23:24-04:00"))
+expect_identical(nano_ceiling(as.nanotime("1888-10-10 12:23:23.123 America/New_York"), as.nanoperiod("00:00:11"), tz="America/New_York"),
+                 as.nanotime("1888-10-10T12:23:34-05:00"))
+
+## milliseconds
+expect_identical(nano_ceiling(as.nanotime("2010-10-10 12:23:23.123456789 America/New_York"), as.nanoperiod("00:00:00.001"), tz="America/New_York"),
+                 as.nanotime("2010-10-10T12:23:23.124-04:00"))
+expect_identical(nano_ceiling(as.nanotime("2010-10-10 12:23:23.123456789 America/New_York"), as.nanoperiod("00:00:00.010"), tz="America/New_York"),
+                 as.nanotime("2010-10-10T12:23:23.13-04:00"))
+
+## microseconds
+expect_identical(nano_ceiling(as.nanotime("2010-10-10 12:23:23.123456789 America/New_York"), as.nanoperiod("00:00:00.000001"), tz="America/New_York"),
+                 as.nanotime("2010-10-10T12:23:23.123457-04:00"))
+expect_identical(nano_ceiling(as.nanotime("1933-10-10 12:23:23.123456789 America/New_York"), as.nanoperiod("00:00:00.000001"), tz="America/New_York"),
+                 as.nanotime("1933-10-10T12:23:23.123457-05:00"))
+expect_identical(nano_ceiling(as.nanotime("2010-10-10 12:23:23.123456789 America/New_York"), as.nanoperiod("00:00:00.000010"), tz="America/New_York"),
+                 as.nanotime("2010-10-10T12:23:23.12346-04:00"))
+
+## nanoseconds
+expect_identical(nano_ceiling(as.nanotime("2010-10-10 12:23:23.123456789 America/New_York"), as.nanoperiod("00:00:00.000000001"), tz="America/New_York"),
+                 as.nanotime("2010-10-10T12:23:23.123456789-04:00"))
+expect_identical(nano_ceiling(as.nanotime("1931-10-10 12:23:23.123456789 America/New_York"), as.nanoperiod("00:00:00.000000001"), tz="America/New_York"),
+                 as.nanotime("1931-10-10T12:23:23.123456789-05:00"))
+expect_identical(nano_ceiling(as.nanotime("2010-10-10 12:23:23.123456789 America/New_York"), as.nanoperiod("00:00:00.000000010"), tz="America/New_York"),
+                 as.nanotime("2010-10-10T12:23:23.123456790-04:00"))
+expect_identical(nano_ceiling(as.nanotime("2010-10-10 12:23:23.123456789 America/New_York"), as.nanoperiod("00:00:00.000000033"), tz="America/New_York"),
+                 as.nanotime("2010-10-10T12:23:23.123456789-04:00"))
+
+
+## nano_floor
+
+
+## years:
+expect_identical(nano_floor(as.nanotime("2010-10-10 12:00:00 America/New_York"), as.nanoperiod("12m"), tz="America/New_York"),
+                 as.nanotime("2010-01-01T05:00:00-00:00"))
+expect_identical(nano_floor(as.nanotime("1970-01-01 06:00:00 America/New_York"), as.nanoperiod("12m"), tz="America/New_York"),
+                 as.nanotime("1970-01-01 America/New_York"))
+
+expect_error(nano_floor(c(as.nanotime("2010-10-10 12:00:00 America/New_York"), as.nanotime("2010-10-10 11:00:00 America/New_York")),
+                        as.nanoperiod("12m"), tz="America/New_York"),
+             "'x' must be sorted")
+
+expect_error(nano_floor(as.nanotime("2010-10-10 12:00:00 America/New_York"), as.nanoperiod("12m"), tz=c("America/New_York", "UTC")),
+             "'tz' must be scalar")
+
+expect_identical(nano_floor(as.nanotime("2010-10-10 12:00:00 America/New_York"),
+                              as.nanoperiod("12m"),
+                              origin=as.nanotime("2010-10-10 00:00:01 America/New_York"),
+                              tz="America/New_York"),
+                 as.nanotime("2010-10-10T04:00:01+00:00"))
+
+expect_error(nano_floor(as.nanotime("2010-10-10 12:00:00 America/New_York"),
+                          as.nanoperiod("12m"),
+                          origin=as.nanotime("2004-10-10 00:00:01 America/New_York"),
+                          tz="America/New_York"),
+             "when specifying 'origin', the first interval must contain at least one observation")
+
+
+expect_error(nano_floor(as.nanotime("2010-10-10 12:00:00 America/New_York"),
+                          as.nanoperiod("12m"),
+                          origin=as.nanotime(1:10),
+                          tz="America/New_York"),
+             "'origin' must be scalar")
+
+expect_error(nano_floor(as.nanotime("2010-10-10 12:23:23 UTC"), as.nanoperiod("-12m"), tz="America/New_York"),
+             "'precision' must be strictly positive")
+
+expect_error(nano_floor(as.nanotime("2010-10-10 12:23:23 UTC"), as.nanoperiod("-12m"), tz="America/New_York", origin="wrong type"),
+             "'origin' must be of class 'nanotime'")
+
+expect_error(nano_floor(as.nanotime("2010-10-10 12:23:23 UTC"), as.nanoperiod("-12m"), tz=12),
+             "'tz' must be of type 'character'")
+
+
+
+## hours:
+expect_identical(nano_floor(as.nanotime("2010-10-10 12:23:23 America/New_York"), as.nanoperiod("06:00:00"), tz="America/New_York"),
+                 as.nanotime("2010-10-10T12:00:00-04:00"))
+expect_identical(nano_floor(as.nanotime("2010-10-10 12:23:23 America/New_York"), as.nanoperiod("07:00:00"), tz="America/New_York"),
+                 as.nanotime("2010-10-10T12:00:00-04:00"))
+## minutes:
+expect_identical(nano_floor(as.nanotime("2010-10-10 12:23:23 America/New_York"), as.nanoperiod("00:05:00"), tz="America/New_York"),
+                 as.nanotime("2010-10-10T12:20:00-04:00"))
+expect_identical(nano_floor(as.nanotime("2010-10-10 12:20:00 America/New_York"), as.nanoperiod("00:05:00"), tz="America/New_York"),
+                 as.nanotime("2010-10-10T12:20:00-04:00"))
+expect_identical(nano_floor(as.nanotime("2010-10-10 12:23:23 America/New_York"), as.nanoperiod("00:01:00"), tz="America/New_York"),
+                 as.nanotime("2010-10-10T12:23:00-04:00"))
+expect_identical(nano_floor(as.nanotime("1911-10-10 12:20:00 America/New_York"), as.nanoperiod("00:01:00"), tz="America/New_York"),
+                 as.nanotime("1911-10-10T12:20:00-05:00"))
+
+## seconds:
+expect_identical(nano_floor(as.nanotime("2010-10-10 12:23:23 America/New_York"), as.nanoperiod("00:00:05"), tz="America/New_York"),
+                 as.nanotime("2010-10-10T12:23:20-04:00"))
+expect_identical(nano_floor(as.nanotime("2010-10-10 12:23:23.123 America/New_York"), as.nanoperiod("00:00:01"), tz="America/New_York"),
+                 as.nanotime("2010-10-10T12:23:23-04:00"))
+
+## milliseconds
+expect_identical(nano_floor(as.nanotime("2010-10-10 12:23:23.123456789 America/New_York"), as.nanoperiod("00:00:00.001"), tz="America/New_York"),
+                 as.nanotime("2010-10-10T12:23:23.123-04:00"))
+expect_identical(nano_floor(as.nanotime("2010-10-10 12:23:23.123456789 America/New_York"), as.nanoperiod("00:00:00.010"), tz="America/New_York"),
+                 as.nanotime("2010-10-10T12:23:23.12-04:00"))
+
+## microseconds
+expect_identical(nano_floor(as.nanotime("2010-10-10 12:23:23.123456789 America/New_York"), as.nanoperiod("00:00:00.000001"), tz="America/New_York"),
+                 as.nanotime("2010-10-10T12:23:23.123456-04:00"))
+expect_identical(nano_floor(as.nanotime("2010-10-10 12:23:23.123456789 America/New_York"), as.nanoperiod("00:00:00.000010"), tz="America/New_York"),
+                 as.nanotime("2010-10-10T12:23:23.12345-04:00"))
+
+## nanoseconds
+expect_identical(nano_floor(as.nanotime("2010-10-10 12:23:23.123456789 America/New_York"), as.nanoperiod("00:00:00.000000001"), tz="America/New_York"),
+                 as.nanotime("2010-10-10T12:23:23.123456789-04:00"))
+expect_identical(nano_floor(as.nanotime("2010-10-10 12:23:23.123456789 America/New_York"), as.nanoperiod("00:00:00.000000010"), tz="America/New_York"),
+                 as.nanotime("2010-10-10T12:23:23.12345678-04:00"))
+expect_identical(nano_floor(as.nanotime("2010-10-10 12:23:23.123456789 America/New_York"), as.nanoperiod("00:00:00.000000033"), tz="America/New_York"),
+                 as.nanotime("2010-10-10T12:23:23.123456789-04:00"))
+expect_identical(nano_floor(as.nanotime("1965-10-10 12:23:23.123456789 America/New_York"), as.nanoperiod("00:00:00.000000033"), tz="America/New_York"),
+                 as.nanotime("1965-10-10T12:23:23.123456789-04:00"))
+

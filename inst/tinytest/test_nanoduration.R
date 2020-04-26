@@ -429,3 +429,139 @@ expect_false(isTRUE(all.equal(as.nanoduration(1), 1i)))
 expect_identical(all.equal(as.nanoduration(1), as.nanoduration(3), tolerance=1), "Mean absolute difference: 2")
 expect_identical(all.equal(as.nanoduration(1), as.nanoduration(2e9), scale=1e9), "Mean scaled difference: 2")
 expect_identical(all.equal(as.nanoduration(1), as.nanoduration(2e9), scale=1), "Mean absolute difference: 2e+09")
+
+## test rounding functions:
+
+## nano_ceiling:
+
+## hours:
+expect_identical(nano_ceiling(as.nanotime("2010-10-10 12:00:00 UTC"), as.nanoduration("06:00:00")),
+                 as.nanotime("2010-10-10T12:00:00+00:00"))
+expect_identical(nano_ceiling(as.nanotime("2010-10-10 12:00:00 UTC"), as.nanoduration("01:00:00")),
+                 as.nanotime("2010-10-10T12:00:00+00:00"))
+expect_identical(nano_ceiling(as.nanotime("2010-10-10 12:23:23 UTC"), as.nanoduration("06:00:00")),
+                 as.nanotime("2010-10-10T18:00:00+00:00"))
+expect_identical(nano_ceiling(as.nanotime("2010-10-10 12:23:23 UTC"), as.nanoduration("07:00:00")),
+                 as.nanotime("2010-10-10T19:00:00+00:00"))
+expect_identical(nano_floor(as.nanotime("1940-12-12 00:12:23 UTC"), as.nanoduration("01:00:00")),
+                 as.nanotime("1940-12-12T00:00:00+00:00"))
+expect_identical(nano_ceiling(as.nanotime("1970-01-01 UTC"), as.nanoduration("06:00:00")),
+                 as.nanotime("1970-01-01T00:00:00+00:00"))
+expect_identical(nano_ceiling(as.nanotime("1970-01-01 UTC"), as.nanoduration("01:30:00")),
+                 as.nanotime("1970-01-01T00:00:00+00:00"))
+
+expect_identical(nano_ceiling(as.nanotime("2010-10-10 12:23:23 UTC"),
+                              as.nanoduration("07:00:00"),
+                              origin = as.nanotime("2010-10-10 10:23:12 UTC")),
+                 as.nanotime("2010-10-10T17:23:12+00:00"))
+
+expect_error(nano_ceiling(as.nanotime("2010-10-10 12:23:23 UTC"), as.nanoduration("07:00:00"), origin = as.nanotime(1:10)),
+             "'origin' must be scalar")
+
+                 
+expect_error(nano_ceiling(as.nanotime("2010-10-10 12:23:23 UTC"), as.nanoduration("-06:00:00")),
+             "'precision' must be strictly positive")
+
+expect_error(nano_ceiling(as.nanotime("2010-10-10 12:23:23 UTC"), as.nanoduration("-06:00:00"), origin="wrong type"),
+             "'origin' must be of class 'nanotime'")
+
+## minutes:
+expect_identical(nano_ceiling(as.nanotime("2010-10-10 12:23:23 UTC"), as.nanoduration("00:05:00")),
+                 as.nanotime("2010-10-10T12:25:00+00:00"))
+expect_identical(nano_ceiling(as.nanotime("2010-10-10 12:23:23 UTC"), as.nanoduration("00:01:00")),
+                 as.nanotime("2010-10-10T12:24:00+00:00"))
+
+expect_identical(nano_ceiling(as.nanotime("2010-10-10 12:23:23 UTC"),
+                              as.nanoduration("00:07:00"),
+                              origin = as.nanotime("2010-10-10 12:22:12 UTC")),
+                 as.nanotime("2010-10-10T12:29:12+00:00"))
+
+## seconds:
+expect_identical(nano_ceiling(as.nanotime("2010-10-10 12:23:23 UTC"), as.nanoduration("00:00:05")),
+                 as.nanotime("2010-10-10T12:23:25+00:00"))
+expect_identical(nano_ceiling(as.nanotime("2010-10-10 12:23:23.123 UTC"), as.nanoduration("00:00:01")),
+                 as.nanotime("2010-10-10T12:23:24+00:00"))
+
+## milliseconds
+expect_identical(nano_ceiling(as.nanotime("2010-10-10 12:23:23.123456789 UTC"), as.nanoduration("00:00:00.001")),
+                 as.nanotime("2010-10-10T12:23:23.124+00:00"))
+expect_identical(nano_ceiling(as.nanotime("2010-10-10 12:23:23.123456789 UTC"), as.nanoduration("00:00:00.010")),
+                 as.nanotime("2010-10-10T12:23:23.13+00:00"))
+
+## microseconds
+expect_identical(nano_ceiling(as.nanotime("2010-10-10 12:23:23.123456789 UTC"), as.nanoduration("00:00:00.000001")),
+                 as.nanotime("2010-10-10T12:23:23.123457+00:00"))
+expect_identical(nano_ceiling(as.nanotime("2010-10-10 12:23:23.123456789 UTC"), as.nanoduration("00:00:00.000010")),
+                 as.nanotime("2010-10-10T12:23:23.12346+00:00"))
+
+## nanoseconds
+expect_identical(nano_ceiling(as.nanotime("2010-10-10 12:23:23.123456789 UTC"), as.nanoduration("00:00:00.000000001")),
+                 as.nanotime("2010-10-10T12:23:23.123456789+00:00"))
+expect_identical(nano_ceiling(as.nanotime("2010-10-10 12:23:23.123456789 UTC"), as.nanoduration("00:00:00.000000010")),
+                 as.nanotime("2010-10-10T12:23:23.123456790+00:00"))
+expect_identical(nano_ceiling(as.nanotime("2010-10-10 12:23:23.123456789 UTC"), as.nanoduration("00:00:00.000000033")),
+                 as.nanotime("2010-10-10T12:23:23.123456814+00:00"))
+
+
+## nano_floor
+
+## hours:
+expect_identical(nano_floor(as.nanotime("2010-10-10 12:23:23 UTC"), as.nanoduration("06:00:00")),
+                 as.nanotime("2010-10-10T12:00:00+00:00"))
+expect_identical(nano_floor(as.nanotime("2010-10-10 12:23:23 UTC"), as.nanoduration("07:00:00")),
+                 as.nanotime("2010-10-10T12:00:00+00:00"))
+expect_identical(nano_floor(as.nanotime("1970-01-01 UTC"), as.nanoduration("06:00:00")),
+                 as.nanotime("1970-01-01T00:00:00+00:00"))
+expect_identical(nano_floor(as.nanotime("1970-01-01 UTC"), as.nanoduration("01:30:00")),
+                 as.nanotime("1970-01-01T00:00:00+00:00"))
+expect_identical(nano_floor(as.nanotime("1970-01-01 06:00:00 UTC"), as.nanoduration("06:00:00")),
+                 as.nanotime("1970-01-01T06:00:00+00:00"))
+expect_identical(nano_floor(as.nanotime("1970-01-01 07:00:00 UTC"), as.nanoduration("07:00:00")),
+                 as.nanotime("1970-01-01T07:00:00+00:00"))
+
+expect_identical(nano_floor(as.nanotime("2010-10-10 12:23:23 UTC"),
+                            as.nanoduration("07:00:00"),
+                            origin = as.nanotime("2010-10-10 10:23:12 UTC")),
+                 as.nanotime("2010-10-10T10:23:12+00:00"))
+
+expect_error(nano_floor(as.nanotime("2010-10-10 12:23:23 UTC"), as.nanoduration("07:00:00"), origin = as.nanotime(1:10)),
+             "'origin' must be scalar")
+
+expect_error(nano_floor(as.nanotime("2010-10-10 12:23:23 UTC"), as.nanoduration("-06:00:00")),
+             "'precision' must be strictly positive")
+
+expect_error(nano_floor(as.nanotime("2010-10-10 12:23:23 UTC"), as.nanoduration("-06:00:00"), origin="wrong type"),
+             "'origin' must be of class 'nanotime'")
+
+## minutes:
+expect_identical(nano_floor(as.nanotime("2010-10-10 12:23:23 UTC"), as.nanoduration("00:05:00")),
+                 as.nanotime("2010-10-10T12:20:00+00:00"))
+expect_identical(nano_floor(as.nanotime("2010-10-10 12:23:23 UTC"), as.nanoduration("00:01:00")),
+                 as.nanotime("2010-10-10T12:23:00+00:00"))
+
+## seconds:
+expect_identical(nano_floor(as.nanotime("2010-10-10 12:23:23 UTC"), as.nanoduration("00:00:05")),
+                 as.nanotime("2010-10-10T12:23:20+00:00"))
+expect_identical(nano_floor(as.nanotime("2010-10-10 12:23:23.123 UTC"), as.nanoduration("00:00:01")),
+                 as.nanotime("2010-10-10T12:23:23+00:00"))
+
+## milliseconds
+expect_identical(nano_floor(as.nanotime("2010-10-10 12:23:23.123456789 UTC"), as.nanoduration("00:00:00.001")),
+                 as.nanotime("2010-10-10T12:23:23.123+00:00"))
+expect_identical(nano_floor(as.nanotime("2010-10-10 12:23:23.123456789 UTC"), as.nanoduration("00:00:00.010")),
+                 as.nanotime("2010-10-10T12:23:23.12+00:00"))
+
+## microseconds
+expect_identical(nano_floor(as.nanotime("2010-10-10 12:23:23.123456789 UTC"), as.nanoduration("00:00:00.000001")),
+                 as.nanotime("2010-10-10T12:23:23.123456+00:00"))
+expect_identical(nano_floor(as.nanotime("2010-10-10 12:23:23.123456789 UTC"), as.nanoduration("00:00:00.000010")),
+                 as.nanotime("2010-10-10T12:23:23.12345+00:00"))
+
+## nanoseconds
+expect_identical(nano_floor(as.nanotime("2010-10-10 12:23:23.123456789 UTC"), as.nanoduration("00:00:00.000000001")),
+                 as.nanotime("2010-10-10T12:23:23.123456789+00:00"))
+expect_identical(nano_floor(as.nanotime("2010-10-10 12:23:23.123456789 UTC"), as.nanoduration("00:00:00.000000010")),
+                 as.nanotime("2010-10-10T12:23:23.12345678+00:00"))
+expect_identical(nano_floor(as.nanotime("2010-10-10 12:23:23.123456789 UTC"), as.nanoduration("00:00:00.000000033")),
+                 as.nanotime("2010-10-10T12:23:23.123456781+00:00"))
+

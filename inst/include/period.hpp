@@ -24,8 +24,8 @@ struct period {
   inline void addDays(int64_t d)   { days   += d; }
   inline void addDuration(Global::duration d) { dur    += d; }
 
-  inline bool operator==(const period& p) { return months==p.months && days==p.days; }
-  inline bool operator!=(const period& p) { return months!=p.months || days!=p.days; }
+  inline bool operator==(const period& p) { return months==p.months && days==p.days && dur==p.dur; }
+  inline bool operator!=(const period& p) { return months!=p.months || days!=p.days || dur!=p.dur; }
 
   inline bool isNA() const { return months == std::numeric_limits<int32_t>::min() || dur == Global::duration::min(); }
   
