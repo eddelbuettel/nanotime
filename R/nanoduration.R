@@ -598,3 +598,24 @@ setMethod("all.equal", c(target = "nanoduration", current="ANY"), all.equal.nano
 
 ##' @rdname nanoduration
 NA_nanoduration_  <- as.nanoduration(NA_integer_)
+
+
+## rounding ops:
+
+##' @rdname rounding
+setMethod("nano_ceiling", c(x="nanotime", precision="nanoduration"),
+          function(x, precision, origin=nanotime()) {
+              if (class(origin) != "nanotime") {
+                  stop("'origin' must be of class 'nanotime'")
+              }
+              ceiling_impl(x, precision, origin)
+          })
+
+##' @rdname rounding
+setMethod("nano_floor",   c(x="nanotime", precision="nanoduration"),
+          function(x, precision, origin=nanotime()) {
+              if (class(origin) != "nanotime") {
+                  stop("'origin' must be of class 'nanotime'")
+              }
+              floor_impl(x, precision, origin)
+          })
