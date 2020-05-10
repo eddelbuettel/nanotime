@@ -1,8 +1,5 @@
 ## TODO:
-## - what do do when subsetting NA nanotime?
 ## - prevent matrix, array, cbind, rbind, compared with non-interval
-## - see how we can better organize documentation for S4 methods that are
-##   defined only to produce an error
 ##
 
 
@@ -248,13 +245,16 @@ setGeneric("as.nanoival", function(from, format="", tz="") standardGeneric("as.n
 setMethod("as.nanoival",
           "character",
           function(from, format="", tz="") {
-            tryCatch(nanoival_make_impl(from, tz), error=function(e) {
-              if (e$message == "Cannot retrieve timezone") {
-                stop(e$message)
-              } else {
-                .secondaryNanoivalParse(from, format, tz)
+              if (!is.character(tz)) {
+                  stop("argument 'tz' must be of type 'character'")
               }
-            })
+              tryCatch(nanoival_make_impl(from, tz), error=function(e) {
+                  if (e$message == "Cannot retrieve timezone") {
+                      stop(e$message)
+                  } else {
+                      .secondaryNanoivalParse(from, format, tz)
+                  }
+              })
           })
 
 setAs("character", "nanoival", function(from) as.nanoival(from))
@@ -844,10 +844,18 @@ setMethod("all.equal", c(target = "nanoival", current="ANY"), all.equal.nanoival
 ##'
 setMethod("is.unsorted", "nanoival",
           function(x, na.rm=FALSE, strictly=FALSE) {
-              if (typeof(strictly) != "logical") {
+              if (!is.logical(strictly)) {
                   stop("argument 'strictly' must be a logical")
               }
-              nanoival_is_unsorted_impl(x, strictly)
+              if (na.rm == TRUE) {
+                  nanoival_is_unsorted_impl(x[!is.na(x)], strictly) # we could code this more efficiently!
+              } else {
+                  if (any(is.na(x))) {  # same here...
+                      NA_nanoival_
+                  } else {
+                      nanoival_is_unsorted_impl(x, strictly)
+                  }
+              }
           })
 
 
@@ -862,8 +870,12 @@ setMethod("is.unsorted", "nanoival",
 ##' @seealso \code{\link{is.unsorted}}
 ##'
 setMethod("sort", c("nanoival"),
-          function(x, decreasing=FALSE)
-            new("nanoival", nanoival_sort_impl(x, decreasing)))
+          function(x, decreasing=FALSE) {
+              if (!is.logical(decreasing)) {
+                  stop("argument 'decreasing' must be logical")
+              }
+              new("nanoival", nanoival_sort_impl(x, decreasing))
+          })
 
 
 ##' Sequence Generation

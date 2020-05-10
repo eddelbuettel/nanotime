@@ -65,6 +65,9 @@ expect_identical(nanoperiod(0,0,1), as.nanoperiod(1))
 expect_identical(nanoperiod(0,0,1:10), as.nanoperiod(1:10))
 expect_identical(nanoperiod(1,1,0:9), as.nanoperiod(paste0("1m1d/00:00:00.000_000_00", 0:9)))
 
+expect_error(nanoperiod("a"), "argument 'months' must be numeric")
+expect_error(nanoperiod(1, "a"), "argument 'days' must be numeric")
+
 
 ## accessors:
 ##test_nanoperiod.day <- function() {
@@ -582,7 +585,6 @@ expect_identical(nanoperiod(integer(), integer(), nanoduration()), nanoperiod())
 expect_identical(nanoperiod(1, 1, nanoduration()), nanoperiod())
 expect_identical(nanoperiod(1,integer(), as.nanoduration(1)), nanoperiod())
 expect_identical(nanoperiod(numeric(), integer(), as.nanoduration(1)), nanoperiod())
-expect_identical(nanoperiod(character()), nanoperiod())
 
 ## Comp:
 expect_identical(as.nanoperiod() == as.nanoperiod(), logical())

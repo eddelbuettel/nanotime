@@ -397,7 +397,7 @@ Rcpp::ComplexVector nanoival_setdiff_impl(const Rcpp::ComplexVector nv1,
 
 // [[Rcpp::export]]
 bool nanoival_is_unsorted_impl(const Rcpp::ComplexVector nvec,
-                               const Rcpp::NumericVector strictlyvec) {
+                               const Rcpp::LogicalVector strictlyvec) {
   if (strictlyvec.size() == 0) {
     Rcpp::stop("argument 'strictly' cannot have length 0");
   }

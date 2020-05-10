@@ -76,6 +76,12 @@ nanoperiod <- function(months=0, days=0, duration=as.nanoduration(0)) {
     if (nargs() == 0) {
         as.nanoperiod(NULL)
     } else {
+        if (!is.numeric(months)) {
+            stop("argument 'months' must be numeric")
+        }
+        if (!is.numeric(days)) {
+            stop("argument 'days' must be numeric")
+        }        
         period_from_parts_impl(as.integer(months), as.integer(days), as.nanoduration(duration))
     }
 }

@@ -57,6 +57,8 @@ if (!isSolaris) {
                  "Cannot retrieve timezone")
 }
 
+expect_error(as.nanoival(aa, tz=list(1)), "argument 'tz' must be of type 'character'")
+              
 ##test_nanoival <- function() {
 expect_identical(nanoival(nanotime("2013-01-01 00:00:00"),
                           nanotime("2014-01-01 00:00:00"), TRUE, TRUE),
@@ -496,12 +498,17 @@ expect_identical(is.unsorted(c(y, y, x, x), strictly=TRUE), TRUE)
 expect_error(is.unsorted(c(y, y, x, x), strictly="a"), "argument 'strictly' must be a logical")
 expect_error(is.unsorted(c(y, y, x, x), strictly=as.logical(NULL)), "argument 'strictly' cannot have length 0")
 
+## test 'na.rm':
+expect_identical(is.unsorted(c(x, y, NA_nanoival_)), NA_nanoival_)
+expect_identical(is.unsorted(c(x, y, NA_nanoival_), na.rm=TRUE), FALSE)
+
 ##test_sort <- function() {
 v <- as.nanoival(c(aa, bb, cc, dd))
 v_descending <- as.nanoival(c(dd, cc, bb, aa))
 expect_identical(sort(v_descending), v)
 expect_identical(sort(v, decreasing=TRUE), v_descending)
 expect_error(sort(v, decreasing=as.logical(NULL)), "argument 'decreasing' cannot have length 0")
+expect_error(sort(v, decreasing="not a logical"), "argument 'decreasing' must be logical")
 
 
 ## c

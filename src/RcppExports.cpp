@@ -137,13 +137,13 @@ BEGIN_RCPP
 END_RCPP
 }
 // nanoival_is_unsorted_impl
-bool nanoival_is_unsorted_impl(const Rcpp::ComplexVector nvec, const Rcpp::NumericVector strictlyvec);
+bool nanoival_is_unsorted_impl(const Rcpp::ComplexVector nvec, const Rcpp::LogicalVector strictlyvec);
 RcppExport SEXP _nanotime_nanoival_is_unsorted_impl(SEXP nvecSEXP, SEXP strictlyvecSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const Rcpp::ComplexVector >::type nvec(nvecSEXP);
-    Rcpp::traits::input_parameter< const Rcpp::NumericVector >::type strictlyvec(strictlyvecSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::LogicalVector >::type strictlyvec(strictlyvecSEXP);
     rcpp_result_gen = Rcpp::wrap(nanoival_is_unsorted_impl(nvec, strictlyvec));
     return rcpp_result_gen;
 END_RCPP

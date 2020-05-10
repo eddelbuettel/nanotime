@@ -1,3 +1,17 @@
+2020-05-10 Leonardo Silvestri  <lsilvestri@ztsdb.org>
+
+	* DESCRIPTION (Version, Date): Roll minor version
+
+	* R/nanoival.R: check param types before invoking C functions; use
+	'na.rm' in 'is.unsorted'
+	* inst/tinytest/test_nanoival.R: Idem
+	* R/nanoperiod.R: check param types before invoking C functions
+	* R/nanotime.R: Idem
+	* inst/tinytest/test_nanoperiod.R: Idem
+	* src/RcppExports.cpp: Idem
+	* src/interval.cpp: Idem
+	* man/nanotime.Rd: document 'tz' param behaviour in constructor
+
 2020-04-25  Leonardo Silvestri  <lsilvestri@ztsdb.org>
 
 	* DESCRIPTION (Version, Date): Roll minor version
