@@ -23,6 +23,8 @@
 	* vignettes/nanotime-intro.pdf: Copy of prebuilt vignette from rmd/
 	* vignettes/nanotime-introduction.Rnw: Sweave shell for prebuilt vignette
 
+	* .travis.yml: Switch to bionic, and testing via R 4.0.0
+
 2020-05-16 Leonardo Silvestri  <lsilvestri@ztsdb.org>
 
 	* DESCRIPTION (Version, Date): Roll minor version
