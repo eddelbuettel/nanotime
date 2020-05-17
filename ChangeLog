@@ -18,6 +18,11 @@
 	* inst/include/nanotime/pseudovector.hpp: let 'pseudovector' return a
 	different type than the input which gives more flexibility
 
+2020-05-17  Dirk Eddelbuettel  <edd@debian.org>
+
+	* vignettes/nanotime-intro.pdf: Copy of prebuilt vignette from rmd/
+	* vignettes/nanotime-introduction.Rnw: Sweave shell for prebuilt vignette
+
 2020-05-16 Leonardo Silvestri  <lsilvestri@ztsdb.org>
 
 	* DESCRIPTION (Version, Date): Roll minor version
@@ -41,7 +46,7 @@
 	* man/rep-nanoival-method.Rd: document 'rep'
 	* man/rep-nanoperiod-method.Rd: document 'rep'
 	* man/rep-nanotime-method.Rd: document 'rep'
- 
+
 2020-05-10 Leonardo Silvestri  <lsilvestri@ztsdb.org>
 
 	* DESCRIPTION (Version, Date): Roll minor version

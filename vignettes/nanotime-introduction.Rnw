@@ -1,7 +1,7 @@
 \documentclass{article}
 \usepackage{pdfpages}
 %\VignetteIndexEntry{Introduction to nanotime}
-%\VignetteKeywords{nanotime, date, datetime, time, duration, nanoival, period}
+%\VignetteKeywords{nanotime, nanoperiod, nanoival, nanoduration, date, datetime, time, nanoseconds}
 %\VignettePackage{nanotime}
 %\VignetteEncoding{UTF-8}
 
