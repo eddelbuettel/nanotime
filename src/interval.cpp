@@ -397,7 +397,7 @@ Rcpp::ComplexVector nanoival_setdiff_impl(const Rcpp::ComplexVector nv1,
 
 // [[Rcpp::export]]
 bool nanoival_is_unsorted_impl(const Rcpp::ComplexVector nvec,
-                               const Rcpp::NumericVector strictlyvec) {
+                               const Rcpp::LogicalVector strictlyvec) {
   if (strictlyvec.size() == 0) {
     Rcpp::stop("argument 'strictly' cannot have length 0");
   }
@@ -786,5 +786,34 @@ Rcpp::ComplexVector nanoival_make_impl(const Rcpp::CharacterVector nt_v,
     res[i] = readNanoival(str, str + nt[i].size(), tz[i]);
   }
   copyNames(nt_v, tz_v, res);
+  return assignS4("nanoival", res);
+}
+
+
+static Rcomplex getNA_ival() {
+  static const auto p = interval(Global::dtime(Global::duration::min()),
+                                 Global::dtime(Global::duration::min()), // #nocov (seems like the cov tool fails us here!)
+                                 true, true);
+  Rcomplex c;
+  memcpy(&c, &p, sizeof(p));
+  return c;
+}
+
+
+// [[Rcpp::export]]
+Rcpp::ComplexVector nanoival_subset_numeric_impl(const Rcpp::ComplexVector& v, const Rcpp::NumericVector& idx) {
+  Rcpp::ComplexVector res(0);
+  std::vector<Rcomplex> res_c;    // by declaring it here we can make subset logical agnostic to 'Rcomplex'
+  Global::subset_numeric(v, idx, res, res_c, getNA_ival);
+  return assignS4("nanoival", res);
+}
+
+
+// [[Rcpp::export]]
+Rcpp::ComplexVector nanoival_subset_logical_impl(const Rcpp::ComplexVector& v, const Rcpp::LogicalVector& idx_p) {
+  const ConstPseudoVectorLgl idx(idx_p);
+  Rcpp::ComplexVector res(0);
+  std::vector<Rcomplex> res_c;
+  Global::subset_logical(v, idx, res, res_c, getNA_ival);
   return assignS4("nanoival", res);
 }

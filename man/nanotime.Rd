@@ -54,6 +54,9 @@
 \alias{range,nanotime-method}
 \alias{Complex,nanotime-method}
 \alias{[[,nanotime-method}
+\alias{[,nanotime,numeric-method}
+\alias{[,nanotime,logical-method}
+\alias{[,nanotime,character-method}
 \alias{[,nanotime,ANY-method}
 \alias{[<-,nanotime,ANY,ANY,ANY-method}
 \alias{c.nanotime}
@@ -169,6 +172,12 @@ nanotime.matrix(x)
 
 \S4method{[[}{nanotime}(x, i, j, ..., drop = FALSE)
 
+\S4method{[}{nanotime,numeric}(x, i, j, ..., drop = FALSE)
+
+\S4method{[}{nanotime,logical}(x, i, j, ..., drop = FALSE)
+
+\S4method{[}{nanotime,character}(x, i, j, ..., drop = FALSE)
+
 \S4method{[}{nanotime,ANY}(x, i, j, ..., drop = FALSE)
 
 \S4method{[}{nanotime,ANY,ANY,ANY}(x, i, j, ...) <- value
@@ -273,6 +282,23 @@ For input, some slack it cut, and various shortened formats are
 accepted by default such as \code{2020-03-10} or \code{2020-03-10
 18:16:00}, or \code{2020-03-10 18:16:00.001} (and the \sQuote{T}
 separator is optional.
+}
+
+\section{\code{tz} parameter usage in constructors}{
+
+
+The \code{tz} parameter is allowed only when constructing a
+\code{nanotime} from a \code{character}. This is because any
+\code{numeric}, \code{Date} and \code{POSIXct} is de facto
+considered an offset since the epoch. On the contrary, a
+\code{character} is considered interpretable and hence if it does
+not contain a timezone in its representation, it is possible to
+specify the \code{tz} argument to specify in which timezone it
+should be interpreted. This is useful in particular if one wants
+to convert a \code{Date} to be aligned to the beginning of the day
+in a specific timezone; in this case one should convert the
+\code{Date} to a \code{character} before calling the
+\code{nanotime} constructor with the desired timezone.
 }
 
 \examples{

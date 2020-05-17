@@ -51,6 +51,8 @@
 \alias{[[,nanoival-method}
 \alias{[,nanoival,logical-method}
 \alias{[,nanoival,numeric-method}
+\alias{[,nanoival,character-method}
+\alias{[,nanoival,ANY-method}
 \alias{[<-,nanoival,logical,ANY,nanoival-method}
 \alias{c.nanoival}
 \alias{t,nanoival-method}
@@ -116,6 +118,10 @@ nanoival(start, end, sopen = FALSE, eopen = TRUE)
 \S4method{[}{nanoival,logical}(x, i, j, ..., drop = FALSE)
 
 \S4method{[}{nanoival,numeric}(x, i, j, ..., drop = FALSE)
+
+\S4method{[}{nanoival,character}(x, i, j, ..., drop = FALSE)
+
+\S4method{[}{nanoival,ANY}(x, i, j, ..., drop = FALSE)
 
 \S4method{[}{nanoival,logical,ANY,nanoival}(x, i, j, ...) <- value
 

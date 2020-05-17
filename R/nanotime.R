@@ -47,6 +47,21 @@ setClass("nanotime", contains = "integer64")
 ##' 18:16:00}, or \code{2020-03-10 18:16:00.001} (and the \sQuote{T}
 ##' separator is optional.
 ##'
+##' @section \code{tz} parameter usage in constructors:
+##'
+##' The \code{tz} parameter is allowed only when constructing a
+##' \code{nanotime} from a \code{character}. This is because any
+##' \code{numeric}, \code{Date} and \code{POSIXct} is de facto
+##' considered an offset since the epoch. On the contrary, a
+##' \code{character} is considered interpretable and hence if it does
+##' not contain a timezone in its representation, it is possible to
+##' specify the \code{tz} argument to specify in which timezone it
+##' should be interpreted. This is useful in particular if one wants
+##' to convert a \code{Date} to be aligned to the beginning of the day
+##' in a specific timezone; in this case one should convert the
+##' \code{Date} to a \code{character} before calling the
+##' \code{nanotime} constructor with the desired timezone.
+##' 
 ##' @param x,from \code{nanotime} objects
 ##' @param tz character specifying a timezone which is required for
 ##'     \code{as.POSIXct}, \code{as.POSIXlt} and can be specified for
@@ -252,13 +267,15 @@ format.nanotime <- function(x, format="", tz="", ...)
         secs  <- as.integer64(bigint / as.integer64(1000000000))
         nanos <- bigint - secs * as.integer64(1000000000)
 
+        nanos_notna <- nanos[!is.na(nanos)]
+
         ## EXS has special meaning for us: print with the least number of nanotime digits
-        if (isTRUE(as.logical(grep("%EXS", format)))) {
-            if (all(nanos %% 1000000000 == 0)) {
+        if (length(nanos_notna) != 0 && isTRUE(as.logical(grep("%EXS", format)))) {
+            if (all(nanos_notna %% 1000000000 == 0)) {
                 format <- gsub("%EXS", "%S", format)
-            } else if (all(nanos %% 1000000 == 0)) {
+            } else if (all(nanos_notna %% 1000000 == 0)) {
                 format <- gsub("%EXS", "%E3S", format)
-            } else if (all(nanos %% 1000 == 0)) {
+            } else if (all(nanos_notna %% 1000 == 0)) {
                 format <- gsub("%EXS", "%E6S", format)
             } else {
                 format <- gsub("%EXS", "%E9S", format)
@@ -551,9 +568,52 @@ setMethod("[[",
 
 ##' @rdname nanotime
 setMethod("[",
-          signature("nanotime"),
+          signature("nanotime", "numeric"),
           function (x, i, j, ..., drop=FALSE) {
-              new("nanotime", callNextMethod())
+              if (!missing(j) || length(list(...)) > 0) {
+                  warning("unused indices or arguments in 'nanotime' subsetting")
+              }
+              print("subset numeric")
+              if (isTRUE(any(i < 0))) {
+                  new("nanotime", S3Part(x, strictS3=TRUE)[i])
+              } else {
+                  nanotime_subset_numeric_impl(x, i)
+              }
+          })
+
+##' @rdname nanotime
+setMethod("[",
+          signature("nanotime", "logical"),
+          function (x, i, j, ..., drop=FALSE) {
+              if (!missing(j) || length(list(...)) > 0) {
+                  warning("unused indices or arguments in 'nanotime' subsetting")
+              }
+              nanotime_subset_logical_impl(x, i)
+          })
+
+##' @rdname nanotime
+setMethod("[",
+          signature("nanotime", "character"),
+          function (x, i, j, ..., drop=FALSE) {
+              ## we don't implement 'period_subset_character_impl' but
+              ## do the gymnastic of finding the NAs here at R level;
+              ## it's not as efficient, but using 'character' indexing
+              ## is by itself inefficient, so the overhead should have
+              ## no practical consequences.
+              if (!missing(j) || length(list(...)) > 0) {
+                  warning("unused indices or arguments in 'nanotime' subsetting")
+              }
+              na_index <- !(i %in% names(x)) | is.na(i)
+              res <- new("nanotime", S3Part(x, strictS3=TRUE)[i])
+              res[na_index] <- NA_nanotime_
+              res
+          })
+
+##' @rdname nanotime
+setMethod("[",
+          signature("nanotime", "ANY"),
+          function (x, i, j, ..., drop=FALSE) {
+              stop("']' not defined on 'nanotime' for index of type 'ANY'")
           })
 
 ##' @rdname nanotime
@@ -924,3 +984,32 @@ setGeneric("nano_ceiling", def = function(x, precision, ...) standardGeneric("na
 
 ##' @rdname rounding
 setGeneric("nano_floor",   def = function(x, precision, ...) standardGeneric("nano_floor"))
+
+
+##' Replicate Elements
+##'
+##' Replicates the values in 'x' similarly to the default method.
+##'
+##' @param x a vector of \code{nanotime}
+##' @param ... further arguments:
+##' 
+##'        'times' an integer-valued vector giving the (non-negative)
+##'            number of times to repeat each element if of length
+##'            'length(x)', or to repeat the whole vector if of length
+##'            1. Negative or 'NA' values are an error. A 'double'
+##'            vector is accepted, other inputs being coerced to an
+##'            integer or double vector.
+##' 
+##'        'length.out' non-negative integer. The desired length of the
+##'            output vector. Other inputs will be coerced to a double
+##'            vector and the first element taken. Ignored if 'NA' or
+##'            invalid.
+##' 
+##'        'each' non-negative integer. Each element of 'x' is repeated
+##'            'each' times.  Other inputs will be coerced to an integer
+##'            or double vector and the first element taken. Treated as
+##'            '1' if 'NA' or invalid.
+setMethod("rep", c(x = "nanotime"), function(x, ...) {
+    new("nanotime", callNextMethod())
+})
+

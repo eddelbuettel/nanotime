@@ -31,6 +31,9 @@
 \alias{is.na,nanoperiod-method}
 \alias{is.na<-,nanoperiod-method}
 \alias{[[,nanoperiod-method}
+\alias{[,nanoperiod,numeric-method}
+\alias{[,nanoperiod,logical-method}
+\alias{[,nanoperiod,character-method}
 \alias{[,nanoperiod,ANY-method}
 \alias{[<-,nanoperiod,ANY,ANY,ANY-method}
 \alias{c.nanoperiod}
@@ -111,6 +114,12 @@ nanoperiod(months = 0, days = 0, duration = as.nanoduration(0))
 \S4method{is.na}{nanoperiod}(x) <- value
 
 \S4method{[[}{nanoperiod}(x, i, j, ..., drop = FALSE)
+
+\S4method{[}{nanoperiod,numeric}(x, i, j, ..., drop = FALSE)
+
+\S4method{[}{nanoperiod,logical}(x, i, j, ..., drop = FALSE)
+
+\S4method{[}{nanoperiod,character}(x, i, j, ..., drop = FALSE)
 
 \S4method{[}{nanoperiod,ANY}(x, i, j, ..., drop = FALSE)
 

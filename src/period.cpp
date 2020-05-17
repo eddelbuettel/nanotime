@@ -41,8 +41,18 @@ static inline Global::duration getOffsetCnv(const Global::dtime& dt, const std::
 
 period::period() : months(0), days(0), dur(std::chrono::seconds(0)) { }
 
-period::period(int32_t months_p, int32_t days_p, Global::duration dur_p) : 
-  months(months_p), days(days_p), dur(dur_p) { }
+period::period(int32_t months_p, int32_t days_p, Global::duration dur_p) : months(months_p), days(days_p), dur(dur_p) {
+  // we have to ensure that NA is uniform across all construction
+  // possibilities so that functions that compare equality do so
+  // correctly:
+  if (months == std::numeric_limits<int32_t>::min() ||
+      days   == std::numeric_limits<int32_t>::min() ||
+      dur    == Global::duration::min()) {
+    months = std::numeric_limits<int32_t>::min();
+    days = std::numeric_limits<int32_t>::min();
+    dur = Global::duration::zero();
+  }
+}
 
 
 period::period(const std::string& str) {
@@ -250,6 +260,7 @@ typedef ConstPseudoVector<REALSXP, double>   ConstPseudoVectorDbl;
 typedef ConstPseudoVector<CPLXSXP, Rcomplex> ConstPseudoVectorIval;
 typedef ConstPseudoVector<STRSXP,  const Rcpp::CharacterVector::const_Proxy> ConstPseudoVectorChar;
 typedef ConstPseudoVector<INTSXP,  int32_t>   ConstPseudoVectorInt;
+typedef ConstPseudoVector<LGLSXP,  int32_t>   ConstPseudoVectorBool;
 
 typedef PseudoVector<REALSXP, double>   PseudoVectorInt64;
 typedef PseudoVector<REALSXP, double>   PseudoVectorNano;
@@ -764,6 +775,7 @@ constexpr Global::duration abs(Global::duration d) {
   return d >= d.zero() ? d : -d;
 }
 
+// This gives back a `nanotime` sequence for a `by` that is a `period`:
 // [[Rcpp::export]]
 Rcpp::NumericVector period_seq_from_to_impl(const Rcpp::NumericVector from_nv,
                                             const Rcpp::NumericVector to_nv,
@@ -798,6 +810,7 @@ Rcpp::NumericVector period_seq_from_to_impl(const Rcpp::NumericVector from_nv,
   return assignS4("nanotime", res_rcpp, "integer64");
 }
 
+// This gives back a `nanotime` sequence for a `by` that is a `period`:
 // [[Rcpp::export]]
 Rcpp::NumericVector period_seq_from_length_impl(const Rcpp::NumericVector from_nv,
                                                 const Rcpp::ComplexVector by_cv,
@@ -820,4 +833,31 @@ Rcpp::NumericVector period_seq_from_length_impl(const Rcpp::NumericVector from_n
   Rcpp::NumericVector res_rcpp(res.size());
   memcpy(&res_rcpp[0], &res[0], sizeof(Global::dtime)*res.size());
   return assignS4("nanotime", res_rcpp, "integer64");
+}
+
+static Rcomplex getNA_complex() {
+  static const auto p = period(std::numeric_limits<int32_t>::min(),
+                               std::numeric_limits<int32_t>::min(),
+                               Global::duration::zero());
+  Rcomplex c;
+  memcpy(&c, &p, sizeof(p));  
+  return c;
+}
+
+// [[Rcpp::export]]
+Rcpp::ComplexVector period_subset_numeric_impl(const Rcpp::ComplexVector& v, const Rcpp::NumericVector& idx) {
+  Rcpp::ComplexVector res(0);
+  std::vector<Rcomplex> res_c;    // by declaring it here we can make subset logical agnostic to 'Rcomplex'
+  Global::subset_numeric(v, idx, res, res_c, getNA_complex);
+  return assignS4("nanoperiod", res);
+}
+
+
+// [[Rcpp::export]]
+Rcpp::ComplexVector period_subset_logical_impl(const Rcpp::ComplexVector& v, const Rcpp::LogicalVector& idx_p) {
+  const ConstPseudoVectorBool idx(idx_p);
+  Rcpp::ComplexVector res(0);
+  std::vector<Rcomplex> res_c;    // by declaring it here we can make subset logical agnostic to 'Rcomplex'
+  Global::subset_logical(v, idx, res, res_c, getNA_complex);
+  return assignS4("nanoperiod", res);
 }

@@ -76,6 +76,12 @@ nanoperiod <- function(months=0, days=0, duration=as.nanoduration(0)) {
     if (nargs() == 0) {
         as.nanoperiod(NULL)
     } else {
+        if (!is.numeric(months)) {
+            stop("argument 'months' must be numeric")
+        }
+        if (!is.numeric(days)) {
+            stop("argument 'days' must be numeric")
+        }        
         period_from_parts_impl(as.integer(months), as.integer(days), as.nanoduration(duration))
     }
 }
@@ -204,9 +210,51 @@ setMethod("[[",
 
 ##' @rdname nanoperiod
 setMethod("[",
+          signature("nanoperiod", "numeric"),
+          function (x, i, j, ..., drop=FALSE) {
+              if (!missing(j) || length(list(...)) > 0) {
+                  warning("unused indices or arguments in 'nanoperiod' subsetting")
+              }
+              if (isTRUE(any(i < 0))) {
+                  new("nanoperiod", unclass(x)[i])
+              } else {
+                  period_subset_numeric_impl(x, i)
+              }
+          })
+
+##' @rdname nanoperiod
+setMethod("[",
+          signature("nanoperiod", "logical"),
+          function (x, i, j, ..., drop=FALSE) {
+              if (!missing(j) || length(list(...)) > 0) {
+                  warning("unused indices or arguments in 'nanoperiod' subsetting")
+              }
+              period_subset_logical_impl(x, i)
+          })
+
+##' @rdname nanoperiod
+setMethod("[",
+          signature("nanoperiod", "character"),
+          function (x, i, j, ..., drop=FALSE) {
+              ## we don't implement 'period_subset_character_impl' but
+              ## do the gymnastic of finding the NAs here at R level;
+              ## it's not as efficient, but using 'character' indexing
+              ## is by itself inefficient, so the overhead should have
+              ## no practical consequences.
+              if (!missing(j) || length(list(...)) > 0) {
+                  warning("unused indices or arguments in 'nanoperiod' subsetting")
+              }
+              na_index <- !(i %in% names(x)) | is.na(i)
+              res <- new("nanoperiod", unclass(x)[i])
+              res[na_index] <- NA_nanoperiod_
+              res
+          })
+
+##' @rdname nanoperiod
+setMethod("[",
           signature("nanoperiod", "ANY"),
           function (x, i, j, ..., drop=FALSE) {
-              new("nanoperiod", callNextMethod())
+              stop("']' not defined on 'nanoperiod' for index of type 'ANY'")
           })
 
 ##' @rdname nanoperiod
@@ -707,3 +755,31 @@ setMethod("nano_floor",   c(x="nanotime", precision="nanoperiod"),
               }
               floor_tz_impl(x, precision, origin, tz)
           })
+
+
+##' Replicate Elements
+##'
+##' Replicates the values in 'x' similarly to the default method.
+##'
+##' @param x a vector of \code{nanoperiod}
+##' @param ... further arguments:
+##' 
+##'        'times' an integer-valued vector giving the (non-negative)
+##'            number of times to repeat each element if of length
+##'            'length(x)', or to repeat the whole vector if of length
+##'            1. Negative or 'NA' values are an error. A 'double'
+##'            vector is accepted, other inputs being coerced to an
+##'            integer or double vector.
+##' 
+##'        'length.out' non-negative integer. The desired length of the
+##'            output vector. Other inputs will be coerced to a double
+##'            vector and the first element taken. Ignored if 'NA' or
+##'            invalid.
+##' 
+##'        'each' non-negative integer. Each element of 'x' is repeated
+##'            'each' times.  Other inputs will be coerced to an integer
+##'            or double vector and the first element taken. Treated as
+##'            '1' if 'NA' or invalid.
+setMethod("rep", c(x = "nanoperiod"), function(x, ...) {
+    new("nanoperiod", callNextMethod())
+})

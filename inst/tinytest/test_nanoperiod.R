@@ -65,6 +65,9 @@ expect_identical(nanoperiod(0,0,1), as.nanoperiod(1))
 expect_identical(nanoperiod(0,0,1:10), as.nanoperiod(1:10))
 expect_identical(nanoperiod(1,1,0:9), as.nanoperiod(paste0("1m1d/00:00:00.000_000_00", 0:9)))
 
+expect_error(nanoperiod("a"), "argument 'months' must be numeric")
+expect_error(nanoperiod(1, "a"), "argument 'days' must be numeric")
+
 
 ## accessors:
 ##test_nanoperiod.day <- function() {
@@ -127,6 +130,8 @@ expect_identical(pp[3], p3)
 expect_identical(pp[4], p4)
 expect_identical(pp[1:4], pp)
 expect_identical(pp[2:3], c(p2,p3))
+expect_identical(pp[-1:-2], c(p3,p4))
+expect_warning(pp[1, 2], "unused indices or arguments in 'nanoperiod' subsetting")
 
 ##test_subset_logical <- function() {
 p1 <- as.nanoperiod("1m1d/00:00:01")
@@ -140,13 +145,21 @@ expect_identical(pp[c(F,F,T,F)], p3)
 expect_identical(pp[c(F,F,F,T)], p4)
 expect_identical(pp[TRUE], pp)
 expect_identical(pp[c(F,T,T,F)], c(p2,p3))
+expect_identical(pp[c(NA, F, F, F)], as.nanoperiod(NA_integer_))
+expect_identical(pp[c(NA, F, F, F)], NA_nanoperiod_)
+expect_warning(pp[T, F], "unused indices or arguments in 'nanoperiod' subsetting")
 
 ##test_subset_character <- function() {
 pp <- c(x=as.nanoperiod(1), y=as.nanoperiod(2))
 expect_identical(pp["x"], c(x=as.nanoperiod(1)))
 expect_identical(pp["y"], c(y=as.nanoperiod(2)))
-## expect_identical(pp["a"], as.nanoperiod(as.integer64(NA)))    LLL
+res  <- NA_nanoperiod_
+names(res)  <- NA_character_
+expect_identical(pp["a"], res)
+expect_warning(pp["a", "b"], "unused indices or arguments in 'nanoperiod' subsetting")
 
+## test subset incorrect type
+expect_error(pp[as.integer64(1)], "']' not defined on 'nanoperiod' for index of type 'ANY'")
 
 ## subassign
 ##test_subassign_logical <- function() {
@@ -582,7 +595,6 @@ expect_identical(nanoperiod(integer(), integer(), nanoduration()), nanoperiod())
 expect_identical(nanoperiod(1, 1, nanoduration()), nanoperiod())
 expect_identical(nanoperiod(1,integer(), as.nanoduration(1)), nanoperiod())
 expect_identical(nanoperiod(numeric(), integer(), as.nanoduration(1)), nanoperiod())
-expect_identical(nanoperiod(character()), nanoperiod())
 
 ## Comp:
 expect_identical(as.nanoperiod() == as.nanoperiod(), logical())
@@ -837,3 +849,6 @@ expect_identical(nano_floor(as.nanotime("2010-10-10 12:23:23.123456789 America/N
 expect_identical(nano_floor(as.nanotime("1965-10-10 12:23:23.123456789 America/New_York"), as.nanoperiod("00:00:00.000000033"), tz="America/New_York"),
                  as.nanotime("1965-10-10T12:23:23.123456789-04:00"))
 
+## rep
+expect_identical(rep(as.nanoperiod(1), 2), as.nanoperiod(rep(1,2)))
+expect_identical(rep(as.nanoperiod(1:2), each=2), as.nanoperiod(rep(1:2, each=2)))

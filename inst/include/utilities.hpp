@@ -112,5 +112,4 @@ inline ssize_t getVectorLengths(SEXP x, SEXP y, SEXP z, SEXP u) {
   }
 }
 
-
 #endif

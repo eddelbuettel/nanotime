@@ -81,7 +81,10 @@ expect_identical(format(d), "01:01:01.000_000_001")
 ## subset:
 ##test_subset_int <- function() {
 dd <- as.nanoduration(1:10)
-expect_identical(dd[1], as.nanoduration(1))
+expect_identical(dd[1:2], as.nanoduration(1:2))
+expect_identical(dd[-1:-5], as.nanoduration(6:10))
+expect_identical(dd[c(0,0,0,0,0,1,2,3,4,5)], as.nanoduration(1:5))
+expect_warning(dd[1, 2], "unused indices or arguments in 'nanoduration' subsetting")
 
 ##test_subset_logical <- function() {
 dd <- as.nanoduration(1:4)
@@ -91,17 +94,23 @@ expect_identical(dd[c(F,F,T,F)], dd[3])
 expect_identical(dd[c(F,F,F,T)], dd[4])
 expect_identical(dd[TRUE], dd)
 expect_identical(dd[c(F,T,T,F)], dd[2:3])
+expect_warning(dd[T, F], "unused indices or arguments in 'nanoduration' subsetting")
+expect_identical(dd[c(F,F,F,NA)], NA_nanoduration_)
 
 ##test_subset_character <- function() {
 dd <- c(x=as.nanoduration(1), y=as.nanoduration(2))
 expect_identical(dd["x"], c(x=as.nanoduration(1)))
 expect_identical(dd["y"], c(y=as.nanoduration(2)))
+expect_warning(dd["x", "y"], "unused indices or arguments in 'nanoduration' subsetting")
+
 ## also check out of bound subset
 res <- as.nanoduration(as.integer64(NA))
 names(res) <- NA
-## LLL underlying issue with 'integer64':
-## expect_identical(dd["a"], res)
+expect_identical(dd["a"], res)
+expect_warning(dd["a", "b"], "unused indices or arguments in 'nanoduration' subsetting")
 
+## subset incorrect index type
+expect_error(dd[as.integer64(1)], "']' not defined on 'nanoduration' for index of type 'ANY'")
 
 ## subassign:
 ##test_subassign_logical <- function() {
@@ -565,3 +574,6 @@ expect_identical(nano_floor(as.nanotime("2010-10-10 12:23:23.123456789 UTC"), as
 expect_identical(nano_floor(as.nanotime("2010-10-10 12:23:23.123456789 UTC"), as.nanoduration("00:00:00.000000033")),
                  as.nanotime("2010-10-10T12:23:23.123456781+00:00"))
 
+## rep
+expect_identical(rep(as.nanoduration(1), 2), as.nanoduration(rep(1,2)))
+expect_identical(rep(as.nanoduration(1:2), each=2), as.nanoduration(rep(1:2, each=2)))

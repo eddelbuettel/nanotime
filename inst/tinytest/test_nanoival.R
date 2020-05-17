@@ -57,6 +57,8 @@ if (!isSolaris) {
                  "Cannot retrieve timezone")
 }
 
+expect_error(as.nanoival(aa, tz=list(1)), "argument 'tz' must be of type 'character'")
+              
 ##test_nanoival <- function() {
 expect_identical(nanoival(nanotime("2013-01-01 00:00:00"),
                           nanotime("2014-01-01 00:00:00"), TRUE, TRUE),
@@ -496,12 +498,17 @@ expect_identical(is.unsorted(c(y, y, x, x), strictly=TRUE), TRUE)
 expect_error(is.unsorted(c(y, y, x, x), strictly="a"), "argument 'strictly' must be a logical")
 expect_error(is.unsorted(c(y, y, x, x), strictly=as.logical(NULL)), "argument 'strictly' cannot have length 0")
 
+## test 'na.rm':
+expect_identical(is.unsorted(c(x, y, NA_nanoival_)), NA_nanoival_)
+expect_identical(is.unsorted(c(x, y, NA_nanoival_), na.rm=TRUE), FALSE)
+
 ##test_sort <- function() {
 v <- as.nanoival(c(aa, bb, cc, dd))
 v_descending <- as.nanoival(c(dd, cc, bb, aa))
 expect_identical(sort(v_descending), v)
 expect_identical(sort(v, decreasing=TRUE), v_descending)
 expect_error(sort(v, decreasing=as.logical(NULL)), "argument 'decreasing' cannot have length 0")
+expect_error(sort(v, decreasing="not a logical"), "argument 'decreasing' must be logical")
 
 
 ## c
@@ -1222,6 +1229,8 @@ i2 <- as.nanoival(bb)
 i3 <- as.nanoival(cc)
 ii <- c(i1, i2, i3)
 expect_identical(ii[c(T,F,T)], c(i1, i3))
+expect_identical(ii[c(T,F,NA)], c(i1, NA_nanoival_))
+expect_identical(ii[-1], c(i2, i3))
 expect_warning(ii[c(T,F,T), 3], "unused indices or arguments in 'nanoival' subsetting")
   
 ##test_subset_logical_named <- function() {
@@ -1237,6 +1246,7 @@ i2 <- as.nanoival(bb)
 i3 <- as.nanoival(cc)
 ii <- c(i1, i2, i3)
 expect_identical(ii[c(1,3)], c(i1, i3))
+expect_identical(ii[c(1,NA)], c(i1, NA_nanoival_))
 expect_warning(ii[c(1,3), 3, 5], "unused indices or arguments in 'nanoival' subsetting")
   
 ##test_subset_numeric_named <- function() {
@@ -1245,7 +1255,22 @@ i2 <- as.nanoival(bb)
 i3 <- as.nanoival(cc)
 ii <- c(a=i1, b=i2, c=i3)
 expect_identical(ii[c(1,3)], c(a=i1, c=i3))
-  
+
+## test subset character
+i1 <- as.nanoival(aa)
+i2 <- as.nanoival(bb)
+i3 <- as.nanoival(cc)
+ii <- c(a=i1, b=i2, c=i3)
+expect_identical(ii[c("a","b")], ii[1:2])
+res  <- c(a=i1, NA_nanoival_)
+names(res)[2] <- NA_character_
+expect_identical(ii[c("a","x")], res)
+expect_warning(ii["a", "b"], "unused indices or arguments in 'nanoival' subsetting")
+
+## test subset error
+expect_error(as.nanoival(aa)[as.integer64(1)], "']' not defined for on 'nanoival' for index of type 'ANY'")
+    
+
 ##test_subassign_logical <- function() {
 i1 <- as.nanoival(aa)
 i2 <- as.nanoival(bb)
@@ -1417,4 +1442,11 @@ expect_identical(all.equal(nanoival(nanotime(1), nanotime(2)), nanoival(nanotime
 expect_false(isTRUE(all.equal(nanoival(nanotime(1), nanotime(2)), "A")))
 expect_identical(all.equal(nanoival(nanotime(1), nanotime(2)), NA_nanoival_), "'is.NA' value mismatch: 1 in current 0 in target")
 
+## rep
+i1 <- as.nanoival(aa)
+i2 <- as.nanoival(bb)
+expect_identical(rep(i1, 2), c(i1, i1))
+expect_identical(rep(c(i1,i2), each=2), c(i1, i1, i2, i2))
+
 options(nanotimeFormat=savedFormat)
+
