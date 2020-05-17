@@ -8,6 +8,7 @@
 
 typedef ConstPseudoVector<REALSXP, double>   ConstPseudoVectorInt64;
 typedef ConstPseudoVector<STRSXP,  const Rcpp::CharacterVector::const_Proxy> ConstPseudoVectorChar;
+typedef ConstPseudoVector<LGLSXP,  std::int32_t> ConstPseudoVectorLgl;
 
 
 static inline Global::duration getOffsetCnv(const Global::dtime& dt, const std::string& z) {
@@ -150,3 +151,29 @@ Rcpp::NumericVector nanotime_make_impl(const Rcpp::CharacterVector nt_v,
   return assignS4("nanotime", res, "integer64");
 }
 
+
+static double getNA_nanotime() {
+  const int64_t i64 = std::numeric_limits<std::int64_t>::min();
+  double res;
+  memcpy(&res, &i64, sizeof(res));
+  return res;
+}
+
+
+// [[Rcpp::export]]
+Rcpp::NumericVector nanotime_subset_numeric_impl(const Rcpp::NumericVector& v, const Rcpp::NumericVector& idx) {
+  Rcpp::NumericVector res(0);
+  std::vector<double> res_c;    // by declaring it here we can make subset logical agnostic to double
+  Global::subset_numeric(v, idx, res, res_c, getNA_nanotime);
+  return assignS4("nanotime", res, "integer64");
+}
+
+
+// [[Rcpp::export]]
+Rcpp::NumericVector nanotime_subset_logical_impl(const Rcpp::NumericVector& v, const Rcpp::LogicalVector& idx_p) {
+  const ConstPseudoVectorLgl idx(idx_p);
+  Rcpp::NumericVector res(0);
+  std::vector<double> res_c;    // by declaring it here we can make subset logical agnostic to double
+  Global::subset_logical(v, idx, res, res_c, getNA_nanotime);
+  return assignS4("nanotime", res, "integer64");
+}

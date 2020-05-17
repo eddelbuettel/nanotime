@@ -232,6 +232,100 @@ namespace Global {
     return tmdet{0, 0, 0, 0, 0, 0, 0, "", 0};;
   }
 
+  template<int T, class TT, class I, typename getNA>
+  void subset_numeric(const Rcpp::Vector<T>& v, const I& pindx, Rcpp::Vector<T>& res, std::vector<TT>& res_c, getNA fna) {
+    if (!v.hasAttribute("names")) {
+      for (R_xlen_t i = 0; i < pindx.size(); i++) {
+        auto ii = pindx[i];
+        if (ii < 0) {
+          Rcpp::stop("only 0's may be mixed with negative subscripts"); // #nocov
+        }
+        if (0 < ii && ii <= v.length()) {
+          ii--;
+          res_c.push_back(v[ii]);
+        }  else if (ii != 0) { /* out of bounds or NA */
+          res_c.push_back(fna());
+        }
+      }
+      res = Rcpp::Vector<T>(res_c.size());
+      for (uint64_t i = 0; i < res_c.size(); i++) {
+        res[i] = res_c[i];
+      }
+    } else {
+      // repeat the code, but subsetting names at the same time:
+      const auto& names = Rcpp::CharacterVector(v.names());
+      auto names_c = std::vector<const char*>();
+      static const char* NA_STRING_LOCAL = "dummy"; // so we can keep track of NA
+      for (R_xlen_t i = 0; i < pindx.size(); i++) {
+        auto ii = pindx[i];
+        if (ii < 0) {
+          Rcpp::stop("only 0's may be mixed with negative subscripts"); // #nocov
+        }
+        if (0 < ii && ii <= v.length()) {
+          ii--;
+          res_c.push_back(v[ii]);
+          names_c.push_back(Rcpp::CharacterVector::is_na(names[ii]) ? NA_STRING_LOCAL : names[ii]);
+        } else if (ii != 0) { /* out of bounds or NA */
+           res_c.push_back(fna());
+           names_c.push_back(NA_STRING_LOCAL);
+        }
+      }
+      res = Rcpp::Vector<T>(res_c.size());
+      auto res_names = Rcpp::CharacterVector(res.size());
+      for (uint32_t i = 0; i < res_c.size(); i++) {
+        res[i] = res_c[i];
+        if (names_c[i] == NA_STRING_LOCAL) {
+          res_names[i] = NA_STRING;
+        } else {
+          res_names[i] = names_c[i];
+        }
+      }
+      res.names() = res_names;
+    }
+  }
+  
+  template<int T, class TT, class I, typename getNA>
+  void subset_logical(const Rcpp::Vector<T>& v, const I& pindx, Rcpp::Vector<T>& res, std::vector<TT>& res_c, getNA fna) {
+   if (!v.hasAttribute("names")) {
+     for (R_xlen_t i = 0; i < v.size(); i++) {        
+        if (pindx[i] == NA_LOGICAL) {
+          res_c.push_back(fna());
+        } else if (pindx[i]) {
+          res_c.push_back(v[i]);
+        }
+      }
+      res = Rcpp::Vector<T>(res_c.size());
+      for (uint64_t i = 0; i < res_c.size(); i++) {
+        res[i] = res_c[i];
+      }
+    } else {
+      // repeat the code, but also subsetting names:
+      const auto& names = Rcpp::CharacterVector(v.names());
+      auto names_c = std::vector<const char*>();
+      static const char* NA_STRING_LOCAL = "dummy"; // so we can keep track of NA
+      for (R_xlen_t i = 0; i < v.size(); i++) {
+        if (pindx[i] == NA_LOGICAL) {
+          res_c.push_back(fna());
+          names_c.push_back(NA_STRING_LOCAL);
+        } else if (pindx[i]) {
+          res_c.push_back(v[i]);
+          names_c.push_back(names[i]);
+        }
+      }
+      res = Rcpp::Vector<T>(res_c.size());
+      auto res_names = Rcpp::CharacterVector(res.size());
+      for (uint32_t i = 0; i < res_c.size(); i++) {
+        res[i] = res_c[i];
+        if (names_c[i] == NA_STRING_LOCAL) {
+          res_names[i] = NA_STRING;
+        } else {
+          res_names[i] = names_c[i];
+        }
+      }
+      res.names() = res_names;
+    }
+  }
+
   const int64_t NA_INTEGER64 = std::numeric_limits<int64_t>::min();
 
   const int MAX_TZ_STR_LENGTH = 1000;

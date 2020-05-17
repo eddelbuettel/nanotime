@@ -1,3 +1,27 @@
+2020-05-16 Leonardo Silvestri  <lsilvestri@ztsdb.org>
+
+	* DESCRIPTION (Version, Date): Roll minor version
+
+ 	* R/nanoduration.R: correct NA and negative subsetting; implement 'rep'
+ 	* R/nanoival.R: Idem
+ 	* R/nanoperiod.R: Idem
+ 	* R/nanotime.R: Idem
+ 	* inst/include/globals.hpp: correct NA and negative subsetting
+ 	* inst/include/interval.hpp: Idem
+ 	* inst/include/utilities.hpp: Idem
+ 	* inst/tinytest/test_nanoduration.R: Idem
+ 	* inst/tinytest/test_nanoival.R: Idem
+ 	* inst/tinytest/test_nanoperiod.R: Idem
+ 	* inst/tinytest/test_nanotime.R: Idem
+ 	* src/duration.cpp: Idem
+ 	* src/interval.cpp: Idem
+ 	* src/nanotime.cpp: Idem
+ 	* src/period.cpp: Idem
+	* man/rep-nanoduration-method.Rd: document 'rep'
+	* man/rep-nanoival-method.Rd: document 'rep'
+	* man/rep-nanoperiod-method.Rd: document 'rep'
+	* man/rep-nanotime-method.Rd: document 'rep'
+ 
 2020-05-10 Leonardo Silvestri  <lsilvestri@ztsdb.org>
 
 	* DESCRIPTION (Version, Date): Roll minor version

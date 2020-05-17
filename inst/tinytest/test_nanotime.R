@@ -330,10 +330,52 @@ expect_identical(a, nanotime(1:2))
 a <- c(nanotime(1:2), nanotime(3:4))
 expect_identical(a, nanotime(1:4))
 
-##test_subset <- function() {
+## subset
+
+## subset integer
 a <- nanotime(1:10)
 expect_identical(a[3], nanotime(3))
 expect_identical(a[1:10], a)
+expect_identical(a[c(1:3, NA)], c(nanotime(1:3), NA_nanotime_))
+expect_identical(a[11], NA_nanotime_)
+expect_identical(a[c(0, 2)], as.nanotime(2))
+expect_warning(a[1, 2], "unused indices or arguments in 'nanotime' subsetting")
+expect_error(a[c(1,-2)], "only 0's may be mixed with negative subscripts")
+expect_error(a[c(-1, 2)], "only 0's may be mixed with negative subscripts")
+    
+names(a) <- paste0("a", 1:10)
+expect_identical(a[c(1,10)], c(a1=as.nanotime(1), a10=as.nanotime(10)))
+res <- c(a1=as.nanotime(1), a10=as.nanotime(10), NA)
+names(res)[3] <- NA_character_
+expect_identical(a[c(1,10,NA)], res)
+expect_identical(a[11], res[3])
+
+## subset logical
+a <- nanotime(1:10)
+expect_identical(a[c(T,F)], nanotime(c(1,3,5,7,9)))
+expect_identical(a[c(T,F,F,F,NA)], nanotime(c(1, NA, 6, NA)))
+expect_identical(a[c(1:3, NA)], c(nanotime(1:3), NA_nanotime_))
+expect_warning(a[T, F], "unused indices or arguments in 'nanotime' subsetting")
+
+names(a) <- paste0("a", 1:10)
+expect_identical(a[c(T,F,F,F,F)], a[c(1,6)])
+res <- c(a1=as.nanotime(1), NA)
+names(res)[2] <- NA_character_
+expect_identical(a[c(T,F,F,F,F,F,F,F,F,NA)], res)
+
+## subset named character
+a <- nanotime(1:10)
+names(a)  <- paste0("a", 1:10)
+expect_identical(a[c("a1", "a3", "a6")], a[c(1,3,6)])
+expect_identical(a[c("a1", "a3", NA)], a[c(1,3,NA)])
+expect_identical(a[c("a1", "a3", "a11")], a[c(1,3,NA)])
+expect_warning(a["a", "b"], "unused indices or arguments in 'nanotime' subsetting")
+
+
+
+## subset error
+a  <- nanotime(1:10)
+expect_error(a[as.integer64(1)], "']' not defined on 'nanotime' for index of type 'ANY'")
 
 ##test_subsassign <- function() {
 a <- nanotime(1:10)
@@ -604,4 +646,6 @@ expect_identical(nano_year(nanotime(), tz=character()), integer())
 expect_identical(nano_year(nanotime(1), tz=character()), integer())
 expect_identical(nano_year(nanotime(), tz="America/New_York"), integer())
 
-
+## rep
+expect_identical(rep(nanotime(1), 2), nanotime(rep(1,2)))
+expect_identical(rep(nanotime(1:2), each=2), nanotime(rep(1:2, each=2)))

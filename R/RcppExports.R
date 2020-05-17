@@ -17,6 +17,14 @@ make_duration_impl <- function(h_nv, m_nv, s_nv, n_nv) {
     .Call(`_nanotime_make_duration_impl`, h_nv, m_nv, s_nv, n_nv)
 }
 
+nanoduration_subset_numeric_impl <- function(v, idx) {
+    .Call(`_nanotime_nanoduration_subset_numeric_impl`, v, idx)
+}
+
+nanoduration_subset_logical_impl <- function(v, idx_p) {
+    .Call(`_nanotime_nanoduration_subset_logical_impl`, v, idx_p)
+}
+
 nanoival_intersect_idx_time_interval_impl <- function(nv1, nv2) {
     .Call(`_nanotime_nanoival_intersect_idx_time_interval_impl`, nv1, nv2)
 }
@@ -121,6 +129,14 @@ nanoival_make_impl <- function(nt_v, tz_v) {
     .Call(`_nanotime_nanoival_make_impl`, nt_v, tz_v)
 }
 
+nanoival_subset_numeric_impl <- function(v, idx) {
+    .Call(`_nanotime_nanoival_subset_numeric_impl`, v, idx)
+}
+
+nanoival_subset_logical_impl <- function(v, idx_p) {
+    .Call(`_nanotime_nanoival_subset_logical_impl`, v, idx_p)
+}
+
 nanotime_wday_impl <- function(tm_v, tz_v) {
     .Call(`_nanotime_nanotime_wday_impl`, tm_v, tz_v)
 }
@@ -139,6 +155,14 @@ nanotime_year_impl <- function(tm_v, tz_v) {
 
 nanotime_make_impl <- function(nt_v, tz_v) {
     .Call(`_nanotime_nanotime_make_impl`, nt_v, tz_v)
+}
+
+nanotime_subset_numeric_impl <- function(v, idx) {
+    .Call(`_nanotime_nanotime_subset_numeric_impl`, v, idx)
+}
+
+nanotime_subset_logical_impl <- function(v, idx_p) {
+    .Call(`_nanotime_nanotime_subset_logical_impl`, v, idx_p)
 }
 
 period_from_string_impl <- function(str) {
@@ -251,6 +275,14 @@ period_seq_from_to_impl <- function(from_nv, to_nv, by_cv, tz) {
 
 period_seq_from_length_impl <- function(from_nv, by_cv, n_nv, tz) {
     .Call(`_nanotime_period_seq_from_length_impl`, from_nv, by_cv, n_nv, tz)
+}
+
+period_subset_numeric_impl <- function(v, idx) {
+    .Call(`_nanotime_period_subset_numeric_impl`, v, idx)
+}
+
+period_subset_logical_impl <- function(v, idx_p) {
+    .Call(`_nanotime_period_subset_logical_impl`, v, idx_p)
 }
 
 ceiling_tz_impl <- function(nt_v, prd_v, orig_v, tz_v) {

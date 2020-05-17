@@ -494,9 +494,51 @@ setMethod("[[",
 
 ##' @rdname nanoduration
 setMethod("[",
-          signature("nanoduration"),
+          signature("nanoduration", "numeric"),
           function (x, i, j, ..., drop=FALSE) {
-              new("nanoduration", callNextMethod())
+              if (!missing(j) || length(list(...)) > 0) {
+                  warning("unused indices or arguments in 'nanoduration' subsetting")
+              }
+              if (isTRUE(any(i < 0))) {
+                  new("nanoduration", S3Part(x, strictS3=TRUE)[i])
+              } else {            
+                  nanoduration_subset_numeric_impl(x, i)
+              }
+          })
+
+##' @rdname nanoduration
+setMethod("[",
+          signature("nanoduration", "logical"),
+          function (x, i, j, ..., drop=FALSE) {
+              if (!missing(j) || length(list(...)) > 0) {
+                  warning("unused indices or arguments in 'nanoduration' subsetting")
+              }
+              nanoduration_subset_logical_impl(x, i)
+          })
+
+##' @rdname nanoduration
+setMethod("[",
+          signature("nanoduration", "character"),
+          function (x, i, j, ..., drop=FALSE) {
+              ## we don't implement 'period_subset_character_impl' but
+              ## do the gymnastic of finding the NAs here at R level;
+              ## it's not as efficient, but using 'character' indexing
+              ## is by itself inefficient, so the overhead should have
+              ## no practical consequences.
+              if (!missing(j) || length(list(...)) > 0) {
+                  warning("unused indices or arguments in 'nanoduration' subsetting")
+              }
+              na_index <- !(i %in% names(x)) | is.na(i)
+              res <- new("nanoduration", S3Part(x, strictS3=TRUE)[i])
+              res[na_index] <- NA_nanoduration_
+              res
+          })
+
+##' @rdname nanoduration
+setMethod("[",
+          signature("nanoduration", "ANY"),
+          function (x, i, j, ..., drop=FALSE) {
+              stop("']' not defined on 'nanoduration' for index of type 'ANY'")
           })
 
 ##' @rdname nanoduration
@@ -619,3 +661,31 @@ setMethod("nano_floor",   c(x="nanotime", precision="nanoduration"),
               }
               floor_impl(x, precision, origin)
           })
+
+
+##' Replicate Elements
+##'
+##' Replicates the values in 'x' similarly to the default method.
+##'
+##' @param x a vector of \code{nanoduration}
+##' @param ... further arguments:
+##' 
+##'        'times' an integer-valued vector giving the (non-negative)
+##'            number of times to repeat each element if of length
+##'            'length(x)', or to repeat the whole vector if of length
+##'            1. Negative or 'NA' values are an error. A 'double'
+##'            vector is accepted, other inputs being coerced to an
+##'            integer or double vector.
+##' 
+##'        'length.out' non-negative integer. The desired length of the
+##'            output vector. Other inputs will be coerced to a double
+##'            vector and the first element taken. Ignored if 'NA' or
+##'            invalid.
+##' 
+##'        'each' non-negative integer. Each element of 'x' is repeated
+##'            'each' times.  Other inputs will be coerced to an integer
+##'            or double vector and the first element taken. Treated as
+##'            '1' if 'NA' or invalid.
+setMethod("rep", c(x = "nanoduration"), function(x, ...) {
+    new("nanoduration", callNextMethod())
+})

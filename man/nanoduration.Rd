@@ -64,6 +64,9 @@
 \alias{max,nanoduration-method}
 \alias{range,nanoduration-method}
 \alias{[[,nanoduration-method}
+\alias{[,nanoduration,numeric-method}
+\alias{[,nanoduration,logical-method}
+\alias{[,nanoduration,character-method}
 \alias{[,nanoduration,ANY-method}
 \alias{[<-,nanoduration,ANY,ANY,ANY-method}
 \alias{c.nanoduration}
@@ -166,6 +169,12 @@ nanoduration(hours, minutes, seconds, nanoseconds)
 \S4method{range}{nanoduration}(x, ..., na.rm = FALSE)
 
 \S4method{[[}{nanoduration}(x, i, j, ..., drop = FALSE)
+
+\S4method{[}{nanoduration,numeric}(x, i, j, ..., drop = FALSE)
+
+\S4method{[}{nanoduration,logical}(x, i, j, ..., drop = FALSE)
+
+\S4method{[}{nanoduration,character}(x, i, j, ..., drop = FALSE)
 
 \S4method{[}{nanoduration,ANY}(x, i, j, ..., drop = FALSE)
 

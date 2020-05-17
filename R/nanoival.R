@@ -492,9 +492,8 @@ setMethod("[",
               if (!missing(j) || length(list(...)) > 0) {
                   warning("unused indices or arguments in 'nanoival' subsetting")
               }
-              x <- S3Part(x, strictS3=TRUE)
-              new("nanoival", x[i])
-          })
+              nanoival_subset_logical_impl(x, i)
+         })
 
 ##' @rdname nanoival
 setMethod("[",
@@ -503,17 +502,43 @@ setMethod("[",
               if (!missing(j) || length(list(...)) > 0) {
                   warning("unused indices or arguments in 'nanoival' subsetting")
               }
-              x <- S3Part(x, strictS3=TRUE)
-              new("nanoival", x[i])
+              if (isTRUE(any(i < 0))) {
+                  new("nanoival", unclass(x)[i])
+              } else {
+                  nanoival_subset_numeric_impl(x, i)
+              }
+          })
+
+##' @rdname nanoival
+setMethod("[",
+          signature("nanoival", "character"),
+          function (x, i, j, ..., drop=FALSE) {
+              ## we don't implement 'period_subset_character_impl' but
+              ## do the gymnastic of finding the NAs here at R level;
+              ## it's not as efficient, but using 'character' indexing
+              ## is by itself inefficient, so the overhead should have
+              ## no practical consequences.
+              if (!missing(j) || length(list(...)) > 0) {
+                  warning("unused indices or arguments in 'nanoival' subsetting")
+              }
+              na_index <- !(i %in% names(x)) | is.na(i)
+              res <- new("nanoival", unclass(x)[i])
+              res[na_index] <- NA_nanoival_
+              res
+          })
+
+##' @rdname nanoival
+setMethod("[",
+          signature("nanoival", "ANY"),
+          function (x, i, j, ..., drop=FALSE) {
+              stop("']' not defined for on 'nanoival' for index of type 'ANY'")
           })
 
 ##' @rdname nanoival
 setMethod("[<-",
           signature("nanoival", "logical", "ANY", "nanoival"),
           function (x, i, j, ..., value) {
-              x <- S3Part(x, strictS3=TRUE)
-              x[i] <- S3Part(value, strictS3=TRUE)
-              new("nanoival", x)
+              new("nanoival", callNextMethod())
           })
 
 ##' @rdname nanoival
@@ -915,3 +940,32 @@ setMethod("seq", c("nanoival"),
 
 ##' @rdname nanoival
 NA_nanoival_ <- new("nanoival", complex(1, -4.9406564584124654418e-324, -4.9406564584124654418e-324))
+
+
+##' Replicate Elements
+##'
+##' Replicates the values in 'x' similarly to the default method.
+##'
+##' @param x a vector of \code{nanoival}
+##' @param ... further arguments:
+##' 
+##'        'times' an integer-valued vector giving the (non-negative)
+##'            number of times to repeat each element if of length
+##'            'length(x)', or to repeat the whole vector if of length
+##'            1. Negative or 'NA' values are an error. A 'double'
+##'            vector is accepted, other inputs being coerced to an
+##'            integer or double vector.
+##' 
+##'        'length.out' non-negative integer. The desired length of the
+##'            output vector. Other inputs will be coerced to a double
+##'            vector and the first element taken. Ignored if 'NA' or
+##'            invalid.
+##' 
+##'        'each' non-negative integer. Each element of 'x' is repeated
+##'            'each' times.  Other inputs will be coerced to an integer
+##'            or double vector and the first element taken. Treated as
+##'            '1' if 'NA' or invalid.
+setMethod("rep", c(x = "nanoival"), function(x, ...) {
+    new("nanoival", callNextMethod())
+})
+

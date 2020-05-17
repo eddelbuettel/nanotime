@@ -54,6 +54,9 @@
 \alias{range,nanotime-method}
 \alias{Complex,nanotime-method}
 \alias{[[,nanotime-method}
+\alias{[,nanotime,numeric-method}
+\alias{[,nanotime,logical-method}
+\alias{[,nanotime,character-method}
 \alias{[,nanotime,ANY-method}
 \alias{[<-,nanotime,ANY,ANY,ANY-method}
 \alias{c.nanotime}
@@ -168,6 +171,12 @@ nanotime.matrix(x)
 \S4method{Complex}{nanotime}(z)
 
 \S4method{[[}{nanotime}(x, i, j, ..., drop = FALSE)
+
+\S4method{[}{nanotime,numeric}(x, i, j, ..., drop = FALSE)
+
+\S4method{[}{nanotime,logical}(x, i, j, ..., drop = FALSE)
+
+\S4method{[}{nanotime,character}(x, i, j, ..., drop = FALSE)
 
 \S4method{[}{nanotime,ANY}(x, i, j, ..., drop = FALSE)
 
