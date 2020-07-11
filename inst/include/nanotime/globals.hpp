@@ -1,5 +1,5 @@
-#ifndef GLOBALS_HPP
-#define GLOBALS_HPP
+#ifndef NANOTIME_GLOBALS_HPP
+#define NANOTIME_GLOBALS_HPP
 
 #include <chrono>
 #include <cctype>
@@ -8,7 +8,7 @@
 #include "cctz/time_zone.h"
 
 
-namespace Global {
+namespace nanotime {
 
 
   using dtime = std::chrono::system_clock::time_point;
@@ -39,39 +39,6 @@ namespace Global {
     n *= sign;
     return true;
   }
-
-  /// This set of functors, to the contrary of the stdlib, allow
-  /// operations where the operands and the results are of different
-  /// types. This is handy for example is adding duration to time
-  /// points, etc.
-  template<typename T, typename U, typename R>
-  struct plus {
-    inline R operator()(const T& t, const U& u) const {
-      return t + u;
-    }
-  };  
-
-  template<typename T, typename U, typename R>
-  struct minus {
-    inline R operator()(const T& t, const U& u) const {
-      return t - u;
-    }
-  };  
-
-  template<typename T, typename U, typename R>
-  struct multiplies {
-    inline R operator()(const T& t, const U& u) const {
-      return t * u;
-    }
-  };  
-
-  template<typename T, typename U, typename R>
-  struct divides {
-    inline R operator()(const T& t, const U& u) const {
-      return t / u;
-    }
-  }; 
-
 
   template <typename D>
   using time_point = std::chrono::time_point<std::chrono::system_clock, D>;
@@ -330,7 +297,43 @@ namespace Global {
 
   const int MAX_TZ_STR_LENGTH = 1000;
   
-} // end namespace Global
+} // end namespace nanotime
 
+
+namespace nanotime_ops {
+
+  /// This set of functors, to the contrary of the stdlib, allow
+  /// operations where the operands and the results are of different
+  /// types. This is handy for example is adding duration to time
+  /// points, etc.
+  template<typename T, typename U, typename R>
+  struct plus {
+    inline R operator()(const T& t, const U& u) const {
+      return t + u;
+    }
+  };  
+
+  template<typename T, typename U, typename R>
+  struct minus {
+    inline R operator()(const T& t, const U& u) const {
+      return t - u;
+    }
+  };  
+
+  template<typename T, typename U, typename R>
+  struct multiplies {
+    inline R operator()(const T& t, const U& u) const {
+      return t * u;
+    }
+  };  
+
+  template<typename T, typename U, typename R>
+  struct divides {
+    inline R operator()(const T& t, const U& u) const {
+      return t / u;
+    }
+  }; 
+
+}
 
 #endif

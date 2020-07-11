@@ -8,6 +8,9 @@
 #include "utilities.hpp"
 
 
+using namespace nanotime;
+
+
 // for debug reasons...
 // the following code from: https://stackoverflow.com/a/16692519
 template<typename Clock, typename Duration>
@@ -31,26 +34,26 @@ std::ostream &operator<<(std::ostream &stream,
 
 extern "C" int getOffset(long long s, const char* tzstr);
 
-static inline Global::duration getOffsetCnv(const Global::dtime& dt, const std::string& z) {
+static inline duration getOffsetCnv(const dtime& dt, const std::string& z) {
   typedef int GET_OFFSET_FUN(long long, const char*); 
   GET_OFFSET_FUN *getOffset = (GET_OFFSET_FUN *) R_GetCCallable("RcppCCTZ", "_RcppCCTZ_getOffset" );
 
   auto offset = getOffset(std::chrono::duration_cast<std::chrono::seconds>(dt.time_since_epoch()).count(), z.c_str());
-  return Global::duration(offset).count() * std::chrono::seconds(1);
+  return duration(offset).count() * std::chrono::seconds(1);
 }
 
 period::period() : months(0), days(0), dur(std::chrono::seconds(0)) { }
 
-period::period(int32_t months_p, int32_t days_p, Global::duration dur_p) : months(months_p), days(days_p), dur(dur_p) {
+period::period(int32_t months_p, int32_t days_p, duration dur_p) : months(months_p), days(days_p), dur(dur_p) {
   // we have to ensure that NA is uniform across all construction
   // possibilities so that functions that compare equality do so
   // correctly:
   if (months == std::numeric_limits<int32_t>::min() ||
       days   == std::numeric_limits<int32_t>::min() ||
-      dur    == Global::duration::min()) {
+      dur    == duration::min()) {
     months = std::numeric_limits<int32_t>::min();
     days = std::numeric_limits<int32_t>::min();
-    dur = Global::duration::zero();
+    dur = duration::zero();
   }
 }
 
@@ -65,13 +68,13 @@ period::period(const std::string& str) {
 
   int n;
   if (s < e && (*s == '/' || (s+2 < e && s[2] == ':'))) goto getduration;
-  if (!Global::readNumber(s, e, n, true) || s == e) throw std::range_error("cannot parse nanoperiod");
+  if (!readNumber(s, e, n, true) || s == e) throw std::range_error("cannot parse nanoperiod");
   if (*s == 'y') {
     months += 12*n;
     ++s;
     if (s < e) {
       if (*s == '/') goto getduration;
-      if (!Global::readNumber(s, e, n, true) || s == e) throw std::range_error("cannot parse nanoperiod");
+      if (!readNumber(s, e, n, true) || s == e) throw std::range_error("cannot parse nanoperiod");
     }
     else {
       return;
@@ -82,7 +85,7 @@ period::period(const std::string& str) {
     ++s;
     if (s < e) {
       if (*s == '/') goto getduration;
-      if (!Global::readNumber(s, e, n, true) || s == e) throw std::range_error("cannot parse nanoperiod");      
+      if (!readNumber(s, e, n, true) || s == e) throw std::range_error("cannot parse nanoperiod");      
     }
     else {
       return;
@@ -93,7 +96,7 @@ period::period(const std::string& str) {
     ++s;
     if (s < e) {
       if (*s == '/') goto getduration;
-      if (!Global::readNumber(s, e, n, true) || s == e) throw std::range_error("cannot parse nanoperiod");
+      if (!readNumber(s, e, n, true) || s == e) throw std::range_error("cannot parse nanoperiod");
     }
     else {
       return;
@@ -104,14 +107,14 @@ period::period(const std::string& str) {
     ++s;
     if (s < e) { 
       if (*s == '/') goto getduration;
-      if (!Global::readNumber(s, e, n, true) || s == e) throw std::range_error("cannot parse nanoperiod");
+      if (!readNumber(s, e, n, true) || s == e) throw std::range_error("cannot parse nanoperiod");
     }
     else {
       return;
     }
   }
 
-  // we've succeeded a Global::readNumber, so this means we've
+  // we've succeeded a readNumber, so this means we've
   // actually read into the duration; so backtrack and use the already
   // existing function to parse a duration:
 getduration:                    // # nocov
@@ -124,24 +127,24 @@ getduration:                    // # nocov
 }
 
 
-std::string to_string(const period& p) {
+std::string nanotime::to_string(const period& p) {
   std::stringstream ss;
   ss << p.getMonths() << "m" << p.getDays() << "d/" << to_string(p.getDuration());
   return ss.str();
 }
 
 
-period plus (const period&    p, Global::duration d) {
+period nanotime::plus(const period&    p, duration d) {
   return period(p.getMonths(), p.getDays(), p.getDuration() + d);
 }
-period minus(const period&    p, Global::duration d){
+period nanotime::minus(const period&    p, duration d){
   return period(p.getMonths(), p.getDays(), p.getDuration() - d);
 }
-period minus(Global::duration d, const period& p) {
+period nanotime::minus(duration d, const period& p) {
   return period(-p.getMonths(), -p.getDays(), -p.getDuration() + d);
 }
 
-Global::dtime plus (const Global::dtime& dt, const period& p, const std::string& z) {
+dtime nanotime::plus(const dtime& dt, const period& p, const std::string& z) {
   auto res = dt;
   auto offset = getOffsetCnv(res, z);
   if (p.getMonths()) {
@@ -161,53 +164,53 @@ Global::dtime plus (const Global::dtime& dt, const period& p, const std::string&
   return res;
 }
 
-Global::dtime minus(const Global::dtime& dt, const period& p, const std::string& z) {
+dtime nanotime::minus(const dtime& dt, const period& p, const std::string& z) {
   return plus(dt, -p, z);
 }
 
-interval plus(const interval& i, const period& p, const std::string& z) {
-  return interval(plus(Global::dtime{Global::duration{i.s}}, p, z),
-                  plus(Global::dtime{Global::duration{i.e}}, p, z), i.sopen, i.eopen);
+interval nanotime::plus(const interval& i, const period& p, const std::string& z) {
+  return interval(plus(dtime{duration{i.s}}, p, z),
+                  plus(dtime{duration{i.e}}, p, z), i.sopen, i.eopen);
 }
   
-interval minus(const interval& i, const period& p, const std::string& z) {
+interval nanotime::minus(const interval& i, const period& p, const std::string& z) {
   return plus(i, -p, z);
 }
 
 
-period operator+(const period& p1, const period& p2) {
+period nanotime::operator+(const period& p1, const period& p2) {
   return period(p1.getMonths()+p2.getMonths(), 
                 p1.getDays()+p2.getDays(), 
                 p1.getDuration()+p2.getDuration());
 }
 
-period operator-(const period& p) {
+period nanotime::operator-(const period& p) {
   return period(-p.getMonths(), -p.getDays(), -p.getDuration());
 }
 
-period operator-(const period& p1, const period& p2) {
+period nanotime::operator-(const period& p1, const period& p2) {
   return period(p1.getMonths()-p2.getMonths(), 
                 p1.getDays()-p2.getDays(),
                 p1.getDuration()-p2.getDuration());
 }
 
 template <typename T>
-period operator*(const period& p, T d) {
+period nanotime::operator*(const period& p, T d) {
   return period(p.getMonths()*d, 
                 p.getDays()*d,
-                Global::duration(static_cast<int64_t>(d*p.getDuration().count())*
-                                 Global::duration(1)));
+                duration(static_cast<int64_t>(d*p.getDuration().count())*
+                                 duration(1)));
 }
 
 template <typename T>
-period operator/(const period& p, T d) {
+period nanotime::operator/(const period& p, T d) {
   if (d == 0) {
     throw std::logic_error("divide by zero");
   }
   return period(p.getMonths()/d, 
                 p.getDays()/d,
-                Global::duration(static_cast<int64_t>(p.getDuration().count()/d)*
-                                 Global::duration(1)));
+                duration(static_cast<int64_t>(p.getDuration().count()/d)*
+                                 duration(1)));
 }
 
 // bool operator>(const period& p1, const period& p2) {
@@ -220,14 +223,14 @@ period operator/(const period& p, T d) {
 //   return p1.getMonths()*MONTH + p1.getDays()*24h < p2.getMonths()*MONTH + p2.getDays()*24h;
 // }
 
-bool operator==(const period& p1, const period& p2) {
+bool nanotime::operator==(const period& p1, const period& p2) {
   return 
     p1.getMonths() == p2.getMonths() && 
     p1.getDays() == p2.getDays() &&
     p1.getDuration() == p2.getDuration();
 }
 
-bool operator!=(const period& p1, const period& p2) {
+bool nanotime::operator!=(const period& p1, const period& p2) {
   return !(p1 == p2);
 }
 
@@ -334,8 +337,8 @@ Rcpp::ComplexVector period_from_integer64_impl(Rcpp::NumericVector i64) {
   Rcpp::ComplexVector res(i64.size());
   for (R_xlen_t i=0; i<i64.size(); ++i) {
     auto elt = *reinterpret_cast<std::int64_t*>(&i64[i]);
-    if (elt == Global::NA_INTEGER64) {
-      period_union pu = { NA_INTEGER, NA_INTEGER, Global::NA_INTEGER64 };
+    if (elt == NA_INTEGER64) {
+      period_union pu = { NA_INTEGER, NA_INTEGER, NA_INTEGER64 };
       res[i] = Rcomplex{pu.dbl2.d1, pu.dbl2.d2 };
     }
     else {
@@ -355,7 +358,7 @@ Rcpp::ComplexVector period_from_integer_impl(Rcpp::IntegerVector iint) {
   Rcpp::ComplexVector res(iint.size());
   for (R_xlen_t i=0; i<iint.size(); ++i) {
     if (iint[i] == NA_INTEGER) {
-      period_union pu = { NA_INTEGER, NA_INTEGER, Global::NA_INTEGER64 };
+      period_union pu = { NA_INTEGER, NA_INTEGER, NA_INTEGER64 };
       res[i] = Rcomplex{pu.dbl2.d1, pu.dbl2.d2 };
     }
     else {
@@ -375,7 +378,7 @@ Rcpp::ComplexVector period_from_double_impl(Rcpp::NumericVector dbl) {
   Rcpp::ComplexVector res(dbl.size());
   for (R_xlen_t i=0; i<dbl.size(); ++i) {
     if (ISNA(dbl[i])) {
-      period_union pu = { NA_INTEGER, NA_INTEGER, Global::NA_INTEGER64 };
+      period_union pu = { NA_INTEGER, NA_INTEGER, NA_INTEGER64 };
       res[i] = Rcomplex{pu.dbl2.d1, pu.dbl2.d2 };
     }
     else {
@@ -487,7 +490,7 @@ Rcpp::ComplexVector plus_period_integer64_impl(const Rcpp::ComplexVector e1_cv,
     const ConstPseudoVectorInt64 e2_n(e2_nv);
     for (R_xlen_t i=0; i<res.size(); ++i) {
       period pu1; memcpy(&pu1, reinterpret_cast<const char*>(&e1_n[i]), sizeof(period));
-      Global::duration dur; memcpy(&dur, reinterpret_cast<const char*>(&e2_n[i]), sizeof(dur));
+      duration dur; memcpy(&dur, reinterpret_cast<const char*>(&e2_n[i]), sizeof(dur));
       pu1 = plus(pu1, dur);
       memcpy(&res[i], &pu1, sizeof(pu1));
     }
@@ -507,7 +510,7 @@ Rcpp::ComplexVector  minus_period_integer64_impl(const Rcpp::ComplexVector e1_cv
     const ConstPseudoVectorInt64 e2_n(e2_nv);
     for (R_xlen_t i=0; i<res.size(); ++i) {
       period pu1; memcpy(&pu1, reinterpret_cast<const char*>(&e1_n[i]), sizeof(period));
-      Global::duration dur; memcpy(&dur, reinterpret_cast<const char*>(&e2_n[i]), sizeof(dur));
+      duration dur; memcpy(&dur, reinterpret_cast<const char*>(&e2_n[i]), sizeof(dur));
       pu1 = minus(pu1, dur);
       memcpy(&res[i], &pu1, sizeof(pu1));
     }
@@ -600,7 +603,7 @@ Rcpp::ComplexVector minus_integer64_period_impl(const Rcpp::NumericVector e1_nv,
     const ConstPseudoVectorPrd   e2_n(e2_cv);
     for (R_xlen_t i=0; i<res.size(); ++i) {
       period pu2;           memcpy(&pu2, reinterpret_cast<const char*>(&e2_n[i]), sizeof(pu2));
-      Global::duration dur; memcpy(&dur, reinterpret_cast<const char*>(&e1_n[i]), sizeof(dur));
+      duration dur; memcpy(&dur, reinterpret_cast<const char*>(&e1_n[i]), sizeof(dur));
       pu2 = minus(dur, pu2);
       memcpy(&res[i], &pu2, sizeof(pu2));
     }
@@ -621,7 +624,7 @@ Rcpp::NumericVector plus_nanotime_period_impl(const Rcpp::NumericVector   e1_nv,
     const ConstPseudoVectorChar tz(tz_v);
 
     for (R_xlen_t i=0; i<res.size(); ++i) {
-      Global::dtime nano; memcpy(&nano, reinterpret_cast<const char*>(&e1_n[i]), sizeof(nano));
+      dtime nano; memcpy(&nano, reinterpret_cast<const char*>(&e1_n[i]), sizeof(nano));
       period prd; memcpy(&prd, reinterpret_cast<const char*>(&e2_n[i]), sizeof(prd));
       auto dt = plus(nano, prd, Rcpp::as<std::string>(tz[i]));
       memcpy(&res[i], &dt, sizeof(dt));
@@ -643,7 +646,7 @@ Rcpp::NumericVector minus_nanotime_period_impl(const Rcpp::NumericVector   e1_nv
     const ConstPseudoVectorChar tz(tz_v);
 
     for (R_xlen_t i=0; i<res.size(); ++i) {
-      Global::dtime nano; memcpy(&nano, reinterpret_cast<const char*>(&e1_n[i]), sizeof(nano));
+      dtime nano; memcpy(&nano, reinterpret_cast<const char*>(&e1_n[i]), sizeof(nano));
       period prd; memcpy(&prd, reinterpret_cast<const char*>(&e2_n[i]), sizeof(prd));
       auto dt = minus(nano, prd, Rcpp::as<std::string>(tz[i % tz.size()]));
       memcpy(&res[i], &dt, sizeof(dt));
@@ -742,7 +745,7 @@ Rcpp::S4 period_duration_impl(const Rcpp::ComplexVector e_n) {
   for (R_xlen_t i=0; i<e_n.size(); ++i) {
     period prd; memcpy(&prd, reinterpret_cast<const char*>(&e_n[i]), sizeof(period));
     if (prd.isNA()) {
-      auto dur = Global::duration::min();
+      auto dur = duration::min();
       memcpy(&res[i], &dur, sizeof(dur));
     }
     else {
@@ -771,7 +774,7 @@ Rcpp::LogicalVector period_isna_impl(const Rcpp::ComplexVector cv) {
 }
 
 
-constexpr Global::duration abs(Global::duration d) {
+constexpr duration abs(duration d) {
   return d >= d.zero() ? d : -d;
 }
 
@@ -784,11 +787,11 @@ Rcpp::NumericVector period_seq_from_to_impl(const Rcpp::NumericVector from_nv,
   const ConstPseudoVectorNano from_n(from_nv);
   const ConstPseudoVectorNano to_n(to_nv);
   const ConstPseudoVectorPrd  by_n(by_cv);
-  Global::dtime from; memcpy(&from, reinterpret_cast<const char*>(&from_n[0]), sizeof(from));
-  Global::dtime to;   memcpy(&to,   reinterpret_cast<const char*>(&to_n[0]),   sizeof(to));
+  dtime from; memcpy(&from, reinterpret_cast<const char*>(&from_n[0]), sizeof(from));
+  dtime to;   memcpy(&to,   reinterpret_cast<const char*>(&to_n[0]),   sizeof(to));
   period by;          memcpy(&by,   reinterpret_cast<const char*>(&by_n[0]),   sizeof(by));
 
-  std::vector<Global::dtime> res{from};
+  std::vector<dtime> res{from};
 
   auto diff = to - from;
   auto pos = diff >= std::chrono::seconds(0);
@@ -806,7 +809,7 @@ Rcpp::NumericVector period_seq_from_to_impl(const Rcpp::NumericVector from_nv,
   }
 
   Rcpp::NumericVector res_rcpp(res.size());
-  memcpy(&res_rcpp[0], &res[0], sizeof(Global::dtime)*res.size());
+  memcpy(&res_rcpp[0], &res[0], sizeof(dtime)*res.size());
   return assignS4("nanotime", res_rcpp, "integer64");
 }
 
@@ -820,25 +823,25 @@ Rcpp::NumericVector period_seq_from_length_impl(const Rcpp::NumericVector from_n
   const ConstPseudoVectorPrd  by_n(by_cv);
   const ConstPseudoVectorNano n_n(n_nv);
 
-  Global::dtime from; memcpy(&from, reinterpret_cast<const char*>(&from_n[0]), sizeof(from));
+  dtime from; memcpy(&from, reinterpret_cast<const char*>(&from_n[0]), sizeof(from));
   period by;          memcpy(&by,   reinterpret_cast<const char*>(&by_n[0]),   sizeof(by));
   size_t n;           memcpy(&n,    reinterpret_cast<const char*>(&n_n[0]),    sizeof(n));
 
-  std::vector<Global::dtime> res{from};
+  std::vector<dtime> res{from};
 
   for (size_t i=1; i<n; ++i) {
     res.push_back(plus(res[i-1], by, tz));
   }
 
   Rcpp::NumericVector res_rcpp(res.size());
-  memcpy(&res_rcpp[0], &res[0], sizeof(Global::dtime)*res.size());
+  memcpy(&res_rcpp[0], &res[0], sizeof(dtime)*res.size());
   return assignS4("nanotime", res_rcpp, "integer64");
 }
 
 static Rcomplex getNA_complex() {
   static const auto p = period(std::numeric_limits<int32_t>::min(),
                                std::numeric_limits<int32_t>::min(),
-                               Global::duration::zero());
+                               duration::zero());
   Rcomplex c;
   memcpy(&c, &p, sizeof(p));  
   return c;
@@ -848,7 +851,7 @@ static Rcomplex getNA_complex() {
 Rcpp::ComplexVector period_subset_numeric_impl(const Rcpp::ComplexVector& v, const Rcpp::NumericVector& idx) {
   Rcpp::ComplexVector res(0);
   std::vector<Rcomplex> res_c;    // by declaring it here we can make subset logical agnostic to 'Rcomplex'
-  Global::subset_numeric(v, idx, res, res_c, getNA_complex);
+  subset_numeric(v, idx, res, res_c, getNA_complex);
   return assignS4("nanoperiod", res);
 }
 
@@ -858,6 +861,6 @@ Rcpp::ComplexVector period_subset_logical_impl(const Rcpp::ComplexVector& v, con
   const ConstPseudoVectorBool idx(idx_p);
   Rcpp::ComplexVector res(0);
   std::vector<Rcomplex> res_c;    // by declaring it here we can make subset logical agnostic to 'Rcomplex'
-  Global::subset_logical(v, idx, res, res_c, getNA_complex);
+  subset_logical(v, idx, res, res_c, getNA_complex);
   return assignS4("nanoperiod", res);
 }

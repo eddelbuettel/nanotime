@@ -2,4 +2,4 @@
 CXX_STD = CXX11
 
 ## We need headers from our package, the directory is not automatically included
-PKG_CXXFLAGS = -I../inst/include
+PKG_CXXFLAGS = -I../inst/include/nanotime
