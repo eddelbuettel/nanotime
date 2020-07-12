@@ -7,9 +7,9 @@
 #include <tuple>
 #include <limits>
 #include <Rcpp.h>
-#include "duration.hpp"
-#include "pseudovector.hpp"
-#include "utilities.hpp"
+#include "nanotime/duration.hpp"
+#include "nanotime/pseudovector.hpp"
+#include "nanotime/utilities.hpp"
 
 
 using namespace nanotime;

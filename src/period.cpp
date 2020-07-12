@@ -1,11 +1,11 @@
 #include <sstream>
 #include <regex>
 #include <Rcpp.h>
-#include "period.hpp"
-#include "duration.hpp"
 #include "date.h"
-#include "pseudovector.hpp"
-#include "utilities.hpp"
+#include "nanotime/period.hpp"
+#include "nanotime/duration.hpp"
+#include "nanotime/pseudovector.hpp"
+#include "nanotime/utilities.hpp"
 
 
 using namespace nanotime;

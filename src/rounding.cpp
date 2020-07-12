@@ -1,6 +1,6 @@
 #include <Rcpp.h>
-#include "period.hpp"
-#include "utilities.hpp"
+#include "nanotime/period.hpp"
+#include "nanotime/utilities.hpp"
 
 
 using namespace nanotime;

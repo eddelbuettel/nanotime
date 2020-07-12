@@ -1,9 +1,9 @@
 #include <iostream>
 #include <functional>
 #include <Rcpp.h>
-#include "globals.hpp"
-#include "utilities.hpp"
-#include "pseudovector.hpp"
+#include "nanotime/globals.hpp"
+#include "nanotime/utilities.hpp"
+#include "nanotime/pseudovector.hpp"
 
 
 using namespace nanotime;

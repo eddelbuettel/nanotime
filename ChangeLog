@@ -15,9 +15,8 @@
 	* src/period.cpp: Idem
 	* src/rounding.cpp: Idem
 	* src/Makevars: Idem
-	* inst/include/nanotime/pseudovector.hpp: allow 'pseudovector' to
-	return a different type than the input type which gives more
-	flexibility to this class
+	* inst/include/nanotime/pseudovector.hpp: let 'pseudovector' return a
+	different type than the input which gives more flexibility
 
 2020-05-16 Leonardo Silvestri  <lsilvestri@ztsdb.org>
 

@@ -1,9 +1,9 @@
 #include <iostream>
 #include <functional>
 #include <Rcpp.h>
-#include "interval.hpp"
-#include "pseudovector.hpp"
-#include "utilities.hpp"
+#include "nanotime/interval.hpp"
+#include "nanotime/pseudovector.hpp"
+#include "nanotime/utilities.hpp"
 #include "cctz/civil_time.h"
 #include "cctz/time_zone.h"
 
