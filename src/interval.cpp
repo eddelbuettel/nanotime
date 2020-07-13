@@ -1,11 +1,14 @@
 #include <iostream>
 #include <functional>
 #include <Rcpp.h>
-#include "interval.hpp"
-#include "pseudovector.hpp"
-#include "utilities.hpp"
+#include "nanotime/interval.hpp"
+#include "nanotime/pseudovector.hpp"
+#include "nanotime/utilities.hpp"
 #include "cctz/civil_time.h"
 #include "cctz/time_zone.h"
+
+
+using namespace nanotime;
 
 
 struct double2 {
@@ -117,8 +120,8 @@ static std::vector<int> intersect_idx_logical(const T* v1, size_t v1_size, const
 }
 
 
-/// intersect_idx T=Global::dtime, U=Global::dtime doesn't need specialization.
-/// intersect_idx T=Global::dtime, U=tz::interval doesn't need specialization.
+/// intersect_idx T=dtime, U=dtime doesn't need specialization.
+/// intersect_idx T=dtime, U=tz::interval doesn't need specialization.
 /// intersect_idx interval/interval doesn't make sense.
 
 // RcppExport SEXP _intersect_idx_time_time(SEXP sv1, SEXP sv2)
@@ -127,8 +130,8 @@ static std::vector<int> intersect_idx_logical(const T* v1, size_t v1_size, const
 //   const Rcpp::NumericVector nv2(sv2);  
 //   const size_t v1_size = nv1.size();
 //   const size_t v2_size = nv2.size();
-//   const Global::dtime* v1 = reinterpret_cast<const Global::dtime*>(&nv1[0]);
-//   const Global::dtime* v2 = reinterpret_cast<const Global::dtime*>(&nv2[0]);
+//   const dtime* v1 = reinterpret_cast<const dtime*>(&nv1[0]);
+//   const dtime* v2 = reinterpret_cast<const dtime*>(&nv2[0]);
 //   return intersect_idx(v1, v1_size, v2, v2_size);
 // }
 
@@ -136,7 +139,7 @@ static std::vector<int> intersect_idx_logical(const T* v1, size_t v1_size, const
 // [[Rcpp::export]]
 Rcpp::List nanoival_intersect_idx_time_interval_impl(const Rcpp::NumericVector nv1,
                                                      const Rcpp::ComplexVector nv2) {
-  const Global::dtime* v1 = reinterpret_cast<const Global::dtime*>(&nv1[0]);
+  const dtime* v1 = reinterpret_cast<const dtime*>(&nv1[0]);
   const interval*      v2 = reinterpret_cast<const interval*>(&nv2[0]);
   return intersect_idx(v1, nv1.size(), v2, nv2.size());
 }
@@ -145,7 +148,7 @@ Rcpp::List nanoival_intersect_idx_time_interval_impl(const Rcpp::NumericVector n
 // [[Rcpp::export]]
 Rcpp::LogicalVector nanoival_intersect_idx_time_interval_logical_impl(const Rcpp::NumericVector nv1,
                                                              const Rcpp::ComplexVector nv2) {
-  const Global::dtime* v1 = reinterpret_cast<const Global::dtime*>(&nv1[0]);
+  const dtime* v1 = reinterpret_cast<const dtime*>(&nv1[0]);
   const interval*      v2 = reinterpret_cast<const interval*>(&nv2[0]);
   auto res_c = intersect_idx_logical(v1, nv1.size(), v2, nv2.size());
   Rcpp::LogicalVector res(nv1.size());
@@ -157,8 +160,8 @@ Rcpp::LogicalVector nanoival_intersect_idx_time_interval_logical_impl(const Rcpp
 // [[Rcpp::export]]
 Rcpp::S4 nanoival_intersect_time_interval_impl(const Rcpp::NumericVector nv1,
                                                const Rcpp::ComplexVector nv2) {
-  std::vector<Global::dtime> res;
-  const Global::dtime* v1 = reinterpret_cast<const Global::dtime*>(&nv1[0]);
+  std::vector<dtime> res;
+  const dtime* v1 = reinterpret_cast<const dtime*>(&nv1[0]);
   const interval* v2 = reinterpret_cast<const interval*>(&nv2[0]);
 
   R_xlen_t i1 = 0, i2 = 0;
@@ -184,8 +187,8 @@ Rcpp::S4 nanoival_intersect_time_interval_impl(const Rcpp::NumericVector nv1,
 // [[Rcpp::export]]
 Rcpp::NumericVector nanoival_setdiff_time_interval_impl(const Rcpp::NumericVector nv1,
                                                         const Rcpp::ComplexVector nv2) {
-  std::vector<Global::dtime> res;
-  const Global::dtime* v1 = reinterpret_cast<const Global::dtime*>(&nv1[0]);
+  std::vector<dtime> res;
+  const dtime* v1 = reinterpret_cast<const dtime*>(&nv1[0]);
   const interval* v2 = reinterpret_cast<const interval*>(&nv2[0]);
 
   R_xlen_t i1 = 0, i2 = 0;
@@ -520,7 +523,7 @@ Rcpp::ComplexVector nanoival_op(const Rcpp::ComplexVector cv1,
     
     for (R_xlen_t i=0; i<res.size(); ++i) {
       const interval ival = *reinterpret_cast<const interval*>(&e1[i]);
-      const Global::duration dur = *reinterpret_cast<const Global::duration*>(&e2[i]);
+      const duration dur = *reinterpret_cast<const duration*>(&e2[i]);
       const auto ires = op(ival, dur);
       const Rcomplex *ptr = reinterpret_cast<const Rcomplex*>(&ires);
       res[i] = *ptr;
@@ -533,22 +536,22 @@ Rcpp::ComplexVector nanoival_op(const Rcpp::ComplexVector cv1,
 
 // [[Rcpp::export]]
 Rcpp::ComplexVector nanoival_plus_impl(const Rcpp::ComplexVector n1, const Rcpp::NumericVector n2) {
-  return nanoival_op(n1, n2, Global::plus<interval, Global::duration, interval>());
+  return nanoival_op(n1, n2, nanotime_ops::plus<interval, duration, interval>());
 }
 
 // [[Rcpp::export]]
 Rcpp::ComplexVector nanoival_minus_impl(const Rcpp::ComplexVector n1, const Rcpp::NumericVector n2) {
-  return nanoival_op(n1, n2, Global::minus<interval, Global::duration, interval>());
+  return nanoival_op(n1, n2, nanotime_ops::minus<interval, duration, interval>());
 }
 
-/// union_idx T=Global::dtime, U=Global::dtime doesn't need specialization.
-/// union_idx T=Global::dtime, U=tz::interval doesn't make sense.
+/// union_idx T=dtime, U=dtime doesn't need specialization.
+/// union_idx T=dtime, U=tz::interval doesn't make sense.
 /// union_idx interval/interval doesn't make sense.
 
 
-/// setdiff_idx T=Global::dtime, U=Global::dtime doesn't need specialization.
+/// setdiff_idx T=dtime, U=dtime doesn't need specialization.
 /// setdiff_idx T=interval, U=interval doesn't make sense
-/// setdiff_idx T=Global::dtime, U=interval:
+/// setdiff_idx T=dtime, U=interval:
 
 
 template <typename T, typename U>
@@ -582,7 +585,7 @@ static Rcpp::NumericVector setdiff_idx(const T* v1, size_t v1_size, const U* v2,
 // [[Rcpp::export]]
 Rcpp::NumericVector nanoival_setdiff_idx_time_interval_impl(const Rcpp::NumericVector nv1,
                                                             const Rcpp::ComplexVector cv2) {
-  const Global::dtime* v1 = reinterpret_cast<const Global::dtime*>(&nv1[0]);
+  const dtime* v1 = reinterpret_cast<const dtime*>(&nv1[0]);
   const interval*      v2 = reinterpret_cast<const interval*>(&cv2[0]);
   return setdiff_idx(v1, nv1.size(), v2, cv2.size());
 }
@@ -605,7 +608,7 @@ Rcpp::S4 nanoival_new_impl(const Rcpp::NumericVector sv,
   for (R_xlen_t i=0; i < res.size(); ++i) {
     const double d1 = nvs[i];
     const double d2 = nve[i];
-    Global::dtime i1, i2;
+    dtime i1, i2;
     memcpy(&i1, reinterpret_cast<const char*>(&d1), sizeof(d1));
     memcpy(&i2, reinterpret_cast<const char*>(&d2), sizeof(d2));
     const interval ival { i1, i2, lvs[i], lve[i] };
@@ -625,7 +628,7 @@ Rcpp::NumericVector nanoival_get_start_impl(const Rcpp::ComplexVector cv) {
     memcpy(&ival, reinterpret_cast<const char*>(&c), sizeof(c));
     if (ival.isNA()) {
       double d;
-      memcpy(&d, reinterpret_cast<const char*>(&Global::NA_INTEGER64), sizeof(Global::NA_INTEGER64));
+      memcpy(&d, reinterpret_cast<const char*>(&NA_INTEGER64), sizeof(NA_INTEGER64));
       res[i] = d;
     }
     else {
@@ -649,7 +652,7 @@ Rcpp::NumericVector nanoival_get_end_impl(const Rcpp::ComplexVector cv) {
     memcpy(&ival, reinterpret_cast<const char*>(&c), sizeof(c));
     if (ival.isNA()) {
       double d;
-      memcpy(&d, reinterpret_cast<const char*>(&Global::NA_INTEGER64), sizeof(Global::NA_INTEGER64));
+      memcpy(&d, reinterpret_cast<const char*>(&NA_INTEGER64), sizeof(NA_INTEGER64));
       res[i] = d;
     }
     else {
@@ -721,11 +724,11 @@ static Rcomplex readNanoival(const char*& sp, const char* const se, const char* 
   }
   auto sopen = *sp++ == '+' ? false : true;
   
-  auto ss = Global::readDtime(sp, se);
-  if (ss.tzstr.size() && strnlen(tzstr, Global::MAX_TZ_STR_LENGTH)) {
+  auto ss = readDtime(sp, se);
+  if (ss.tzstr.size() && strnlen(tzstr, MAX_TZ_STR_LENGTH)) {
     throw std::range_error("timezone is specified twice: in the string and as an argument");
   }
-  Global::skipWhitespace(sp, se);
+  skipWhitespace(sp, se);
 
   // read the middle portion
   if (sp+2 >= se || (*sp != '-' && *(sp+1) != '>')) {
@@ -733,9 +736,9 @@ static Rcomplex readNanoival(const char*& sp, const char* const se, const char* 
   }
   sp += 2;
     
-  Global::skipWhitespace(sp, se);
-  auto es = Global::readDtime(sp, se-1); // -1 because we don't want to read the -+ as a timezone
-  if (es.tzstr.size() && strnlen(tzstr, Global::MAX_TZ_STR_LENGTH)) {
+  skipWhitespace(sp, se);
+  auto es = readDtime(sp, se-1); // -1 because we don't want to read the -+ as a timezone
+  if (es.tzstr.size() && strnlen(tzstr, MAX_TZ_STR_LENGTH)) {
     throw std::range_error("timezone is specified twice: in the string and as an argument"); // ## nocov
   }
 
@@ -750,16 +753,16 @@ static Rcomplex readNanoival(const char*& sp, const char* const se, const char* 
     throw std::range_error("Error parsing");
   }
 
-  typedef Global::time_point<Global::seconds> CONVERT_TO_TIMEPOINT(const cctz::civil_second& cs, const char* tzstr);
+  typedef time_point<seconds> CONVERT_TO_TIMEPOINT(const cctz::civil_second& cs, const char* tzstr);
   CONVERT_TO_TIMEPOINT *convertToTimePoint = (CONVERT_TO_TIMEPOINT*)  R_GetCCallable("RcppCCTZ", "_RcppCCTZ_convertToTimePoint" );
 
   const cctz::civil_second start_cvt(ss.y, ss.m, ss.d, ss.hh, ss.mm, ss.ss);
   auto start_tp = convertToTimePoint(start_cvt, ss.tzstr.size() ? ss.tzstr.c_str() : tzstr);
-  auto start = Global::dtime{std::chrono::nanoseconds((start_tp.time_since_epoch().count() - ss.offset) * 1000000000ll + ss.ns)};
+  auto start = dtime{std::chrono::nanoseconds((start_tp.time_since_epoch().count() - ss.offset) * 1000000000ll + ss.ns)};
 
   const cctz::civil_second end_cvt(es.y, es.m, es.d, es.hh, es.mm, es.ss);
   auto end_tp = convertToTimePoint(end_cvt, es.tzstr.size() ? es.tzstr.c_str() : tzstr);
-  auto end = Global::dtime{std::chrono::nanoseconds((end_tp.time_since_epoch().count() - es.offset) * 1000000000ll + es.ns)};
+  auto end = dtime{std::chrono::nanoseconds((end_tp.time_since_epoch().count() - es.offset) * 1000000000ll + es.ns)};
   
   Rcomplex res;
   const interval ival { start, end, sopen, eopen };
@@ -791,8 +794,8 @@ Rcpp::ComplexVector nanoival_make_impl(const Rcpp::CharacterVector nt_v,
 
 
 static Rcomplex getNA_ival() {
-  static const auto p = interval(Global::dtime(Global::duration::min()),
-                                 Global::dtime(Global::duration::min()), // #nocov (seems like the cov tool fails us here!)
+  static const auto p = interval(dtime(duration::min()),
+                                 dtime(duration::min()), // #nocov (seems like the cov tool fails us here!)
                                  true, true);
   Rcomplex c;
   memcpy(&c, &p, sizeof(p));
@@ -804,7 +807,7 @@ static Rcomplex getNA_ival() {
 Rcpp::ComplexVector nanoival_subset_numeric_impl(const Rcpp::ComplexVector& v, const Rcpp::NumericVector& idx) {
   Rcpp::ComplexVector res(0);
   std::vector<Rcomplex> res_c;    // by declaring it here we can make subset logical agnostic to 'Rcomplex'
-  Global::subset_numeric(v, idx, res, res_c, getNA_ival);
+  subset_numeric(v, idx, res, res_c, getNA_ival);
   return assignS4("nanoival", res);
 }
 
@@ -814,6 +817,6 @@ Rcpp::ComplexVector nanoival_subset_logical_impl(const Rcpp::ComplexVector& v, c
   const ConstPseudoVectorLgl idx(idx_p);
   Rcpp::ComplexVector res(0);
   std::vector<Rcomplex> res_c;
-  Global::subset_logical(v, idx, res, res_c, getNA_ival);
+  subset_logical(v, idx, res, res_c, getNA_ival);
   return assignS4("nanoival", res);
 }

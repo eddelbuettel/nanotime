@@ -1,15 +1,18 @@
 #include <Rcpp.h>
-#include "period.hpp"
-#include "utilities.hpp"
+#include "nanotime/period.hpp"
+#include "nanotime/utilities.hpp"
+
+
+using namespace nanotime;
 
 
 // import function from 'RcppCCTZ':
-static inline Global::duration getOffsetCnv(const Global::dtime& dt, const std::string& z) {
+static inline duration getOffsetCnv(const dtime& dt, const std::string& z) {
   typedef int GET_OFFSET_FUN(long long, const char*); 
   GET_OFFSET_FUN *getOffset = (GET_OFFSET_FUN *) R_GetCCallable("RcppCCTZ", "_RcppCCTZ_getOffset" );
 
   auto offset = getOffset(std::chrono::duration_cast<std::chrono::seconds>(dt.time_since_epoch()).count(), z.c_str());
-  return Global::duration(offset).count() * std::chrono::seconds(1);
+  return duration(offset).count() * std::chrono::seconds(1);
 }
 
 
@@ -19,7 +22,7 @@ static inline Global::duration getOffsetCnv(const Global::dtime& dt, const std::
 enum class RoundingPrecision : uint64_t { NANO, MICRO, MILLI, SECOND, MINUTE, HOUR, DAY, WEEK, MONTH, YEAR };
 
 
-static bool isMultipleOf(Global::duration d1, Global::duration d2) {
+static bool isMultipleOf(duration d1, duration d2) {
   if (d2.count() % d1.count() == 0) {                // d1 strictly positive
     return true;
   } else {
@@ -32,15 +35,15 @@ static bool isMultipleOf(const period& p1, const period& p2) {
   // the multiple is considered at the month level, the day level and the duration level;
   // we know going in here that p2 was artifically generated to have only one of the three portions non-zero:
   if (p1.getMonths()) {
-    if (p2.getMonths() && !p2.getDays() && p2.getDuration() == Global::duration::zero()) {
+    if (p2.getMonths() && !p2.getDays() && p2.getDuration() == duration::zero()) {
       return p2.getMonths() % p1.getMonths() == 0;
     }
   } else if (p1.getDays()) {    // for function completeness as we never execute this branch in this setting: #nocov start
-    if (!p2.getMonths() && p2.getDays() && p2.getDuration() == Global::duration::zero()) {
+    if (!p2.getMonths() && p2.getDays() && p2.getDuration() == duration::zero()) {
       return p2.getDays() % p1.getDays() == 0;
     }
-  } else if (p1.getDuration() != Global::duration::zero()) {  // for function completeness as we never execute this branch in this setting
-    if (!p2.getMonths() && !p2.getDays() && p2.getDuration() == Global::duration::zero()) {
+  } else if (p1.getDuration() != duration::zero()) {  // for function completeness as we never execute this branch in this setting
+    if (!p2.getMonths() && !p2.getDays() && p2.getDuration() == duration::zero()) {
       return isMultipleOf(p1.getDuration(), p2.getDuration());
     }
   }
@@ -49,7 +52,7 @@ static bool isMultipleOf(const period& p1, const period& p2) {
 }
 
 
-static RoundingPrecision selectPrecision(const Global::duration d) {
+static RoundingPrecision selectPrecision(const duration d) {
   if      (d < std::chrono::microseconds{1})
     return isMultipleOf(d, std::chrono::microseconds{1}) ? RoundingPrecision::MICRO : RoundingPrecision::NANO;
   else if (d < std::chrono::milliseconds{1})
@@ -66,7 +69,7 @@ static RoundingPrecision selectPrecision(const Global::duration d) {
 
 
 static RoundingPrecision selectPrecision(const period p) {
-  const auto year = period(12, 0, Global::duration::zero());
+  const auto year = period(12, 0, duration::zero());
   if       (p.getMonths() >= 1)
     return isMultipleOf(p, year) ? RoundingPrecision::YEAR : RoundingPrecision::MONTH;
   else if  (p.getDays() >= 1)
@@ -78,22 +81,22 @@ static RoundingPrecision selectPrecision(const period p) {
 }
 
 
-static Global::dtime floor(Global::dtime t, RoundingPrecision p) {
+static dtime floor(dtime t, RoundingPrecision p) {
   using namespace std::chrono;
   if (t.time_since_epoch().count() >= 0) {
     switch (p) {
     case RoundingPrecision::HOUR: // not reachable in this context #nocov
-      return time_point_cast<Global::duration>(time_point_cast<hours>(t)); // not reachable in this context #nocov
+      return time_point_cast<nanotime::duration>(time_point_cast<hours>(t)); // not reachable in this context #nocov
     case RoundingPrecision::MINUTE:
-      return time_point_cast<Global::duration>(time_point_cast<minutes>(t));
+      return time_point_cast<nanotime::duration>(time_point_cast<minutes>(t));
     case RoundingPrecision::SECOND:
-      return time_point_cast<Global::duration>(time_point_cast<seconds>(t));
+      return time_point_cast<nanotime::duration>(time_point_cast<seconds>(t));
     case RoundingPrecision::MILLI:
-      return time_point_cast<Global::duration>(time_point_cast<milliseconds>(t));
+      return time_point_cast<nanotime::duration>(time_point_cast<milliseconds>(t));
     case RoundingPrecision::MICRO:
-      return time_point_cast<Global::duration>(time_point_cast<microseconds>(t));
+      return time_point_cast<nanotime::duration>(time_point_cast<microseconds>(t));
     case RoundingPrecision::NANO:
-      return time_point_cast<Global::duration>(time_point_cast<nanoseconds>(t));
+      return time_point_cast<nanotime::duration>(time_point_cast<nanoseconds>(t));
     default:                                            // not reachable in this context #nocov
       throw std::out_of_range("unknown rounding type"); // not reachable in this context #nocov
     }
@@ -101,17 +104,17 @@ static Global::dtime floor(Global::dtime t, RoundingPrecision p) {
   else {
     switch (p) {
     case RoundingPrecision::HOUR: // not reachable in this context #nocov
-      return time_point_cast<Global::duration>(time_point_cast<hours>(t) - hours{1}); // not reachable in this context #nocov
+      return time_point_cast<nanotime::duration>(time_point_cast<hours>(t) - hours{1}); // not reachable in this context #nocov
     case RoundingPrecision::MINUTE:
-      return time_point_cast<Global::duration>(time_point_cast<minutes>(t) - minutes{1});
+      return time_point_cast<nanotime::duration>(time_point_cast<minutes>(t) - minutes{1});
     case RoundingPrecision::SECOND:
-      return time_point_cast<Global::duration>(time_point_cast<seconds>(t) - seconds{1});
+      return time_point_cast<nanotime::duration>(time_point_cast<seconds>(t) - seconds{1});
     case RoundingPrecision::MILLI:
-      return time_point_cast<Global::duration>(time_point_cast<milliseconds>(t) - milliseconds{1});
+      return time_point_cast<nanotime::duration>(time_point_cast<milliseconds>(t) - milliseconds{1});
     case RoundingPrecision::MICRO:
-      return time_point_cast<Global::duration>(time_point_cast<microseconds>(t) - microseconds{1});
+      return time_point_cast<nanotime::duration>(time_point_cast<microseconds>(t) - microseconds{1});
     case RoundingPrecision::NANO:
-      return time_point_cast<Global::duration>(time_point_cast<nanoseconds>(t));
+      return time_point_cast<nanotime::duration>(time_point_cast<nanoseconds>(t));
     default:                                            // not reachable in this context #nocov
       throw std::out_of_range("unknown rounding type"); // not reachable in this context #nocov
     }  
@@ -119,13 +122,13 @@ static Global::dtime floor(Global::dtime t, RoundingPrecision p) {
 }
 
 
-static Global::dtime floor_tz(const Global::dtime t, RoundingPrecision p, const std::string& z) {
+static dtime floor_tz(const dtime t, RoundingPrecision p, const std::string& z) {
   using namespace std::chrono;
   switch (p) {
   case RoundingPrecision::HOUR: {
     auto t_offset = t + getOffsetCnv(t, z.c_str());
-    auto t_hours = time_point_cast<Global::duration>(time_point_cast<hours>(t_offset));
-    if (t.time_since_epoch() < Global::duration::zero() && t_hours > t_offset) {
+    auto t_hours = time_point_cast<nanotime::duration>(time_point_cast<hours>(t_offset));
+    if (t.time_since_epoch() < nanotime::duration::zero() && t_hours > t_offset) {
       t_hours -= hours{1};
     }
     return t_hours - getOffsetCnv(t_hours, z.c_str());
@@ -152,16 +155,16 @@ static Global::dtime floor_tz(const Global::dtime t, RoundingPrecision p, const 
 }
 
 
-static const std::vector<Global::dtime> makegrid(const Global::dtime start,
-                                                 bool absolute_start,          // is start absolute (e.g no rounding)
-                                                 const Global::dtime end,
-                                                 const period p,
-                                                 const std::string& tz) {
+static const std::vector<dtime> makegrid(const dtime start,
+                                         bool absolute_start,          // is start absolute (e.g no rounding)
+                                         const dtime end,
+                                         const period p,
+                                         const std::string& tz) {
   const auto precision = selectPrecision(p);
   const auto start_0   = absolute_start ? start : floor_tz(start, precision, tz);
   const auto end_0     = plus(end, p, tz);
 
-  std::vector<Global::dtime> res;
+  std::vector<dtime> res;
   auto c = start_0;
   for (; c < start_0; c = plus(c, p, tz)) { }
 
@@ -172,7 +175,7 @@ static const std::vector<Global::dtime> makegrid(const Global::dtime start,
 }
 
 
-static void ceilingtogrid(const Global::dtime* dt, const uint64_t n_dt, const std::vector<Global::dtime>& grid, Global::dtime* res) {
+static void ceilingtogrid(const dtime* dt, const uint64_t n_dt, const std::vector<dtime>& grid, dtime* res) {
   if (grid.size() <= 1) {
     throw std::range_error("ceilingtogrid: invalid 'grid' argument"); // not reachable in this context #nocov
   }
@@ -187,7 +190,7 @@ static void ceilingtogrid(const Global::dtime* dt, const uint64_t n_dt, const st
 
 
 // this is really the same as 
-static void floortogrid(const Global::dtime* dt, const uint64_t n_dt, const std::vector<Global::dtime>& grid, Global::dtime* res) {
+static void floortogrid(const dtime* dt, const uint64_t n_dt, const std::vector<dtime>& grid, dtime* res) {
   if (grid.size() <= 1) {
     throw std::range_error("floortogrid: invalid 'grid' argument"); // not reachable in this context #nocov
   }
@@ -218,16 +221,16 @@ Rcpp::NumericVector ceiling_tz_impl(const Rcpp::NumericVector&   nt_v,      // v
   const auto tz = Rcpp::as<std::string>(tz_v[0]);
 
   // period must be strictly positive
-  if ((prd.getMonths() < 0 || prd.getDays() < 0 || prd.getDuration() < Global::duration::zero()) ||
-      prd == period{0, 0, Global::duration::zero()}) {
+  if ((prd.getMonths() < 0 || prd.getDays() < 0 || prd.getDuration() < duration::zero()) ||
+      prd == period{0, 0, duration::zero()}) {
     Rcpp::stop("'precision' must be strictly positive");
   }
 
-  const Global::dtime* dt = reinterpret_cast<const Global::dtime*>(&nt_v[0]);
+  const dtime* dt = reinterpret_cast<const dtime*>(&nt_v[0]);
   
-  Global::dtime origin;
+  dtime origin;
   if (orig_v.size()) {
-    origin = *reinterpret_cast<const Global::dtime*>(&orig_v[0]);
+    origin = *reinterpret_cast<const dtime*>(&orig_v[0]);
     if (dt[0] > plus(origin, prd, tz)) {
       Rcpp::stop("when specifying 'origin', the first interval must contain at least one observation");
     }
@@ -238,7 +241,7 @@ Rcpp::NumericVector ceiling_tz_impl(const Rcpp::NumericVector&   nt_v,      // v
     makegrid(dt[0],  false, dt[nt_v.size()-1], prd, tz);
 
   Rcpp::NumericVector res(nt_v.size());
-  auto res_dt = reinterpret_cast<Global::dtime*>(&res[0]);
+  auto res_dt = reinterpret_cast<dtime*>(&res[0]);
   
   ceilingtogrid(dt, nt_v.size(), grid, res_dt);
 
@@ -297,16 +300,16 @@ Rcpp::NumericVector floor_tz_impl(const Rcpp::NumericVector&   nt_v,      // vec
   period prd; memcpy(&prd, reinterpret_cast<const char*>(&prd_v[0]), sizeof(period));
 
   // period must be strictly positive
-  if ((prd.getMonths() < 0 || prd.getDays() < 0 || prd.getDuration() < Global::duration::zero()) ||
-      prd == period{0, 0, Global::duration::zero()}) {
+  if ((prd.getMonths() < 0 || prd.getDays() < 0 || prd.getDuration() < duration::zero()) ||
+      prd == period{0, 0, duration::zero()}) {
     Rcpp::stop("'precision' must be strictly positive");
   }
 
-  const auto dt = reinterpret_cast<const Global::dtime*>(&nt_v[0]);
+  const auto dt = reinterpret_cast<const dtime*>(&nt_v[0]);
   
-  Global::dtime origin;
+  dtime origin;
   if (orig_v.size()) {
-    origin = *reinterpret_cast<const Global::dtime*>(&orig_v[0]);
+    origin = *reinterpret_cast<const dtime*>(&orig_v[0]);
     if (dt[0] > plus(origin, prd, tz)) {
       Rcpp::stop("when specifying 'origin', the first interval must contain at least one observation");
     }
@@ -320,7 +323,7 @@ Rcpp::NumericVector floor_tz_impl(const Rcpp::NumericVector&   nt_v,      // vec
     makegrid(dt[0],  false, dt[nt_v.size()-1], prd, tz);
 
   Rcpp::NumericVector res(nt_v.size());
-  auto res_dt = reinterpret_cast<Global::dtime*>(&res[0]);
+  auto res_dt = reinterpret_cast<dtime*>(&res[0]);
   
   floortogrid(dt, nt_v.size(), grid, res_dt);
 

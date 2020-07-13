@@ -7,12 +7,16 @@
 #include <tuple>
 #include <limits>
 #include <Rcpp.h>
-#include "duration.hpp"
-#include "pseudovector.hpp"
-#include "utilities.hpp"
+#include "nanotime/duration.hpp"
+#include "nanotime/pseudovector.hpp"
+#include "nanotime/utilities.hpp"
 
-Global::duration from_string(const std::string& str) {
-  Global::duration d = std::chrono::seconds(0);
+
+using namespace nanotime;
+
+
+duration nanotime::from_string(const std::string& str) {
+  duration d = std::chrono::seconds(0);
   const char* s = str.c_str();
   const char* e = s + str.size();
 
@@ -23,7 +27,7 @@ Global::duration from_string(const std::string& str) {
   }
 
   int n;
-  if (!Global::readNumber(s, e, n, false)) throw std::range_error("cannot parse nanoduration");
+  if (!readNumber(s, e, n, false)) throw std::range_error("cannot parse nanoduration");
 
   if (s < e && *s == ':') {
     // we've got HHH:MM:SS format
@@ -44,7 +48,7 @@ Global::duration from_string(const std::string& str) {
   if (s == e) return sign*d;
 
   if (*s++ != '.') throw std::range_error("cannot parse nanoduration");
-  Global::duration mul = std::chrono::milliseconds(100);
+  duration mul = std::chrono::milliseconds(100);
   unsigned i = 0;
   while (s < e) {
     if (mul < std::chrono::nanoseconds(1)) throw std::range_error("cannot parse nanoduration");
@@ -60,7 +64,7 @@ Global::duration from_string(const std::string& str) {
 }
 
 
-std::string to_string(Global::duration d) {
+std::string nanotime::to_string(duration d) {
   std::stringstream ss;
 
   if (is_na(d)) {
@@ -107,8 +111,8 @@ std::string to_string(Global::duration d) {
 }
 
 
-bool is_na(Global::duration d) {
-  return d == Global::duration::min();
+bool nanotime::is_na(duration d) {
+  return d == duration::min();
 }
 
 
@@ -130,7 +134,7 @@ Rcpp::NumericVector duration_from_string_impl(Rcpp::CharacterVector str) {
 Rcpp::CharacterVector duration_to_string_impl(Rcpp::NumericVector dur) {
   Rcpp::CharacterVector res(dur.size());
   for (R_xlen_t i=0; i<dur.size(); ++i) {
-    const auto dur_i = reinterpret_cast<const Global::duration*>(&dur[i]);
+    const auto dur_i = reinterpret_cast<const duration*>(&dur[i]);
       
     res[i] = to_string(*dur_i);
     if (res[i].size() == 0) {
@@ -147,7 +151,7 @@ Rcpp::CharacterVector duration_to_string_impl(Rcpp::NumericVector dur) {
 Rcpp::LogicalVector duration_is_na_impl(Rcpp::NumericVector dur) {
   Rcpp::LogicalVector res(dur.size());
   for (R_xlen_t i=0; i<dur.size(); ++i) {
-    const auto dur_i = reinterpret_cast<const Global::duration*>(&dur[i]);
+    const auto dur_i = reinterpret_cast<const duration*>(&dur[i]);
       
     res[i] = is_na(*dur_i);
   }
@@ -198,7 +202,7 @@ static double getNA_nanoduration() {
 Rcpp::NumericVector nanoduration_subset_numeric_impl(const Rcpp::NumericVector& v, const Rcpp::NumericVector& idx) {
   Rcpp::NumericVector res(0);
   std::vector<double> res_c;    // by declaring it here we can make subset logical agnostic to double
-  Global::subset_numeric(v, idx, res, res_c, getNA_nanoduration);
+  subset_numeric(v, idx, res, res_c, getNA_nanoduration);
   return assignS4("nanoduration", res, "integer64");
 }
 
@@ -208,6 +212,6 @@ Rcpp::NumericVector nanoduration_subset_logical_impl(const Rcpp::NumericVector& 
   const ConstPseudoVectorLgl idx(idx_p);
   Rcpp::NumericVector res(0);
   std::vector<double> res_c;    // by declaring it here we can make subset logical agnostic to double
-  Global::subset_logical(v, idx, res, res_c, getNA_nanoduration);
+  subset_logical(v, idx, res, res_c, getNA_nanoduration);
   return assignS4("nanoduration", res, "integer64");
 }

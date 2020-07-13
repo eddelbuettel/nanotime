@@ -1,9 +1,12 @@
 #include <iostream>
 #include <functional>
 #include <Rcpp.h>
-#include "globals.hpp"
-#include "utilities.hpp"
-#include "pseudovector.hpp"
+#include "nanotime/globals.hpp"
+#include "nanotime/utilities.hpp"
+#include "nanotime/pseudovector.hpp"
+
+
+using namespace nanotime;
 
 
 typedef ConstPseudoVector<REALSXP, double>   ConstPseudoVectorInt64;
@@ -11,12 +14,12 @@ typedef ConstPseudoVector<STRSXP,  const Rcpp::CharacterVector::const_Proxy> Con
 typedef ConstPseudoVector<LGLSXP,  std::int32_t> ConstPseudoVectorLgl;
 
 
-static inline Global::duration getOffsetCnv(const Global::dtime& dt, const std::string& z) {
+static inline duration getOffsetCnv(const dtime& dt, const std::string& z) {
   typedef int GET_OFFSET_FUN(long long, const char*); 
   GET_OFFSET_FUN *getOffset = (GET_OFFSET_FUN *) R_GetCCallable("RcppCCTZ", "_RcppCCTZ_getOffset" );
 
   auto offset = getOffset(std::chrono::duration_cast<std::chrono::seconds>(dt.time_since_epoch()).count(), z.c_str());
-  return Global::duration(offset).count() * std::chrono::seconds(1);
+  return duration(offset).count() * std::chrono::seconds(1);
 }
 
 // [[Rcpp::export]]
@@ -30,7 +33,7 @@ Rcpp::IntegerVector nanotime_wday_impl(const Rcpp::NumericVector tm_v,
 
     for (R_xlen_t i=0; i<res.size(); ++i) {
       const auto tz_i = Rcpp::as<std::string>(tz[i]);
-      const auto tm_i = *reinterpret_cast<const Global::dtime*>(&tm[i]);
+      const auto tm_i = *reinterpret_cast<const dtime*>(&tm[i]);
       const auto offset = getOffsetCnv(tm_i, tz_i.c_str());
       date::sys_days t_days = date::floor<date::days>(tm_i + offset);
       res[i] = unsigned(date::weekday(t_days).c_encoding());
@@ -50,7 +53,7 @@ Rcpp::IntegerVector nanotime_mday_impl(const Rcpp::NumericVector tm_v,
     ConstPseudoVectorChar  tz(tz_v);
     for (R_xlen_t i=0; i<res.size(); ++i) {
       const auto tz_i = Rcpp::as<std::string>(tz[i]);
-      const auto tm_i = *reinterpret_cast<const Global::dtime*>(&tm[i]);
+      const auto tm_i = *reinterpret_cast<const dtime*>(&tm[i]);
       const auto offset = getOffsetCnv(tm_i, tz_i.c_str());
       date::sys_days t_days = date::floor<date::days>(tm_i + offset);
       date::weekday wd(t_days);
@@ -72,7 +75,7 @@ Rcpp::IntegerVector nanotime_month_impl(const Rcpp::NumericVector tm_v,
 
     for (R_xlen_t i=0; i<res.size(); ++i) {
       const auto tz_i = Rcpp::as<std::string>(tz[i]);
-      const auto tm_i = *reinterpret_cast<const Global::dtime*>(&tm[i]);
+      const auto tm_i = *reinterpret_cast<const dtime*>(&tm[i]);
       const auto offset = getOffsetCnv(tm_i, tz_i.c_str());
       date::sys_days t_days = date::floor<date::days>(tm_i + offset);
       date::weekday wd(t_days);
@@ -94,7 +97,7 @@ Rcpp::IntegerVector nanotime_year_impl(const Rcpp::NumericVector tm_v,
 
     for (R_xlen_t i=0; i<res.size(); ++i) {
       const auto tz_i = Rcpp::as<std::string>(tz[i]);
-      const auto tm_i = *reinterpret_cast<const Global::dtime*>(&tm[i]);
+      const auto tm_i = *reinterpret_cast<const dtime*>(&tm[i]);
       const auto offset = getOffsetCnv(tm_i, tz_i.c_str());
       date::sys_days t_days = date::floor<date::days>(tm_i + offset);
       date::weekday wd(t_days);
@@ -107,18 +110,18 @@ Rcpp::IntegerVector nanotime_year_impl(const Rcpp::NumericVector tm_v,
 
 
 static std::int64_t readNanotime(const char*& sp, const char* const se, const char* tzstr) {
-  auto tt = Global::readDtime(sp, se);
+  auto tt = readDtime(sp, se);
 
   // check we read until the end
   if (sp != se)
     Rcpp::stop("Error parsing");
 
-  if (tt.tzstr.size() && strnlen(tzstr, Global::MAX_TZ_STR_LENGTH)) 
+  if (tt.tzstr.size() && strnlen(tzstr, MAX_TZ_STR_LENGTH)) 
     Rcpp::stop("timezone is specified twice: in the string and as an argument");
     
   const cctz::civil_second cvt(tt.y, tt.m, tt.d, tt.hh, tt.mm, tt.ss);
 
-  typedef Global::time_point<Global::seconds>
+  typedef time_point<seconds>
     CONVERT_TO_TIMEPOINT(const cctz::civil_second& cs, const char* tzstr);
   CONVERT_TO_TIMEPOINT *convertToTimePoint =
     (CONVERT_TO_TIMEPOINT*)  R_GetCCallable("RcppCCTZ", "_RcppCCTZ_convertToTimePoint" );
@@ -164,7 +167,7 @@ static double getNA_nanotime() {
 Rcpp::NumericVector nanotime_subset_numeric_impl(const Rcpp::NumericVector& v, const Rcpp::NumericVector& idx) {
   Rcpp::NumericVector res(0);
   std::vector<double> res_c;    // by declaring it here we can make subset logical agnostic to double
-  Global::subset_numeric(v, idx, res, res_c, getNA_nanotime);
+  subset_numeric(v, idx, res, res_c, getNA_nanotime);
   return assignS4("nanotime", res, "integer64");
 }
 
@@ -174,6 +177,6 @@ Rcpp::NumericVector nanotime_subset_logical_impl(const Rcpp::NumericVector& v, c
   const ConstPseudoVectorLgl idx(idx_p);
   Rcpp::NumericVector res(0);
   std::vector<double> res_c;    // by declaring it here we can make subset logical agnostic to double
-  Global::subset_logical(v, idx, res, res_c, getNA_nanotime);
+  subset_logical(v, idx, res, res_c, getNA_nanotime);
   return assignS4("nanotime", res, "integer64");
 }

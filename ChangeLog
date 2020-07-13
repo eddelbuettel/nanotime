@@ -1,3 +1,23 @@
+2020-07-11 Leonardo Silvestri  <lsilvestri@ztsdb.org>
+
+	* DESCRIPTION (Version, Date): Roll minor version
+
+	* inst/include/nanotime/duration.hpp: move headers to 'nanotime'
+	and put 'interval' and 'period' in a namespace
+	* directory inst/include/nanotime/globals.hpp: Idem
+	* inst/include/nanotime/interval.hpp: Idem
+	* inst/include/nanotime/period.hpp: Idem
+	* inst/include/nanotime/pseudovector.hpp: Idem
+	* inst/include/nanotime/utilities.hpp: Idem
+	* src/duration.cpp: Idem
+	* src/interval.cpp: Idem
+	* src/nanotime.cpp: Idem
+	* src/period.cpp: Idem
+	* src/rounding.cpp: Idem
+	* src/Makevars: Idem
+	* inst/include/nanotime/pseudovector.hpp: let 'pseudovector' return a
+	different type than the input which gives more flexibility
+
 2020-05-16 Leonardo Silvestri  <lsilvestri@ztsdb.org>
 
 	* DESCRIPTION (Version, Date): Roll minor version
