@@ -573,7 +573,6 @@ setMethod("[",
               if (!missing(j) || length(list(...)) > 0) {
                   warning("unused indices or arguments in 'nanotime' subsetting")
               }
-              print("subset numeric")
               if (isTRUE(any(i < 0))) {
                   new("nanotime", S3Part(x, strictS3=TRUE)[i])
               } else {
