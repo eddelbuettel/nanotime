@@ -21,8 +21,7 @@ doi: "https://cran.r-project.org/package=nanotime"
 
 # Abstract
 abstract: |
-  
-  The \pkg{nanotime} package \citep{nanotime2020} provides a coherent set of
+  The \pkg{nanotime} package \citep{CRAN:nanotime} provides a coherent set of
   temporal types and functions with nanosecond precision. The following types
   are provided: point in time, interval (which may have an open or closed
   start/end), period (a human representation of time, such as day, month,
@@ -33,7 +32,11 @@ abstract: |
   efficient implementation, and are suitable for use in `data.frame` and
   `data.table` objects. `nanotime` is also a better choice than the native
   `POSIXct` in most cases where fractional seconds are needed as it provides
-  both a finer resolution and additional operations.
+  both a finer resolution and additional operations. _Note that this vignette
+  should be considered in progress and is not yet finalized. It should, 
+  however, provide some useful information and documentation about the package._
+
+
 
 # Font size of the document, values of 9pt (default), 10pt, 11pt and 12pt
 fontsize: 10pt
@@ -93,12 +96,11 @@ library(data.table)
 options(width=65)                       # to limit wide rows
 ```
 
-
 # Implementation of the temporal types
 
 All new types provided by the \pkg{nanotime} package are implemented using one or more signed 64-bit
 integers. As R has no native 64-bit integer type, \pkg{nanotime} relies on the \code{integer64} type
-provided by the \pkg{bit64} package \citep{cran:bit64}. Using an integer-based representation avoid
+provided by the \pkg{bit64} package \citep{CRAN:bit64}. Using an integer-based representation avoid
 the floating point issues associated with the `POSIXct` type using in R, and allows for exact
 representation of nanosecond-resolution datetimes in the approximative range of years 1386 to 2554,
 which is large enough for most applications. It also allows for exact arithmetic and comparison.
@@ -120,14 +122,14 @@ be sensible has to explicitly specificy the time zone.
 The \pkg{nanotime} package implements four temporal types: time (`nanotime`), interval (`nanoival`),
 duration (`nanoduration`) and period (`nanoperiod`). This set of types seems to have become the
 consensus for various implementations. It is the set chosen by _Joda Time_ \citep{Joda2019}, the
-\pkg{lubridate} package \citep{jss:lubridate,cran:lubridate} (without nanosecond resolution), and a
+\pkg{lubridate} package \citep{JSS:lubridate,CRAN:lubridate} (without nanosecond resolution), and a
 similar set (minus the interval type) is chosen by the latest Java Date and Time implementation
 \citep{Java2014}.
 
 ## nanotime
 
 A `nanotime` object represents a point in time with nanosecond resolution. It is implemented as an
-S4 class containing the type `integer64` type from the \pkg{bit64} package \citep{cran:bit64} to
+S4 class containing the type `integer64` type from the \pkg{bit64} package \citep{CRAN:bit64} to
 represents the point in time as the offset in nanoseconds since the "epoch" of 1970-01-01 UTC. A
 `nanotime` object not have an associated time zone. It can be displayed in any desired time zone
 with the `format` or `print` functions---which both accept a time zone argument to format the point
@@ -359,8 +361,8 @@ nano_ceiling(as.nanotime("2020-04-27 23:57:04 America/New_York"),
 
 
 All the new types introduce by the \pkg{nantime} package are compatible with `data.frame` and
-`data.table` objects. By having an ordered `nanotime` column it is thus easy to define a
-time-series. One can then use `nanoival` subsetting.
+`data.table` \citep{CRAN:data.table} objects. By having an ordered `nanotime` column it is thus easy
+to define a time-series. One can then use `nanoival` subsetting.
 
 ```{r, data.table}
 
@@ -475,7 +477,7 @@ as.nanoperiod("00:00:00.123")
 
 All new types provided in this package are built with S4 classes containing an R primitive type that
 is then reinterpreted. `nanotime` and `duration` are (indirectly) based on `double` via the type
-`integer64` from the \pkg{bit64} package written by \citet{cran:bit64}, whereas `nanoival` and
+`integer64` from the \pkg{bit64} package written by \citet{CRAN:bit64}, whereas `nanoival` and
 `period` are based on `complex`, which allows the storage of 128 bits.  Time-zone conversion and
 calculation as well general time operations rely on the \pkg{CCTZ} library \citep{github:cctz}
 interfaced by \pkg{RcppCCTZ} \citep{CRAN:RcppCCTZ}. Interfacing to and from C++ is done using the
