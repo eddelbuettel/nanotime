@@ -1,3 +1,18 @@
+2020-07-21  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): Roll minor version
+
+	* inst/NEWS.Rd: Additional entries added
+
+2020-07-20 Leonardo Silvestri  <lsilvestri@ztsdb.org>
+
+	* vignettes/nanotime/rmd/nanotime-intro.Rmd: Additional edits
+
+2020-07-19  Dirk Eddelbuettel  <edd@debian.org>
+
+	* vignettes/nanotime/rmd/nanotime-intro.Rmd: Additional edits
+	* vignettes/nanotime/rmd/nanotime-intro.bib: Updated bibliography
+
 2020-07-11 Leonardo Silvestri  <lsilvestri@ztsdb.org>
 
 	* DESCRIPTION (Version, Date): Roll minor version
@@ -78,7 +93,12 @@
  	* man/rounding.Rd: Idem
  	* src/RcppExports.cpp: Idem
  	* src/rounding.cpp: Idem
- 
+
+	* vignettes/nanotime-introduction.Rnw: Wrapper as in anytime
+	* vignettes/nanotime-intro.pdf: Pre-made pdf
+	* vignettes/nanotime/rmd/nanotime-intro.Rmd: New draft vignette
+	* vignettes/nanotime/rmd/nanotime-intro.bib: New bibliography
+
 2020-04-09  Dirk Eddelbuettel  <edd@debian.org>
 
 	* README.md: Add 'last commit' badge
