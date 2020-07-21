@@ -109,9 +109,12 @@ which is large enough for most applications. It also allows for exact arithmetic
 
 Time zones are only needed in two cases. The first is representation as of course the same time is
 represented differently in different time zones across the globe. The second case is for operations
-based on calendar time as a year or a day may have different length depending on its location in time
-and depending in which time zone it is considered.
-<!-- DE: do we need an example of that? -->
+based on calendar time as a year or a day may have different length depending on its location in
+time and depending in which time zone it is considered. For example in a time zone where daylight
+saving time is observed, there are days of 23 hours and days of 25 hours. Similarly, at historical
+time zone offset changes, a year can have a different duration compared to years where no offset
+change occurred.
+
 
 To avoid all ambiguity, a time zone is never associated as an attribute with any of the temporal
 types defined in the \pkg{nanotime} package. Any operation that requires a time zone in order to
@@ -360,7 +363,7 @@ nano_ceiling(as.nanotime("2020-04-27 23:57:04 America/New_York"),
 # Use with data.frame and data.table 
 
 
-All the new types introduce by the \pkg{nantime} package are compatible with `data.frame` and
+All the new types introduced by the \pkg{nanotime} package are compatible with `data.frame` and
 `data.table` \citep{CRAN:data.table} objects. By having an ordered `nanotime` column it is thus easy
 to define a time-series. One can then use `nanoival` subsetting.
 
@@ -374,7 +377,7 @@ dt[idx %in% ival]
 
 ```
 
-Use of the rounding functions make it is possible to perform aggregations on `data.table` instances
+Use of the rounding functions makes it possible to perform aggregations on `data.table` instances
 utilising its powerful 'group-by' operator `by`:
 
 ```{r, aggregations}
@@ -400,11 +403,6 @@ format(as.nanotime("2020-12-12T00:00:00.123000000+00:00"))
 format(as.nanotime("2020-12-12T00:00:00.123456000+00:00"))
 format(as.nanotime("2020-12-12T00:00:00.123456789+00:00"))
 ```
-
-<!-- 2020-12-12T00:00:00+00:00 which is equivalent to 2020-12-12T00:00:00.000000000+00:00 -->
-<!-- 2020-12-12T00:00:00.123+00:00 which is equivalent to 2020-12-12T00:00:00.123000000+00:00 -->
-<!-- 2020-12-12T00:00:00.123456+00:00 which is equivalent to 2020-12-12T00:00:00.123456000+00:00 -->
-<!-- 2020-12-12T00:00:00.123456789+00:00 -->
 
 Details of the format specification are provided by the documentation for the underlying CCTZ
 library by \citet{github:cctz} which is deployed here via the \pkg{RcppCCTZ} package
@@ -471,7 +469,6 @@ as.nanoperiod("1y1m1w1d/00:00:00.123")
 as.nanoperiod("-2y")
 as.nanoperiod("00:00:00.123")
 ```
-<!--Nope:  as.nanoperiod("12m1s/01:00:00") -->
 
 # Technical Details
 
@@ -521,7 +518,7 @@ The benchmark results shown in table \ref{tab:speed} are based on the code inclu
 obtained via execution under R version 4.0.2 running under Ubuntu 20.04 with Linux kernel 5.4.0-39
 on an Intel i7-8700K CPU.
 
-``` {r}
+``` {r eval=FALSE}
 library(nanotime)
 library(rbenchmark)
 library(fasttime)
