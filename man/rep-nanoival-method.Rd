@@ -29,5 +29,5 @@
            '1' if 'NA' or invalid.}
 }
 \description{
-Replicates the values in 'x' like the detault method
+Replicates the values in 'x' similarly to the default method.
 }

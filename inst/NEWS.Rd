@@ -5,14 +5,17 @@
 
 \section{Changes in version 0.3.0 (2020-07-2y)}{
   \itemize{
+    \item Use \code{tzstr=} instead of \code{tz=} in call to
+    \pkg{RcppCCTZ::parseDouble()}) (Matt Dowle in \ghpr{49}). 
     \item Add new comparison operators for \code{nanotime} and
     \code{charcters} (Dirk in \ghpr{54} fixing \ghit{52}).
+    \item Switch from \pkg{RUnit} to \pkg{tinytest} (Dirk in \ghpr{55})
     \item Substantial functionality extension in with new types
     \code{nanoduration}, \code{nanoival} and \code{nanoperiod} (Leonardo
     in \ghpr{58}, \ghpr{60}, \ghpr{62}, \ghpr{63}, \ghpr{65}, \ghpr{67},
-    \ghpr{70} fixing \ghit{47}, \ghit{51},
-    \ghit{57}, \ghit{61}, \ghit{64} with assistance from Dirk).
-    \code A new (yet still draft-ish) vignette was added describing the
+    \ghpr{70} fixing \ghit{47}, \ghit{51}, \ghit{57}, \ghit{61},
+    \ghit{64} with assistance from Dirk). 
+    \item A new (yet still draft-ish) vignette was added describing the
     four core types (Leonardo and Dirk in \ghpr{71}).
   }
 }

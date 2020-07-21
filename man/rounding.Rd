@@ -79,15 +79,18 @@ nano_ceiling(as.nanotime("2010-10-10 11:23:15 UTC"),
              as.nanoduration("01:15:23"),
              origin=as.nanotime("2010-10-10 11:23:15 UTC"))
 ## using business concepts and rounding across a daylight saving change:
-v <- seq(as.nanotime("2020-03-08 America/New_York"), by=as.nanoperiod("06:00:00"), length.out=8, tz="America/New_York")
+v <- seq(as.nanotime("2020-03-08 America/New_York"),
+         by=as.nanoperiod("06:00:00"), length.out=8, tz="America/New_York")
 print(nano_floor(v, as.nanoperiod("1d"), tz="America/New_York"), tz="America/New_York")
 \dontrun{ 
 ## using the concept in a 'data.table':
 library(data.table)
 n <- 3 * 24
-idx <- seq(as.nanotime("2020-03-07 America/New_York"), by=as.nanoperiod("01:00:00"), length.out=n, tz="America/New_York")
+idx <- seq(as.nanotime("2020-03-07 America/New_York"),
+           by=as.nanoperiod("01:00:00"), length.out=n, tz="America/New_York")
 dt <- data.table(idx, a=1:n, b=2:(n+1))
-dt_mean <- dt[, list(mean = mean(a)), by=nano_ceiling(idx, as.nanoperiod("1d"), tz="America/New_York")]
+dt_mean <- dt[, list(mean = mean(a)),
+              by=nano_ceiling(idx, as.nanoperiod("1d"), tz="America/New_York")]
 }
 
 }
