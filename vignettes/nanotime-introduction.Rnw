@@ -1,0 +1,10 @@
+\documentclass{article}
+\usepackage{pdfpages}
+%\VignetteIndexEntry{Introduction to nanotime}
+%\VignetteKeywords{nanotime, nanoperiod, nanoival, nanoduration, date, datetime, time, nanoseconds}
+%\VignettePackage{nanotime}
+%\VignetteEncoding{UTF-8}
+
+\begin{document}
+\includepdf[pages=-, fitpaper=true]{nanotime-intro.pdf}
+\end{document}

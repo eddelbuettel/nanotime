@@ -2,17 +2,21 @@
 
 language: c
 sudo: required
-dist: trusty
-group: edge
+dist: bionic
+
+jobs:
+  include:
+    - name: r-4.0
+      env: R_VERSION="4.0"
 
 before_install:
   - curl -OLs https://eddelbuettel.github.io/r-travis/run.sh && chmod 0755 run.sh
   # add our launchpad repo which has (inter alia) r-cran-rcppcctz
-  - sudo add-apt-repository -y ppa:edd/r-3.5
+  # - sudo add-apt-repository -y ppa:edd/r-3.5
   - ./run.sh bootstrap
 
 install:
-  - ./run.sh install_aptget r-cran-rcppcctz r-cran-bit64 r-cran-zoo r-cran-data.table r-cran-xts r-cran-tinytest
+  - ./run.sh install_aptget r-cran-bit64 r-cran-zoo r-cran-data.table r-cran-xts r-cran-tinytest
   - ./run.sh install_r RcppDate RcppCCTZ
 
 script:

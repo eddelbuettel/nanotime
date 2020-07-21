@@ -1,0 +1,540 @@
+---
+title: \pkg{nanotime}&#58; A datetime library with nanosecond precision
+
+# Use letters for affiliations
+author:
+  - name: Dirk Eddelbuettel
+    affiliation: 1
+  - name: Leonardo Silvestri
+    affiliation: 2
+address:
+  - code: 1
+    address: Department of Statistics, University of Illinois, Urbana-Champaign, IL, USA
+  - code: 2
+    address: Baltimore, MD, USA
+
+# For footer text  TODO(fold into template, allow free form two-authors)
+lead_author_surname: Eddelbuettel, Silvestri
+
+# Place DOI URL or CRAN Package URL here
+doi: "https://cran.r-project.org/package=nanotime"
+
+# Abstract
+abstract: |
+  The \pkg{nanotime} package \citep{CRAN:nanotime} provides a coherent set of
+  temporal types and functions with nanosecond precision. The following types
+  are provided: point in time, interval (which may have an open or closed
+  start/end), period (a human representation of time, such as day, month,
+  etc.), and duration. Of particular interest are set and arithmetic
+  operations defined on these types, as well as the fact that all
+  functionality is designed to correctly handle instances across different
+  time zones. The new temporal types are based on R built-in types with an
+  efficient implementation, and are suitable for use in `data.frame` and
+  `data.table` objects. `nanotime` is also a better choice than the native
+  `POSIXct` in most cases where fractional seconds are needed as it provides
+  both a finer resolution and additional operations. _Note that this vignette
+  should be considered in progress and is not yet finalized. It should, 
+  however, provide some useful information and documentation about the package._
+
+
+
+# Font size of the document, values of 9pt (default), 10pt, 11pt and 12pt
+fontsize: 10pt
+
+# Optional: Force one-column layout, default is two-column
+one_column: true
+
+# Optional: Enables lineno mode, but only if one_column mode is also true
+#lineno: true
+
+# Optional: Enable one-sided layout, default is two-sided
+#one_sided: true
+
+# Optional: Enable section numbering, default is unnumbered
+#numbersections: true
+
+# Optional: Specify the depth of section number, default is 5
+#secnumdepth: 5
+
+# Optional: Skip inserting final break between acknowledgements, default is false
+skip_final_break: true
+
+# Optional: Bibliography
+bibliography: nanotime-intro
+
+# Optional: Enable a 'Draft' watermark on the document
+watermark: false
+
+# Customize footer, eg by referencing the vignette
+footer_contents: "nanotime Vignette"
+
+# Produce a pinp document
+output:
+  pinp::pinp:
+    collapse: true
+    keep_tex: false
+
+header-includes: >
+  \newcommand{\proglang}[1]{\textsf{#1}}
+  \newcommand{\pkg}[1]{\textbf{#1}}
+
+# Required: Vignette metadata for inclusion in a package.
+vignette: >
+  %\VignetteIndexEntry{Introduction to nanotime}
+  %\VignetteKeywords{anytime, date, datetime, conversion}
+  %\VignettePackage{anytime}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+  %\usepackage[utf8]{inputenc}
+---
+
+```{r initialsetup, include=FALSE}
+knitr::opts_chunk$set(cache=FALSE)
+library(bit64)
+library(nanotime)
+library(data.table)
+options(width=65)                       # to limit wide rows
+```
+
+# Implementation of the temporal types
+
+All new types provided by the \pkg{nanotime} package are implemented using one or more signed 64-bit
+integers. As R has no native 64-bit integer type, \pkg{nanotime} relies on the \code{integer64} type
+provided by the \pkg{bit64} package \citep{CRAN:bit64}. Using an integer-based representation avoid
+the floating point issues associated with the `POSIXct` type using in R, and allows for exact
+representation of nanosecond-resolution datetimes in the approximative range of years 1386 to 2554,
+which is large enough for most applications. It also allows for exact arithmetic and comparison.
+
+# Time zones
+
+Time zones are only needed in two cases. The first is representation as of course the same time is
+represented differently in different time zones across the globe. The second case is for operations
+based on calendar time as a year or a day may have different length depending on its location in
+time and depending in which time zone it is considered. For example in a time zone where daylight
+saving time is observed, there are days of 23 hours and days of 25 hours. Similarly, at historical
+time zone offset changes, a year can have a different duration compared to years where no offset
+change occurred.
+
+
+To avoid all ambiguity, a time zone is never associated as an attribute with any of the temporal
+types defined in the \pkg{nanotime} package. Any operation that requires a time zone in order to
+be sensible has to explicitly specificy the time zone.
+
+# Temporal types
+
+The \pkg{nanotime} package implements four temporal types: time (`nanotime`), interval (`nanoival`),
+duration (`nanoduration`) and period (`nanoperiod`). This set of types seems to have become the
+consensus for various implementations. It is the set chosen by _Joda Time_ \citep{Joda2019}, the
+\pkg{lubridate} package \citep{JSS:lubridate,CRAN:lubridate} (without nanosecond resolution), and a
+similar set (minus the interval type) is chosen by the latest Java Date and Time implementation
+\citep{Java2014}.
+
+## nanotime
+
+A `nanotime` object represents a point in time with nanosecond resolution. It is implemented as an
+S4 class containing the type `integer64` type from the \pkg{bit64} package \citep{CRAN:bit64} to
+represents the point in time as the offset in nanoseconds since the "epoch" of 1970-01-01 UTC. A
+`nanotime` object not have an associated time zone. It can be displayed in any desired time zone
+with the `format` or `print` functions---which both accept a time zone argument to format the point
+in time in a human-readable format. Finally, it uses the POSIX definition of time, usually referred
+to as _POSIX time_ or _UNIX time_ and defined by \citet{POSIX2016}. This representation is suitable
+for many purposes.
+
+A `nanotime` object can be constructed either from an `integer64` or from a `character`:
+
+```{r}
+as.nanotime( as.integer64("1580274000000000000") )
+as.nanotime( "2020-01-29 13:12:00.000000001 America/New_York" )
+as.nanotime( "2020-01-29 13:12:00.000000001-05:00" )
+```
+
+For added convenience, short forms are also supported:
+
+```{r}
+as.nanotime("2020-01-29 Europe/London")
+as.nanotime("2020-01-29 12:01:01 Africa/Lagos")
+as.nanotime("2020-01-29 12:01:01.001 America/Tegucigalpa")
+```
+
+
+## nanoival
+
+A `nanoival` object describes an interval in time defined by two `nanotime` objects. Here the first
+one defines the interval start time, and the second one the end time. Additionally, two `logical`
+variables determine if the interval start and end are open (`TRUE`) or closed (`FALSE`), _i.e._ if
+the start and end of the interval are excluded (`TRUE`) or included (`FALSE`) in the interval.
+
+A `nanoival` object can either be constructed with two `nanotime` and two `logical` objects, or it
+can be constructed from a `character` string. The string format uses the '-' and '+' signs at the
+beginning and end to indicate if the interval start and end are, respectively, open or closed. By
+default, an interval has a closed start and an open end.
+
+```{r}
+as.nanoival("-2009-01-01 13:12:00 America/New_York -> 2009-02-01 15:11:03 America/New_York+")
+
+start <- nanotime("2009-01-01 13:12:00 America/New_York")
+end   <- nanotime("2009-02-01 15:11:00 America/New_York")
+
+nanoival(start, end)                   # by default sopen=F,eopen=T
+nanoival(start, end, sopen=FALSE, eopen=TRUE)
+```
+
+Accessors for all four components of a `nanoival` objects are provided:
+
+```{r, nanoival_accessors}
+ival  <- as.nanoival("-2009-01-01 UTC -> 2009-02-01 UTC+")
+nanoival.start(ival)
+nanoival.end(ival)
+nanoival.sopen(ival)
+nanoival.eopen(ival)
+```
+
+## nanoduration
+
+A `nanoduration` object is represented by a simple count of nanoseconds, which may be also be
+negative.
+
+```{r}
+nanoduration(hours=1, minutes=1, seconds=1, nanoseconds=1)
+as.nanoduration("00:00:01")
+as.nanoduration("-00:00:01")
+as.nanoduration("100:00:00")
+as.nanoduration("00:00:00.000_000_001")
+```
+
+## nanoperiod
+
+A `nanoperiod` object represents the calendar or "business" view of a duration with the concepts of
+month and day. The exact duration of a period is unknown until it is anchored to a point in time and
+associated with a time zone. This is due to two reasons: first because a month has variable length,
+and secondly because it might span a daylight saving time change.
+
+Each `nanoperiod` object is composed of two parts: a months and days part, and a duration. Note that
+these components may have opposite signs.
+
+For convenience, the constructor syntax allows specifying years and weeks, but they are converted to
+their representation in months and days.
+
+```{r}
+as.nanoperiod("1y1m1w1d/01:01:01.000_000_001")
+nanoperiod(months=13, days=-1, duration="01:00:00")
+```
+
+Accessors for `nanoperiod` components are provided:
+
+```{r}
+ones <- as.nanoperiod("1y1m1w1d/01:01:01.000_000_001")
+nanoperiod.month(ones)
+nanoperiod.day(ones)
+nanoperiod.nanoduration(ones)
+```
+
+# Set operations
+
+The set operations `intersect`, `union` and `setdiff` are provided and offer a more rigorous
+handling of temporal interval types. Additionally, `intersect` and `setdiff` have counterpart
+functions `intersect.idx` and `setdiff.idx` that, instead of computing a new set, return the index
+of the set. Finally, the operator `%in%` is overloaded so as to provide a convenient intersection
+shorthand particularly suitable for the subsetting of time-series stored as `data.table` columns.
+
+Here are some examples:
+
+```{r, setops}
+ni1 <- c(as.nanoival("+2013-01-01+00:00          -> 2014-01-01+00:00-"),
+         as.nanoival("+2015-01-01T12:00:01+00:00 -> 2016-01-01+00:00-"),
+         as.nanoival("+2017-01-01+00:00          -> 2018-01-01+00:00-"))
+ni2 <-   as.nanoival("-2013-02-02+00:00          -> 2015-06-10+00:00+")
+intersect(ni1, ni2)
+union(ni1, ni2)         
+setdiff(ni1, ni2)
+```
+
+
+# Functions and operations
+
+## Arithmetic
+
+The standard expected arithmetic operations are defined for various types if and when these
+operation are sensible. In particular one can add (or subtract) a `period` or a `duration` to and
+from a `nanotime` or a `nanoival`. One can also multiply and divide `period` and `duration` objects
+by a scalar.
+
+```{r, arith}
+as.nanotime("2020-03-07 01:03:28 America/Los_Angeles") + 999
+as.nanotime("2020-03-07 12:03:28+00:00") + as.nanoduration("24:00:00")
+## daylight saving time transition:
+plus(as.nanotime("2020-03-07 12:03:28+00:00"), as.nanoperiod("1d"), "America/Los_Angeles")
+
+as.nanoduration("24:00:00")/3
+-as.nanoduration("24:00:00")
+```
+
+## Comparison
+
+Compare operations are mostly straightforward except maybe for `nanoival` which is ordered by its
+start `nanotime`. If both starts are equal, a closed start comes before an open start. If both
+`sopen` are the same, then the comparison happens on the end of the `nanotime`, with a shorter
+interval coming before a longer one. `nanoperiod` objects do not have a meaningful ordering and
+therefore remain unordered.
+
+```{r, compare}
+as.nanoival("+2020-04-03 00:12:00 UTC -> 2020-04-04 00:12:00 UTC-") <
+    as.nanoival("-2020-04-03 00:12:00 UTC -> 2020-04-04 00:12:00 UTC-")
+nanotime(1) <= nanotime(2)
+as.nanoduration(1) > as.nanoduration(2)
+```
+
+## Sequence Generation
+
+Sequence generation is provided for `nanotime` and `nanoival` objects. The increment can either be a
+`nanoduration` or a `nanoperiod`. Since a period is sensitive to the time zone in which the operation
+takes place, the additional `tz` argument must be provided to `seq` when operating on `nanoperiod`
+objects as in the second example.
+
+```{r, seq_generation}
+seq(nanotime("2020-03-28+00:00"), by=as.nanoduration("24:00:00"), length.out=3)
+seq(nanotime("2020-03-28+00:00"), by=as.nanoperiod("1d"), length.out=3, tz="Europe/London")
+
+ival <- as.nanoival("+2020-03-28T13:00:00+00:00 -> 2020-03-28T15:00:00+00:00-")
+print(seq(ival, by=as.nanoperiod("1m"), length.out=3, tz="Europe/London"), tz="Europe/London")
+
+```
+
+Note that `nanoperiod` is correct with respect to time zone calculations, even on the rare hourly
+events where a transition occurs from a time zone offset with an hourly difference to a time zone
+offset with a half-hourly difference.
+
+``` {r}
+print(seq(as.nanotime("2006-04-14 22:00:00 Asia/Colombo"),
+          by=as.nanoperiod("01:00:00"),
+          length.out=4,
+          tz="Asia/Colombo"),
+      tz="Asia/Colombo")
+```
+
+## Year, Month and Day
+
+Utilities are provided for obtaining in numerical format the day of the week (`nano_wday`), the day
+of the month (`nano_mday`), the month (`nano_month`) and the year (`nano_year`) from a given
+`nanotime`. Remember that a time zone is never stored with a `nanotime` and therefore, to have
+meaning, all the functions take as second argument the time zone required for this computation. Note
+that the convention for the day of the week is a count from 0 to 6, with 0 falling on Sunday.
+
+```{r, year_month_day}
+tm  <- as.nanotime("2019-12-31 20:00:00", tz="UTC")
+nano_wday(tm, "Australia/Melbourne")
+nano_wday(tm, "America/New_York")
+nano_mday(tm, "Africa/Nairobi")
+nano_month(tm, "Indian/Reunion")
+nano_year(tm, "Asia/Irkutsk")
+```
+
+## Rounding Operations
+
+The functions `nano_floor` and `nano_ceiling` are provided in order to perform rounding to an
+arbitrary precision. An `origin` argument of type `nanotime` can be optionally specified to offer
+full control over the reference chosen for the rounding.
+
+These functions are also to be understood in the context of vectors of `nanotime` objects where the
+precision defines a grid interval. These functions will pick a reasonable reference for the
+alignment. In particular, when using a `nanoperiod`, the functions will check if a precision is a
+multiple of a larger unit. If so, the rounding will happen with the larger unit as origin. For
+instance, if the precision is 6 hours---a multiple of a day---the rounding will be performed in such
+a way as to align the vector within a day, _i.e._ the rounding will be done at hours 0, 6, 12
+and 18. On the other hand, if the origin is explicitly specified, then it is this value that will be
+taken as starting point for the rounding. For instance, if the origin is set to `2020-04-27
+23:57:04` then the rounding will be done at 23:57:04, 05:57:04, 11:57:04 and 17:57:04.
+
+```{r, rounding ops}
+nano_floor(as.nanotime("2020-04-27 23:57:04.123456678 UTC"),
+           as.nanoduration("00:00:00.001"))
+nano_ceiling(as.nanotime("2020-04-27 23:57:04.123456678 UTC"),
+             as.nanoduration("00:00:00.001"))
+
+nano_floor(as.nanotime("2020-04-27 23:57:04 UTC"), as.nanoperiod("06:00:00"), tz="UTC")
+nano_ceiling(as.nanotime("2020-04-27 23:57:04 UTC"), as.nanoperiod("06:00:00"), tz="UTC")
+
+nano_floor(as.nanotime("2020-04-27 23:57:04 America/New_York"),
+           as.nanoperiod("1m"), tz="America/New_York")
+nano_ceiling(as.nanotime("2020-04-27 23:57:04 America/New_York"),
+             as.nanoperiod("1m"), tz="America/New_York")
+```
+
+# Use with data.frame and data.table 
+
+
+All the new types introduced by the \pkg{nanotime} package are compatible with `data.frame` and
+`data.table` \citep{CRAN:data.table} objects. By having an ordered `nanotime` column it is thus easy
+to define a time-series. One can then use `nanoival` subsetting.
+
+```{r, data.table}
+
+idx <- seq(nanotime("2020-04-02+00:00"), by=as.nanoperiod("1d"), length.out=20, tz="UTC")
+dt <- data.table(idx, v1=1:20, v2=c(TRUE, FALSE))
+ival <- as.nanoival(c("+2020-04-05 UTC -> 2020-04-07 UTC+",
+                      "+2020-04-15 UTC -> 2020-04-17 UTC+"))
+dt[idx %in% ival]
+
+```
+
+Use of the rounding functions makes it possible to perform aggregations on `data.table` instances
+utilising its powerful 'group-by' operator `by`:
+
+```{r, aggregations}
+idx <- seq(as.nanotime("2020-03-08 UTC"), as.nanotime("2020-03-10 UTC"),
+           by=as.nanoduration("00:01:00"))
+dt <-  data.table(idx, a=1:length(idx))
+dt[, .(mean=mean(a)), by=nano_ceiling(idx, as.nanoduration("06:00:00"))]
+```
+
+
+# Input and Output Format
+
+## nanotime
+
+The input and output format default to "%Y-%m-%dT%H:%M:%EXS%Ez" where the 'X' specifies a
+variable number of digits for the nanosecond portion. When no overriding format is defined, the
+output will include only the relevant nanotime precision for the vector without right-padded zeros
+as shown in the following example:
+
+```{r, ioex1}
+format(as.nanotime("2020-12-12T00:00:00.000000000+00:00"))
+format(as.nanotime("2020-12-12T00:00:00.123000000+00:00"))
+format(as.nanotime("2020-12-12T00:00:00.123456000+00:00"))
+format(as.nanotime("2020-12-12T00:00:00.123456789+00:00"))
+```
+
+Details of the format specification are provided by the documentation for the underlying CCTZ
+library by \citet{github:cctz} which is deployed here via the \pkg{RcppCCTZ} package
+\citep{CRAN:RcppCCTZ}. When no overriding format is defined, the parsing has some flexibility and
+the time portion can be omitted. Additionally, the separator `'_'` can be used to separate
+nanosecond groups of 3. So the following examples will parse correctly:
+
+```{r, ioex2}
+as.nanotime("2020-04-03 UTC")
+as.nanotime("2020-04-03T12:23:00 UTC")
+as.nanotime("2020-04-03T12:23:00.1 UTC")
+as.nanotime("2020-04-03T12:23:00.123 UTC")
+as.nanotime("2020-04-03T12:23:00.123356789 UTC")
+as.nanotime("2020-04-03T12:23:00.123_356_789 UTC")
+
+```
+
+Date separators can be `' '`, `'-'` and `'/'` whereas the separator between date and time can be
+`'T`' or `' '`:
+
+```{r, ioex3}
+as.nanotime("2020 04 03 UTC")
+as.nanotime("2020/04/03 UTC")
+as.nanotime("2020-04-03T12:23:00 UTC")
+```
+
+## nanoival
+
+The output format for `nanoival` objects is based on `nanotime` as a `nanoival` object is composed
+of both a `nanotime` start and end object as well as two booleans that indicate if the boundaries of
+the interval are open or closed. This open and closed is indicated by prefixing and postfixing with
+the the characters `'-'` and `'+'`. The start and end are separated by `'->'`. Two examples follow.
+
+```{r, ioex4}
+as.nanoival("+2020-12-12 UTC -> 2020-12-13 UTC-")
+as.nanoival("-2020-12-12T00:00:01.123 America/New_York -> 2020-12-14+00:00+")
+```
+
+## nanoduration
+
+The output format for a `nanoduration` object is immutable, and identical to the
+hour/minute/second/nanosecond portion of a `nanotime` object:
+
+```{r, ioex5}
+as.nanoduration("12:23:00")
+as.nanoduration("12:23:00.1")
+as.nanoduration("12:23:00.123")
+as.nanoduration("12:23:00.123356789")
+as.nanoduration("12:23:00.123_356_789")
+```
+
+## nanoperiod
+
+The output format for `nanoperiod` is also immutable. It is composed of two parts. First comes a
+month and day part, which is followed by a `nanoduration` part that is separated by `'/'`. In input,
+years, months, weeks and days are specified with a signed integer following, respectively by the
+letters `'y'`,`'m'`,`'w'`,`'d'`. The `nanoduration` that composes the second part is specified like
+for a standalone `nanoduration`. Each of these two parts is optional. In output, only months and
+days are specified as years can be expressed as 12 months and weeks as 7 days. Here are some
+examples:
+
+```{r, ioex6}
+as.nanoperiod("1y1m1w1d/00:00:00.123") 
+as.nanoperiod("-2y")
+as.nanoperiod("00:00:00.123")
+```
+
+# Technical Details
+
+All new types provided in this package are built with S4 classes containing an R primitive type that
+is then reinterpreted. `nanotime` and `duration` are (indirectly) based on `double` via the type
+`integer64` from the \pkg{bit64} package written by \citet{CRAN:bit64}, whereas `nanoival` and
+`period` are based on `complex`, which allows the storage of 128 bits.  Time-zone conversion and
+calculation as well general time operations rely on the \pkg{CCTZ} library \citep{github:cctz}
+interfaced by \pkg{RcppCCTZ} \citep{CRAN:RcppCCTZ}. Interfacing to and from C++ is done using the
+\pkg{Rcpp} package \citep{JSS:Rcpp,CRAN:Rcpp}.
+
+
+# Performance
+
+The `as.POSIXct` function in R provides a useful baseline as it is also implemented in compiled
+code. The `fastPOSIXct` function from the \pkg{fasttime} package \citep{CRAN:fasttime} excels at
+converting one (and only one) input format _fast_ to a (UTC-only) datetime object. A simple
+benchmark converting 100 input strings 10,000 times shows that the `nanotime` constructor is much
+closer to the performance of the optimal `fastPOSIXct` parser than to the more general `as.POSIXct`
+converter, see Table \ref{tab:speed} for details.
+
+
+```{r knitr_speed, echo=FALSE}
+df <- read.table(stringsAsFactors=FALSE, text="
+                     test replications elapsed relative
+3             as.nanotime        10000   0.304    2.895
+5 as.nanotime_with_format        10000   0.377    3.590
+4     as.nanotime_with_tz        10000   0.397    3.781
+1              as.POSIXct        10000   1.698   16.171
+2             fastPOSIXct        10000   0.105    1.000
+")
+knitr::kable(df, "latex", booktabs=TRUE, row.names=FALSE,
+             caption="\\label{tab:speed}Comparison of as.nanotime, base R and fasttime")
+```
+
+# Summary
+
+We describe the \pkg{nanotime} package which offers a coherent set of types and operations with
+nanosecond precision.
+
+We show that the \pkg{nanotime} package provides the building blocks to build more complicated and
+interesting functions, in particular within the context of `data.table` time-series.
+
+# Appendix
+
+The benchmark results shown in table \ref{tab:speed} are based on the code included below, and
+obtained via execution under R version 4.0.2 running under Ubuntu 20.04 with Linux kernel 5.4.0-39
+on an Intel i7-8700K CPU.
+
+``` {r eval=FALSE}
+library(nanotime)
+library(rbenchmark)
+library(fasttime)
+
+
+x_posixct       <- rep("2020-03-19 22:55:23", 100)
+x_nanotime      <- rep("2020-03-19 22:55:23.000000001+00:00", 100)
+x_nanotime_tz   <- rep("2020-03-19 22:55:23.000000001 America/New_York", 100)
+x_nanotime_cctz <- rep("03-19-2020 22:55:23.000000001+00:00", 100)
+
+benchmark(
+    "as.POSIXct" = { x <- as.POSIXct(x_posixct) },
+    "fastPOSIXct" = { x <- fastPOSIXct(x_posixct) },
+    "as.nanotime" = { x <- as.nanotime(x_nanotime) },
+    "as.nanotime with tz" = { x <- as.nanotime(x_nanotime_tz) },
+    "as.nanotime with format" = { x <- as.nanotime(x_nanotime_tz, format="%m-%d-%YT%H:%M:%E9S%Ez") },
+    replications = 10000,
+    columns = c("test", "replications", "elapsed", "relative"))
+```
