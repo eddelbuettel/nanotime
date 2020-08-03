@@ -49,7 +49,7 @@ namespace nanotime {
   /// 'sp' (i.e. 'se') and does not read more that expectmax
   /// characters. If the number of characters read is smaller than
   /// 'expectmin' the function raises an exception.
-  inline size_t readInt(const char*& sp, 
+  inline uint64_t readInt(const char*& sp, 
                         const char* const se,
                         const int expectmin,
                         const int expectmax) {
@@ -171,12 +171,12 @@ namespace nanotime {
       std::string tzstr_str;    // need to persist this copy!
       std::int64_t offset = 0;
       if (*sp == '+' || *sp == '-') {
-        int sign = *sp == '-' ? -1 : 1;
-        auto h_offset = readInt(++sp, se, 2, 2);
+        int64_t sign = *sp == '-' ? -1 : 1;
+        int64_t h_offset = readInt(++sp, se, 2, 2);
         if (*sp != ':' && *sp != ' ') {
           throw std::range_error("Error parsing offset");
         }
-        auto m_offset = readInt(++sp, se, 2, 2);
+	int64_t m_offset = readInt(++sp, se, 2, 2);
         offset = sign * h_offset * 3600 + m_offset * 60;
         tzstr_str = "UTC";
       } else if (isalpha(*sp)) {

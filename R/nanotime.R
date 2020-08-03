@@ -162,7 +162,7 @@ setAs("integer64", "nanotime", function(from) new("nanotime", as.integer64(from,
 
 .nanotime_character <- function(from, format="", tz="") {
     tryCatch(nanotime_make_impl(from, tz), error=function(e) {
-        if (e$message == "Cannot retrieve timezone" ||
+        if (grepl("Cannot retrieve timezone", e$message) ||
             e$message == "timezone is specified twice: in the string and as an argument") {
             stop(e$message)
         } else {
