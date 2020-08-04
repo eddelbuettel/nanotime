@@ -249,7 +249,7 @@ setMethod("as.nanoival",
                   stop("argument 'tz' must be of type 'character'")
               }
               tryCatch(nanoival_make_impl(from, tz), error=function(e) {
-                  if (e$message == "Cannot retrieve timezone") {
+                  if (grepl("Cannot retrieve timezone", e$message)) {
                       stop(e$message)
                   } else {
                       .secondaryNanoivalParse(from, format, tz)

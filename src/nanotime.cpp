@@ -15,10 +15,14 @@ typedef ConstPseudoVector<LGLSXP,  std::int32_t> ConstPseudoVectorLgl;
 
 
 static inline duration getOffsetCnv(const dtime& dt, const std::string& z) {
-  typedef int GET_OFFSET_FUN(long long, const char*); 
-  GET_OFFSET_FUN *getOffset = (GET_OFFSET_FUN *) R_GetCCallable("RcppCCTZ", "_RcppCCTZ_getOffset" );
+  typedef int GET_OFFSET_FUN(long long, const char*, int&); 
+  GET_OFFSET_FUN *getOffset = (GET_OFFSET_FUN *) R_GetCCallable("RcppCCTZ", "_RcppCCTZ_getOffset_nothrow" );
 
-  auto offset = getOffset(std::chrono::duration_cast<std::chrono::seconds>(dt.time_since_epoch()).count(), z.c_str());
+  int offset;
+  int res = getOffset(std::chrono::duration_cast<std::chrono::seconds>(dt.time_since_epoch()).count(), z.c_str(), offset);
+  if (res < 0) {
+    Rcpp::stop("Cannot retrieve timezone '%s'.", z.c_str());
+  }
   return duration(offset).count() * std::chrono::seconds(1);
 }
 
@@ -121,16 +125,20 @@ static std::int64_t readNanotime(const char*& sp, const char* const se, const ch
     
   const cctz::civil_second cvt(tt.y, tt.m, tt.d, tt.hh, tt.mm, tt.ss);
 
-  typedef time_point<seconds>
-    CONVERT_TO_TIMEPOINT(const cctz::civil_second& cs, const char* tzstr);
+  typedef int CONVERT_TO_TIMEPOINT(const cctz::civil_second& cs, const char* tzstr, time_point<seconds>& tp);
   CONVERT_TO_TIMEPOINT *convertToTimePoint =
-    (CONVERT_TO_TIMEPOINT*)  R_GetCCallable("RcppCCTZ", "_RcppCCTZ_convertToTimePoint" );
+    (CONVERT_TO_TIMEPOINT*) R_GetCCallable("RcppCCTZ", "_RcppCCTZ_convertToTimePoint_nothrow");
 
-  auto final_tzstr = tt.tzstr.size() ? tt.tzstr.c_str() : tzstr;
+  const auto final_tzstr = tt.tzstr.size() ? tt.tzstr.c_str() : tzstr;
   if (final_tzstr[0] == 0)
     Rcpp::stop("Error parsing");
 
-  auto tp = convertToTimePoint(cvt, final_tzstr);
+  time_point<seconds> tp;
+  int res = convertToTimePoint(cvt, final_tzstr, tp);
+  if (res < 0) {
+    Rcpp::stop("Cannot retrieve timezone '%s'.", final_tzstr);
+  }
+  
   return (tp.time_since_epoch().count() - tt.offset) * 1000000000ll + tt.ns;
 }
 
