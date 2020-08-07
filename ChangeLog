@@ -1,10 +1,32 @@
+2020-08-05  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Date, Version): Release 0.3.0
+
+2020-08-02  Leonardo Silvestri  <lsilvestri@ztsdb.org>
+
+	* src/interval.cpp: Use non-throwing RcppCCTZ function
+	* src/nanotime.cpp: Idem
+	* src/period.cpp: Idem
+	* inst/include/nanotime/globals.hpp: More (u)int64_t
+	* R/nanoival.R: Refine error message check
+	* R/nanotime.R: Idem
+
+2020-07-29  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): Roll minor version
+
+2020-07-29  Leonardo Silvestri  <lsilvestri@ztsdb.org>
+
+	* src/Makevars.win: Add to set explicit '-mno-ms-bitfields' flag
+	required for bitfield operations on Windows
+
 2020-07-21  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): Roll minor version
 
 	* inst/NEWS.Rd: Additional entries added
 
-2020-07-20 Leonardo Silvestri  <lsilvestri@ztsdb.org>
+2020-07-20  Leonardo Silvestri  <lsilvestri@ztsdb.org>
 
 	* vignettes/nanotime/rmd/nanotime-intro.Rmd: Additional edits
 
@@ -13,7 +35,7 @@
 	* vignettes/nanotime/rmd/nanotime-intro.Rmd: Additional edits
 	* vignettes/nanotime/rmd/nanotime-intro.bib: Updated bibliography
 
-2020-07-11 Leonardo Silvestri  <lsilvestri@ztsdb.org>
+2020-07-11  Leonardo Silvestri  <lsilvestri@ztsdb.org>
 
 	* DESCRIPTION (Version, Date): Roll minor version
 
@@ -40,7 +62,7 @@
 
 	* .travis.yml: Switch to bionic, and testing via R 4.0.0
 
-2020-05-16 Leonardo Silvestri  <lsilvestri@ztsdb.org>
+2020-05-16  Leonardo Silvestri  <lsilvestri@ztsdb.org>
 
 	* DESCRIPTION (Version, Date): Roll minor version
 
@@ -64,7 +86,7 @@
 	* man/rep-nanoperiod-method.Rd: document 'rep'
 	* man/rep-nanotime-method.Rd: document 'rep'
 
-2020-05-10 Leonardo Silvestri  <lsilvestri@ztsdb.org>
+2020-05-10  Leonardo Silvestri  <lsilvestri@ztsdb.org>
 
 	* DESCRIPTION (Version, Date): Roll minor version
 

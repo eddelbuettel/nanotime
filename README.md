@@ -1,10 +1,10 @@
 ## nanotime: Nanosecond Time Resolution for R
 
 [![Build Status](https://travis-ci.org/eddelbuettel/nanotime.svg)](https://travis-ci.org/eddelbuettel/nanotime) 
-[![License](https://eddelbuettel.github.io/badges/GPL2+.svg)](http://www.gnu.org/licenses/gpl-2.0.html) 
-[![CRAN](http://www.r-pkg.org/badges/version/nanotime)](https://cran.r-project.org/package=nanotime) 
+[![License](https://eddelbuettel.github.io/badges/GPL2+.svg)](https://www.gnu.org/licenses/gpl-2.0.html) 
+[![CRAN](https://www.r-pkg.org/badges/version/nanotime)](https://cran.r-project.org/package=nanotime) 
 [![Dependencies](https://tinyverse.netlify.com/badge/nanotime)](https://cran.r-project.org/package=nanotime) 
-[![Downloads](http://cranlogs.r-pkg.org/badges/nanotime?color=brightgreen)](http://www.r-pkg.org/pkg/nanotime) 
+[![Downloads](https://cranlogs.r-pkg.org/badges/nanotime?color=brightgreen)](https://www.r-pkg.org/pkg/nanotime) 
 [![Code Coverage](https://codecov.io/gh/eddelbuettel/nanotime/graph/badge.svg)](https://codecov.io/gh/eddelbuettel/nanotime)
 [![Last Commit](https://img.shields.io/github/last-commit/eddelbuettel/nanotime)](https://github.com/eddelbuettel/nanotime)
 
@@ -25,7 +25,7 @@ since the epoch.
 And while R does not have a _native_ type for this, the [bit64](https://cran.r-project.org/package=bit64)
 package by [Jens Oehlschlägel](https://github.com/joehl) offers a performant one implemented as a
 lightweight S3 class. So this package uses the `integer64` class, along with multiple helper functions
-for parsing and formatting at nano-second resolution from the [RcppCCTZ](http://dirk.eddelbuettel.com/code/rcpp.cctz.html) 
+for parsing and formatting at nano-second resolution from the [RcppCCTZ](https://dirk.eddelbuettel.com/code/rcpp.cctz.html) 
 package which wraps the [CCTZ library](https://github.com/google/cctz) from Google. CCTZ is a modern C++11 library 
 extending the (C++11-native) `chrono` type.
 
@@ -182,7 +182,7 @@ R> seq(from, by=as.nanoperiod("1y"), length.out=4, tz="Europe/London")
 The [bit64](https://cran.r-project.org/package=bit64) package (by [Jens
 Oehlschlägel](https://github.com/joehl)) supplies the `integer64` type used to store the nanosecond
 resolution time as (positive or negative) offsets to the epoch of January 1, 1970. The
-[RcppCCTZ](http://dirk.eddelbuettel.com/code/rcpp.cctz.html) package supplies the formatting and
+[RcppCCTZ](https://dirk.eddelbuettel.com/code/rcpp.cctz.html) package supplies the formatting and
 parsing routines based on the (modern C++) library [CCTZ](https://github.com/google/cctz) from
 Google, when the parsing cannot be done using a fast built-in parser. `integer64` is also used for
 the type `nanoduration`, whereas `nanoival` and `nanoperiod` are stored in a `complex`, i.e. over

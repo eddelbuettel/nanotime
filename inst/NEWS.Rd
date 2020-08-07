@@ -3,7 +3,7 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/nanotime/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/nanotime/issues/#1}{##1}}
 
-\section{Changes in version 0.3.0 (2020-07-2y)}{
+\section{Changes in version 0.3.0 (2020-08-06)}{
   \itemize{
     \item Use \code{tzstr=} instead of \code{tz=} in call to
     \pkg{RcppCCTZ::parseDouble()}) (Matt Dowle in \ghpr{49}). 
@@ -17,6 +17,10 @@
     \ghit{64} with assistance from Dirk). 
     \item A new (yet still draft-ish) vignette was added describing the
     four core types (Leonardo and Dirk in \ghpr{71}).
+    \item A required compilation flag for Windows was added (Leonardo in
+    \ghpr{72}).
+    \item \pkg{RcppCCTZ} function are called in new 'non-throwing'
+    variants to not trigger exeception errors (Leonardo in \ghpr{73}).
   }
 }
 
