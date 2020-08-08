@@ -87,8 +87,8 @@ static Rcpp::List intersect_idx(const T* v1, size_t v1_size, const U* v2, size_t
   // copy out result:
   Rcpp::NumericVector res_first_rcpp(res_first.size());
   Rcpp::NumericVector res_second_rcpp(res_second.size());
-  memcpy(&res_first_rcpp[0],  &res_first[0],  sizeof(double)*res_first.size()); 
-  memcpy(&res_second_rcpp[0], &res_second[0], sizeof(double)*res_second.size()); 
+  if (res_first.size() > 0) memcpy(&res_first_rcpp[0],  &res_first[0],  sizeof(double)*res_first.size());
+  if (res_second.size() > 0) memcpy(&res_second_rcpp[0], &res_second[0], sizeof(double)*res_second.size());
   
   return Rcpp::List::create(Rcpp::Named("x") = res_first_rcpp,
                             Rcpp::Named("y") = res_second_rcpp);
@@ -152,7 +152,7 @@ Rcpp::LogicalVector nanoival_intersect_idx_time_interval_logical_impl(const Rcpp
   const interval*      v2 = reinterpret_cast<const interval*>(&nv2[0]);
   auto res_c = intersect_idx_logical(v1, nv1.size(), v2, nv2.size());
   Rcpp::LogicalVector res(nv1.size());
-  memcpy(&res[0], &res_c[0], sizeof(int)*nv1.size()); 
+  if (nv1.size() > 0) memcpy(&res[0], &res_c[0], sizeof(int)*nv1.size());
   return res;
 }
 
@@ -177,11 +177,16 @@ Rcpp::S4 nanoival_intersect_time_interval_impl(const Rcpp::NumericVector nv1,
       ++i1;
     }
   }
-  
-  double* res_start = reinterpret_cast<double*>(&res[0]);
-  double* res_end   = res_start + res.size();
-  auto final_res = Rcpp::NumericVector(res_start, res_end);
-  return assignS4("nanotime", final_res, "integer64");
+
+  if (res.size() > 0) {
+    double* res_start = reinterpret_cast<double*>(&res[0]);
+    double* res_end   = res_start + res.size();
+    auto final_res = Rcpp::NumericVector(res_start, res_end);
+    return assignS4("nanotime", final_res, "integer64");
+  } else {
+    auto final_res = Rcpp::NumericVector(0);
+    return assignS4("nanotime", final_res, "integer64");
+  }
 }
 
 // [[Rcpp::export]]
@@ -322,7 +327,7 @@ Rcpp::ComplexVector nanoival_intersect_impl(const Rcpp::ComplexVector nv1,
   
   // build the ComplexVector that we will return to R:
   Rcpp::ComplexVector finalres(res.size());
-  memcpy(&finalres[0], &res[0], sizeof(Rcomplex)*res.size());
+  if (res.size() > 0) memcpy(&finalres[0], &res[0], sizeof(Rcomplex)*res.size());
   return assignS4("nanoival", finalres);
 }
 
@@ -393,7 +398,7 @@ Rcpp::ComplexVector nanoival_setdiff_impl(const Rcpp::ComplexVector nv1,
   
   // build the ComplexVector that we will return to R:
   Rcpp::ComplexVector finalres(res.size());
-  memcpy(&finalres[0], &res[0], sizeof(Rcomplex)*res.size());
+  if (res.size() > 0) memcpy(&finalres[0], &res[0], sizeof(Rcomplex)*res.size());
   return finalres;
 }
 
@@ -577,7 +582,7 @@ static Rcpp::NumericVector setdiff_idx(const T* v1, size_t v1_size, const U* v2,
 
   // copy out result:
   Rcpp::NumericVector res_first_rcpp(res_first.size());
-  memcpy(&res_first_rcpp[0],  &res_first[0],  sizeof(double)*res_first.size()); 
+  if (res_first.size() > 0) memcpy(&res_first_rcpp[0],  &res_first[0],  sizeof(double)*res_first.size());
 
   return res_first_rcpp;
 }
