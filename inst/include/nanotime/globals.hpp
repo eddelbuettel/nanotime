@@ -11,8 +11,8 @@
 namespace nanotime {
 
 
-  using dtime = std::chrono::system_clock::time_point;
-  using duration = dtime::duration;
+  using duration = std::chrono::nanoseconds;
+  using dtime = std::chrono::time_point<std::chrono::system_clock, duration>;
 
   inline bool readNumber(const char*& s, const char* e, int& n, bool dosign) {
     n = 1;
