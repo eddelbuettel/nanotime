@@ -767,7 +767,7 @@ static Rcomplex readNanoival(const char*& sp, const char* const se, const char* 
   const char* tzstr_start  = ss.tzstr.size() ? ss.tzstr.c_str() : tzstr;
   int cvt_res = convertToTimePoint(start_cvt, tzstr_start, start_tp);
   if (cvt_res < 0) {
-    Rcpp::stop("Cannot retrieve timezone '%s'.", tzstr_start);
+    Rcpp::stop("Cannot retrieve timezone '%s'.", tzstr_start); // ## nocov
   }
   auto start = dtime{std::chrono::nanoseconds((start_tp.time_since_epoch().count() - ss.offset) * 1000000000ll + ss.ns)};
 
