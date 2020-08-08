@@ -1,13 +1,14 @@
 Package: nanotime
 Type: Package
-Title: Nanosecond-Resolution Time for R
+Title: Nanosecond-Resolution Time Support for R
 Version: 0.3.0.1
 Date: 2020-08-08
 Author: Dirk Eddelbuettel and Leonardo Silvestri
 Maintainer: Dirk Eddelbuettel <edd@debian.org>
-Description: Full 64-bit resolution date and time support with resolution up
- to nanosecond granularity is provided, with easy transition to and from the
- standard 'POSIXct' type.
+Description: Full 64-bit resolution date and time functionality with
+ nanosecond granularity is provided, with easy transition to and from
+ the standard 'POSIXct' type. Three additional classes offer interval,
+ period and duration functionality for nanosecond-resolution timestamps.
 Imports: methods, bit64, RcppCCTZ (>= 0.2.8), zoo
 Suggests: tinytest, data.table, xts
 LinkingTo: Rcpp, RcppCCTZ, RcppDate
