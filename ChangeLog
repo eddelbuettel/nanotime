@@ -1,3 +1,15 @@
+2020-08-08  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/interval.cpp: Add some tests for non-zero length vectors
+	* inst/tinytest/test_nanotime.R: Skip one test upsetting SAN
+	* tests/tinytest.R: Default back to serial tests
+
+2020-08-07  Leonardo Silvestri  <lsilvestri@ztsdb.org>
+
+	* src/period.cpp: Add extra braces to appease macOS compiler
+	* src/inst/include/nanotime/globals.hpp: Use chrono duration; remove
+	ambiguous time_point and seconds declarations
+
 2020-08-05  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Date, Version): Release 0.3.0
