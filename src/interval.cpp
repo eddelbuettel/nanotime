@@ -753,12 +753,12 @@ static Rcomplex readNanoival(const char*& sp, const char* const se, const char* 
     throw std::range_error("Error parsing");
   }
 
-  typedef int CONVERT_TO_TIMEPOINT(const cctz::civil_second&, const char*, time_point<seconds>&);
+  typedef int CONVERT_TO_TIMEPOINT(const cctz::civil_second&, const char*, cctz::time_point<cctz::seconds>&);
   CONVERT_TO_TIMEPOINT *convertToTimePoint =
     (CONVERT_TO_TIMEPOINT*)  R_GetCCallable("RcppCCTZ", "_RcppCCTZ_convertToTimePoint_nothrow" );
 
   const cctz::civil_second start_cvt(ss.y, ss.m, ss.d, ss.hh, ss.mm, ss.ss);
-  time_point<seconds> start_tp;
+  cctz::time_point<cctz::seconds> start_tp;
   const char* tzstr_start  = ss.tzstr.size() ? ss.tzstr.c_str() : tzstr;
   int cvt_res = convertToTimePoint(start_cvt, tzstr_start, start_tp);
   if (cvt_res < 0) {
@@ -767,7 +767,7 @@ static Rcomplex readNanoival(const char*& sp, const char* const se, const char* 
   auto start = dtime{std::chrono::nanoseconds((start_tp.time_since_epoch().count() - ss.offset) * 1000000000ll + ss.ns)};
 
   const cctz::civil_second end_cvt(es.y, es.m, es.d, es.hh, es.mm, es.ss);
-  time_point<seconds> end_tp;
+  cctz::time_point<cctz::seconds> end_tp;
   const char* tzstr_end  = es.tzstr.size() ? es.tzstr.c_str() : tzstr;
   cvt_res = convertToTimePoint(end_cvt, tzstr_end, end_tp);
   if (cvt_res < 0) {

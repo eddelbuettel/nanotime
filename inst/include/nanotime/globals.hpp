@@ -40,11 +40,7 @@ namespace nanotime {
     return true;
   }
 
-  template <typename D>
-  using time_point = std::chrono::time_point<std::chrono::system_clock, D>;
-  using seconds    = std::chrono::duration<std::int_fast64_t>;
 
-  
   /// Read an integer. This functions does not read beyond the end of
   /// 'sp' (i.e. 'se') and does not read more that expectmax
   /// characters. If the number of characters read is smaller than
