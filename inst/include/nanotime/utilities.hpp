@@ -114,6 +114,9 @@ namespace nanotime {
     }
   }
 
+  // SunOS has no strnlen_; definition in src/strnlen.cpp
+  size_t strnlen_(const char *s, size_t maxlen);
+
 } // end namespace nanotime
-  
+
 #endif

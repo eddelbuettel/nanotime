@@ -730,7 +730,7 @@ static Rcomplex readNanoival(const char*& sp, const char* const se, const char* 
   auto sopen = *sp++ == '+' ? false : true;
   
   auto ss = readDtime(sp, se);
-  if (ss.tzstr.size() && strnlen(tzstr, MAX_TZ_STR_LENGTH)) {
+  if (ss.tzstr.size() && strnlen_(tzstr, MAX_TZ_STR_LENGTH)) {
     throw std::range_error("timezone is specified twice: in the string and as an argument");
   }
   skipWhitespace(sp, se);
@@ -743,7 +743,7 @@ static Rcomplex readNanoival(const char*& sp, const char* const se, const char* 
     
   skipWhitespace(sp, se);
   auto es = readDtime(sp, se-1); // -1 because we don't want to read the -+ as a timezone
-  if (es.tzstr.size() && strnlen(tzstr, MAX_TZ_STR_LENGTH)) {
+  if (es.tzstr.size() && strnlen_(tzstr, MAX_TZ_STR_LENGTH)) {
     throw std::range_error("timezone is specified twice: in the string and as an argument"); // ## nocov
   }
 

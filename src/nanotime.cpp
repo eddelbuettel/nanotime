@@ -120,7 +120,7 @@ static std::int64_t readNanotime(const char*& sp, const char* const se, const ch
   if (sp != se)
     Rcpp::stop("Error parsing");
 
-  if (tt.tzstr.size() && strnlen(tzstr, MAX_TZ_STR_LENGTH)) 
+  if (tt.tzstr.size() && strnlen_(tzstr, MAX_TZ_STR_LENGTH))
     Rcpp::stop("timezone is specified twice: in the string and as an argument");
     
   const cctz::civil_second cvt(tt.y, tt.m, tt.d, tt.hh, tt.mm, tt.ss);

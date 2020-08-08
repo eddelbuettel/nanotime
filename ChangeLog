@@ -4,6 +4,11 @@
 	* inst/tinytest/test_nanotime.R: Skip one test upsetting SAN
 	* tests/tinytest.R: Default back to serial tests
 
+	* src/strnlen.cpp: Added strnlen_ to help Solaris
+	* inst/include/nanotime/utilities.hpp: Declare it
+	* src/interval.cpp: Use it
+	* src/nanotime.cpp: Idem
+
 2020-08-07  Leonardo Silvestri  <lsilvestri@ztsdb.org>
 
 	* src/period.cpp: Add extra braces to appease macOS compiler
