@@ -27,6 +27,8 @@ interesting additional argument is \code{tz} where the
 Generate a sequence of \code{nanoival}
 }
 \examples{
+\dontrun{
 from <- as.nanoival("-2018-01-14T13:00:00+00:00 -> 2018-01-14T15:00:00+00:00+")
 seq(from, by=as.nanoperiod("1m"), length.out=5, tz="America/New_York")
+}
 }

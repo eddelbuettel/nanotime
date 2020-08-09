@@ -52,6 +52,7 @@ setClass("nanoperiod", contains = "complex")
 ##' @author Dirk Eddelbuettel
 ##' @author Leonardo Silvestri
 ##' @examples
+##' \dontrun{
 ##' p <- nanoperiod(months=12, days=7, duration="01:00:00")
 ##' print(p)
 ##'
@@ -59,6 +60,7 @@ setClass("nanoperiod", contains = "complex")
 ##' # \code{nanoival}, a time zone must be specified:
 ##' y <- nanotime("1970-01-01T00:00:00+00:00")
 ##' plus(y, p, tz="America/Chicago")
+##' }
 ##'
 ##' @seealso \code{\link{nanotime}}, \code{\link{nanoduration}},
 ##'     \code{\link{nanoival}}, \code{\link{nanoperiod.month,nanoperiod-method}}

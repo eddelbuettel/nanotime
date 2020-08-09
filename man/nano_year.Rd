@@ -38,6 +38,7 @@ boundary is different depending on the time zone and
 offset in nanoseconds from the epoch.
 }
 \examples{
+\dontrun{
 nano_wday(as.nanotime("2020-03-14 23:32:00-04:00"), "America/New_York")
 nano_wday(as.nanotime("2020-03-14 23:32:00 America/New_York"), "Europe/Paris")
 nano_mday(as.nanotime("2020-03-14 23:32:00-04:00"), "America/New_York")
@@ -46,5 +47,6 @@ nano_month(as.nanotime("2020-12-31 23:32:00-04:00"), "America/New_York")
 nano_month(as.nanotime("2020-12-31 23:32:00 America/New_York"), "Europe/Paris")
 nano_year(as.nanotime("2020-12-31 23:32:00-04:00"), "America/New_York")
 nano_year(as.nanotime("2020-12-31 23:32:00 America/New_York"), "Europe/Paris")
+}
 
 }

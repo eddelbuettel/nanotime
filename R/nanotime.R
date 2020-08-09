@@ -90,6 +90,7 @@ setClass("nanotime", contains = "integer64")
 ##' @author Dirk Eddelbuettel
 ##' @author Leonardo Silvestri
 ##' @examples
+##' \dontrun{
 ##' x <- nanotime(1)
 ##' print(x)
 ##' as.nanotime("1970-01-01T00:00:00.000000001+00:00")
@@ -103,6 +104,7 @@ setClass("nanotime", contains = "integer64")
 ##' format(x)
 ##' nanotime(Sys.time()) + 1:3  # three elements each 1 ns apart
 ##' seq(x, by=as.nanoperiod("1d"), length.out=5, tz="Asia/Tokyo")
+##' }
 ##' @seealso \code{\link{nanoival}}, \code{\link{nanoduration}},
 ##'     \code{\link{nanoperiod}}, \code{\link{seq.nanotime}}
 
@@ -663,10 +665,12 @@ setMethod("is.na",
 ##' @param length.out integer indicating the desired length of the sequence
 ##' @param along.with take the length from the length of this argument.
 ##' @examples
+##' \dontrun{
 ##' from <- as.nanotime("2018-01-14T12:44:00+00:00")
 ##' to   <- as.nanotime("2019-01-14T12:44:00+00:00")
 ##' seq(from, to, by=as.nanoperiod("1m"), tz="America/New_York")
 ##' seq(from, by=as.nanoperiod("1y"), length.out=4, tz="Europe/London")
+##' }
 ##' @method seq nanotime
 seq.nanotime <-
     function(from, to = NULL, by = NULL, length.out = NULL, along.with = NULL, ...)
@@ -879,6 +883,7 @@ NA_nanotime_ <- nanotime(NA)
 ##' @param x a \code{nanotime} object
 ##' @param tz \code{character} a string representing a timezone
 ##' @examples
+##' \dontrun{
 ##' nano_wday(as.nanotime("2020-03-14 23:32:00-04:00"), "America/New_York")
 ##' nano_wday(as.nanotime("2020-03-14 23:32:00 America/New_York"), "Europe/Paris")
 ##' nano_mday(as.nanotime("2020-03-14 23:32:00-04:00"), "America/New_York")
@@ -887,6 +892,7 @@ NA_nanotime_ <- nanotime(NA)
 ##' nano_month(as.nanotime("2020-12-31 23:32:00 America/New_York"), "Europe/Paris")
 ##' nano_year(as.nanotime("2020-12-31 23:32:00-04:00"), "America/New_York")
 ##' nano_year(as.nanotime("2020-12-31 23:32:00 America/New_York"), "Europe/Paris")
+##' }
 ##'
 ##' @rdname nano_year
 ##' @aliases nano_wday
@@ -964,11 +970,11 @@ setMethod("nano_year", c("nanotime"), function(x, tz) nanotime_year_impl(x, tz))
 ##' nano_ceiling(as.nanotime("2010-10-10 11:23:15 UTC"),
 ##'              as.nanoduration("01:15:23"),
 ##'              origin=as.nanotime("2010-10-10 11:23:15 UTC"))
+##' \dontrun{
 ##' ## using business concepts and rounding across a daylight saving change:
 ##' v <- seq(as.nanotime("2020-03-08 America/New_York"),
 ##'          by=as.nanoperiod("06:00:00"), length.out=8, tz="America/New_York")
 ##' print(nano_floor(v, as.nanoperiod("1d"), tz="America/New_York"), tz="America/New_York")
-##' \dontrun{ 
 ##' ## using the concept in a 'data.table':
 ##' library(data.table)
 ##' n <- 3 * 24

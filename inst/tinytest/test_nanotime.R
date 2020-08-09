@@ -476,12 +476,14 @@ expect_true(is.na(NA_nanotime_))
 
 ## test square bracket (#44)
 ##test_square_bracket <- function() {
-times <- c(nanotime('2011-12-05 08:30:00.000',format ="%Y-%m-%d %H:%M:%E9S",  tz ="GMT"),
-           nanotime('2011-12-05 08:30:00.100',format ="%Y-%m-%d %H:%M:%E9S",  tz ="GMT"),
-           nanotime('2011-12-05 08:30:00.825',format ="%Y-%m-%d %H:%M:%E9S",  tz ="GMT"))
-expect_identical(times[1], times[[1]])
-expect_identical(times[2], times[[2]])
-expect_identical(times[3], times[[3]])
+if (!isSolaris) {
+    times <- c(nanotime('2011-12-05 08:30:00.000',format ="%Y-%m-%d %H:%M:%E9S",  tz ="GMT"),
+               nanotime('2011-12-05 08:30:00.100',format ="%Y-%m-%d %H:%M:%E9S",  tz ="GMT"),
+               nanotime('2011-12-05 08:30:00.825',format ="%Y-%m-%d %H:%M:%E9S",  tz ="GMT"))
+    expect_identical(times[1], times[[1]])
+    expect_identical(times[2], times[[2]])
+    expect_identical(times[3], times[[3]])
+}
 
 ## test compare
 expect_true(nanotime(1) == nanotime(1))
@@ -502,6 +504,8 @@ expect_true(nanotime(1) <= nanotime("1970-01-01T00:00:00.000000002+00"))
 expect_false(nanotime("1970-01-01T00:00:00.000000001+00") >= nanotime(2))
 expect_true(nanotime(1) < nanotime("1970-01-01T00:00:00.000000002+00"))
 expect_false(nanotime("1970-01-01T00:00:00.000000001+00") > nanotime(2))
+
+if (isSolaris) exit_file("skip remainder on Solaris")
 
 ## with POSIXt
 pt1 <- as.POSIXct(1, origin="1970-01-01", tz="UTC")
