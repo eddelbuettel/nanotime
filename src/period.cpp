@@ -41,7 +41,7 @@ static inline duration getOffsetCnv(const dtime& dt, const std::string& z) {
   int offset;
   int res = getOffset(std::chrono::duration_cast<std::chrono::seconds>(dt.time_since_epoch()).count(), z.c_str(), offset);
   if (res < 0) {
-    Rcpp::stop("Cannot retrieve timezone '%s'.", z.c_str());
+    Rcpp::stop("Cannot retrieve timezone '%s'.", z.c_str()); // ## nocov
   }
 
   return duration(offset).count() * std::chrono::seconds(1);
@@ -279,7 +279,7 @@ Rcpp::ComplexVector period_from_string_impl(Rcpp::CharacterVector str) {
   Rcpp::ComplexVector res(str.size());
   for (R_xlen_t i=0; i<str.size(); ++i) {
     period prd(Rcpp::as<std::string>(str[i]));
-    period_union pu = { prd.getMonths(), prd.getDays(), prd.getDuration().count() };
+    period_union pu = { { prd.getMonths(), prd.getDays(), prd.getDuration().count() } };
     res[i] = Rcomplex{pu.dbl2.d1, pu.dbl2.d2 };
   }
   if (str.hasAttribute("names")) {
@@ -300,7 +300,7 @@ Rcpp::ComplexVector period_from_parts_impl(Rcpp::IntegerVector months_v, Rcpp::I
   
     for (R_xlen_t i=0; i<res.size(); ++i) {
       const auto dur_i = *reinterpret_cast<const int64_t*>(&dur[i]);
-      period_union pu = { months[i], days[i], dur_i };
+      period_union pu = { { months[i], days[i], dur_i } };
       res[i] = Rcomplex{pu.dbl2.d1, pu.dbl2.d2 };
     }
   }
@@ -343,11 +343,11 @@ Rcpp::ComplexVector period_from_integer64_impl(Rcpp::NumericVector i64) {
   for (R_xlen_t i=0; i<i64.size(); ++i) {
     auto elt = *reinterpret_cast<std::int64_t*>(&i64[i]);
     if (elt == NA_INTEGER64) {
-      period_union pu = { NA_INTEGER, NA_INTEGER, NA_INTEGER64 };
+      period_union pu = { { NA_INTEGER, NA_INTEGER, NA_INTEGER64 } };
       res[i] = Rcomplex{pu.dbl2.d1, pu.dbl2.d2 };
     }
     else {
-      period_union pu = { 0, 0, elt };
+      period_union pu = { { 0, 0, elt } };
       res[i] = Rcomplex{pu.dbl2.d1, pu.dbl2.d2 };
     }
   }
@@ -363,11 +363,11 @@ Rcpp::ComplexVector period_from_integer_impl(Rcpp::IntegerVector iint) {
   Rcpp::ComplexVector res(iint.size());
   for (R_xlen_t i=0; i<iint.size(); ++i) {
     if (iint[i] == NA_INTEGER) {
-      period_union pu = { NA_INTEGER, NA_INTEGER, NA_INTEGER64 };
+      period_union pu = { { NA_INTEGER, NA_INTEGER, NA_INTEGER64 } };
       res[i] = Rcomplex{pu.dbl2.d1, pu.dbl2.d2 };
     }
     else {
-      period_union pu = { 0, 0, static_cast<std::int64_t>(iint[i]) };
+      period_union pu = { { 0, 0, static_cast<std::int64_t>(iint[i]) } };
       res[i] = Rcomplex{pu.dbl2.d1, pu.dbl2.d2 };
     }
   }
@@ -383,11 +383,11 @@ Rcpp::ComplexVector period_from_double_impl(Rcpp::NumericVector dbl) {
   Rcpp::ComplexVector res(dbl.size());
   for (R_xlen_t i=0; i<dbl.size(); ++i) {
     if (ISNA(dbl[i])) {
-      period_union pu = { NA_INTEGER, NA_INTEGER, NA_INTEGER64 };
+      period_union pu = { { NA_INTEGER, NA_INTEGER, NA_INTEGER64 } };
       res[i] = Rcomplex{pu.dbl2.d1, pu.dbl2.d2 };
     }
     else {
-      period_union pu = { 0, 0, static_cast<std::int64_t>(dbl[i]) };
+      period_union pu = { { 0, 0, static_cast<std::int64_t>(dbl[i]) } };
       res[i] = Rcomplex{pu.dbl2.d1, pu.dbl2.d2 };
     }
   }

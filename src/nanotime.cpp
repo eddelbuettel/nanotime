@@ -120,12 +120,12 @@ static std::int64_t readNanotime(const char*& sp, const char* const se, const ch
   if (sp != se)
     Rcpp::stop("Error parsing");
 
-  if (tt.tzstr.size() && strnlen(tzstr, MAX_TZ_STR_LENGTH)) 
+  if (tt.tzstr.size() && strnlen_(tzstr, MAX_TZ_STR_LENGTH))
     Rcpp::stop("timezone is specified twice: in the string and as an argument");
     
   const cctz::civil_second cvt(tt.y, tt.m, tt.d, tt.hh, tt.mm, tt.ss);
 
-  typedef int CONVERT_TO_TIMEPOINT(const cctz::civil_second& cs, const char* tzstr, time_point<seconds>& tp);
+  typedef int CONVERT_TO_TIMEPOINT(const cctz::civil_second& cs, const char* tzstr, cctz::time_point<cctz::seconds>& tp);
   CONVERT_TO_TIMEPOINT *convertToTimePoint =
     (CONVERT_TO_TIMEPOINT*) R_GetCCallable("RcppCCTZ", "_RcppCCTZ_convertToTimePoint_nothrow");
 
@@ -133,7 +133,7 @@ static std::int64_t readNanotime(const char*& sp, const char* const se, const ch
   if (final_tzstr[0] == 0)
     Rcpp::stop("Error parsing");
 
-  time_point<seconds> tp;
+  cctz::time_point<cctz::seconds> tp;
   int res = convertToTimePoint(cvt, final_tzstr, tp);
   if (res < 0) {
     Rcpp::stop("Cannot retrieve timezone '%s'.", final_tzstr);

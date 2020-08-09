@@ -3,6 +3,12 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/nanotime/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/nanotime/issues/#1}{##1}}
 
+\section{Changes in version 0.3.1 (2020-08-xx)}{
+  \itemize{
+    \item Several small cleanups to ensure a more robust compilation.
+  }
+}
+
 \section{Changes in version 0.3.0 (2020-08-06)}{
   \itemize{
     \item Use \code{tzstr=} instead of \code{tz=} in call to

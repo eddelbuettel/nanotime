@@ -1,4 +1,4 @@
-## nanotime: Nanosecond Time Resolution for R
+## nanotime: Nanosecond-Resolution Time Objects for R
 
 [![Build Status](https://travis-ci.org/eddelbuettel/nanotime.svg)](https://travis-ci.org/eddelbuettel/nanotime) 
 [![License](https://eddelbuettel.github.io/badges/GPL2+.svg)](https://www.gnu.org/licenses/gpl-2.0.html) 
