@@ -1344,8 +1344,10 @@ n1 <- nanotime(1)
 n2 <- nanotime(2)
 ni <- nanoival(n1, n2)
 prd <- as.nanoperiod("200y")
-expect_warning(plus (ni, prd, "America/New_York"), "NAs produced by time overflow \\(remember that interval times are coded with 63 bits\\)")
-expect_warning(minus(ni, prd, "America/New_York"), "NAs produced by time overflow \\(remember that interval times are coded with 63 bits\\)")
+if (!isSolaris) {
+    expect_warning(plus (ni, prd, "America/New_York"), "NAs produced by time overflow \\(remember that interval times are coded with 63 bits\\)")
+    expect_warning(minus(ni, prd, "America/New_York"), "NAs produced by time overflow \\(remember that interval times are coded with 63 bits\\)")
+}
 dur <- as.nanoduration(200*365*24*3600*1e9)
 expect_warning(ni + dur, "NAs produced by time overflow \\(remember that interval times are coded with 63 bits\\)")
 expect_warning(ni + dur, "NAs produced by time overflow \\(remember that interval times are coded with 63 bits\\)")
@@ -1378,10 +1380,12 @@ expect_identical(as.nanoival(aa), as(aa, "nanoival"))
 ## test seq:
 
 x <- as.nanoival("+2013-01-01 15:00:00 -> 2013-01-01 17:00:00-")
-expect_identical(seq(x, by=as.nanoperiod("1m"), length.out=4, tz="America/New_York"),
-                 nanoival(seq(nanoival.start(x), by=as.nanoperiod("1m"), length.out=4, tz="America/New_York"),
-                          seq(nanoival.end(x),   by=as.nanoperiod("1m"), length.out=4, tz="America/New_York"),
-                          FALSE, TRUE))
+if (!isSolaris) {
+    expect_identical(seq(x, by=as.nanoperiod("1m"), length.out=4, tz="America/New_York"),
+                     nanoival(seq(nanoival.start(x), by=as.nanoperiod("1m"), length.out=4, tz="America/New_York"),
+                              seq(nanoival.end(x),   by=as.nanoperiod("1m"), length.out=4, tz="America/New_York"),
+                              FALSE, TRUE))
+}
 y <- as.nanoival("+2013-01-04 15:00:00 -> 2013-01-04 17:00:00-")
 expect_identical(seq(x, y, by=as.nanoduration("24:00:00")),
                  nanoival(seq(nanoival.start(x), by=as.nanoperiod("1d"), length.out=4, tz="UTC"),

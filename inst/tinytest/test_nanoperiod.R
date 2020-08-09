@@ -1,6 +1,8 @@
 
 library(nanotime)
 
+isSolaris <- Sys.info()[["sysname"]] == "SunOS"
+
 ## constructors
 ##test_as.nanoperiod_character <- function() {
 p1 <- as.nanoperiod("1m1d")
@@ -466,104 +468,106 @@ pp <- c(as.nanoperiod(1:10), as.nanoperiod(11:20))
 expect_identical(pp, as.nanoperiod(1:20))
 
 
+if (!isSolaris) {
 
-## plus/minus with 'nanotime':
+    ## plus/minus with 'nanotime':
 
-##test_plus_nanotime_nanoperiod <- function() {
-nt <- nanotime("2018-01-01T05:00:00.000000000+00")
-p  <- c(p=as.nanoperiod("4m"))
-tz <- "America/New_York"
-expected <- c(p=nanotime("2018-05-01T00:00:00.000000000-04:00"))
-expect_identical(plus(nt, p, tz), expected)
+    ##test_plus_nanotime_nanoperiod <- function() {
+    nt <- nanotime("2018-01-01T05:00:00.000000000+00")
+    p  <- c(p=as.nanoperiod("4m"))
+    tz <- "America/New_York"
+    expected <- c(p=nanotime("2018-05-01T00:00:00.000000000-04:00"))
+    expect_identical(plus(nt, p, tz), expected)
 
-##test_plus_nanotime_nanoperiod_vector1 <- function() {
-nt <- nanotime("2018-01-01T05:00:00.000000000+00") + 1:10
-p  <- as.nanoperiod("4m")
-tz <- "America/New_York"
-expected <- nanotime("2018-05-01T00:00:00.000000000-04:00") + 1:10
-expect_identical(plus(nt, p, tz), expected)
+    ##test_plus_nanotime_nanoperiod_vector1 <- function() {
+    nt <- nanotime("2018-01-01T05:00:00.000000000+00") + 1:10
+    p  <- as.nanoperiod("4m")
+    tz <- "America/New_York"
+    expected <- nanotime("2018-05-01T00:00:00.000000000-04:00") + 1:10
+    expect_identical(plus(nt, p, tz), expected)
 
-##test_plus_nanotime_nanoperiod_vector2 <- function() {
-nt <- nanotime("2018-01-01T05:00:00.000000000+00")
-p  <- as.nanoperiod("4m") + 1:10
-tz <- "America/New_York"
-expected <- nanotime("2018-05-01T00:00:00.000000000-04:00") + 1:10
-expect_identical(plus(nt, p, tz), expected)
+    ##test_plus_nanotime_nanoperiod_vector2 <- function() {
+    nt <- nanotime("2018-01-01T05:00:00.000000000+00")
+    p  <- as.nanoperiod("4m") + 1:10
+    tz <- "America/New_York"
+    expected <- nanotime("2018-05-01T00:00:00.000000000-04:00") + 1:10
+    expect_identical(plus(nt, p, tz), expected)
 
-##test_plus_nanotime_nanoperiod_vector3 <- function() {
-nt <- nanotime("2018-01-01T05:00:00.000000000+00")
-p  <- as.nanoperiod("4m") + 1:10
-tz <- rep("America/New_York", 10)
-expected <- nanotime("2018-05-01T00:00:00.000000000-04:00") + 1:10
-expect_identical(plus(nt, p, tz), expected)
+    ##test_plus_nanotime_nanoperiod_vector3 <- function() {
+    nt <- nanotime("2018-01-01T05:00:00.000000000+00")
+    p  <- as.nanoperiod("4m") + 1:10
+    tz <- rep("America/New_York", 10)
+    expected <- nanotime("2018-05-01T00:00:00.000000000-04:00") + 1:10
+    expect_identical(plus(nt, p, tz), expected)
 
-##test_plus_nanoperiod_nanotime <- function() {
-nt <- nanotime("2018-01-01T05:00:00.000000000+00")
-p  <- c(p=as.nanoperiod("4m"))
-tz <- "America/New_York"
-expected <- c(p=nanotime("2018-05-01T00:00:00.000000000-04:00"))
-expect_identical(plus(p, nt, tz), expected)
+    ##test_plus_nanoperiod_nanotime <- function() {
+    nt <- nanotime("2018-01-01T05:00:00.000000000+00")
+    p  <- c(p=as.nanoperiod("4m"))
+    tz <- "America/New_York"
+    expected <- c(p=nanotime("2018-05-01T00:00:00.000000000-04:00"))
+    expect_identical(plus(p, nt, tz), expected)
 
-##test_minus_nanotime_nanoperiod <- function() {
-nt <- c(p1=nanotime("2018-05-01T00:00:00.000000000-04:00"))
-p  <- c(p2=as.nanoperiod("4m"))
-tz <- "America/New_York"
-expected <- c(p1=nanotime("2018-01-01T00:00:00.000000000-05:00"))
-expect_identical(minus(nt, p, tz), expected)
+    ##test_minus_nanotime_nanoperiod <- function() {
+    nt <- c(p1=nanotime("2018-05-01T00:00:00.000000000-04:00"))
+    p  <- c(p2=as.nanoperiod("4m"))
+    tz <- "America/New_York"
+    expected <- c(p1=nanotime("2018-01-01T00:00:00.000000000-05:00"))
+    expect_identical(minus(nt, p, tz), expected)
 
-##test_minus_nanoperiod_nanotime <- function() {
-nt <- nanotime("2018-05-01T00:00:00.000000000-04:00")
-p  <- as.nanoperiod("4m")
-tz <- "America/New_York"
-expect_error(minus(p, nt, tz), "operation not defined for 'nanoperiod' objects")
+    ##test_minus_nanoperiod_nanotime <- function() {
+    nt <- nanotime("2018-05-01T00:00:00.000000000-04:00")
+    p  <- as.nanoperiod("4m")
+    tz <- "America/New_York"
+    expect_error(minus(p, nt, tz), "operation not defined for 'nanoperiod' objects")
 
 
+    ## plus/minus with 'nanoival':
 
-## plus/minus with 'nanoival':
+    ##test_plus_nanoival_nanoperiod <- function() {
+    start <- nanotime("2018-01-01T05:00:00.000000000+00")
+    end <- nanotime("2018-01-01T23:00:00.000000000+00")
+    ni <- nanoival(start, end)
+    p  <- as.nanoperiod("4m")
+    tz <- "America/New_York"
+    expected <- as.nanoival("+2018-05-01T00:00:00.000000000-04:00 -> 2018-05-01T18:00:00.000000000-04:00-")
+    expect_identical(plus(ni, p, tz), expected)
 
-##test_plus_nanoival_nanoperiod <- function() {
-start <- nanotime("2018-01-01T05:00:00.000000000+00")
-end <- nanotime("2018-01-01T23:00:00.000000000+00")
-ni <- nanoival(start, end)
-p  <- as.nanoperiod("4m")
-tz <- "America/New_York"
-expected <- as.nanoival("+2018-05-01T00:00:00.000000000-04:00 -> 2018-05-01T18:00:00.000000000-04:00-")
-expect_identical(plus(ni, p, tz), expected)
+    ##test_plus_nanoival_nanoperiod_pre_1970 <- function() {
+    start <- nanotime("1969-01-01T05:00:00.000000000+00")
+    end <- nanotime("1969-01-01T23:00:00.000000000+00")
+    ni <- nanoival(start, end)
+    p  <- as.nanoperiod("4m")
+    tz <- "America/New_York"
+    expected <- as.nanoival("+1969-05-01T00:00:00.000000000-04:00 -> 1969-05-01T18:00:00.000000000-04:00-")
+    expect_identical(plus(ni, p, tz), expected)
 
-##test_plus_nanoival_nanoperiod_pre_1970 <- function() {
-start <- nanotime("1969-01-01T05:00:00.000000000+00")
-end <- nanotime("1969-01-01T23:00:00.000000000+00")
-ni <- nanoival(start, end)
-p  <- as.nanoperiod("4m")
-tz <- "America/New_York"
-expected <- as.nanoival("+1969-05-01T00:00:00.000000000-04:00 -> 1969-05-01T18:00:00.000000000-04:00-")
-expect_identical(plus(ni, p, tz), expected)
+    ##test_plus_nanoperiod_nanoival <- function() {
+    start <- nanotime("2018-01-01T05:00:00.000000000+00")
+    end <- nanotime("2018-01-01T23:00:00.000000000+00")
+    ni <- nanoival(start, end)
+    p  <- c(a=as.nanoperiod("4m"))
+    tz <- "America/New_York"
+    expected <- c(a=as.nanoival("+2018-05-01T00:00:00.000000000-04:00 -> 2018-05-01T18:00:00.000000000-04:00-"))
+    expect_identical(plus(p, ni, tz), expected)
 
-##test_plus_nanoperiod_nanoival <- function() {
-start <- nanotime("2018-01-01T05:00:00.000000000+00")
-end <- nanotime("2018-01-01T23:00:00.000000000+00")
-ni <- nanoival(start, end)
-p  <- c(a=as.nanoperiod("4m"))
-tz <- "America/New_York"
-expected <- c(a=as.nanoival("+2018-05-01T00:00:00.000000000-04:00 -> 2018-05-01T18:00:00.000000000-04:00-"))
-expect_identical(plus(p, ni, tz), expected)
+    ##test_minus_nanoival_nanoperiod <- function() {
+    start <- nanotime("2018-05-01T05:00:00.000000000-04")
+    end <- nanotime("2018-05-01T23:00:00.000000000-04")
+    ni <- c(a=nanoival(start, end))
+    p  <- as.nanoperiod("4m")
+    tz <- "America/New_York"
+    expected <- c(a=as.nanoival("+2018-01-01T05:00:00.000000000-05:00 -> 2018-01-01T23:00:00.000000000-05:00-"))
+    expect_identical(minus(ni, p, tz), expected)
 
-##test_minus_nanoival_nanoperiod <- function() {
-start <- nanotime("2018-05-01T05:00:00.000000000-04")
-end <- nanotime("2018-05-01T23:00:00.000000000-04")
-ni <- c(a=nanoival(start, end))
-p  <- as.nanoperiod("4m")
-tz <- "America/New_York"
-expected <- c(a=as.nanoival("+2018-01-01T05:00:00.000000000-05:00 -> 2018-01-01T23:00:00.000000000-05:00-"))
-expect_identical(minus(ni, p, tz), expected)
+    ##test_minus_nanoperiod_nanoival <- function() {
+    start <- nanotime("2018-05-01T05:00:00.000000000-04")
+    end <- nanotime("2018-05-01T23:00:00.000000000-04")
+    ni <- nanoival(start, end)
+    p  <- as.nanoperiod("4m")
+    tz <- "America/New_York"
+    expect_error(minus(p, ni, tz), "operation not defined for 'nanoperiod' objects")
 
-##test_minus_nanoperiod_nanoival <- function() {
-start <- nanotime("2018-05-01T05:00:00.000000000-04")
-end <- nanotime("2018-05-01T23:00:00.000000000-04")
-ni <- nanoival(start, end)
-p  <- as.nanoperiod("4m")
-tz <- "America/New_York"
-expect_error(minus(p, ni, tz), "operation not defined for 'nanoperiod' objects")
+}
 
 ## NA stuff
 expect_true(is.na(as.nanoperiod(NA_integer_)))
@@ -629,6 +633,8 @@ expect_identical(all.equal(as.nanoperiod("1d"), NA_nanoperiod_), "'is.NA' value 
 ## test rounding functions:
 
 ## nano_ceiling:
+
+if (isSolaris) exit_file("skip remainder on Solaris")
 
 ## years:
 expect_identical(nano_ceiling(as.nanotime("2010-10-10 12:00:00 America/New_York"), as.nanoperiod("12m"), tz="America/New_York"),

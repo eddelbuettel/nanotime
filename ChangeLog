@@ -1,5 +1,7 @@
 2020-08-09  Dirk Eddelbuettel  <edd@debian.org>
 
+	* DESCRIPTION (Version, Date): Roll minor version
+
 	* R/nanoival.R: Add \dontrun{} because of Solaris
 	* R/nanoperiod.R: Idem
 	* R/nanotime.R: Idem
@@ -11,7 +13,13 @@
         * man/seq-nanoival-method.Rd: Idem
         * man/seq.nanotime.Rd: Idem
 
+        * inst/tinytest/test_nanoival.R: Skip some tests on Solaris
+        * inst/tinytest/test_nanoperiod.R: Idem
+        * inst/tinytest/test_nanotime.R: Idem
+
 2020-08-08  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): Roll minor version, small edit
 
 	* src/interval.cpp: Add some tests for non-zero length vectors
 	* inst/tinytest/test_nanotime.R: Skip one test upsetting SAN
