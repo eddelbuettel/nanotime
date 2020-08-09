@@ -270,6 +270,7 @@ use the binary operator `code{+}`. Instead the functions
 }
 
 \examples{
+\dontrun{
 p <- nanoperiod(months=12, days=7, duration="01:00:00")
 print(p)
 
@@ -277,6 +278,7 @@ print(p)
 # \code{nanoival}, a time zone must be specified:
 y <- nanotime("1970-01-01T00:00:00+00:00")
 plus(y, p, tz="America/Chicago")
+}
 
 }
 \seealso{

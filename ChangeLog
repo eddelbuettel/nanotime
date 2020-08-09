@@ -1,3 +1,16 @@
+2020-08-09  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/nanoival.R: Add \dontrun{} because of Solaris
+	* R/nanoperiod.R: Idem
+	* R/nanotime.R: Idem
+	* man/nano_year.Rd: Idem
+
+	* man/nanoperiod.Rd: Idem
+        * man/nanotime.Rd: Idem
+        * man/rounding.Rd: Idem
+        * man/seq-nanoival-method.Rd: Idem
+        * man/seq.nanotime.Rd: Idem
+
 2020-08-08  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/interval.cpp: Add some tests for non-zero length vectors

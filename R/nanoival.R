@@ -919,8 +919,10 @@ setMethod("sort", c("nanoival"),
 ##' @param length.out an integer desired length of the sequence
 ##' @param along.with take the length from the length of this argument.
 ##' @examples
+##' \dontrun{
 ##' from <- as.nanoival("-2018-01-14T13:00:00+00:00 -> 2018-01-14T15:00:00+00:00+")
 ##' seq(from, by=as.nanoperiod("1m"), length.out=5, tz="America/New_York")
+##' }
 setMethod("seq", c("nanoival"),
           function(from, to = NULL, by = NULL, length.out = NULL, along.with = NULL, ...)
           {

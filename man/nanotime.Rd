@@ -302,6 +302,7 @@ in a specific timezone; in this case one should convert the
 }
 
 \examples{
+\dontrun{
 x <- nanotime(1)
 print(x)
 as.nanotime("1970-01-01T00:00:00.000000001+00:00")
@@ -315,6 +316,7 @@ print(x)
 format(x)
 nanotime(Sys.time()) + 1:3  # three elements each 1 ns apart
 seq(x, by=as.nanoperiod("1d"), length.out=5, tz="Asia/Tokyo")
+}
 }
 \seealso{
 \code{\link{nanoival}}, \code{\link{nanoduration}},
