@@ -3,9 +3,12 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/nanotime/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/nanotime/issues/#1}{##1}}
 
-\section{Changes in version 0.3.1 (2020-08-xx)}{
+\section{Changes in version 0.3.1 (2020-08-09)}{
   \itemize{
-    \item Several small cleanups to ensure a more robust compilation.
+    \item Several small cleanups to ensure a more robust compilation
+    (Leonardo and Dirk in \ghpr{75} fixing \ghit{74}).
+    \item Show Solaris some extra love by skipping tests and examples
+    with a timezone (Dirk in \ghpr{76}).
   }
 }
 
