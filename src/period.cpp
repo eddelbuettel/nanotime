@@ -2,6 +2,7 @@
 #include <regex>
 #include <Rcpp.h>
 #include "date.h"
+#include <RcppCCTZ_API.h>
 #include "nanotime/period.hpp"
 #include "nanotime/duration.hpp"
 #include "nanotime/pseudovector.hpp"
@@ -32,14 +33,9 @@ std::ostream &operator<<(std::ostream &stream,
 }
 
 
-extern "C" int getOffset(long long s, const char* tzstr);
-
 static inline duration getOffsetCnv(const dtime& dt, const std::string& z) {
-  typedef int GET_OFFSET_FUN(long long, const char*, int&); 
-  GET_OFFSET_FUN *getOffset = (GET_OFFSET_FUN *) R_GetCCallable("RcppCCTZ", "_RcppCCTZ_getOffset_nothrow" );
-
   int offset;
-  int res = getOffset(std::chrono::duration_cast<std::chrono::seconds>(dt.time_since_epoch()).count(), z.c_str(), offset);
+  int res = RcppCCTZ::getOffset(std::chrono::duration_cast<std::chrono::seconds>(dt.time_since_epoch()).count(), z.c_str(), offset);
   if (res < 0) {
     Rcpp::stop("Cannot retrieve timezone '%s'.", z.c_str()); // ## nocov
   }
