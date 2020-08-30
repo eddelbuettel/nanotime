@@ -1,5 +1,6 @@
 library(nanotime)
 
+exit_file("skip for now")
 isSolaris <- Sys.info()[["sysname"]] == "SunOS"
 
 savedFormat <- NULL
