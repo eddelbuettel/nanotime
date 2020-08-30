@@ -11,12 +11,20 @@ namespace nanotime {
 
   struct interval {
 
-    constexpr interval() 
-      : sopen(0), s(0), eopen(0), e(0) { }
+#ifdef WORDS_BIGENDIAN
+    constexpr interval() : s(0), sopen(0), e(0), eopen(0) { }
+#else
+    constexpr interval() : sopen(0), s(0), eopen(0), e(0) { }
+#endif
 
     interval(dtime s_p, dtime e_p, int sopen_p, int eopen_p)
+#ifdef WORDS_BIGENDIAN
+      : s(s_p.time_since_epoch().count()), sopen(sopen_p),
+        e(e_p.time_since_epoch().count()), eopen(eopen_p) {
+#else
       : sopen(sopen_p), s(s_p.time_since_epoch().count()),
         eopen(eopen_p), e(e_p.time_since_epoch().count()) {
+#endif
       // if any of the constructor parameters is NA, we construct an NA interval:
       if (s_p.time_since_epoch() == duration::min() || e_p.time_since_epoch() == duration::min() ||
           sopen_p == NA_INTEGER || eopen_p == NA_INTEGER) {
@@ -54,10 +62,17 @@ namespace nanotime {
     dtime getEnd() const { return dtime(duration(e)); }
     bool isNA() const { return s == IVAL_NA; }
   
+#ifdef WORDS_BIGENDIAN
+    std::int64_t s : 63;
+    bool sopen : 1; // encode if the interval's start boundary is open (true) or closed (false)
+    std::int64_t e : 63;
+    bool eopen : 1; // encode if the interval's end   boundary is open (true) or closed (false)
+#else
     bool sopen : 1; // encode if the interval's start boundary is open (true) or closed (false)
     std::int64_t s : 63;
     bool eopen : 1; // encode if the interval's end   boundary is open (true) or closed (false)
     std::int64_t e : 63;
+#endif
 
     static const std::int64_t IVAL_MAX =  4611686018427387903LL;
     static const std::int64_t IVAL_MIN = -4611686018427387903LL;
