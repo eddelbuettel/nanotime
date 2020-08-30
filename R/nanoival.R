@@ -80,6 +80,7 @@ setClass("nanoival", contains="complex")
 ##' @author Dirk Eddelbuettel
 ##' @author Leonardo Silvestri
 ##' @examples
+##' \dontrun{
 ##' ## creating a \code{nanoival}, with the start time included ('+') and the end
 ##' ## time excluded ('-')
 ##' as.nanoival("+2012-03-01T21:21:00.000000001+00:00->2015-01-01T21:22:00.000000999+04:00-")
@@ -97,6 +98,7 @@ setClass("nanoival", contains="complex")
 ##' idx <- c(as.nanoival("-2012-12-12 12:12:10+00:00 -> 2012-12-12 12:12:14+00:00-"),
 ##'          as.nanoival("+2012-12-12 12:12:18+00:00 -> 2012-12-12 12:12:20+00:00+"))
 ##' a[idx]
+##' }
 ##' @aliases +,ANY,nanoival-method
 ##' @aliases +,nanoival,ANY-method
 ##' @aliases +,nanoival,nanoival-method
@@ -644,6 +646,7 @@ setMethod("t", c("nanoival"),
 ##'     \code{setdiff.idx} returns a vector representing the element
 ##'     indices to be removed.
 ##' @examples
+##' \dontrun{
 ##' ## a vector of 'nanotime' can be subsetted by a 'nanoival' which is equivalent to 'intersect':
 ##' one_second <- 1e9
 ##' a <- seq(nanotime("2012-12-12 12:12:12+00:00"), length.out=10, by=one_second)
@@ -674,7 +677,7 @@ setMethod("t", c("nanoival"),
 ##'
 ##' ## The logical vector indicating intersection can be obtained like this:
 ##' a %in% idx
-##' 
+##' }
 ##' @rdname set_operations
 ##'
 setMethod("intersect",
