@@ -13,7 +13,7 @@ expect_identical(nanotime(as.integer64(1)), new("nanotime", as.integer64(1)))
 expect_identical(as.nanotime(1), new("nanotime", as.integer64(1)))
 expect_identical(as.nanotime(as.integer64(1)), new("nanotime", as.integer64(1)))
 
-exit_file("skip remainder")
+if (getRversion() >= as.package_version("4.1.0")) exit_file("skip remainder")
 
 ##test_nanotime_character_first_pass <- function() {
 ## we do a first pass parsing, which is faster than the parsing

@@ -9,7 +9,7 @@ Description: Full 64-bit resolution date and time functionality with
  nanosecond granularity is provided, with easy transition to and from
  the standard 'POSIXct' type. Three additional classes offer interval,
  period and duration functionality for nanosecond-resolution timestamps.
-Imports: methods, bit64, RcppCCTZ (>= 0.2.8), zoo
+Imports: methods, bit64, RcppCCTZ (>= 0.2.9), zoo
 Suggests: tinytest, data.table, xts
 LinkingTo: Rcpp, RcppCCTZ, RcppDate
 License: GPL (>= 2)
