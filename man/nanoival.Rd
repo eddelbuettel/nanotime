@@ -225,6 +225,7 @@ It can be overriden by using \code{options()} with the key of
 }
 
 \examples{
+\dontrun{
 ## creating a \code{nanoival}, with the start time included ('+') and the end
 ## time excluded ('-')
 as.nanoival("+2012-03-01T21:21:00.000000001+00:00->2015-01-01T21:22:00.000000999+04:00-")
@@ -242,6 +243,7 @@ a <- seq(nanotime("2012-12-12 12:12:12+00:00"), length.out=10, by=one_second)
 idx <- c(as.nanoival("-2012-12-12 12:12:10+00:00 -> 2012-12-12 12:12:14+00:00-"),
          as.nanoival("+2012-12-12 12:12:18+00:00 -> 2012-12-12 12:12:20+00:00+"))
 a[idx]
+}
 }
 \seealso{
 \code{\link{intersect.idx}}, \code{\link{setdiff.idx}},

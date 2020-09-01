@@ -68,6 +68,7 @@ The argument \code{origin} controls the reference point of the rounding, allowin
 specification of the reference point of the rounding.
 }
 \examples{
+\dontrun{
 ## "classic" rounding:
 nano_floor(as.nanotime("2010-10-10 11:12:15 UTC"), as.nanoduration("01:00:00"))
 ## rounding with arbitrary precision:
@@ -78,7 +79,6 @@ nano_ceiling(as.nanotime("2010-10-10 11:23:15 UTC"), as.nanoduration("01:15:23")
 nano_ceiling(as.nanotime("2010-10-10 11:23:15 UTC"),
              as.nanoduration("01:15:23"),
              origin=as.nanotime("2010-10-10 11:23:15 UTC"))
-\dontrun{
 ## using business concepts and rounding across a daylight saving change:
 v <- seq(as.nanotime("2020-03-08 America/New_York"),
          by=as.nanoperiod("06:00:00"), length.out=8, tz="America/New_York")

@@ -71,6 +71,7 @@ which returns a logical vector that indicates which elements
 belong to the interval vector.
 }
 \examples{
+\dontrun{
 ## a vector of 'nanotime' can be subsetted by a 'nanoival' which is equivalent to 'intersect':
 one_second <- 1e9
 a <- seq(nanotime("2012-12-12 12:12:12+00:00"), length.out=10, by=one_second)
@@ -101,5 +102,5 @@ a[idx]
 
 ## The logical vector indicating intersection can be obtained like this:
 a \%in\% idx
-
+}
 }

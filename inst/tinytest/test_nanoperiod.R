@@ -265,7 +265,7 @@ expect_error(as.nanoperiod(1) - "a", "invalid operand types")
 expect_error("a" - as.nanoperiod(1), "invalid operand types")
 expect_error(as.nanoperiod(1) - nanotime(1), "invalid operand types")
 
-
+if (getRversion() >= as.package_version("4.1.0")) exit_file("skip_remainder")
 ## +
 ##test_nanoperiod_plus_nanoperiod <- function() {
 expect_identical(+as.nanoperiod("2m"), as.nanoperiod("2m"))

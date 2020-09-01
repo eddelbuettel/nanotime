@@ -1,6 +1,7 @@
 
 library(nanotime)
 
+expect_equal_numeric <- function(x,y,...) expect_equal(as.numeric(x), as.numeric(y), ...)
 
 isSolaris <- Sys.info()[["sysname"]] == "SunOS"
 
@@ -12,6 +13,7 @@ expect_identical(nanotime(as.integer64(1)), new("nanotime", as.integer64(1)))
 expect_identical(as.nanotime(1), new("nanotime", as.integer64(1)))
 expect_identical(as.nanotime(as.integer64(1)), new("nanotime", as.integer64(1)))
 
+if (getRversion() >= as.package_version("4.1.0")) exit_file("skip remainder")
 
 ##test_nanotime_character_first_pass <- function() {
 ## we do a first pass parsing, which is faster than the parsing
