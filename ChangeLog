@@ -1,3 +1,18 @@
+2020-08-31  Dirk Eddelbuettel  <edd@debian.org>
+
+	* .travis.yml (install): Back to RcppCCTZ from CRAN
+
+2020-08-28  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): Roll minor version
+
+	* src/interval.cpp: Use RcppCCTZ_API header and exported functions
+	* src/nanotime.cpp: Idem
+	* src/period.cpp: Idem
+	* src/rounding.cpp: Idem
+
+	* .travis.yml (install): Install RcppCCTZ from GitHub
+
 2020-08-09  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): Release 0.3.1

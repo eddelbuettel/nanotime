@@ -1,6 +1,7 @@
 #include <iostream>
 #include <functional>
 #include <Rcpp.h>
+#include <RcppCCTZ_API.h>
 #include "nanotime/globals.hpp"
 #include "nanotime/utilities.hpp"
 #include "nanotime/pseudovector.hpp"
@@ -15,11 +16,8 @@ typedef ConstPseudoVector<LGLSXP,  std::int32_t> ConstPseudoVectorLgl;
 
 
 static inline duration getOffsetCnv(const dtime& dt, const std::string& z) {
-  typedef int GET_OFFSET_FUN(long long, const char*, int&); 
-  GET_OFFSET_FUN *getOffset = (GET_OFFSET_FUN *) R_GetCCallable("RcppCCTZ", "_RcppCCTZ_getOffset_nothrow" );
-
   int offset;
-  int res = getOffset(std::chrono::duration_cast<std::chrono::seconds>(dt.time_since_epoch()).count(), z.c_str(), offset);
+  int res = RcppCCTZ::getOffset(std::chrono::duration_cast<std::chrono::seconds>(dt.time_since_epoch()).count(), z.c_str(), offset);
   if (res < 0) {
     Rcpp::stop("Cannot retrieve timezone '%s'.", z.c_str());
   }
@@ -125,16 +123,12 @@ static std::int64_t readNanotime(const char*& sp, const char* const se, const ch
     
   const cctz::civil_second cvt(tt.y, tt.m, tt.d, tt.hh, tt.mm, tt.ss);
 
-  typedef int CONVERT_TO_TIMEPOINT(const cctz::civil_second& cs, const char* tzstr, cctz::time_point<cctz::seconds>& tp);
-  CONVERT_TO_TIMEPOINT *convertToTimePoint =
-    (CONVERT_TO_TIMEPOINT*) R_GetCCallable("RcppCCTZ", "_RcppCCTZ_convertToTimePoint_nothrow");
-
   const auto final_tzstr = tt.tzstr.size() ? tt.tzstr.c_str() : tzstr;
   if (final_tzstr[0] == 0)
     Rcpp::stop("Error parsing");
 
   cctz::time_point<cctz::seconds> tp;
-  int res = convertToTimePoint(cvt, final_tzstr, tp);
+  int res = RcppCCTZ::convertToTimePoint(cvt, final_tzstr, tp);
   if (res < 0) {
     Rcpp::stop("Cannot retrieve timezone '%s'.", final_tzstr);
   }
