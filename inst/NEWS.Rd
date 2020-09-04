@@ -3,6 +3,14 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/nanotime/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/nanotime/issues/#1}{##1}}
 
+\section{Changes in version 0.3.2 (2020-09-03)}{
+  \itemize{
+    \item Correct for big endian (Elliott Sales de Andrade in \ghpr{81}). 
+    \item Use the \code{RcppCCTZ_API.h} header (Dirk in \ghpr{82}).
+    \item Conditionally reduce test coverage (Dirk in \ghpr{83}).
+  }
+}
+
 \section{Changes in version 0.3.1 (2020-08-09)}{
   \itemize{
     \item Several small cleanups to ensure a more robust compilation
