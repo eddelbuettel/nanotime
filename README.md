@@ -1,12 +1,13 @@
 ## nanotime: Nanosecond-Resolution Time Objects for R
 
-[![Build Status](https://travis-ci.org/eddelbuettel/nanotime.svg)](https://travis-ci.org/eddelbuettel/nanotime) 
-[![License](https://eddelbuettel.github.io/badges/GPL2+.svg)](https://www.gnu.org/licenses/gpl-2.0.html) 
-[![CRAN](https://www.r-pkg.org/badges/version/nanotime)](https://cran.r-project.org/package=nanotime) 
-[![Dependencies](https://tinyverse.netlify.com/badge/nanotime)](https://cran.r-project.org/package=nanotime) 
-[![Downloads](https://cranlogs.r-pkg.org/badges/nanotime?color=brightgreen)](https://www.r-pkg.org/pkg/nanotime) 
+[![Build Status](https://travis-ci.org/eddelbuettel/nanotime.svg)](https://travis-ci.org/eddelbuettel/nanotime)
+[![License](https://eddelbuettel.github.io/badges/GPL2+.svg)](https://www.gnu.org/licenses/gpl-2.0.html)
+[![CRAN](https://www.r-pkg.org/badges/version/nanotime)](https://cran.r-project.org/package=nanotime)
+[![Dependencies](https://tinyverse.netlify.com/badge/nanotime)](https://cran.r-project.org/package=nanotime)
+[![Downloads](https://cranlogs.r-pkg.org/badges/nanotime?color=brightgreen)](https://www.r-pkg.org/pkg/nanotime)
 [![Code Coverage](https://codecov.io/gh/eddelbuettel/nanotime/graph/badge.svg)](https://codecov.io/gh/eddelbuettel/nanotime)
 [![Last Commit](https://img.shields.io/github/last-commit/eddelbuettel/nanotime)](https://github.com/eddelbuettel/nanotime)
+[![Documentation](https://img.shields.io/badge/documentation-is_here-blue)](https://eddelbuettel.github.io/nanotime/)
 
 ### Motivation
 
@@ -25,8 +26,8 @@ since the epoch.
 And while R does not have a _native_ type for this, the [bit64](https://cran.r-project.org/package=bit64)
 package by [Jens Oehlschlägel](https://github.com/joehl) offers a performant one implemented as a
 lightweight S3 class. So this package uses the `integer64` class, along with multiple helper functions
-for parsing and formatting at nano-second resolution from the [RcppCCTZ](https://dirk.eddelbuettel.com/code/rcpp.cctz.html) 
-package which wraps the [CCTZ library](https://github.com/google/cctz) from Google. CCTZ is a modern C++11 library 
+for parsing and formatting at nano-second resolution from the [RcppCCTZ](https://dirk.eddelbuettel.com/code/rcpp.cctz.html)
+package which wraps the [CCTZ library](https://github.com/google/cctz) from Google. CCTZ is a modern C++11 library
 extending the (C++11-native) `chrono` type.
 
 In addition to the point-in-time type `nanotime`, this package also provides an interval type
@@ -40,10 +41,16 @@ built-in types, most functions have an efficient implementation and the types ar
 in `data.frame` and `data.table`. `nanotime` is also a better choice than the native `POSIXct` in
 most of the cases where fractional seconds are needed because it avoids floating point issues.
 
+### Documentation
+
+Package documentation, help pages, a vignette, and more are available
+[here](https://eddelbuettel.github.io/nanotime/).
+
+
 ### Demo
 
-See the included demo script [nanosecondDelayExample.R](https://github.com/eddelbuettel/nanotime/blob/master/demo/nanosecondDelayExample.R) 
-for a (completely simulated and hence made-up) study of network latency measured 
+See the included demo script [nanosecondDelayExample.R](https://github.com/eddelbuettel/nanotime/blob/master/demo/nanosecondDelayExample.R)
+for a (completely simulated and hence made-up) study of network latency measured
 in nanoseconds resulting in the figure below
 
 ![](https://eddelbuettel.github.io/nanotime/local/images/nanotimeDelayDemo.png "network delay demo image")
@@ -73,7 +80,7 @@ R> v
 [3] 2020-03-22T03:09:20.732122003+00:00
 [4] 2020-03-22T03:09:20.732122004+00:00
 [5] 2020-03-22T03:09:20.732122005+00:00
-R> 
+R>
 ```
 
 #### Use with `zoo`
@@ -99,7 +106,7 @@ R> dtcheck[, v:=nanotime(v)]             # read as a string, need to re-class as
 R> fread("../datatableTest.csv", colClasses=c("nanotime", "integer", "integer"))
 ```
 
-#### Use with data.frame 
+#### Use with data.frame
 
 This requires version 0.0.2 or later.
 
@@ -113,7 +120,7 @@ R> data.frame(cbind(A=1:5, B=5:1), v=v)
 R> ival <- as.nanoival("+2009-01-01 13:12:00 America/New_York -> 2009-02-01 15:11:03 America/New_York-")
 R> ival
 [1] +2009-01-01T18:12:00+00:00 -> 2009-02-01T20:11:03+00:00-
- 
+
 R> start <- nanotime("2009-01-01 13:12:00 America/New_York")
 R> end   <- nanotime("2009-02-01 15:11:00 America/New_York")
 R> nanoival(start, end)                   # by default sopen=F,eopen=T
@@ -190,8 +197,10 @@ the type `nanoduration`, whereas `nanoival` and `nanoperiod` are stored in a `co
 
 ### Status
 
-The package is in the very early stages. Expect changes, maybe even
-breaking ones. But the package has some tests, and code coverage.
+The package is by now fairly mature, has been rewritten once (to go from S3
+to S4) and has recently received a sizeable feature extension. There may
+still be changes, though there should generally never be breaking ones. The
+package also has an extensive test suite, and very good code coverage.
 
 See the [issue tickets](https://github.com/eddelbuettel/nanotime/issues) for an up to date list of
 potentially desirable, possibly planned, or at least discussed items.
@@ -210,7 +219,7 @@ whereas in order to install development versions a
 remotes::install_github("eddelbuettel/nanotime")  # dev version
 ```
 
-should suffice. 
+should suffice.
 
 
 ### Authors
