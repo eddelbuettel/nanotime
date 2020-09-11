@@ -7,3 +7,5 @@
 ^LICENSE$
 .*\.tar\.gz
 vignettes/rmd
+^docs
+^docs-src

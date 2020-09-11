@@ -1,0 +1,1383 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <link rel="canonical" href="https://github.com/eddelbuettel/nanotime/man/nanotime/">
+      
+      
+      <link rel="shortcut icon" href="../../assets/Rlogo.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-5.5.12">
+    
+    
+      
+        <title>Nanotime - nanotime</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.4dd2dd8d.min.css">
+      
+      
+    
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700%7C&display=fallback">
+        <style>body,input{font-family:"Lato",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="../../assets/extra.css">
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#nanosecond-resolution-datetime-functionality" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="https://github.com/eddelbuettel/nanotime" title="nanotime" class="md-header-nav__button md-logo" aria-label="nanotime">
+      
+  <img src="../../assets/Rlogo.svg" alt="logo">
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      
+        <div class="md-header-nav__ellipsis">
+          <span class="md-header-nav__topic md-ellipsis">
+            nanotime
+          </span>
+          <span class="md-header-nav__topic md-ellipsis">
+            
+              Nanotime
+            
+          </span>
+        </div>
+      
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active">
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+        
+      
+      
+        
+          
+
+  
+
+<nav class="md-tabs md-tabs--active" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../.." class="md-tabs__link">
+          Home
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="./" class="md-tabs__link md-tabs__link--active">
+          Reference
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../vignette/" class="md-tabs__link">
+          Articles
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../news/" class="md-tabs__link">
+          News
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../changelog/" class="md-tabs__link">
+          Changelog
+        </a>
+      
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://github.com/eddelbuettel/nanotime" title="nanotime" class="md-nav__button md-logo" aria-label="nanotime">
+      
+  <img src="../../assets/Rlogo.svg" alt="logo">
+
+    </a>
+    nanotime
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1">
+    
+    <label class="md-nav__link" for="nav-1">
+      Home
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Home" data-md-level="1">
+      <label class="md-nav__title" for="nav-1">
+        <span class="md-nav__icon md-icon"></span>
+        Home
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../.." title="Nanosecond-Resolution Time Objects for R" class="md-nav__link">
+      Nanosecond-Resolution Time Objects for R
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" checked>
+    
+    <label class="md-nav__link" for="nav-2">
+      Reference
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Reference" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        <span class="md-nav__icon md-icon"></span>
+        Reference
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Nanotime
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+    
+    <a href="./" title="Nanotime" class="md-nav__link md-nav__link--active">
+      Nanotime
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#nanosecond-resolution-datetime-functionality" class="md-nav__link">
+    Nanosecond resolution datetime functionality
+  </a>
+  
+    <nav class="md-nav" aria-label="Nanosecond resolution datetime functionality">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#description" class="md-nav__link">
+    Description
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arguments" class="md-nav__link">
+    Arguments
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#format" class="md-nav__link">
+    Format
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#details" class="md-nav__link">
+    Details
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#value" class="md-nav__link">
+    Value
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#caveats" class="md-nav__link">
+    Caveats
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#input-and-output-format" class="md-nav__link">
+    Input and Output Format
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tz-parameter-usage-in-constructors" class="md-nav__link">
+    tz parameter usage in constructors
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#authors" class="md-nav__link">
+    Author(s)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    See Also
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    Examples
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../nanoduration/" title="Nanoduration" class="md-nav__link">
+      Nanoduration
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../nanoival/" title="Nanoival" class="md-nav__link">
+      Nanoival
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../nanoperiod/" title="Nanoperiod" class="md-nav__link">
+      Nanoperiod
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../all.equal.nanoduration/" title="All.equal.nanoduration" class="md-nav__link">
+      All.equal.nanoduration
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../all.equal.nanoival/" title="All.equal.nanoival" class="md-nav__link">
+      All.equal.nanoival
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../all.equal.nanoperiod/" title="All.equal.nanoperiod" class="md-nav__link">
+      All.equal.nanoperiod
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../all.equal.nanotime/" title="All.equal.nanotime" class="md-nav__link">
+      All.equal.nanotime
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../is.unsorted-nanoival-method/" title="Is.unsorted nanoival method" class="md-nav__link">
+      Is.unsorted nanoival method
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../nanoperiod.month/" title="Nanoperiod.month" class="md-nav__link">
+      Nanoperiod.month
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../nano_year/" title="Nano year" class="md-nav__link">
+      Nano year
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../rep-nanoduration-method/" title="Rep nanoduration method" class="md-nav__link">
+      Rep nanoduration method
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../rep-nanoival-method/" title="Rep nanoival method" class="md-nav__link">
+      Rep nanoival method
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../rep-nanoperiod-method/" title="Rep nanoperiod method" class="md-nav__link">
+      Rep nanoperiod method
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../rep-nanotime-method/" title="Rep nanotime method" class="md-nav__link">
+      Rep nanotime method
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../rounding/" title="Rounding" class="md-nav__link">
+      Rounding
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../seq.nanoduration/" title="Seq.nanoduration" class="md-nav__link">
+      Seq.nanoduration
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../seq-nanoival-method/" title="Seq nanoival method" class="md-nav__link">
+      Seq nanoival method
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../seq.nanotime/" title="Seq.nanotime" class="md-nav__link">
+      Seq.nanotime
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../set_operations/" title="Set operations" class="md-nav__link">
+      Set operations
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../sort-nanoival-method/" title="Sort nanoival method" class="md-nav__link">
+      Sort nanoival method
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Articles
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Articles" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        <span class="md-nav__icon md-icon"></span>
+        Articles
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../vignette/" title="Introductory Vignette" class="md-nav__link">
+      Introductory Vignette
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      News
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="News" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        <span class="md-nav__icon md-icon"></span>
+        News
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../news/" title="News" class="md-nav__link">
+      News
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      Changelog
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Changelog" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        <span class="md-nav__icon md-icon"></span>
+        Changelog
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../changelog/" title="Changelog" class="md-nav__link">
+      Changelog
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#nanosecond-resolution-datetime-functionality" class="md-nav__link">
+    Nanosecond resolution datetime functionality
+  </a>
+  
+    <nav class="md-nav" aria-label="Nanosecond resolution datetime functionality">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#description" class="md-nav__link">
+    Description
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arguments" class="md-nav__link">
+    Arguments
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#format" class="md-nav__link">
+    Format
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#details" class="md-nav__link">
+    Details
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#value" class="md-nav__link">
+    Value
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#caveats" class="md-nav__link">
+    Caveats
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#input-and-output-format" class="md-nav__link">
+    Input and Output Format
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tz-parameter-usage-in-constructors" class="md-nav__link">
+    tz parameter usage in constructors
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#authors" class="md-nav__link">
+    Author(s)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    See Also
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    Examples
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                  
+                
+                
+                  <h1>Nanotime</h1>
+                
+                <h2 id="nanosecond-resolution-datetime-functionality">Nanosecond resolution datetime functionality</h2>
+<h3 id="description">Description</h3>
+<p>Functions to operate on nanosecond time resolution using integer64 bit
+representation. Conversion functions for several standard R types are
+provided, and more will be added as needed.</p>
+<h3 id="usage">Usage</h3>
+<pre><code>nanotime(from, ...)
+
+as.nanotime(from, ...)
+
+## S4 method for signature 'character'
+nanotime(from, format = "", tz = "")
+
+## S4 method for signature 'character'
+as.nanotime(from, format = "", tz = "")
+
+nanotime.matrix(x)
+
+## S4 method for signature 'POSIXct'
+nanotime(from)
+
+## S4 method for signature 'POSIXct'
+as.nanotime(from)
+
+## S4 method for signature 'POSIXlt'
+nanotime(from)
+
+## S4 method for signature 'POSIXlt'
+as.nanotime(from)
+
+## S4 method for signature 'Date'
+nanotime(from)
+
+## S4 method for signature 'Date'
+as.nanotime(from)
+
+## S4 method for signature 'nanotime'
+print(x, format = "", tz = "", quote = FALSE, ...)
+
+## S4 method for signature 'nanotime'
+show(object)
+
+## S3 method for class 'nanotime'
+format(x, format = "", tz = "", ...)
+
+## S3 method for class 'nanotime'
+index2char(x, ...)
+
+## S3 method for class 'nanotime'
+as.POSIXct(x, tz = "", ...)
+
+## S3 method for class 'nanotime'
+as.POSIXlt(x, tz = "", ...)
+
+## S3 method for class 'nanotime'
+as.Date(x, ...)
+
+## S3 method for class 'nanotime'
+as.data.frame(x, ...)
+
+## S3 method for class 'nanotime'
+as.integer64(x, ...)
+
+## S4 method for signature 'nanotime,character'
+e1 - e2
+
+## S4 method for signature 'nanotime,nanotime'
+e1 - e2
+
+## S4 method for signature 'nanotime,integer64'
+e1 - e2
+
+## S4 method for signature 'nanotime,numeric'
+e1 - e2
+
+## S4 method for signature 'ANY,nanotime'
+e1 - e2
+
+## S4 method for signature 'nanotime,ANY'
+e1 - e2
+
+## S4 method for signature 'nanotime,ANY'
+e1 + e2
+
+## S4 method for signature 'nanotime,integer64'
+e1 + e2
+
+## S4 method for signature 'nanotime,numeric'
+e1 + e2
+
+## S4 method for signature 'ANY,nanotime'
+e1 + e2
+
+## S4 method for signature 'integer64,nanotime'
+e1 + e2
+
+## S4 method for signature 'numeric,nanotime'
+e1 + e2
+
+## S4 method for signature 'nanotime,nanotime'
+e1 + e2
+
+## S4 method for signature 'nanotime,nanotime'
+Arith(e1, e2)
+
+## S4 method for signature 'nanotime,ANY'
+Arith(e1, e2)
+
+## S4 method for signature 'ANY,nanotime'
+Arith(e1, e2)
+
+## S4 method for signature 'nanotime,character'
+Compare(e1, e2)
+
+## S4 method for signature 'character,nanotime'
+Compare(e1, e2)
+
+## S4 method for signature 'nanotime,POSIXt'
+Compare(e1, e2)
+
+## S4 method for signature 'POSIXt,nanotime'
+Compare(e1, e2)
+
+## S4 method for signature 'nanotime,ANY'
+Compare(e1, e2)
+
+## S4 method for signature 'nanotime,ANY'
+Logic(e1, e2)
+
+## S4 method for signature 'ANY,nanotime'
+Logic(e1, e2)
+
+## S4 method for signature 'nanotime'
+Math(x)
+
+## S4 method for signature 'nanotime'
+Math2(x, digits)
+
+## S4 method for signature 'nanotime'
+Summary(x, ..., na.rm = FALSE)
+
+## S4 method for signature 'nanotime'
+min(x, ..., na.rm = FALSE)
+
+## S4 method for signature 'nanotime'
+max(x, ..., na.rm = FALSE)
+
+## S4 method for signature 'nanotime'
+range(x, ..., na.rm = FALSE)
+
+## S4 method for signature 'nanotime'
+Complex(z)
+
+## S4 method for signature 'nanotime'
+x[[i, j, ..., drop = FALSE]]
+
+## S4 method for signature 'nanotime,numeric'
+x[i, j, ..., drop = FALSE]
+
+## S4 method for signature 'nanotime,logical'
+x[i, j, ..., drop = FALSE]
+
+## S4 method for signature 'nanotime,character'
+x[i, j, ..., drop = FALSE]
+
+## S4 method for signature 'nanotime,ANY'
+x[i, j, ..., drop = FALSE]
+
+## S4 replacement method for signature 'nanotime,ANY,ANY,ANY'
+x[i, j, ...] &lt;- value
+
+## S3 method for class 'nanotime'
+c(...)
+
+## S4 replacement method for signature 'nanotime'
+names(x) &lt;- value
+
+## S4 method for signature 'nanotime'
+is.na(x)
+
+NA_nanotime_
+
+## S3 method for class 'nanoduration'
+as.data.frame(x, ...)
+</code></pre>
+<h3 id="arguments">Arguments</h3>
+<table>
+<thead>
+<tr>
+<th>Argument</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>...</code></td>
+<td>further arguments passed to or from methods.</td>
+</tr>
+<tr>
+<td><code>format</code></td>
+<td>A character string. Can also be set via <code>options("nanotimeFormat")</code> and uses ‘%Y-%m-%dT%H:%M:%E9S%Ez’ as a default and fallback</td>
+</tr>
+<tr>
+<td><code>tz</code></td>
+<td>character specifying a timezone which is required for <code>as.POSIXct</code>, <code>as.POSIXlt</code> and can be specified for <code>as.nanotime</code>, <code>format</code> and <code>print</code>; it can also be set via <code>options("nanotimeTz")</code> and uses ‘UTC’ as a default and fallback</td>
+</tr>
+<tr>
+<td><code>x, from</code></td>
+<td><code>nanotime</code> objects</td>
+</tr>
+<tr>
+<td><code>quote</code></td>
+<td>indicates if the output of <code>print</code> should be quoted</td>
+</tr>
+<tr>
+<td><code>object</code></td>
+<td>argument for method <code>show</code></td>
+</tr>
+<tr>
+<td><code>e1</code></td>
+<td>Operand of class <code>nanotime</code></td>
+</tr>
+<tr>
+<td><code>e2</code></td>
+<td>Operand of class <code>nanotime</code></td>
+</tr>
+<tr>
+<td><code>digits</code></td>
+<td>Required for <code>Math2</code> signature but ignored here</td>
+</tr>
+<tr>
+<td><code>na.rm</code></td>
+<td>a logical indicating whether missing values should be removed.</td>
+</tr>
+<tr>
+<td><code>z</code></td>
+<td>Required for <code>Complex</code> signature but ignored here</td>
+</tr>
+<tr>
+<td><code>i</code></td>
+<td>index specifying elements to extract or replace.</td>
+</tr>
+<tr>
+<td><code>j</code></td>
+<td>Required for <code>[</code> signature but ignored here</td>
+</tr>
+<tr>
+<td><code>drop</code></td>
+<td>Required for <code>[</code> signature but ignored here</td>
+</tr>
+<tr>
+<td><code>value</code></td>
+<td>argument for <code>nanotime-class</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="format">Format</h3>
+<p>An object of class <code>nanotime</code> of length 1.</p>
+<h3 id="details">Details</h3>
+<p>Notice that the conversion from POSIXct explicitly sets the last three
+digits to zero. Nanosecond time stored in a 64-bit integer has nineteen
+digits precision where doubles (which are used internally for POSIXct as
+well) only have sixteen digits. So rather than showing three more
+(essentially <em>random</em>) digits it is constructed such that these three
+additional digits are zeros.</p>
+<h3 id="value">Value</h3>
+<p>A nanotime object</p>
+<h3 id="caveats">Caveats</h3>
+<p>Working with dates and times is <em>difficult</em>. One needs a representation
+of both <em>time points</em> and <em>time duration</em>. In R, think of <code>Date</code> or
+<code>POSIXct</code> objects for the former, and <code>difftime</code> for the later. Here we
+have time points <code>nanotime</code>, an interval type <code>nanoival</code> and two flavors
+of duration which are a simple count of nanoseconds <code>nanoduration</code> and a
+calendar duration that is able to track concepts such as months and days
+<code>nanoperiod</code>. Point in time and intervals are all based on durations
+relative to the epoch of January 1, 1970.</p>
+<h3 id="input-and-output-format">Input and Output Format</h3>
+<p>Formatting and character conversion for <code>nanotime</code> objects is done by
+functions from the <code>RcppCCTZ</code> package relying on code from its embedded
+<code>CCTZ</code> library. The default format is ISO3339 compliant:
+<code>%Y-%m-%dT%H:%M:%E9S%Ez</code>. It specifies a standard ISO 8601 part for date
+and time — as well as nine digits of precision for fractional seconds
+(down to nanoseconds) and on offset (typically zero as we default to
+UTC). It can be overriden by using <code>options()</code> with the key of
+<code>nanotimeFormat</code> and a suitable value. Similarly, <code>nanotimeTz</code> can be
+used to select a different timezone.</p>
+<p>For input, some slack it cut, and various shortened formats are accepted
+by default such as <code>2020-03-10</code> or <code>2020-03-10 18:16:00</code>, or
+<code>2020-03-10 18:16:00.001</code> (and the ‘T’ separator is optional.</p>
+<h3 id="tz-parameter-usage-in-constructors"><code>tz</code> parameter usage in constructors</h3>
+<p>The <code>tz</code> parameter is allowed only when constructing a <code>nanotime</code> from a
+<code>character</code>. This is because any <code>numeric</code>, <code>Date</code> and <code>POSIXct</code> is de
+facto considered an offset since the epoch. On the contrary, a
+<code>character</code> is considered interpretable and hence if it does not contain
+a timezone in its representation, it is possible to specify the <code>tz</code>
+argument to specify in which timezone it should be interpreted. This is
+useful in particular if one wants to convert a <code>Date</code> to be aligned to
+the beginning of the day in a specific timezone; in this case one should
+convert the <code>Date</code> to a <code>character</code> before calling the <code>nanotime</code>
+constructor with the desired timezone.</p>
+<h3 id="authors">Author(s)</h3>
+<p>Dirk Eddelbuettel</p>
+<p>Leonardo Silvestri</p>
+<h3 id="see-also">See Also</h3>
+<p><code>nanoival</code>, <code>nanoduration</code>, <code>nanoperiod</code>, <code>seq.nanotime</code></p>
+<h3 id="examples">Examples</h3>
+<pre><code>## Not run: 
+x &lt;- nanotime(1)
+print(x)
+as.nanotime("1970-01-01T00:00:00.000000001+00:00")
+as.nanotime("2020-03-10 Europe/Berlin")
+as.nanotime("2020-03-10 18:31:23.001", tz="America/New_York")
+x &lt;- x + 1
+print(x)
+format(x)
+x &lt;- x + 10
+print(x)
+format(x)
+nanotime(Sys.time()) + 1:3  # three elements each 1 ns apart
+seq(x, by=as.nanoperiod("1d"), length.out=5, tz="Asia/Tokyo")
+
+## End(Not run)
+</code></pre>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        <!--
+  Copyright (c) 2016-2020 Martin Donath <martin.donath@squidfunk.com>
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+-->
+
+
+
+<!-- Application footer -->
+<footer class="md-footer">
+
+  <!-- Link to previous and/or next page -->
+  
+    <div class="md-footer-nav">
+      <nav
+        class="md-footer-nav__inner md-grid"
+        aria-label="Footer"
+      >
+
+        <!-- Link to previous page -->
+        
+          <a
+            href="../.."
+            title="Nanosecond-Resolution Time Objects for R"
+            class="md-footer-nav__link md-footer-nav__link--prev"
+            rel="prev"
+          >
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Nanosecond-Resolution Time Objects for R
+              </div>
+            </div>
+          </a>
+        
+
+        <!-- Link to next page -->
+        
+          <a
+            href="../nanoduration/"
+            title="Nanoduration"
+            class="md-footer-nav__link md-footer-nav__link--next"
+            rel="next"
+          >
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Nanoduration
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+
+  <!-- Further information -->
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+
+      <!-- Copyright and theme information -->
+      <div class="md-footer-copyright">
+        
+          Documentation for <a href="https://github.com/eddelbuettel/nanotime">nanotime</a> 
+          made by <a href="https://dirk.eddelbuettel.com">Dirk Eddelbuettel</a> and
+          <a href="http://ztsdb.org">Leonardo Silvestri</a> using some <a href=
+          <a hreaf="https://www.R-Project.org">R</a> scripts and
+          <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">Material for MkDocs </a>
+      </div>
+
+      <!-- Social links -->
+      
+  <div class="md-footer-social">
+    
+      
+      
+        
+        
+      
+      <a href="https://github.com/eddelbuettel/nanotime" target="_blank" rel="noopener" title="github.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+      </a>
+    
+  </div>
+
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/vendor.3636a4ec.min.js"></script>
+      <script src="../../assets/javascripts/bundle.e9fe3281.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
+      
+      <script>
+        app = initialize({
+          base: "../..",
+          features: ["tabs"],
+          search: Object.assign({
+            worker: "../../assets/javascripts/worker/search.5eca75d3.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+    
+  </body>
+</html>
