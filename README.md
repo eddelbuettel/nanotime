@@ -53,7 +53,7 @@ See the included demo script [nanosecondDelayExample.R](https://github.com/eddel
 for a (completely simulated and hence made-up) study of network latency measured
 in nanoseconds resulting in the figure below
 
-![](https://eddelbuettel.github.io/nanotime/local/images/nanotimeDelayDemo.png "network delay demo image")
+![](https://eddelbuettel.github.io/nanotime/assets/nanotimeDelayDemo.png)
 
 ### Examples
 
