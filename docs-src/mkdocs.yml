@@ -1,0 +1,68 @@
+site_name: nanotime
+site_url: https://github.com/eddelbuettel/nanotime
+
+## input directory, usually 'docs' which we use for output
+docs_dir: src
+## output directory, i.e. docs/ on a GH repo
+## has to be a subdirectory so need to then copy to ../docs
+site_dir: docs
+
+theme:
+  name: material
+  custom_dir: overrides
+#  palette:
+#    scheme: default
+#    primary: blue grey
+#    accent: grey
+  features:
+    - tabs
+  font:
+#    text: Source Sans Pro
+    text: Lato
+#    text: Oswald
+#    code: Roboto Mono
+  favicon: assets/Rlogo.png
+  logo: assets/Rlogo.svg
+    
+extra_css:
+  - assets/extra.css
+    
+extra:
+  social:
+    #- icon: fontawesome/brands/twitter
+    #  link: https://twitter.com/eddelbuettel
+    - icon: fontawesome/brands/github
+      link: https://github.com/eddelbuettel/nanotime
+
+# repo_url: https://github.com/eddelbuettel/nanotime
+nav:
+  - Home:
+    - index.md
+  - Reference:
+    - man/nanotime.md
+    - man/nanoduration.md
+    - man/nanoival.md
+    - man/nanoperiod.md
+    - man/all.equal.nanoduration.md
+    - man/all.equal.nanoival.md
+    - man/all.equal.nanoperiod.md
+    - man/all.equal.nanotime.md
+    - man/is.unsorted-nanoival-method.md
+    - man/nanoperiod.month.md
+    - man/nano_year.md
+    - man/rep-nanoduration-method.md
+    - man/rep-nanoival-method.md
+    - man/rep-nanoperiod-method.md
+    - man/rep-nanotime-method.md
+    - man/rounding.md
+    - man/seq.nanoduration.md
+    - man/seq-nanoival-method.md
+    - man/seq.nanotime.md
+    - man/set_operations.md
+    - man/sort-nanoival-method.md
+  - Articles:
+    - Introductory Vignette: vignette.md
+  - News:
+    - news.md
+  - Changelog:
+    - changelog.md
