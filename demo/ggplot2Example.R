@@ -1,6 +1,6 @@
-if (requireNamespace("ggplot2", quietly) &&
-    requireNamespace("scales", quietly)  &&
-    requireNamespace("data.table", quietly)) {
+if (requireNamespace("ggplot2", quietly=TRUE) &&
+    requireNamespace("scales", quietly=TRUE)  &&
+    requireNamespace("data.table", quietly=TRUE)) {
 
     library(nanotime)
     library(ggplot2)
