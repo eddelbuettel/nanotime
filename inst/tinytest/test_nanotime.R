@@ -1,5 +1,9 @@
 
-library(nanotime)
+suppressMessages({
+    library(nanotime)
+    library(bit64)
+})
+options(digits=7)                       # needed for error message of 0.3333333 below
 
 expect_equal_numeric <- function(x,y,...) expect_equal(as.numeric(x), as.numeric(y), ...)
 
@@ -12,8 +16,6 @@ expect_identical(nanotime(1), new("nanotime", as.integer64(1)))
 expect_identical(nanotime(as.integer64(1)), new("nanotime", as.integer64(1)))
 expect_identical(as.nanotime(1), new("nanotime", as.integer64(1)))
 expect_identical(as.nanotime(as.integer64(1)), new("nanotime", as.integer64(1)))
-
-if (getRversion() >= as.package_version("4.1.0")) exit_file("skip remainder")
 
 ##test_nanotime_character_first_pass <- function() {
 ## we do a first pass parsing, which is faster than the parsing
@@ -311,12 +313,12 @@ options(nanotimeTz="America/New_York")
 b <- nanotime(0)
 p <- as.POSIXct(b)
 ## LLL: not fully satisfactory here; nanotime will not have 'tz' set from the environment:
-expect_equal(p, as.POSIXct("1969-12-31 19:00:00", tz="America/New_York"))
+expect_equal(p, as.POSIXct("1969-12-31 19:00:00", tz="America/New_York"), check.tzone=FALSE)
 
 options(nanotimeTz=NULL)
 c <- nanotime(0)
 p <- as.POSIXct(c)
-expect_equal(p, as.POSIXct("1970-01-01 00:00:00", tz="UTC"))
+expect_equal(p, as.POSIXct("1970-01-01 00:00:00", tz="UTC"), check.tzone=FALSE)
 
 options(nanotimeTz=oldTz)
 

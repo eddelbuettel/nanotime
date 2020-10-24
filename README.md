@@ -43,7 +43,7 @@ most of the cases where fractional seconds are needed because it avoids floating
 
 ### Documentation
 
-Package documentation, help pages, a vignette, and more are available
+Package documentation, help pages, a vignette, and more is available
 [here](https://eddelbuettel.github.io/nanotime/).
 
 
