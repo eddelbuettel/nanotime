@@ -1,5 +1,7 @@
 2020-10-25  Dirk Eddelbuettel  <edd@debian.org>
 
+	* DESCRIPTION (Version, Date): Roll minor version
+
 	* docker/r-devel/Dockerfile: Added for simpler r-devel checks
 
 2020-10-24  Dirk Eddelbuettel  <edd@debian.org>
