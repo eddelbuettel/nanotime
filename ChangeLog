@@ -1,3 +1,12 @@
+2020-10-24  Dirk Eddelbuettel  <edd@debian.org>
+
+	* inst/tinytest/test_nanotime.R: Add explicit check.tzone=FALSE to
+	equality test for POSIXct comparison
+        * inst/tinytest/test_nanoival.R: Renable full tests, add bit64
+        * inst/tinytest/test_nanoperiod.R: Idem
+        * inst/tinytest/test_nanotime.R: Idem
+        * inst/tinytest/test_ops.R: Idem
+
 2020-09-11  Dirk Eddelbuettel  <edd@debian.org>
 
 	* docs/: Added package website

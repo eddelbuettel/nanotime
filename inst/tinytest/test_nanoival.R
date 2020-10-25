@@ -1,6 +1,5 @@
 library(nanotime)
 
-if (getRversion() >= as.package_version("4.1.0")) exit_file("skip for now")
 isSolaris <- Sys.info()[["sysname"]] == "SunOS"
 
 savedFormat <- NULL

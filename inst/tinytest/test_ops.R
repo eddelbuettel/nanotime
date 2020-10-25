@@ -1,5 +1,8 @@
 
-library(nanotime)
+suppressMessages({
+    library(nanotime)
+    library(bit64)
+})
 
 ## ------------ `-`
 #"test_nanotime-nanotime" <- function() {
@@ -85,7 +88,6 @@ expect_true(!(as.integer64(1) < nanotime(1)))
 expect_true(!(1L < nanotime(1)))
 expect_true(!(1 < nanotime(1)))
 
-if (getRversion() >= as.package_version("4.1.0")) exit_file("skip remainder")
 #test_compare_character_nanotime <- function() {
 expect_true(isFALSE("2018-12-28T16:34:59.649943448+00:00" < nanotime("2018-12-28T16:34:59.000000000+00:00")))
 expect_true("2018-12-28T16:34:59.649943448+00:00" >  nanotime("2018-12-28T16:34:59.000000000+00:00"))
