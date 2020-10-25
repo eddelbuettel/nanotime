@@ -1,3 +1,7 @@
+2020-10-25  Dirk Eddelbuettel  <edd@debian.org>
+
+	* docker/r-devel/Dockerfile: Added for simpler r-devel checks
+
 2020-10-24  Dirk Eddelbuettel  <edd@debian.org>
 
 	* inst/tinytest/test_nanotime.R: Add explicit check.tzone=FALSE to
