@@ -13,7 +13,7 @@ Imports: methods, bit64, RcppCCTZ (>= 0.2.9), zoo
 Suggests: tinytest, data.table, xts
 LinkingTo: Rcpp, RcppCCTZ, RcppDate
 License: GPL (>= 2)
-RoxygenNote: 7.1.1.9000
+RoxygenNote: 7.1.1
 Collate:
   'nanotime.R'
   'nanoival.R'
