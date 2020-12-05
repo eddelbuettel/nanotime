@@ -375,8 +375,8 @@ expect_error(round(as.nanoduration(1)), "non-numeric argument to mathematical fu
 
 ## Compare
 ##test_Compare_nanoduration_ANY <- function() {
-expect_true(is.na(as.nanoduration(1) < "a")) # this is what "integer64" gives back, but do we want to change that to an error? LLL
-## not quite clear in R either:
+expect_error(as.nanoduration(1) < "a", "cannot parse nanoduration")
+## not quite clear in R:
 ## > 1 < list(1)
 ## [1] FALSE
 ## > 1 > list(1)
@@ -385,7 +385,7 @@ expect_true(is.na(as.nanoduration(1) < "a")) # this is what "integer64" gives ba
 ## [1] TRUE  
 
 ##test_Compare_ANY_nanoduration <- function() {
-expect_true(is.na("a" < as.nanoduration(1))) # this is what "integer64" gives back, but do we want to change that to an error? LLL
+expect_error("a" < as.nanoduration(1), "cannot parse nanoduration")
 
 
 ## Arith
