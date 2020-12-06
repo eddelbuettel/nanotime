@@ -56,6 +56,8 @@
 \alias{/,nanoduration,integer64-method}
 \alias{/,nanoduration,numeric-method}
 \alias{Arith,nanoduration,ANY-method}
+\alias{Compare,nanoduration,character-method}
+\alias{Compare,character,nanoduration-method}
 \alias{Compare,nanoduration,ANY-method}
 \alias{abs,nanoduration-method}
 \alias{sign,nanoduration-method}
@@ -153,6 +155,10 @@ nanoduration(hours, minutes, seconds, nanoseconds)
 \S4method{/}{nanoduration,numeric}(e1, e2)
 
 \S4method{Arith}{nanoduration,ANY}(e1, e2)
+
+\S4method{Compare}{nanoduration,character}(e1, e2)
+
+\S4method{Compare}{character,nanoduration}(e1, e2)
 
 \S4method{Compare}{nanoduration,ANY}(e1, e2)
 
@@ -252,6 +258,11 @@ as.nanoduration(10e9) - as.nanoduration(9e9)
 as.nanoduration(10e9) + as.nanoduration(-9e9)
 as.nanoduration("24:00:00") / 2
 as.nanoduration("24:00:00") / as.nanoduration("12:00:00")
+
+## comparison:
+as.nanoduration("10:03:02.999_999_999") == 36182999999999
+as.nanoduration("10:03:02.999_999_999") > as.nanoduration("10:03:02.999_999_998")
+as.nanoduration("10:03:02.999_999_998") < "10:03:02.999_999_999"
 
 }
 \seealso{

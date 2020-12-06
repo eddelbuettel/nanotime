@@ -1,3 +1,20 @@
+2020-12-06  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): Roll minor version
+
+	* .travis.yml: Switch to run.sh from r-ci for focal and bspm
+	* .github/workflows/ci.yaml: Use run.sh from r-ci
+
+2020-12-06  Colin Umansky  <statquant@outlook.com>
+
+	* inst/tinytest/test_nanoduration.R: Added tests for comparison
+
+2020-12-05  Colin Umansky  <statquant@outlook.com>
+
+	* R/nanoduration.R: Support nanoduration to character comparison
+	* man/nanoduration.Rd: Document new feature
+	* inst/tinytest/test_nanoduration.R: Updated tests
+
 2020-10-25  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): Roll minor version

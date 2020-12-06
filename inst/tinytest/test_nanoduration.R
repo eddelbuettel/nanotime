@@ -375,8 +375,8 @@ expect_error(round(as.nanoduration(1)), "non-numeric argument to mathematical fu
 
 ## Compare
 ##test_Compare_nanoduration_ANY <- function() {
-expect_true(is.na(as.nanoduration(1) < "a")) # this is what "integer64" gives back, but do we want to change that to an error? LLL
-## not quite clear in R either:
+expect_error(as.nanoduration(1) < "a", "cannot parse nanoduration")
+## not quite clear in R:
 ## > 1 < list(1)
 ## [1] FALSE
 ## > 1 > list(1)
@@ -385,8 +385,35 @@ expect_true(is.na(as.nanoduration(1) < "a")) # this is what "integer64" gives ba
 ## [1] TRUE  
 
 ##test_Compare_ANY_nanoduration <- function() {
-expect_true(is.na("a" < as.nanoduration(1))) # this is what "integer64" gives back, but do we want to change that to an error? LLL
+expect_error("a" < as.nanoduration(1), "cannot parse nanoduration")
 
+##test_Compare_character_nanoduration <- function() {
+expect_true("12:13:14.151617" == as.nanoduration("12:13:14.151617"))
+expect_false("12:13:14.151617" == as.nanoduration("12:13:14.151617001"))
+expect_true("12:13:14.151617" != as.nanoduration("12:13:14.151617001"))
+expect_false("12:13:14.151617" != as.nanoduration("12:13:14.151617"))
+expect_true("12:13:14.151617" < as.nanoduration("12:13:14.151617001"))
+expect_false("12:13:14.151617001" < as.nanoduration("12:13:14.151617"))
+expect_true("12:13:14.151617" <= as.nanoduration("12:13:14.151617"))
+expect_false("12:13:14.151617001" <= as.nanoduration("12:13:14.151617"))
+expect_true("12:13:14.151617001" > as.nanoduration("12:13:14.151617"))
+expect_false("12:13:14.151617" > as.nanoduration("12:13:14.151617001"))
+expect_true("12:13:14.151617" >= as.nanoduration("12:13:14.151617"))
+expect_false("12:13:14.151617" >= as.nanoduration("12:13:14.151617001"))
+ 
+##test_Compare_nanoduration_character <- function() {
+expect_true(as.nanoduration("12:13:14.151617") == "12:13:14.151617")
+expect_false(as.nanoduration("12:13:14.151617") == "12:13:14.151617001")
+expect_true(as.nanoduration("12:13:14.151617") != "12:13:14.151617001")
+expect_false(as.nanoduration("12:13:14.151617") != "12:13:14.151617")
+expect_true(as.nanoduration("12:13:14.151617") < "12:13:14.151617001")
+expect_false(as.nanoduration("12:13:14.151617001") < "12:13:14.151617")
+expect_true(as.nanoduration("12:13:14.151617") <= "12:13:14.151617")
+expect_false(as.nanoduration("12:13:14.151617001") <= "12:13:14.151617")
+expect_true(as.nanoduration("12:13:14.151617001") > "12:13:14.151617")
+expect_false(as.nanoduration("12:13:14.151617") > "12:13:14.151617001")
+expect_true(as.nanoduration("12:13:14.151617") >= "12:13:14.151617")
+expect_false(as.nanoduration("12:13:14.151617") >= "12:13:14.151617001")
 
 ## Arith
 ##test_Arith <- function() {

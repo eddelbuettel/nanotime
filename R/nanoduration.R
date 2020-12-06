@@ -54,6 +54,11 @@ setClass("nanoduration", contains = "integer64")
 ##' as.nanoduration("24:00:00") / 2
 ##' as.nanoduration("24:00:00") / as.nanoduration("12:00:00")
 ##'
+##' ## comparison:
+##' as.nanoduration("10:03:02.999_999_999") == 36182999999999
+##' as.nanoduration("10:03:02.999_999_999") > as.nanoduration("10:03:02.999_999_998")
+##' as.nanoduration("10:03:02.999_999_998") < "10:03:02.999_999_999"
+##'
 ##' @seealso
 ##' \code{\link{nanotime}}
 ##'
@@ -385,6 +390,20 @@ setMethod("/", c("ANY", "nanoduration"),
 setMethod("Arith", c("nanoduration", "ANY"),
           function(e1, e2) {
               callNextMethod(S3Part(e1, strictS3=TRUE), e2)
+          })
+
+##' @rdname nanoduration
+setMethod("Compare", c("nanoduration", "character"),
+          function(e1, e2) {
+              ne2 <- as.nanoduration(e2)
+              callNextMethod(e1, ne2)
+          })
+
+##' @rdname nanoduration
+setMethod("Compare", c("character", "nanoduration"),
+          function(e1, e2) {
+              ne1 <- as.nanoduration(e1)
+              callNextMethod(ne1, e2)
           })
 
 ##' @rdname nanoduration
