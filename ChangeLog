@@ -1,6 +1,7 @@
 2020-12-06  Dirk Eddelbuettel  <edd@debian.org>
 
 	* .travis.yml: Switch to run.sh from r-ci for focal and bspm
+	* .github/workflows/ci.yaml: Use run.sh from r-ci
 
 2020-12-06  Colin Umansky  <statquant@outlook.com>
 
