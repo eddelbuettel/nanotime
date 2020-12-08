@@ -15,10 +15,11 @@ RUN apt-get update \
         && apt-get install -y --no-install-recommends \
                git \
         && RDscript -e 'install.packages(c("bit64", \
-                                           "RcppCCTZ", \
-                                           "tinytest", \
                                            "data.table", \
+                                           "lattice", \
+                                           "tinytest", \
                                            "xts", \
+                                           "RcppCCTZ", \
                                            "RcppDate"))' \
         && git clone --single-branch --branch master \
 		https://github.com/eddelbuettel/nanotime nanotime \
