@@ -18,25 +18,25 @@ rounding to a specific point in time.
 ### Usage
 
     nano_ceiling(x, precision, ...)
-    
+
     nano_floor(x, precision, ...)
-    
+
     ## S4 method for signature 'nanotime,nanoduration'
     nano_ceiling(x, precision, origin = nanotime())
-    
+
     ## S4 method for signature 'nanotime,nanoduration'
     nano_floor(x, precision, origin = nanotime())
-    
+
     ## S4 method for signature 'nanotime,nanoperiod'
     nano_ceiling(x, precision, origin = nanotime(), tz)
-    
+
     ## S4 method for signature 'nanotime,nanoperiod'
     nano_floor(x, precision, origin = nanotime(), tz)
 
 ### Arguments
 
 | Argument    | Description                                                                    |
-| ----------- | ------------------------------------------------------------------------------ |
+|-------------|--------------------------------------------------------------------------------|
 | `x`         | a `nanotime` object which must be sorted                                       |
 | `precision` | a `nanoduration` or `nanoperiod` object indicating the rounding precision      |
 | `...`       | for future additional arguments                                                |
@@ -95,5 +95,5 @@ allowing arbitrary specification of the reference point of the rounding.
     dt <- data.table(idx, a=1:n, b=2:(n+1))
     dt_mean <- dt[, list(mean = mean(a)),
                   by=nano_ceiling(idx, as.nanoperiod("1d"), tz="America/New_York")]
-    
+
     ## End(Not run)

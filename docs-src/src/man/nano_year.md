@@ -10,17 +10,17 @@ to 12). `nano_year` returns the year.
 ### Usage
 
     nano_wday(x, tz)
-    
+
     nano_mday(x, tz)
-    
+
     nano_month(x, tz)
-    
+
     nano_year(x, tz)
 
 ### Arguments
 
 | Argument | Description                                  |
-| -------- | -------------------------------------------- |
+|----------|----------------------------------------------|
 | `x`      | a `nanotime` object                          |
 | `tz`     | `character` a string representing a timezone |
 
@@ -41,5 +41,5 @@ timezone as it is just an offset in nanoseconds from the epoch.
     nano_month(as.nanotime("2020-12-31 23:32:00 America/New_York"), "Europe/Paris")
     nano_year(as.nanotime("2020-12-31 23:32:00-04:00"), "America/New_York")
     nano_year(as.nanotime("2020-12-31 23:32:00 America/New_York"), "Europe/Paris")
-    
+
     ## End(Not run)

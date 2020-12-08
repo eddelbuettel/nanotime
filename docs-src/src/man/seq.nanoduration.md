@@ -12,7 +12,7 @@ Generate a sequence of `nanoduration`
 ### Arguments
 
 | Argument     | Description                                           |
-| ------------ | ----------------------------------------------------- |
+|--------------|-------------------------------------------------------|
 | `from, to`   | the starting and (maximal) end values of the sequence |
 | `by`         | the increment of the sequence                         |
 | `length.out` | integer indicating the desired length of the sequence |

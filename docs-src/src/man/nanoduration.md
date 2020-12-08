@@ -10,169 +10,175 @@ sequence generation.
 ### Usage
 
     nanoduration(hours, minutes, seconds, nanoseconds)
-    
+
     ## S4 method for signature 'character'
     as.nanoduration(x)
-    
+
     ## S4 method for signature 'integer64'
     as.nanoduration(x)
-    
+
     ## S4 method for signature 'numeric'
     as.nanoduration(x)
-    
+
     ## S4 method for signature 'integer'
     as.nanoduration(x)
-    
+
     ## S4 method for signature ''NULL''
     as.nanoduration(x)
-    
+
     ## S4 method for signature 'missing'
     as.nanoduration(x)
-    
+
     ## S4 method for signature 'nanoduration'
     show(object)
-    
+
     ## S4 method for signature 'nanoduration'
     print(x, quote = FALSE, ...)
-    
+
     ## S3 method for class 'nanoduration'
     format(x, ...)
-    
+
     ## S3 method for class 'nanoduration'
     as.integer64(x, ...)
-    
+
     ## S4 method for signature 'nanoduration'
     as.character(x)
-    
+
     ## S4 method for signature 'nanoduration'
     is.na(x)
-    
+
     ## S4 method for signature 'nanoduration,nanoduration'
     e1 - e2
-    
+
     ## S4 method for signature 'nanoduration,integer64'
     e1 - e2
-    
+
     ## S4 method for signature 'nanoduration,integer'
     e1 - e2
-    
+
     ## S4 method for signature 'nanoduration,numeric'
     e1 - e2
-    
+
     ## S4 method for signature 'nanoduration,ANY'
     e1 - e2
-    
+
     ## S4 method for signature 'nanotime,nanoduration'
     e1 - e2
-    
+
     ## S4 method for signature 'integer64,nanoduration'
     e1 - e2
-    
+
     ## S4 method for signature 'integer,nanoduration'
     e1 - e2
-    
+
     ## S4 method for signature 'numeric,nanoduration'
     e1 - e2
-    
+
     ## S4 method for signature 'ANY,nanoduration'
     e1 - e2
-    
+
     ## S4 method for signature 'nanoduration,ANY'
     e1 + e2
-    
+
     ## S4 method for signature 'nanoduration,nanoduration'
     e1 + e2
-    
+
     ## S4 method for signature 'nanoduration,integer64'
     e1 + e2
-    
+
     ## S4 method for signature 'nanoduration,numeric'
     e1 + e2
-    
+
     ## S4 method for signature 'nanotime,nanoduration'
     e1 + e2
-    
+
     ## S4 method for signature 'nanoival,nanoduration'
     e1 + e2
-    
+
     ## S4 method for signature 'integer64,nanoduration'
     e1 + e2
-    
+
     ## S4 method for signature 'numeric,nanoduration'
     e1 + e2
-    
+
     ## S4 method for signature 'nanoduration,numeric'
     e1 * e2
-    
+
     ## S4 method for signature 'nanoduration,integer64'
     e1 * e2
-    
+
     ## S4 method for signature 'numeric,nanoduration'
     e1 * e2
-    
+
     ## S4 method for signature 'integer64,nanoduration'
     e1 * e2
-    
+
     ## S4 method for signature 'nanoduration,nanoduration'
     e1 / e2
-    
+
     ## S4 method for signature 'nanoduration,integer64'
     e1 / e2
-    
+
     ## S4 method for signature 'nanoduration,numeric'
     e1 / e2
-    
+
     ## S4 method for signature 'nanoduration,ANY'
     Arith(e1, e2)
-    
+
+    ## S4 method for signature 'nanoduration,character'
+    Compare(e1, e2)
+
+    ## S4 method for signature 'character,nanoduration'
+    Compare(e1, e2)
+
     ## S4 method for signature 'nanoduration,ANY'
     Compare(e1, e2)
-    
+
     ## S4 method for signature 'nanoduration'
     abs(x)
-    
+
     ## S4 method for signature 'nanoduration'
     sign(x)
-    
+
     ## S4 method for signature 'nanoduration'
     sum(x, ..., na.rm = FALSE)
-    
+
     ## S4 method for signature 'nanoduration'
     min(x, ..., na.rm = FALSE)
-    
+
     ## S4 method for signature 'nanoduration'
     max(x, ..., na.rm = FALSE)
-    
+
     ## S4 method for signature 'nanoduration'
     range(x, ..., na.rm = FALSE)
-    
+
     ## S4 method for signature 'nanoduration'
     x[[i, j, ..., drop = FALSE]]
-    
+
     ## S4 method for signature 'nanoduration,numeric'
     x[i, j, ..., drop = FALSE]
-    
+
     ## S4 method for signature 'nanoduration,logical'
     x[i, j, ..., drop = FALSE]
-    
+
     ## S4 method for signature 'nanoduration,character'
     x[i, j, ..., drop = FALSE]
-    
+
     ## S4 method for signature 'nanoduration,ANY'
     x[i, j, ..., drop = FALSE]
-    
+
     ## S4 replacement method for signature 'nanoduration,ANY,ANY,ANY'
     x[i, j, ...] <- value
-    
+
     ## S3 method for class 'nanoduration'
     c(...)
-    
+
     NA_nanoduration_
 
 ### Arguments
 
 | Argument      | Description                                         |
-| ------------- | --------------------------------------------------- |
+|---------------|-----------------------------------------------------|
 | `hours`       | number of hours                                     |
 | `minutes`     | number of minutes                                   |
 | `seconds`     | number of seconds                                   |
@@ -226,9 +232,14 @@ Leonardo Silvestri
     nanoduration(hours=10, minutes=3, seconds=2, nanoseconds=999999999)
     as.nanoduration("10:03:02.999_999_999")
     as.nanoduration(36182999999999)
-    
+
     ## arithmetic:
     as.nanoduration(10e9) - as.nanoduration(9e9)
     as.nanoduration(10e9) + as.nanoduration(-9e9)
     as.nanoduration("24:00:00") / 2
     as.nanoduration("24:00:00") / as.nanoduration("12:00:00")
+
+    ## comparison:
+    as.nanoduration("10:03:02.999_999_999") == 36182999999999
+    as.nanoduration("10:03:02.999_999_999") > as.nanoduration("10:03:02.999_999_998")
+    as.nanoduration("10:03:02.999_999_998") < "10:03:02.999_999_999"

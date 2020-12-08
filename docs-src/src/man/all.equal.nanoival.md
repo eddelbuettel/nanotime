@@ -12,14 +12,14 @@ appropriate.
 
     ## S3 method for class 'nanoival'
     all.equal(target, current, ..., check.attributes = TRUE)
-    
+
     ## S4 method for signature 'nanoival'
     all.equal(target, current, ..., check.attributes = TRUE)
 
 ### Arguments
 
 | Argument           | Description                                                                                                 |
-| ------------------ | ----------------------------------------------------------------------------------------------------------- |
+|--------------------|-------------------------------------------------------------------------------------------------------------|
 | `target, current`  | `nanoival` arguments to be compared                                                                         |
 | `...`              | further arguments for different methods                                                                     |
 | `check.attributes` | logical indicating if the `attributes` of `target` and `current` (other than the names) should be compared. |

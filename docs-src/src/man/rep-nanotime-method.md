@@ -11,7 +11,7 @@ Replicates the values in 'x' similarly to the default method.
 
 ### Arguments
 
-<table>
+<table data-summary="R argblock">
 <colgroup>
 <col style="width: 50%" />
 <col style="width: 50%" />

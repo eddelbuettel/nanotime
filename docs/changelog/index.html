@@ -1,6 +1,4 @@
 
-
-
 <!doctype html>
 <html lang="en" class="no-js">
   <head>
@@ -9,11 +7,12 @@
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
       
+      
         <link rel="canonical" href="https://github.com/eddelbuettel/nanotime/changelog/">
       
       
       <link rel="shortcut icon" href="../assets/Rlogo.png">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-5.5.12">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.1.7">
     
     
       
@@ -21,13 +20,17 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.4dd2dd8d.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.19753c6b.min.css">
       
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.196e0c26.min.css">
+        
       
     
     
     
       
+        
         <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700%7C&display=fallback">
         <style>body,input{font-family:"Lato",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"",SFMono-Regular,Consolas,Menlo,monospace}</style>
@@ -44,9 +47,14 @@
   </head>
   
   
-    <body dir="ltr">
-  
     
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+      
+  
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" for="__drawer"></label>
@@ -62,7 +70,9 @@
       
     </div>
     
-      <header class="md-header" data-md-component="header">
+      
+
+<header class="md-header" data-md-component="header">
   <nav class="md-header-nav md-grid" aria-label="Header">
     <a href="https://github.com/eddelbuettel/nanotime" title="nanotime" class="md-header-nav__button md-logo" aria-label="nanotime">
       
@@ -95,7 +105,7 @@
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
       <label class="md-search__icon md-icon" for="__search">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
@@ -123,8 +133,6 @@
     
     <div class="md-container" data-md-component="container">
       
-        
-      
       
         
           
@@ -140,10 +148,10 @@
   
     <li class="md-tabs__item">
       
-        <a href=".." class="md-tabs__link">
-          Home
-        </a>
       
+      <a href=".." class="md-tabs__link">
+        Home
+      </a>
     </li>
   
 
@@ -153,10 +161,10 @@
   
     <li class="md-tabs__item">
       
-        <a href="../man/nanotime/" class="md-tabs__link">
-          Reference
-        </a>
       
+      <a href="../man/nanotime/" class="md-tabs__link">
+        Reference
+      </a>
     </li>
   
 
@@ -166,10 +174,10 @@
   
     <li class="md-tabs__item">
       
-        <a href="../vignette/" class="md-tabs__link">
-          Articles
-        </a>
       
+      <a href="../vignette/" class="md-tabs__link">
+        Articles
+      </a>
     </li>
   
 
@@ -179,10 +187,10 @@
   
     <li class="md-tabs__item">
       
-        <a href="../news/" class="md-tabs__link">
-          News
-        </a>
       
+      <a href="../news/" class="md-tabs__link">
+        News
+      </a>
     </li>
   
 
@@ -192,10 +200,12 @@
   
     <li class="md-tabs__item">
       
-        <a href="./" class="md-tabs__link md-tabs__link--active">
-          Changelog
-        </a>
       
+        
+      
+      <a href="./" class="md-tabs__link md-tabs__link--active">
+        Changelog
+      </a>
     </li>
   
 
@@ -212,7 +222,9 @@
               <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
-                    <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+                    
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href="https://github.com/eddelbuettel/nanotime" title="nanotime" class="md-nav__button md-logo" aria-label="nanotime">
       
@@ -231,8 +243,7 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1">
-    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1" >
     <label class="md-nav__link" for="nav-1">
       Home
       <span class="md-nav__icon md-icon"></span>
@@ -251,7 +262,7 @@
 
 
   <li class="md-nav__item">
-    <a href=".." title="Nanosecond-Resolution Time Objects for R" class="md-nav__link">
+    <a href=".." class="md-nav__link">
       Nanosecond-Resolution Time Objects for R
     </a>
   </li>
@@ -269,8 +280,7 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
-    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" >
     <label class="md-nav__link" for="nav-2">
       Reference
       <span class="md-nav__icon md-icon"></span>
@@ -289,7 +299,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../man/nanotime/" title="Nanotime" class="md-nav__link">
+    <a href="../man/nanotime/" class="md-nav__link">
       Nanotime
     </a>
   </li>
@@ -301,7 +311,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../man/nanoduration/" title="Nanoduration" class="md-nav__link">
+    <a href="../man/nanoduration/" class="md-nav__link">
       Nanoduration
     </a>
   </li>
@@ -313,7 +323,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../man/nanoival/" title="Nanoival" class="md-nav__link">
+    <a href="../man/nanoival/" class="md-nav__link">
       Nanoival
     </a>
   </li>
@@ -325,7 +335,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../man/nanoperiod/" title="Nanoperiod" class="md-nav__link">
+    <a href="../man/nanoperiod/" class="md-nav__link">
       Nanoperiod
     </a>
   </li>
@@ -337,7 +347,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../man/all.equal.nanoduration/" title="All.equal.nanoduration" class="md-nav__link">
+    <a href="../man/all.equal.nanoduration/" class="md-nav__link">
       All.equal.nanoduration
     </a>
   </li>
@@ -349,7 +359,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../man/all.equal.nanoival/" title="All.equal.nanoival" class="md-nav__link">
+    <a href="../man/all.equal.nanoival/" class="md-nav__link">
       All.equal.nanoival
     </a>
   </li>
@@ -361,7 +371,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../man/all.equal.nanoperiod/" title="All.equal.nanoperiod" class="md-nav__link">
+    <a href="../man/all.equal.nanoperiod/" class="md-nav__link">
       All.equal.nanoperiod
     </a>
   </li>
@@ -373,7 +383,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../man/all.equal.nanotime/" title="All.equal.nanotime" class="md-nav__link">
+    <a href="../man/all.equal.nanotime/" class="md-nav__link">
       All.equal.nanotime
     </a>
   </li>
@@ -385,7 +395,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../man/is.unsorted-nanoival-method/" title="Is.unsorted nanoival method" class="md-nav__link">
+    <a href="../man/is.unsorted-nanoival-method/" class="md-nav__link">
       Is.unsorted nanoival method
     </a>
   </li>
@@ -397,7 +407,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../man/nanoperiod.month/" title="Nanoperiod.month" class="md-nav__link">
+    <a href="../man/nanoperiod.month/" class="md-nav__link">
       Nanoperiod.month
     </a>
   </li>
@@ -409,7 +419,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../man/nano_year/" title="Nano year" class="md-nav__link">
+    <a href="../man/nano_year/" class="md-nav__link">
       Nano year
     </a>
   </li>
@@ -421,7 +431,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../man/rep-nanoduration-method/" title="Rep nanoduration method" class="md-nav__link">
+    <a href="../man/rep-nanoduration-method/" class="md-nav__link">
       Rep nanoduration method
     </a>
   </li>
@@ -433,7 +443,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../man/rep-nanoival-method/" title="Rep nanoival method" class="md-nav__link">
+    <a href="../man/rep-nanoival-method/" class="md-nav__link">
       Rep nanoival method
     </a>
   </li>
@@ -445,7 +455,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../man/rep-nanoperiod-method/" title="Rep nanoperiod method" class="md-nav__link">
+    <a href="../man/rep-nanoperiod-method/" class="md-nav__link">
       Rep nanoperiod method
     </a>
   </li>
@@ -457,7 +467,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../man/rep-nanotime-method/" title="Rep nanotime method" class="md-nav__link">
+    <a href="../man/rep-nanotime-method/" class="md-nav__link">
       Rep nanotime method
     </a>
   </li>
@@ -469,7 +479,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../man/rounding/" title="Rounding" class="md-nav__link">
+    <a href="../man/rounding/" class="md-nav__link">
       Rounding
     </a>
   </li>
@@ -481,7 +491,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../man/seq.nanoduration/" title="Seq.nanoduration" class="md-nav__link">
+    <a href="../man/seq.nanoduration/" class="md-nav__link">
       Seq.nanoduration
     </a>
   </li>
@@ -493,7 +503,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../man/seq-nanoival-method/" title="Seq nanoival method" class="md-nav__link">
+    <a href="../man/seq-nanoival-method/" class="md-nav__link">
       Seq nanoival method
     </a>
   </li>
@@ -505,7 +515,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../man/seq.nanotime/" title="Seq.nanotime" class="md-nav__link">
+    <a href="../man/seq.nanotime/" class="md-nav__link">
       Seq.nanotime
     </a>
   </li>
@@ -517,7 +527,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../man/set_operations/" title="Set operations" class="md-nav__link">
+    <a href="../man/set_operations/" class="md-nav__link">
       Set operations
     </a>
   </li>
@@ -529,7 +539,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../man/sort-nanoival-method/" title="Sort nanoival method" class="md-nav__link">
+    <a href="../man/sort-nanoival-method/" class="md-nav__link">
       Sort nanoival method
     </a>
   </li>
@@ -547,8 +557,7 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
-    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" >
     <label class="md-nav__link" for="nav-3">
       Articles
       <span class="md-nav__icon md-icon"></span>
@@ -567,7 +576,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../vignette/" title="Introductory Vignette" class="md-nav__link">
+    <a href="../vignette/" class="md-nav__link">
       Introductory Vignette
     </a>
   </li>
@@ -585,8 +594,7 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
-    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" >
     <label class="md-nav__link" for="nav-4">
       News
       <span class="md-nav__icon md-icon"></span>
@@ -605,7 +613,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../news/" title="News" class="md-nav__link">
+    <a href="../news/" class="md-nav__link">
       News
     </a>
   </li>
@@ -625,8 +633,7 @@
 
   <li class="md-nav__item md-nav__item--active md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5" checked>
-    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5" checked>
     <label class="md-nav__link" for="nav-5">
       Changelog
       <span class="md-nav__icon md-icon"></span>
@@ -656,7 +663,7 @@
         <span class="md-nav__icon md-icon"></span>
       </label>
     
-    <a href="./" title="Changelog" class="md-nav__link md-nav__link--active">
+    <a href="./" class="md-nav__link md-nav__link--active">
       Changelog
     </a>
     
@@ -787,60 +794,89 @@
               
                 
                 
-                  
-                
-                
                   <h1>Changelog</h1>
                 
                 <h3 id="2020">2020</h3>
+<p>2020-12-06  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
+<pre><code>    * DESCRIPTION (Version, Date): Roll minor version
+
+    * .travis.yml: Switch to run.sh from r-ci for focal and bspm 
+    * .github/workflows/ci.yaml: Use run.sh from r-ci
+</code></pre>
+<p>2020-12-06  Colin Umansky  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#115;&#116;&#97;&#116;&#113;&#117;&#97;&#110;&#116;&#64;&#111;&#117;&#116;&#108;&#111;&#111;&#107;&#46;&#99;&#111;&#109;">&#115;&#116;&#97;&#116;&#113;&#117;&#97;&#110;&#116;&#64;&#111;&#117;&#116;&#108;&#111;&#111;&#107;&#46;&#99;&#111;&#109;</a> </p>
+<pre><code>    * inst/tinytest/test_nanoduration.R: Added tests for comparison
+</code></pre>
+<p>2020-12-05  Colin Umansky  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#115;&#116;&#97;&#116;&#113;&#117;&#97;&#110;&#116;&#64;&#111;&#117;&#116;&#108;&#111;&#111;&#107;&#46;&#99;&#111;&#109;">&#115;&#116;&#97;&#116;&#113;&#117;&#97;&#110;&#116;&#64;&#111;&#117;&#116;&#108;&#111;&#111;&#107;&#46;&#99;&#111;&#109;</a> </p>
+<pre><code>    * R/nanoduration.R: Support nanoduration to character comparison 
+    * man/nanoduration.Rd: Document new feature 
+    * inst/tinytest/test_nanoduration.R: Updated tests
+</code></pre>
+<p>2020-10-25  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
+<pre><code>    * DESCRIPTION (Version, Date): Roll minor version
+
+    * docker/r-devel/Dockerfile: Added for simpler r-devel checks
+</code></pre>
+<p>2020-10-24  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
+<pre><code>    * inst/tinytest/test_nanotime.R: Add explicit check.tzone=FALSE to 
+    equality test for POSIXct comparison 
+    * inst/tinytest/test_nanoival.R: Renable full tests, add bit64 
+    * inst/tinytest/test_nanoperiod.R: Idem 
+    * inst/tinytest/test_nanotime.R: Idem 
+    * inst/tinytest/test_ops.R: Idem
+</code></pre>
+<p>2020-09-11  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
+<pre><code>    * docs/: Added package website
+
+    * README.md: Added badge and short paragraph linking to documentation
+</code></pre>
 <p>2020-09-07  Leonardo Silvestri  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#108;&#115;&#105;&#108;&#118;&#101;&#115;&#116;&#114;&#105;&#64;&#122;&#116;&#115;&#100;&#98;&#46;&#111;&#114;&#103;">&#108;&#115;&#105;&#108;&#118;&#101;&#115;&#116;&#114;&#105;&#64;&#122;&#116;&#115;&#100;&#98;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* demo/ggplot2Example.R: Updated and extended demo
+<pre><code>    * demo/ggplot2Example.R: Updated and extended demo
 </code></pre>
 <p>2020-09-04  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* DESCRIPTION (Version, Date): Roll minor version
+<pre><code>    * DESCRIPTION (Version, Date): Roll minor version
 
-* demo/ggplot2Example.R: New demo based on Leonardo's example repo
+    * demo/ggplot2Example.R: New demo based on Leonardo's example repo
 </code></pre>
 <p>2020-09-03  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* DESCRIPTION (Version, Date): Release 0.3.2
+<pre><code>    * DESCRIPTION (Version, Date): Release 0.3.2
 </code></pre>
 <p>2020-09-01  Elliott Sales de Andrade  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#113;&#117;&#97;&#110;&#116;&#117;&#109;&#46;&#97;&#110;&#97;&#108;&#121;&#115;&#116;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;">&#113;&#117;&#97;&#110;&#116;&#117;&#109;&#46;&#97;&#110;&#97;&#108;&#121;&#115;&#116;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;</a> </p>
-<pre><code>* inst/include/nanotime/interval.hpp: Correct for big-endian
+<pre><code>    * inst/include/nanotime/interval.hpp: Correct for big-endian
 </code></pre>
 <p>2020-08-31  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* .travis.yml (install): Back to RcppCCTZ from CRAN
+<pre><code>    * .travis.yml (install): Back to RcppCCTZ from CRAN
 </code></pre>
 <p>2020-08-30  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* R/nanoival.R: De-activate two examples 
-* R/nanotime.R: Idem 
-* man/nanoival.Rd: Idem 
-* man/nanotime.Rd: Idem
+<pre><code>    * R/nanoival.R: De-activate two examples 
+    * R/nanotime.R: Idem 
+    * man/nanoival.Rd: Idem 
+    * man/nanotime.Rd: Idem
 
-* inst/tinytest/test_nanoduration.R: Make some test conditional 
-* inst/tinytest/test_nanoival.R: Idem 
-* inst/tinytest/test_nanoperiod.R: Idem 
-* inst/tinytest/test_nanotime.R: Idem 
-* inst/tinytest/test_ops.R: Idem
+    * inst/tinytest/test_nanoduration.R: Make some test conditional 
+    * inst/tinytest/test_nanoival.R: Idem 
+    * inst/tinytest/test_nanoperiod.R: Idem 
+    * inst/tinytest/test_nanotime.R: Idem 
+    * inst/tinytest/test_ops.R: Idem
 </code></pre>
 <p>2020-08-28  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* DESCRIPTION (Version, Date): Roll minor version
+<pre><code>    * DESCRIPTION (Version, Date): Roll minor version
 
-* src/interval.cpp: Use RcppCCTZ_API header and exported functions 
-* src/nanotime.cpp: Idem 
-* src/period.cpp: Idem 
-* src/rounding.cpp: Idem
+    * src/interval.cpp: Use RcppCCTZ_API header and exported functions 
+    * src/nanotime.cpp: Idem 
+    * src/period.cpp: Idem 
+    * src/rounding.cpp: Idem
 
-* .travis.yml (install): Install RcppCCTZ from GitHub
+    * .travis.yml (install): Install RcppCCTZ from GitHub
 </code></pre>
 <p>2020-08-09  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* DESCRIPTION (Version, Date): Release 0.3.1
+<pre><code>    * DESCRIPTION (Version, Date): Release 0.3.1
 
-* R/nanoival.R: Add \dontrun{} because of Solaris 
-* R/nanoperiod.R: Idem 
-* R/nanotime.R: Idem 
-* man/nano_year.Rd: Idem
+    * R/nanoival.R: Add \dontrun{} because of Solaris 
+    * R/nanoperiod.R: Idem 
+    * R/nanotime.R: Idem 
+    * man/nano_year.Rd: Idem
 
-* man/nanoperiod.Rd: Idem 
+    * man/nanoperiod.Rd: Idem 
     * man/nanotime.Rd: Idem 
     * man/rounding.Rd: Idem 
     * man/seq-nanoival-method.Rd: Idem 
@@ -851,559 +887,559 @@
     * inst/tinytest/test_nanotime.R: Idem
 </code></pre>
 <p>2020-08-08  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* DESCRIPTION (Version, Date): Roll minor version, small edit
+<pre><code>    * DESCRIPTION (Version, Date): Roll minor version, small edit
 
-* src/interval.cpp: Add some tests for non-zero length vectors 
-* inst/tinytest/test_nanotime.R: Skip one test upsetting SAN 
-* tests/tinytest.R: Default back to serial tests
+    * src/interval.cpp: Add some tests for non-zero length vectors 
+    * inst/tinytest/test_nanotime.R: Skip one test upsetting SAN 
+    * tests/tinytest.R: Default back to serial tests
 
-* src/strnlen.cpp: Added strnlen_ to help Solaris 
-* inst/include/nanotime/utilities.hpp: Declare it 
-* src/interval.cpp: Use it 
-* src/nanotime.cpp: Idem
+    * src/strnlen.cpp: Added strnlen_ to help Solaris 
+    * inst/include/nanotime/utilities.hpp: Declare it 
+    * src/interval.cpp: Use it 
+    * src/nanotime.cpp: Idem
 </code></pre>
 <p>2020-08-07  Leonardo Silvestri  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#108;&#115;&#105;&#108;&#118;&#101;&#115;&#116;&#114;&#105;&#64;&#122;&#116;&#115;&#100;&#98;&#46;&#111;&#114;&#103;">&#108;&#115;&#105;&#108;&#118;&#101;&#115;&#116;&#114;&#105;&#64;&#122;&#116;&#115;&#100;&#98;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* src/period.cpp: Add extra braces to appease macOS compiler 
-* src/inst/include/nanotime/globals.hpp: Use chrono duration; remove 
-ambiguous time_point and seconds declarations
+<pre><code>    * src/period.cpp: Add extra braces to appease macOS compiler 
+    * src/inst/include/nanotime/globals.hpp: Use chrono duration; remove 
+    ambiguous time_point and seconds declarations
 </code></pre>
 <p>2020-08-05  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* DESCRIPTION (Date, Version): Release 0.3.0
+<pre><code>    * DESCRIPTION (Date, Version): Release 0.3.0
 </code></pre>
 <p>2020-08-02  Leonardo Silvestri  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#108;&#115;&#105;&#108;&#118;&#101;&#115;&#116;&#114;&#105;&#64;&#122;&#116;&#115;&#100;&#98;&#46;&#111;&#114;&#103;">&#108;&#115;&#105;&#108;&#118;&#101;&#115;&#116;&#114;&#105;&#64;&#122;&#116;&#115;&#100;&#98;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* src/interval.cpp: Use non-throwing RcppCCTZ function 
-* src/nanotime.cpp: Idem 
-* src/period.cpp: Idem 
-* inst/include/nanotime/globals.hpp: More (u)int64_t 
-* R/nanoival.R: Refine error message check 
-* R/nanotime.R: Idem
+<pre><code>    * src/interval.cpp: Use non-throwing RcppCCTZ function 
+    * src/nanotime.cpp: Idem 
+    * src/period.cpp: Idem 
+    * inst/include/nanotime/globals.hpp: More (u)int64_t 
+    * R/nanoival.R: Refine error message check 
+    * R/nanotime.R: Idem
 </code></pre>
 <p>2020-07-29  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* DESCRIPTION (Version, Date): Roll minor version
+<pre><code>    * DESCRIPTION (Version, Date): Roll minor version
 </code></pre>
 <p>2020-07-29  Leonardo Silvestri  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#108;&#115;&#105;&#108;&#118;&#101;&#115;&#116;&#114;&#105;&#64;&#122;&#116;&#115;&#100;&#98;&#46;&#111;&#114;&#103;">&#108;&#115;&#105;&#108;&#118;&#101;&#115;&#116;&#114;&#105;&#64;&#122;&#116;&#115;&#100;&#98;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* src/Makevars.win: Add to set explicit '-mno-ms-bitfields' flag 
-required for bitfield operations on Windows
+<pre><code>    * src/Makevars.win: Add to set explicit '-mno-ms-bitfields' flag 
+    required for bitfield operations on Windows
 </code></pre>
 <p>2020-07-21  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* DESCRIPTION (Version, Date): Roll minor version
+<pre><code>    * DESCRIPTION (Version, Date): Roll minor version
 
-* inst/NEWS.Rd: Additional entries added
+    * inst/NEWS.Rd: Additional entries added
 </code></pre>
 <p>2020-07-20  Leonardo Silvestri  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#108;&#115;&#105;&#108;&#118;&#101;&#115;&#116;&#114;&#105;&#64;&#122;&#116;&#115;&#100;&#98;&#46;&#111;&#114;&#103;">&#108;&#115;&#105;&#108;&#118;&#101;&#115;&#116;&#114;&#105;&#64;&#122;&#116;&#115;&#100;&#98;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* vignettes/nanotime/rmd/nanotime-intro.Rmd: Additional edits
+<pre><code>    * vignettes/nanotime/rmd/nanotime-intro.Rmd: Additional edits
 </code></pre>
 <p>2020-07-19  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* vignettes/nanotime/rmd/nanotime-intro.Rmd: Additional edits 
-* vignettes/nanotime/rmd/nanotime-intro.bib: Updated bibliography
+<pre><code>    * vignettes/nanotime/rmd/nanotime-intro.Rmd: Additional edits 
+    * vignettes/nanotime/rmd/nanotime-intro.bib: Updated bibliography
 </code></pre>
 <p>2020-07-11  Leonardo Silvestri  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#108;&#115;&#105;&#108;&#118;&#101;&#115;&#116;&#114;&#105;&#64;&#122;&#116;&#115;&#100;&#98;&#46;&#111;&#114;&#103;">&#108;&#115;&#105;&#108;&#118;&#101;&#115;&#116;&#114;&#105;&#64;&#122;&#116;&#115;&#100;&#98;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* DESCRIPTION (Version, Date): Roll minor version
+<pre><code>    * DESCRIPTION (Version, Date): Roll minor version
 
-* inst/include/nanotime/duration.hpp: move headers to 'nanotime' 
-and put 'interval' and 'period' in a namespace 
-* directory inst/include/nanotime/globals.hpp: Idem 
-* inst/include/nanotime/interval.hpp: Idem 
-* inst/include/nanotime/period.hpp: Idem 
-* inst/include/nanotime/pseudovector.hpp: Idem 
-* inst/include/nanotime/utilities.hpp: Idem 
-* src/duration.cpp: Idem 
-* src/interval.cpp: Idem 
-* src/nanotime.cpp: Idem 
-* src/period.cpp: Idem 
-* src/rounding.cpp: Idem 
-* src/Makevars: Idem 
-* inst/include/nanotime/pseudovector.hpp: let 'pseudovector' return a 
-different type than the input which gives more flexibility
+    * inst/include/nanotime/duration.hpp: move headers to 'nanotime' 
+    and put 'interval' and 'period' in a namespace 
+    * directory inst/include/nanotime/globals.hpp: Idem 
+    * inst/include/nanotime/interval.hpp: Idem 
+    * inst/include/nanotime/period.hpp: Idem 
+    * inst/include/nanotime/pseudovector.hpp: Idem 
+    * inst/include/nanotime/utilities.hpp: Idem 
+    * src/duration.cpp: Idem 
+    * src/interval.cpp: Idem 
+    * src/nanotime.cpp: Idem 
+    * src/period.cpp: Idem 
+    * src/rounding.cpp: Idem 
+    * src/Makevars: Idem 
+    * inst/include/nanotime/pseudovector.hpp: let 'pseudovector' return a 
+    different type than the input which gives more flexibility
 </code></pre>
 <p>2020-05-17  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* vignettes/nanotime-intro.pdf: Copy of prebuilt vignette from rmd/ 
-* vignettes/nanotime-introduction.Rnw: Sweave shell for prebuilt vignette
+<pre><code>    * vignettes/nanotime-intro.pdf: Copy of prebuilt vignette from rmd/ 
+    * vignettes/nanotime-introduction.Rnw: Sweave shell for prebuilt vignette
 
-* .travis.yml: Switch to bionic, and testing via R 4.0.0
+    * .travis.yml: Switch to bionic, and testing via R 4.0.0
 </code></pre>
 <p>2020-05-16  Leonardo Silvestri  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#108;&#115;&#105;&#108;&#118;&#101;&#115;&#116;&#114;&#105;&#64;&#122;&#116;&#115;&#100;&#98;&#46;&#111;&#114;&#103;">&#108;&#115;&#105;&#108;&#118;&#101;&#115;&#116;&#114;&#105;&#64;&#122;&#116;&#115;&#100;&#98;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* DESCRIPTION (Version, Date): Roll minor version
+<pre><code>    * DESCRIPTION (Version, Date): Roll minor version
 
-* R/nanoduration.R: correct NA and negative subsetting; implement 'rep' 
-* R/nanoival.R: Idem 
-* R/nanoperiod.R: Idem 
-* R/nanotime.R: Idem 
-* inst/include/globals.hpp: correct NA and negative subsetting 
-* inst/include/interval.hpp: Idem 
-* inst/include/utilities.hpp: Idem 
-* inst/tinytest/test_nanoduration.R: Idem 
-* inst/tinytest/test_nanoival.R: Idem 
-* inst/tinytest/test_nanoperiod.R: Idem 
-* inst/tinytest/test_nanotime.R: Idem 
-* src/duration.cpp: Idem 
-* src/interval.cpp: Idem 
-* src/nanotime.cpp: Idem 
-* src/period.cpp: Idem 
-* man/rep-nanoduration-method.Rd: document 'rep' 
-* man/rep-nanoival-method.Rd: document 'rep' 
-* man/rep-nanoperiod-method.Rd: document 'rep' 
-* man/rep-nanotime-method.Rd: document 'rep'
+     * R/nanoduration.R: correct NA and negative subsetting; implement 'rep' 
+     * R/nanoival.R: Idem 
+     * R/nanoperiod.R: Idem 
+     * R/nanotime.R: Idem 
+     * inst/include/globals.hpp: correct NA and negative subsetting 
+     * inst/include/interval.hpp: Idem 
+     * inst/include/utilities.hpp: Idem 
+     * inst/tinytest/test_nanoduration.R: Idem 
+     * inst/tinytest/test_nanoival.R: Idem 
+     * inst/tinytest/test_nanoperiod.R: Idem 
+     * inst/tinytest/test_nanotime.R: Idem 
+     * src/duration.cpp: Idem 
+     * src/interval.cpp: Idem 
+     * src/nanotime.cpp: Idem 
+     * src/period.cpp: Idem 
+    * man/rep-nanoduration-method.Rd: document 'rep' 
+    * man/rep-nanoival-method.Rd: document 'rep' 
+    * man/rep-nanoperiod-method.Rd: document 'rep' 
+    * man/rep-nanotime-method.Rd: document 'rep'
 </code></pre>
 <p>2020-05-10  Leonardo Silvestri  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#108;&#115;&#105;&#108;&#118;&#101;&#115;&#116;&#114;&#105;&#64;&#122;&#116;&#115;&#100;&#98;&#46;&#111;&#114;&#103;">&#108;&#115;&#105;&#108;&#118;&#101;&#115;&#116;&#114;&#105;&#64;&#122;&#116;&#115;&#100;&#98;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* DESCRIPTION (Version, Date): Roll minor version
+<pre><code>    * DESCRIPTION (Version, Date): Roll minor version
 
-* R/nanoival.R: check param types before invoking C functions; use 
-'na.rm' in 'is.unsorted' 
-* inst/tinytest/test_nanoival.R: Idem 
-* R/nanoperiod.R: check param types before invoking C functions 
-* R/nanotime.R: Idem 
-* inst/tinytest/test_nanoperiod.R: Idem 
-* src/RcppExports.cpp: Idem 
-* src/interval.cpp: Idem 
-* man/nanotime.Rd: document 'tz' param behaviour in constructor
+    * R/nanoival.R: check param types before invoking C functions; use 
+    'na.rm' in 'is.unsorted' 
+    * inst/tinytest/test_nanoival.R: Idem 
+    * R/nanoperiod.R: check param types before invoking C functions 
+    * R/nanotime.R: Idem 
+    * inst/tinytest/test_nanoperiod.R: Idem 
+    * src/RcppExports.cpp: Idem 
+    * src/interval.cpp: Idem 
+    * man/nanotime.Rd: document 'tz' param behaviour in constructor
 </code></pre>
 <p>2020-04-25  Leonardo Silvestri  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#108;&#115;&#105;&#108;&#118;&#101;&#115;&#116;&#114;&#105;&#64;&#122;&#116;&#115;&#100;&#98;&#46;&#111;&#114;&#103;">&#108;&#115;&#105;&#108;&#118;&#101;&#115;&#116;&#114;&#105;&#64;&#122;&#116;&#115;&#100;&#98;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* DESCRIPTION (Version, Date): Roll minor version
+<pre><code>    * DESCRIPTION (Version, Date): Roll minor version
 
-* NAMESPACE: Added rounding functions 'nano_floor' and 'nano_ceiling' 
-* R/RcppExports.R: Idem 
-* R/nanoduration.R: Idem 
-* R/nanoperiod.R: Idem 
-* R/nanotime.R: Idem 
-* inst/include/period.hpp: Idem 
-* inst/tinytest/test_nanoduration.R: Idem 
-* inst/tinytest/test_nanoperiod.R: Idem 
-* man/rounding.Rd: Idem 
-* src/RcppExports.cpp: Idem 
-* src/rounding.cpp: Idem
+    * NAMESPACE: Added rounding functions 'nano_floor' and 'nano_ceiling' 
+    * R/RcppExports.R: Idem 
+     * R/nanoduration.R: Idem 
+     * R/nanoperiod.R: Idem 
+     * R/nanotime.R: Idem 
+     * inst/include/period.hpp: Idem 
+     * inst/tinytest/test_nanoduration.R: Idem 
+     * inst/tinytest/test_nanoperiod.R: Idem 
+     * man/rounding.Rd: Idem 
+     * src/RcppExports.cpp: Idem 
+     * src/rounding.cpp: Idem
 
-* vignettes/nanotime-introduction.Rnw: Wrapper as in anytime 
-* vignettes/nanotime-intro.pdf: Pre-made pdf 
-* vignettes/nanotime/rmd/nanotime-intro.Rmd: New draft vignette 
-* vignettes/nanotime/rmd/nanotime-intro.bib: New bibliography
+    * vignettes/nanotime-introduction.Rnw: Wrapper as in anytime 
+    * vignettes/nanotime-intro.pdf: Pre-made pdf 
+    * vignettes/nanotime/rmd/nanotime-intro.Rmd: New draft vignette 
+    * vignettes/nanotime/rmd/nanotime-intro.bib: New bibliography
 </code></pre>
 <p>2020-04-09  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* README.md: Add 'last commit' badge
+<pre><code>    * README.md: Add 'last commit' badge
 </code></pre>
 <p>2020-03-31  Leonardo Silvestri  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#108;&#115;&#105;&#108;&#118;&#101;&#115;&#116;&#114;&#105;&#64;&#122;&#116;&#115;&#100;&#98;&#46;&#111;&#114;&#103;">&#108;&#115;&#105;&#108;&#118;&#101;&#115;&#116;&#114;&#105;&#64;&#122;&#116;&#115;&#100;&#98;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* DESCRIPTION (Version, Date): Roll minor version
+<pre><code>    * DESCRIPTION (Version, Date): Roll minor version
 
-* R/nanoduration.R: Added all.equal 
-* R/nanoival.R: Idem 
-* R/nanoperiod.R: Idem 
-* R/nanotime.R: Idem 
-* inst/tinytest/test_nanoduration.R: Idem 
-* inst/tinytest/test_nanoival.R: Idem 
-* inst/tinytest/test_nanoperiod.R: Idem 
-* inst/tinytest/test_nanotime.R: Idem 
-* man/all.equal-nanoperiod-ANY-method.Rd: deleted 
-* man/all.equal.nanotime.Rd: Idem 
-* man/all.equal.nanoduration.Rd: Idem 
-* man/all.equal.nanoival.Rd: Idem 
-* man/all.equal.nanoperiod.Rd: Idem
+    * R/nanoduration.R: Added all.equal 
+     * R/nanoival.R: Idem 
+     * R/nanoperiod.R: Idem 
+     * R/nanotime.R: Idem 
+     * inst/tinytest/test_nanoduration.R: Idem 
+     * inst/tinytest/test_nanoival.R: Idem 
+     * inst/tinytest/test_nanoperiod.R: Idem 
+     * inst/tinytest/test_nanotime.R: Idem 
+     * man/all.equal-nanoperiod-ANY-method.Rd: deleted 
+    * man/all.equal.nanotime.Rd: Idem 
+     * man/all.equal.nanoduration.Rd: Idem 
+     * man/all.equal.nanoival.Rd: Idem 
+     * man/all.equal.nanoperiod.Rd: Idem
 </code></pre>
 <p>2020-03-29  Leonardo Silvestri  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#108;&#115;&#105;&#108;&#118;&#101;&#115;&#116;&#114;&#105;&#64;&#122;&#116;&#115;&#100;&#98;&#46;&#111;&#114;&#103;">&#108;&#115;&#105;&#108;&#118;&#101;&#115;&#116;&#114;&#105;&#64;&#122;&#116;&#115;&#100;&#98;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* DESCRIPTION: fixed 0-length-vector ops 
-* R/RcppExports.R: Idem 
-* R/nanoperiod.R: Idem 
-* inst/include/utilities.hpp: Idem 
-* inst/tinytest/test_nanoival.R: Idem 
-* inst/tinytest/test_nanoperiod.R: Idem 
-* inst/tinytest/test_nanotime.R: Idem 
-* src/RcppExports.cpp: Idem 
-* src/interval.cpp: Idem 
-* src/nanotime.cpp: Idem 
-* src/period.cpp: Idem
+<pre><code>    * DESCRIPTION: fixed 0-length-vector ops 
+    * R/RcppExports.R: Idem 
+     * R/nanoperiod.R: Idem 
+     * inst/include/utilities.hpp: Idem 
+     * inst/tinytest/test_nanoival.R: Idem 
+     * inst/tinytest/test_nanoperiod.R: Idem 
+     * inst/tinytest/test_nanotime.R: Idem 
+     * src/RcppExports.cpp: Idem 
+     * src/interval.cpp: Idem 
+     * src/nanotime.cpp: Idem 
+     * src/period.cpp: Idem
 </code></pre>
 <p>2020-03-27  Leonardo Silvestri  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#108;&#115;&#105;&#108;&#118;&#101;&#115;&#116;&#114;&#105;&#64;&#122;&#116;&#115;&#100;&#98;&#46;&#111;&#114;&#103;">&#108;&#115;&#105;&#108;&#118;&#101;&#115;&#116;&#114;&#105;&#64;&#122;&#116;&#115;&#100;&#98;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* DESCRIPTION: added %in%.nanotime 
-* NAMESPACE: Idem 
-* R/RcppExports.R: Idem 
-* R/nanoival.R: Idem 
-* R/nanoperiod.R: Idem 
-* inst/tinytest/test_nanoival.R: Idem 
-* man/nanoduration.Rd: Idem 
-* man/nanoival.Rd: Idem 
-* man/nanoperiod.Rd: Idem 
-* man/nanotime.Rd: Idem 
-* man/set_operations.Rd: Idem 
-* src/RcppExports.cpp: Idem 
-* src/interval.cpp: Idem
+<pre><code>    * DESCRIPTION: added %in%.nanotime 
+    * NAMESPACE: Idem 
+     * R/RcppExports.R: Idem 
+     * R/nanoival.R: Idem 
+     * R/nanoperiod.R: Idem 
+     * inst/tinytest/test_nanoival.R: Idem 
+     * man/nanoduration.Rd: Idem 
+     * man/nanoival.Rd: Idem 
+     * man/nanoperiod.Rd: Idem 
+     * man/nanotime.Rd: Idem 
+     * man/set_operations.Rd: Idem 
+     * src/RcppExports.cpp: Idem 
+     * src/interval.cpp: Idem
 </code></pre>
 <p>2020-03-25  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* DESCRIPTION (Version, Date): Roll minor version
+<pre><code>    * DESCRIPTION (Version, Date): Roll minor version
 
-* DESCRIPTION (LinkingTo): Add RcppDate providing date.h 
-* src/nanotime.cpp (nanotime_wday_impl): Update one accessor for 
-newer version of date.h
+    * DESCRIPTION (LinkingTo): Add RcppDate providing date.h 
+    * src/nanotime.cpp (nanotime_wday_impl): Update one accessor for 
+    newer version of date.h
 
-* inst/include/date.h: Deleted as no longer needed
+    * inst/include/date.h: Deleted as no longer needed
 
-* .travis.yml (install): Install RcppDate
+    * .travis.yml (install): Install RcppDate
 
-* inst/include/globals.hpp: Add a single #nocov
+    * inst/include/globals.hpp: Add a single #nocov
 </code></pre>
 <p>2020-03-23  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* DESCRIPTION (Version, Date): Roll minor version
+<pre><code>    * DESCRIPTION (Version, Date): Roll minor version
 </code></pre>
 <p>2020-03-22  Leonardo Silvestri  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#108;&#115;&#105;&#108;&#118;&#101;&#115;&#116;&#114;&#105;&#64;&#122;&#116;&#115;&#100;&#98;&#46;&#111;&#114;&#103;">&#108;&#115;&#105;&#108;&#118;&#101;&#115;&#116;&#114;&#105;&#64;&#122;&#116;&#115;&#100;&#98;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* README.md: updated information
+<pre><code>    * README.md: updated information
 </code></pre>
 <p>2020-03-21  Leonardo Silvestri  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#108;&#115;&#105;&#108;&#118;&#101;&#115;&#116;&#114;&#105;&#64;&#122;&#116;&#115;&#100;&#98;&#46;&#111;&#114;&#103;">&#108;&#115;&#105;&#108;&#118;&#101;&#115;&#116;&#114;&#105;&#64;&#122;&#116;&#115;&#100;&#98;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* inst/include/globals.hpp: parse format ending with 'Z' for data.table compatibility 
-* src/period.cpp: fix vectorized 'plus'/'minus' ops for 'nanoperiod' 
-* inst/tinytest/test_nanoperiod.R: Idem
+<pre><code>    * inst/include/globals.hpp: parse format ending with 'Z' for data.table compatibility 
+    * src/period.cpp: fix vectorized 'plus'/'minus' ops for 'nanoperiod' 
+    * inst/tinytest/test_nanoperiod.R: Idem
 </code></pre>
 <p>2020-03-20  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* src/duration.cpp: Slightly more idiomatic Rcpp 
-* src/period.cpp: Idem 
-* R/nanoduration.R: Idem 
-* R/nanoperiod.R: Idem 
-* R/nanotime.R: Idem
+<pre><code>    * src/duration.cpp: Slightly more idiomatic Rcpp 
+    * src/period.cpp: Idem 
+    * R/nanoduration.R: Idem 
+    * R/nanoperiod.R: Idem 
+    * R/nanotime.R: Idem
 </code></pre>
 <p>2020-03-19  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* src/interval.cpp: Slightly more idiomatic Rcpp 
-* R/nanoival.R: Idem
+<pre><code>    * src/interval.cpp: Slightly more idiomatic Rcpp 
+    * R/nanoival.R: Idem
 </code></pre>
 <p>2020-03-18  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* DESCRIPTION (Version, Date): Roll minor version
+<pre><code>    * DESCRIPTION (Version, Date): Roll minor version
 
-* DESCRIPTION (Imports): Updated versioned Depends: on RcppCCTZ
+    * DESCRIPTION (Imports): Updated versioned Depends: on RcppCCTZ
 
-* NAMESPACE: Turn on registration
+    * NAMESPACE: Turn on registration
 
-* src/nanotime.cpp: Slightly more idiomatic Rcpp 
-* R/nanotime.R: Idem
+    * src/nanotime.cpp: Slightly more idiomatic Rcpp 
+    * R/nanotime.R: Idem
 </code></pre>
 <p>2020-03-15  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* DESCRIPTION (Version, Date): Roll minor version
+<pre><code>    * DESCRIPTION (Version, Date): Roll minor version
 
-* src/duration.cpp: Small fix to cast to plain old type 
-* src/interval.cpp: Idem 
-* src/nanotime.cpp: Idem
+    * src/duration.cpp: Small fix to cast to plain old type 
+    * src/interval.cpp: Idem 
+    * src/nanotime.cpp: Idem
 
-* src/Makevars (PKG_CXXFLAGS): Minor edits
+    * src/Makevars (PKG_CXXFLAGS): Minor edits
 
-* cleanup: Added minor helper
+    * cleanup: Added minor helper
 </code></pre>
 <p>2020-03-14  Leonardo Silvestri  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#108;&#115;&#105;&#108;&#118;&#101;&#115;&#116;&#114;&#105;&#64;&#122;&#116;&#115;&#100;&#98;&#46;&#111;&#114;&#103;">&#108;&#115;&#105;&#108;&#118;&#101;&#115;&#116;&#114;&#105;&#64;&#122;&#116;&#115;&#100;&#98;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>[ The following reflects a fairly substantial set of changes made 
-over a longer period and are just summarized here ] 
-* DESCRIPTION: Add versioned Depends on RcppCCTZ 
-* NAMESPACE: Load dynamic library 
-* R/duration.R: Add new nanoival, duration, and period 
-* R/nanoival.R: Idem 
-* R/nanotime.R: Idem 
-* R/period.R: Idem 
-* inst/include/date.h: Idem 
-* inst/include/duration.hpp: Idem 
-* inst/include/globals.hpp: Idem 
-* inst/include/interval.hpp: Idem 
-* inst/include/period.hpp: Idem 
-* inst/include/pseudovector.hpp: Idem 
-* inst/include/utilities.hpp: Idem 
-* inst/tinytest/test_data.frame.R: Idem 
-* inst/tinytest/test_duration.R: Idem 
-* inst/tinytest/test_nanoival.R: Idem 
-* inst/tinytest/test_nanotime.R: Idem 
-* inst/tinytest/test_ops.R: Idem 
-* inst/tinytest/test_period.R: Idem 
-* man/duration.Rd: Idem 
-* man/nanoival.Rd: Idem 
-* man/nanotime.Rd: Idem 
-* man/period.Rd: Idem 
-* src/Makevars: Idem 
-* src/duration.cpp: Idem 
-* src/interval.cpp: Idem 
-* src/nanotime.cpp: Idem 
-* src/period.cpp: Idem
+<pre><code>    [ The following reflects a fairly substantial set of changes made 
+    over a longer period and are just summarized here ] 
+    * DESCRIPTION: Add versioned Depends on RcppCCTZ 
+    * NAMESPACE: Load dynamic library 
+    * R/duration.R: Add new nanoival, duration, and period 
+    * R/nanoival.R: Idem 
+    * R/nanotime.R: Idem 
+    * R/period.R: Idem 
+    * inst/include/date.h: Idem 
+    * inst/include/duration.hpp: Idem 
+    * inst/include/globals.hpp: Idem 
+    * inst/include/interval.hpp: Idem 
+    * inst/include/period.hpp: Idem 
+    * inst/include/pseudovector.hpp: Idem 
+    * inst/include/utilities.hpp: Idem 
+    * inst/tinytest/test_data.frame.R: Idem 
+    * inst/tinytest/test_duration.R: Idem 
+    * inst/tinytest/test_nanoival.R: Idem 
+    * inst/tinytest/test_nanotime.R: Idem 
+    * inst/tinytest/test_ops.R: Idem 
+    * inst/tinytest/test_period.R: Idem 
+    * man/duration.Rd: Idem 
+    * man/nanoival.Rd: Idem 
+    * man/nanotime.Rd: Idem 
+    * man/period.Rd: Idem 
+    * src/Makevars: Idem 
+    * src/duration.cpp: Idem 
+    * src/interval.cpp: Idem 
+    * src/nanotime.cpp: Idem 
+    * src/period.cpp: Idem
 
-* .travis.yml: For now load development version of RcppCCTZ from GitHub
+    * .travis.yml: For now load development version of RcppCCTZ from GitHub
 </code></pre>
 <h3 id="2019">2019</h3>
 <p>2019-11-21  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* DESCRIPTION (Version, Date): New minor version
+<pre><code>    * DESCRIPTION (Version, Date): New minor version
 
-* inst/tinytest/test_*.R: Moved from ../unitTest, changed to tinytest 
-* tests/tinytest.R: Add test runner for tinytest 
-* DESCRIPTION (Suggests): Add tinytest, remove RUnit 
-* .travis.yml (install): Add r-cran-tinytest, remove r-cran-runit 
-* tests/runTests.R: Removed RUnit test runner
+    * inst/tinytest/test_*.R: Moved from ../unitTest, changed to tinytest 
+    * tests/tinytest.R: Add test runner for tinytest 
+    * DESCRIPTION (Suggests): Add tinytest, remove RUnit 
+    * .travis.yml (install): Add r-cran-tinytest, remove r-cran-runit 
+    * tests/runTests.R: Removed RUnit test runner
 </code></pre>
 <p>2019-11-20  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* DESCRIPTION (Version, Date): New minor version
+<pre><code>    * DESCRIPTION (Version, Date): New minor version
 
-* R/nanotime.R (as.integer64.nanotime): Adding 'Compare' ops for 
-character and nanotime 
-* inst/unitTests/test_ops.R: Adjust one existing test, and add six 
-new ones for character and nanotime comparisons 
-* man/nanotime.Rd: Document new comparison operators
+    * R/nanotime.R (as.integer64.nanotime): Adding 'Compare' ops for 
+    character and nanotime 
+    * inst/unitTests/test_ops.R: Adjust one existing test, and add six 
+    new ones for character and nanotime comparisons 
+    * man/nanotime.Rd: Document new comparison operators
 </code></pre>
 <p>2019-05-25  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* DESCRIPTION (Date, Version): Release 0.2.4
+<pre><code>    * DESCRIPTION (Date, Version): Release 0.2.4
 </code></pre>
 <p>2019-05-23  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* DESCRIPTION (Version, Date): Roll minor version
+<pre><code>    * DESCRIPTION (Version, Date): Roll minor version
 
-* R/nanotime.R (as.integer64.nanotime): Define [[ accessor 
-* inst/unitTests/test_nanotime.R (test_square_bracket): Add test 
-* man/nanotime.Rd: Add alias
+    * R/nanotime.R (as.integer64.nanotime): Define [[ accessor 
+    * inst/unitTests/test_nanotime.R (test_square_bracket): Add test 
+    * man/nanotime.Rd: Add alias
 </code></pre>
 <p>2019-04-03  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* README.md: Add dependencies badge
+<pre><code>    * README.md: Add dependencies badge
 </code></pre>
 <h3 id="2018">2018</h3>
 <p>2018-09-30  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* DESCRIPTION (Date, Version): Release 0.2.3
+<pre><code>    * DESCRIPTION (Date, Version): Release 0.2.3
 </code></pre>
 <p>2018-09-02  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* .travis.yml: Switch Travis CI to R 3.5 repo
+<pre><code>     * .travis.yml: Switch Travis CI to R 3.5 repo
 </code></pre>
 <p>2018-08-31  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* DESCRIPTION (Version, Date): Roll minor version
+<pre><code>    * DESCRIPTION (Version, Date): Roll minor version
 
-* inst/unitTests/test_nanotime.R: Skip some tests on Solaris 
-* inst/unitTests/test_zoo.R: Idem
+    * inst/unitTests/test_nanotime.R: Skip some tests on Solaris 
+    * inst/unitTests/test_zoo.R: Idem
 </code></pre>
 <p>2018-07-18  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* DESCRIPTION (Version, Date): Release 0.2.2
+<pre><code>    * DESCRIPTION (Version, Date): Release 0.2.2
 
-* inst/unitTests/test_xts.R: Continue to disable xts tests even after 
-0.11.0 release
+    * inst/unitTests/test_xts.R: Continue to disable xts tests even after 
+    0.11.0 release
 </code></pre>
 <p>2018-07-01  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* DESCRIPTION (Version, Date): Release 0.2.1
+<pre><code>    * DESCRIPTION (Version, Date): Release 0.2.1
 </code></pre>
 <p>2018-06-30  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* R/nanotime.R (format.nanotime): Protect from empty argument
+<pre><code>    * R/nanotime.R (format.nanotime): Protect from empty argument
 </code></pre>
 <p>2018-06-23  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* DESCRIPTION (Version, Date): Roll minor version
+<pre><code>     * DESCRIPTION (Version, Date): Roll minor version
 
-* R/nanotime.R: Two extras casts to integer64 in constructors
+    * R/nanotime.R: Two extras casts to integer64 in constructors
 </code></pre>
 <p>2018-04-19  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* DESCRIPTION (Version, Date): Roll minor version
+<pre><code>     * DESCRIPTION (Version, Date): Roll minor version
 </code></pre>
 <p>2018-04-18  Leonardo Silvestri  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#108;&#115;&#105;&#108;&#118;&#101;&#115;&#116;&#114;&#105;&#64;&#122;&#116;&#115;&#100;&#98;&#46;&#111;&#114;&#103;">&#108;&#115;&#105;&#108;&#118;&#101;&#115;&#116;&#114;&#105;&#64;&#122;&#116;&#115;&#100;&#98;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* R/nanotime.R (Compare): Added attribute-preserving comparison 
-* man/nanotime.Rd: Corresponding documentation
+<pre><code>    * R/nanotime.R (Compare): Added attribute-preserving comparison 
+    * man/nanotime.Rd: Corresponding documentation
 </code></pre>
 <h3 id="2017">2017</h3>
 <p>2017-06-22  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* DESCRIPTION (Version, Date): Release 0.2.0
+<pre><code>    * DESCRIPTION (Version, Date): Release 0.2.0
 </code></pre>
 <p>2017-06-21  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* DESCRIPTION (Version, Date): Roll minor version
+<pre><code>    * DESCRIPTION (Version, Date): Roll minor version
 
-* DESCRIPTION (Imports): Require RcppCCTZ (&gt;= 0.2.3)
+    * DESCRIPTION (Imports): Require RcppCCTZ (&gt;= 0.2.3)
 
-* inst/unitTests/test_nanotime.R: No longer condition out Windows 
-* inst/unitTests/test_nanotime.R: Ditto 
-* inst/unitTests/test_xts.R: Ditto
+    * inst/unitTests/test_nanotime.R: No longer condition out Windows 
+    * inst/unitTests/test_nanotime.R: Ditto 
+    * inst/unitTests/test_xts.R: Ditto
 
-* .travis.yml (group): Added as required by Travis CI
+    * .travis.yml (group): Added as required by Travis CI
 </code></pre>
 <p>2017-06-16  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* R/nanotime.R (nanotime.matrix): Adding '#nocov' tags
+<pre><code>    * R/nanotime.R (nanotime.matrix): Adding '#nocov' tags
 </code></pre>
 <p>2017-06-15  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* DESCRIPTION (Version, Date): New minor version
+<pre><code>    * DESCRIPTION (Version, Date): New minor version
 
-* tests/runTests.R: Rewritten test runner
+    * tests/runTests.R: Rewritten test runner
 
-* inst/unitTests/test_zoo.R (test_zoo): Condition on zoo present, and 
-test not running under Windows
+    * inst/unitTests/test_zoo.R (test_zoo): Condition on zoo present, and 
+    test not running under Windows
 
-* inst/unitTests/test_xts.R (.setUp): Condition on a 'future' xts 
-version present as we really nedd xts to be nanotime aware for these tests
+    * inst/unitTests/test_xts.R (.setUp): Condition on a 'future' xts 
+    version present as we really nedd xts to be nanotime aware for these tests
 
-* inst/unitTests/test_nanotime.R: Condition a number of tests on not 
-running under Windows
+    * inst/unitTests/test_nanotime.R: Condition a number of tests on not 
+    running under Windows
 
-* DESCRIPTION (Suggests): Added 'xts' 
-* .travis.yml (install): Ditto
+    * DESCRIPTION (Suggests): Added 'xts' 
+    * .travis.yml (install): Ditto
 </code></pre>
 <p>2017-06-14  Leonardo Silvestri  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#108;&#115;&#105;&#108;&#118;&#101;&#115;&#116;&#114;&#105;&#64;&#122;&#116;&#115;&#100;&#98;&#46;&#111;&#114;&#103;">&#108;&#115;&#105;&#108;&#118;&#101;&#115;&#116;&#114;&#105;&#64;&#122;&#116;&#115;&#100;&#98;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* R/nanotime.R: Error on ops not meaningful for type, 
-also fix handling of NA, NAN, Inf, -Inf
+<pre><code>    * R/nanotime.R: Error on ops not meaningful for type, 
+    also fix handling of NA, NAN, Inf, -Inf
 
-* man/nanotime.Rd: Corresponding documentation 
-* inst/unitTests/test_nanotime.R: corresponding test
+    * man/nanotime.Rd: Corresponding documentation 
+    * inst/unitTests/test_nanotime.R: corresponding test
 </code></pre>
 <p>2017-06-05  Leonardo Silvestri  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#108;&#115;&#105;&#108;&#118;&#101;&#115;&#116;&#114;&#105;&#64;&#122;&#116;&#115;&#100;&#98;&#46;&#111;&#114;&#103;">&#108;&#115;&#105;&#108;&#118;&#101;&#115;&#116;&#114;&#105;&#64;&#122;&#116;&#115;&#100;&#98;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* R/nanotime.R: Correct summary() by defining 'names&lt;-'; fix 'c'
+<pre><code>    * R/nanotime.R: Correct summary() by defining 'names&lt;-'; fix 'c'
 
-* man/nanotime.Rd: Corresponding documentation 
-* inst/unitTests/test_nanotime.R: corresponding test
+    * man/nanotime.Rd: Corresponding documentation 
+    * inst/unitTests/test_nanotime.R: corresponding test
 </code></pre>
 <p>2017-06-03  Leonardo Silvestri  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#108;&#115;&#105;&#108;&#118;&#101;&#115;&#116;&#114;&#105;&#64;&#122;&#116;&#115;&#100;&#98;&#46;&#111;&#114;&#103;">&#108;&#115;&#105;&#108;&#118;&#101;&#115;&#116;&#114;&#105;&#64;&#122;&#116;&#115;&#100;&#98;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* R/nanotime.R: Prevent print from printing more than 
-options()$max.print
+<pre><code>    * R/nanotime.R: Prevent print from printing more than 
+    options()$max.print
 </code></pre>
 <p>2017-06-02  Leonardo Silvestri  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#108;&#115;&#105;&#108;&#118;&#101;&#115;&#116;&#114;&#105;&#64;&#122;&#116;&#115;&#100;&#98;&#46;&#111;&#114;&#103;">&#108;&#115;&#105;&#108;&#118;&#101;&#115;&#116;&#114;&#105;&#64;&#122;&#116;&#115;&#100;&#98;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* R/nanotime.R: Ensure names are kept for nanotime vectors 
-* inst/unitTests/test_nanotime.R: corresponding test
+<pre><code>    * R/nanotime.R: Ensure names are kept for nanotime vectors 
+    * inst/unitTests/test_nanotime.R: corresponding test
 </code></pre>
 <p>2017-05-02  Leonardo Silvestri  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#108;&#115;&#105;&#108;&#118;&#101;&#115;&#116;&#114;&#105;&#64;&#122;&#116;&#115;&#100;&#98;&#46;&#111;&#114;&#103;">&#108;&#115;&#105;&#108;&#118;&#101;&#115;&#116;&#114;&#105;&#64;&#122;&#116;&#115;&#100;&#98;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* R/nanotime.R: Ensure 'tz=""' is treated as missing
+<pre><code>    * R/nanotime.R: Ensure 'tz=""' is treated as missing
 </code></pre>
 <p>2017-04-04  Leonardo Silvestri  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#108;&#115;&#105;&#108;&#118;&#101;&#115;&#116;&#114;&#105;&#64;&#122;&#116;&#115;&#100;&#98;&#46;&#111;&#114;&#103;">&#108;&#115;&#105;&#108;&#118;&#101;&#115;&#116;&#114;&#105;&#64;&#122;&#116;&#115;&#100;&#98;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* R/nanotime.R: Remove spurious debug output
+<pre><code>    * R/nanotime.R: Remove spurious debug output
 </code></pre>
 <p>2017-03-29  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* DESCRIPTION (Version, Date): Roll minor version
+<pre><code>    * DESCRIPTION (Version, Date): Roll minor version
 
-* man/nanotime.Rd: Minor update
+    * man/nanotime.Rd: Minor update
 
-* nanotime.Rproj: Use devtools::document to work around a roxygen2 
-bug with S4 and setOldClass
+    * nanotime.Rproj: Use devtools::document to work around a roxygen2 
+    bug with S4 and setOldClass
 </code></pre>
 <p>2017-03-29  Leonardo Silvestri  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#108;&#115;&#105;&#108;&#118;&#101;&#115;&#116;&#114;&#105;&#64;&#122;&#116;&#115;&#100;&#98;&#46;&#111;&#114;&#103;">&#108;&#115;&#105;&#108;&#118;&#101;&#115;&#116;&#114;&#105;&#64;&#122;&#116;&#115;&#100;&#98;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>[ The following is summary of changes made over several weeks ] 
-* DESCRIPTION: Convert to S4 class 
-* NAMESPACE: Idem 
-* R/nanotime.R: Idem 
-* inst/unitTests/test_data.frame.R: Idem 
-* inst/unitTests/test_nanotime.R: Idem 
-* inst/unitTests/test_ops.R: Idem 
-* inst/unitTests/test_xts.R: Idem 
-* inst/unitTests/test_zoo.R: Idem 
-* man/nanotime-class.Rd: Idem 
-* man/nanotime-package.Rd: Idem 
-* man/nanotime.Rd: Idem 
-* tests/runTests.R: Idem 
-* tests/simpleTests.R: Idem
+<pre><code>    [ The following is summary of changes made over several weeks ] 
+    * DESCRIPTION: Convert to S4 class 
+    * NAMESPACE: Idem 
+    * R/nanotime.R: Idem 
+    * inst/unitTests/test_data.frame.R: Idem 
+    * inst/unitTests/test_nanotime.R: Idem 
+    * inst/unitTests/test_ops.R: Idem 
+    * inst/unitTests/test_xts.R: Idem 
+    * inst/unitTests/test_zoo.R: Idem 
+    * man/nanotime-class.Rd: Idem 
+    * man/nanotime-package.Rd: Idem 
+    * man/nanotime.Rd: Idem 
+    * tests/runTests.R: Idem 
+    * tests/simpleTests.R: Idem
 </code></pre>
 <p>2017-03-27  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* DESCRIPTION (Version, Date): Release 0.1.2
+<pre><code>    * DESCRIPTION (Version, Date): Release 0.1.2
 </code></pre>
 <p>2017-02-08  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#109;&#97;&#120;&#46;&#101;&#100;&#100;&#101;&#108;&#98;&#117;&#101;&#116;&#116;&#101;&#108;&#46;&#99;&#111;&#109;">&#101;&#100;&#100;&#64;&#109;&#97;&#120;&#46;&#101;&#100;&#100;&#101;&#108;&#98;&#117;&#101;&#116;&#116;&#101;&#108;&#46;&#99;&#111;&#109;</a> </p>
-<pre><code>* DESCRIPTION (Version, Date): Roll minor version and date
+<pre><code>    * DESCRIPTION (Version, Date): Roll minor version and date
 
-* NAMESPACE: Also (re-)export as.integer64 
-* R/nanotime.R: Added roxygen2 snippet for as.integer64 
-* man/nanotime.Rd: Documentation
+    * NAMESPACE: Also (re-)export as.integer64 
+    * R/nanotime.R: Added roxygen2 snippet for as.integer64 
+    * man/nanotime.Rd: Documentation
 </code></pre>
 <p>2017-02-04  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#109;&#97;&#120;&#46;&#101;&#100;&#100;&#101;&#108;&#98;&#117;&#101;&#116;&#116;&#101;&#108;&#46;&#99;&#111;&#109;">&#101;&#100;&#100;&#64;&#109;&#97;&#120;&#46;&#101;&#100;&#100;&#101;&#108;&#98;&#117;&#101;&#116;&#116;&#101;&#108;&#46;&#99;&#111;&#109;</a> </p>
-<pre><code>* DESCRIPTION (Version, Date): Release 0.1.1
+<pre><code>    * DESCRIPTION (Version, Date): Release 0.1.1
 </code></pre>
 <p>2017-01-31  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* R/nanotime.R: One more updated format string
+<pre><code>    * R/nanotime.R: One more updated format string
 </code></pre>
 <p>2017-01-30  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* R/nanotime.R (format.nanotime): Safer transformation to double 
-(index2char.nanotime): Idem
+<pre><code>    * R/nanotime.R (format.nanotime): Safer transformation to double 
+    (index2char.nanotime): Idem
 </code></pre>
 <p>2017-01-29  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* R/nanotime.R: Additional documentation section on default output 
-format string
+<pre><code>    * R/nanotime.R: Additional documentation section on default output 
+    format string
 
-* .travis.yml (before_install): Use https for curl fetch
+    * .travis.yml (before_install): Use https for curl fetch
 </code></pre>
 <p>2017-01-25  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* DESCRIPTION (Version, Date): Roll minor version and date
+<pre><code>    * DESCRIPTION (Version, Date): Roll minor version and date
 
-* R/nanotime.R (nanotime.character): Display of nine dec digits 
-(format.nanotime): Idem 
-(print.nanotime): Dispatch to format.nanotime (thanks, Matt!) 
-(as.integer64.nanotime): New converter to integer64 
-(Ops.nanotime): Explicit definition with some casts
+    * R/nanotime.R (nanotime.character): Display of nine dec digits 
+    (format.nanotime): Idem 
+    (print.nanotime): Dispatch to format.nanotime (thanks, Matt!) 
+    (as.integer64.nanotime): New converter to integer64 
+    (Ops.nanotime): Explicit definition with some casts
 
-* NAMESPACE: Corresponding exports 
-* man/nanotime.Rd: Corresponding documentation
+    * NAMESPACE: Corresponding exports 
+    * man/nanotime.Rd: Corresponding documentation
 </code></pre>
 <p>2017-01-10  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* DESCRIPTION (Version, Date): Release 0.1.0
+<pre><code>    * DESCRIPTION (Version, Date): Release 0.1.0
 </code></pre>
 <p>2017-01-09  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* DESCRIPTION (Version, Date): Roll minor version
+<pre><code>    * DESCRIPTION (Version, Date): Roll minor version
 
-* DESCRIPTION (SystemRequirements, OS_type): Remove constraint on 
-Unix as RcppCCTZ is now available on Windows too
+    * DESCRIPTION (SystemRequirements, OS_type): Remove constraint on 
+    Unix as RcppCCTZ is now available on Windows too
 
-* demo/nanosecondDelayExample.R: Add missing library() calls; added 
-save and reload example
+    * demo/nanosecondDelayExample.R: Add missing library() calls; added 
+    save and reload example
 
-* README.md: Small edit showing save and reload
+    * README.md: Small edit showing save and reload
 </code></pre>
 <h3 id="2016">2016</h3>
 <p>2016-12-22  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* README.md: Updated to reflect CRAN status
+<pre><code>    * README.md: Updated to reflect CRAN status
 </code></pre>
 <p>2016-12-18  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* demo/00Index: New file, demo now in package 
-* demo/nanosecondDelayExample.R: Renamed demo
+<pre><code>    * demo/00Index: New file, demo now in package 
+    * demo/nanosecondDelayExample.R: Renamed demo
 </code></pre>
 <p>2016-12-17  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* R/nanotime.R (as.data.frame.nanotime): Documented 
-(nanotime.character): Support tz and fmt options 
-(format.nanotime): Idem 
-(index2char.nanotime): Idem 
-(as.POSIXct.nanotime): Idem 
-(as.POSIXlt.nanotime): Idem
+<pre><code>    * R/nanotime.R (as.data.frame.nanotime): Documented 
+    (nanotime.character): Support tz and fmt options 
+    (format.nanotime): Idem 
+    (index2char.nanotime): Idem 
+    (as.POSIXct.nanotime): Idem 
+    (as.POSIXlt.nanotime): Idem
 
-* man/nanotime.Rd: Idem
+    * man/nanotime.Rd: Idem
 
-* tests/data.frame.R: Added simple data.{frame,table} test 
-* tests/simpleTests.R: Added simple format tests
+    * tests/data.frame.R: Added simple data.{frame,table} test 
+    * tests/simpleTests.R: Added simple format tests
 
-* demo/nanotimeEx.R: Extended somewhat
+    * demo/nanotimeEx.R: Extended somewhat
 
-* DESCRIPTION (Suggests): Added data.table 
-* .travis.yml: Added r-cran-data.table
+    * DESCRIPTION (Suggests): Added data.table 
+    * .travis.yml: Added r-cran-data.table
 </code></pre>
 <p>2016-12-16  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* DESCRIPTION (Version, Date): Rolled minor version
+<pre><code>    * DESCRIPTION (Version, Date): Rolled minor version
 
-* R/nanotime.R (as.data.frame.nanotime): New method 
-(format.nanotime): Support additional arguments
+    * R/nanotime.R (as.data.frame.nanotime): New method 
+    (format.nanotime): Support additional arguments
 
-* man/nanotime.Rd: Updated for new method 
-* NAMESPACE: Idem
+    * man/nanotime.Rd: Updated for new method 
+    * NAMESPACE: Idem
 </code></pre>
 <p>2016-12-15  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* DESCRIPTION (Version, Date): Release 0.0.1
+<pre><code>    * DESCRIPTION (Version, Date): Release 0.0.1
 
-* R/nanotime.R (as.POSIXct.nanotime,as.POSIXlt.nanotime) 
-(as.Date.nanotime): New converters 
-(format.nanotime): Add 'justify' argument 
-* man/nanotime.Rd: Document new and updated methods 
-* NAMESPACE: Registered new converters
+    * R/nanotime.R (as.POSIXct.nanotime,as.POSIXlt.nanotime) 
+    (as.Date.nanotime): New converters 
+    (format.nanotime): Add 'justify' argument 
+    * man/nanotime.Rd: Document new and updated methods 
+    * NAMESPACE: Registered new converters
 
-* tests/simpleTests.R: Additional calls to new functions
+    * tests/simpleTests.R: Additional calls to new functions
 
-* inst/NEWS.Rd:  Added
+    * inst/NEWS.Rd:  Added
 
-* DESCRIPTION (SystemRequirements): State RcppCCTZ dependency
+    * DESCRIPTION (SystemRequirements): State RcppCCTZ dependency
 </code></pre>
 <p>2016-12-11  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* R/nanotime.R (index2char.nanotime): Added to have zoo() objects 
-print a nanotime index correctly 
-(nanotime.default): Switch class order with integer64 last 
-(print.nanotime): Minor adjustment 
-(format.nanotime): Added 
-(showNanotime): Removed 
-(format.nanotime): Support global option for format
+<pre><code>    * R/nanotime.R (index2char.nanotime): Added to have zoo() objects 
+    print a nanotime index correctly 
+    (nanotime.default): Switch class order with integer64 last 
+    (print.nanotime): Minor adjustment 
+    (format.nanotime): Added 
+    (showNanotime): Removed 
+    (format.nanotime): Support global option for format
 
-* NAMESPACE: Register S3 methods index2char.nanotime, format.nanotime; 
-import two functions from RcppCCTZ (which are now exported) 
-* DESCRIPTION: Now Imports: rather than Suggests: zoo 
-* tests/zooTests.R: Small changes
+    * NAMESPACE: Register S3 methods index2char.nanotime, format.nanotime; 
+    import two functions from RcppCCTZ (which are now exported) 
+    * DESCRIPTION: Now Imports: rather than Suggests: zoo 
+    * tests/zooTests.R: Small changes
 
-* .travis.yml: Added 
-* .codecov.yml: Ditto 
-* .Rbuildignore: Adjusted accordingly
+    * .travis.yml: Added 
+    * .codecov.yml: Ditto 
+    * .Rbuildignore: Adjusted accordingly
 
-* tests/simpleTests.R: Two more conversions from integer and numeric
+    * tests/simpleTests.R: Two more conversions from integer and numeric
 </code></pre>
 <p>2016-12-10  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* tests/zooTests.R: Simple tests for vectorised time operation
+<pre><code>    * tests/zooTests.R: Simple tests for vectorised time operation
 
-* R/nanotime.R (print.nanotime): Do not default to character 
-formating here, rather farm out to helper showNanotime 
-(showNanotime): Simple pretty printer
+    * R/nanotime.R (print.nanotime): Do not default to character 
+    formating here, rather farm out to helper showNanotime 
+    (showNanotime): Simple pretty printer
 
-* tests/simpleTests.R: Added calls to snowNanotime()
+    * tests/simpleTests.R: Added calls to snowNanotime()
 </code></pre>
 <p>2016-12-09  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
-<pre><code>* DESCRIPTION (Version): Very initial pre-release 0.0.0
+<pre><code>    * DESCRIPTION (Version): Very initial pre-release 0.0.0
 </code></pre>
                 
               
@@ -1512,15 +1548,15 @@ formating here, rather farm out to helper showNanotime
       
     </div>
     
-      <script src="../assets/javascripts/vendor.3636a4ec.min.js"></script>
-      <script src="../assets/javascripts/bundle.e9fe3281.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
+      <script src="../assets/javascripts/vendor.0ac82a11.min.js"></script>
+      <script src="../assets/javascripts/bundle.f81dfb4d.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
       
       <script>
         app = initialize({
           base: "..",
-          features: ["tabs"],
+          features: ['navigation.tabs', 'navigation.instant'],
           search: Object.assign({
-            worker: "../assets/javascripts/worker/search.5eca75d3.min.js"
+            worker: "../assets/javascripts/worker/search.4ac00218.min.js"
           }, typeof search !== "undefined" && search)
         })
       </script>

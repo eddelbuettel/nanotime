@@ -8,17 +8,17 @@ These functions allow access to the components of a `nanoperiod`
 
     ## S4 method for signature 'nanoperiod'
     nanoperiod.month(x)
-    
+
     ## S4 method for signature 'nanoperiod'
     nanoperiod.day(x)
-    
+
     ## S4 method for signature 'nanoperiod'
     nanoperiod.nanoduration(x)
 
 ### Arguments
 
 | Argument | Description    |
-| -------- | -------------- |
+|----------|----------------|
 | `x`      | A `nanoperiod` |
 
 ### Value

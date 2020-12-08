@@ -13,7 +13,7 @@ of sorting it.
 ### Arguments
 
 | Argument   | Description                                                                   |
-| ---------- | ----------------------------------------------------------------------------- |
+|------------|-------------------------------------------------------------------------------|
 | `x`        | a `nanoival` vector                                                           |
 | `na.rm`    | logical. Should missing values be removed before checking?                    |
 | `strictly` | logical indicating if the check should be for \_strictly\_ increasing values. |

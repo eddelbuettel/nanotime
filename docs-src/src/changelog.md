@@ -1,61 +1,99 @@
 ###  2020 
 
+2020-12-06  Dirk Eddelbuettel  <edd@debian.org> 
+ 
+        * DESCRIPTION (Version, Date): Roll minor version 
+ 
+        * .travis.yml: Switch to run.sh from r-ci for focal and bspm 
+        * .github/workflows/ci.yaml: Use run.sh from r-ci 
+ 
+2020-12-06  Colin Umansky  <statquant@outlook.com> 
+ 
+        * inst/tinytest/test_nanoduration.R: Added tests for comparison 
+ 
+2020-12-05  Colin Umansky  <statquant@outlook.com> 
+ 
+        * R/nanoduration.R: Support nanoduration to character comparison 
+        * man/nanoduration.Rd: Document new feature 
+        * inst/tinytest/test_nanoduration.R: Updated tests 
+ 
+2020-10-25  Dirk Eddelbuettel  <edd@debian.org> 
+ 
+        * DESCRIPTION (Version, Date): Roll minor version 
+ 
+        * docker/r-devel/Dockerfile: Added for simpler r-devel checks 
+ 
+2020-10-24  Dirk Eddelbuettel  <edd@debian.org> 
+ 
+        * inst/tinytest/test_nanotime.R: Add explicit check.tzone=FALSE to 
+        equality test for POSIXct comparison 
+        * inst/tinytest/test_nanoival.R: Renable full tests, add bit64 
+        * inst/tinytest/test_nanoperiod.R: Idem 
+        * inst/tinytest/test_nanotime.R: Idem 
+        * inst/tinytest/test_ops.R: Idem 
+ 
+2020-09-11  Dirk Eddelbuettel  <edd@debian.org> 
+ 
+        * docs/: Added package website 
+ 
+        * README.md: Added badge and short paragraph linking to documentation 
+ 
 2020-09-07  Leonardo Silvestri  <lsilvestri@ztsdb.org> 
  
-	* demo/ggplot2Example.R: Updated and extended demo 
+        * demo/ggplot2Example.R: Updated and extended demo 
  
 2020-09-04  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* DESCRIPTION (Version, Date): Roll minor version 
+        * DESCRIPTION (Version, Date): Roll minor version 
  
-	* demo/ggplot2Example.R: New demo based on Leonardo's example repo 
+        * demo/ggplot2Example.R: New demo based on Leonardo's example repo 
  
 2020-09-03  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* DESCRIPTION (Version, Date): Release 0.3.2 
+        * DESCRIPTION (Version, Date): Release 0.3.2 
  
 2020-09-01  Elliott Sales de Andrade  <quantum.analyst@gmail.com> 
  
-	* inst/include/nanotime/interval.hpp: Correct for big-endian 
+        * inst/include/nanotime/interval.hpp: Correct for big-endian 
  
 2020-08-31  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* .travis.yml (install): Back to RcppCCTZ from CRAN 
+        * .travis.yml (install): Back to RcppCCTZ from CRAN 
  
 2020-08-30  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* R/nanoival.R: De-activate two examples 
-	* R/nanotime.R: Idem 
-	* man/nanoival.Rd: Idem 
-	* man/nanotime.Rd: Idem 
+        * R/nanoival.R: De-activate two examples 
+        * R/nanotime.R: Idem 
+        * man/nanoival.Rd: Idem 
+        * man/nanotime.Rd: Idem 
  
-	* inst/tinytest/test_nanoduration.R: Make some test conditional 
-	* inst/tinytest/test_nanoival.R: Idem 
-	* inst/tinytest/test_nanoperiod.R: Idem 
-	* inst/tinytest/test_nanotime.R: Idem 
-	* inst/tinytest/test_ops.R: Idem 
+        * inst/tinytest/test_nanoduration.R: Make some test conditional 
+        * inst/tinytest/test_nanoival.R: Idem 
+        * inst/tinytest/test_nanoperiod.R: Idem 
+        * inst/tinytest/test_nanotime.R: Idem 
+        * inst/tinytest/test_ops.R: Idem 
  
 2020-08-28  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* DESCRIPTION (Version, Date): Roll minor version 
+        * DESCRIPTION (Version, Date): Roll minor version 
  
-	* src/interval.cpp: Use RcppCCTZ_API header and exported functions 
-	* src/nanotime.cpp: Idem 
-	* src/period.cpp: Idem 
-	* src/rounding.cpp: Idem 
+        * src/interval.cpp: Use RcppCCTZ_API header and exported functions 
+        * src/nanotime.cpp: Idem 
+        * src/period.cpp: Idem 
+        * src/rounding.cpp: Idem 
  
-	* .travis.yml (install): Install RcppCCTZ from GitHub 
+        * .travis.yml (install): Install RcppCCTZ from GitHub 
  
 2020-08-09  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* DESCRIPTION (Version, Date): Release 0.3.1 
+        * DESCRIPTION (Version, Date): Release 0.3.1 
  
-	* R/nanoival.R: Add \dontrun{} because of Solaris 
-	* R/nanoperiod.R: Idem 
-	* R/nanotime.R: Idem 
-	* man/nano_year.Rd: Idem 
+        * R/nanoival.R: Add \dontrun{} because of Solaris 
+        * R/nanoperiod.R: Idem 
+        * R/nanotime.R: Idem 
+        * man/nano_year.Rd: Idem 
  
-	* man/nanoperiod.Rd: Idem 
+        * man/nanoperiod.Rd: Idem 
         * man/nanotime.Rd: Idem 
         * man/rounding.Rd: Idem 
         * man/seq-nanoival-method.Rd: Idem 
@@ -67,630 +105,630 @@
  
 2020-08-08  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* DESCRIPTION (Version, Date): Roll minor version, small edit 
+        * DESCRIPTION (Version, Date): Roll minor version, small edit 
  
-	* src/interval.cpp: Add some tests for non-zero length vectors 
-	* inst/tinytest/test_nanotime.R: Skip one test upsetting SAN 
-	* tests/tinytest.R: Default back to serial tests 
+        * src/interval.cpp: Add some tests for non-zero length vectors 
+        * inst/tinytest/test_nanotime.R: Skip one test upsetting SAN 
+        * tests/tinytest.R: Default back to serial tests 
  
-	* src/strnlen.cpp: Added strnlen_ to help Solaris 
-	* inst/include/nanotime/utilities.hpp: Declare it 
-	* src/interval.cpp: Use it 
-	* src/nanotime.cpp: Idem 
+        * src/strnlen.cpp: Added strnlen_ to help Solaris 
+        * inst/include/nanotime/utilities.hpp: Declare it 
+        * src/interval.cpp: Use it 
+        * src/nanotime.cpp: Idem 
  
 2020-08-07  Leonardo Silvestri  <lsilvestri@ztsdb.org> 
  
-	* src/period.cpp: Add extra braces to appease macOS compiler 
-	* src/inst/include/nanotime/globals.hpp: Use chrono duration; remove 
-	ambiguous time_point and seconds declarations 
+        * src/period.cpp: Add extra braces to appease macOS compiler 
+        * src/inst/include/nanotime/globals.hpp: Use chrono duration; remove 
+        ambiguous time_point and seconds declarations 
  
 2020-08-05  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* DESCRIPTION (Date, Version): Release 0.3.0 
+        * DESCRIPTION (Date, Version): Release 0.3.0 
  
 2020-08-02  Leonardo Silvestri  <lsilvestri@ztsdb.org> 
  
-	* src/interval.cpp: Use non-throwing RcppCCTZ function 
-	* src/nanotime.cpp: Idem 
-	* src/period.cpp: Idem 
-	* inst/include/nanotime/globals.hpp: More (u)int64_t 
-	* R/nanoival.R: Refine error message check 
-	* R/nanotime.R: Idem 
+        * src/interval.cpp: Use non-throwing RcppCCTZ function 
+        * src/nanotime.cpp: Idem 
+        * src/period.cpp: Idem 
+        * inst/include/nanotime/globals.hpp: More (u)int64_t 
+        * R/nanoival.R: Refine error message check 
+        * R/nanotime.R: Idem 
  
 2020-07-29  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* DESCRIPTION (Version, Date): Roll minor version 
+        * DESCRIPTION (Version, Date): Roll minor version 
  
 2020-07-29  Leonardo Silvestri  <lsilvestri@ztsdb.org> 
  
-	* src/Makevars.win: Add to set explicit '-mno-ms-bitfields' flag 
-	required for bitfield operations on Windows 
+        * src/Makevars.win: Add to set explicit '-mno-ms-bitfields' flag 
+        required for bitfield operations on Windows 
  
 2020-07-21  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* DESCRIPTION (Version, Date): Roll minor version 
+        * DESCRIPTION (Version, Date): Roll minor version 
  
-	* inst/NEWS.Rd: Additional entries added 
+        * inst/NEWS.Rd: Additional entries added 
  
 2020-07-20  Leonardo Silvestri  <lsilvestri@ztsdb.org> 
  
-	* vignettes/nanotime/rmd/nanotime-intro.Rmd: Additional edits 
+        * vignettes/nanotime/rmd/nanotime-intro.Rmd: Additional edits 
  
 2020-07-19  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* vignettes/nanotime/rmd/nanotime-intro.Rmd: Additional edits 
-	* vignettes/nanotime/rmd/nanotime-intro.bib: Updated bibliography 
+        * vignettes/nanotime/rmd/nanotime-intro.Rmd: Additional edits 
+        * vignettes/nanotime/rmd/nanotime-intro.bib: Updated bibliography 
  
 2020-07-11  Leonardo Silvestri  <lsilvestri@ztsdb.org> 
  
-	* DESCRIPTION (Version, Date): Roll minor version 
+        * DESCRIPTION (Version, Date): Roll minor version 
  
-	* inst/include/nanotime/duration.hpp: move headers to 'nanotime' 
-	and put 'interval' and 'period' in a namespace 
-	* directory inst/include/nanotime/globals.hpp: Idem 
-	* inst/include/nanotime/interval.hpp: Idem 
-	* inst/include/nanotime/period.hpp: Idem 
-	* inst/include/nanotime/pseudovector.hpp: Idem 
-	* inst/include/nanotime/utilities.hpp: Idem 
-	* src/duration.cpp: Idem 
-	* src/interval.cpp: Idem 
-	* src/nanotime.cpp: Idem 
-	* src/period.cpp: Idem 
-	* src/rounding.cpp: Idem 
-	* src/Makevars: Idem 
-	* inst/include/nanotime/pseudovector.hpp: let 'pseudovector' return a 
-	different type than the input which gives more flexibility 
+        * inst/include/nanotime/duration.hpp: move headers to 'nanotime' 
+        and put 'interval' and 'period' in a namespace 
+        * directory inst/include/nanotime/globals.hpp: Idem 
+        * inst/include/nanotime/interval.hpp: Idem 
+        * inst/include/nanotime/period.hpp: Idem 
+        * inst/include/nanotime/pseudovector.hpp: Idem 
+        * inst/include/nanotime/utilities.hpp: Idem 
+        * src/duration.cpp: Idem 
+        * src/interval.cpp: Idem 
+        * src/nanotime.cpp: Idem 
+        * src/period.cpp: Idem 
+        * src/rounding.cpp: Idem 
+        * src/Makevars: Idem 
+        * inst/include/nanotime/pseudovector.hpp: let 'pseudovector' return a 
+        different type than the input which gives more flexibility 
  
 2020-05-17  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* vignettes/nanotime-intro.pdf: Copy of prebuilt vignette from rmd/ 
-	* vignettes/nanotime-introduction.Rnw: Sweave shell for prebuilt vignette 
+        * vignettes/nanotime-intro.pdf: Copy of prebuilt vignette from rmd/ 
+        * vignettes/nanotime-introduction.Rnw: Sweave shell for prebuilt vignette 
  
-	* .travis.yml: Switch to bionic, and testing via R 4.0.0 
+        * .travis.yml: Switch to bionic, and testing via R 4.0.0 
  
 2020-05-16  Leonardo Silvestri  <lsilvestri@ztsdb.org> 
  
-	* DESCRIPTION (Version, Date): Roll minor version 
+        * DESCRIPTION (Version, Date): Roll minor version 
  
- 	* R/nanoduration.R: correct NA and negative subsetting; implement 'rep' 
- 	* R/nanoival.R: Idem 
- 	* R/nanoperiod.R: Idem 
- 	* R/nanotime.R: Idem 
- 	* inst/include/globals.hpp: correct NA and negative subsetting 
- 	* inst/include/interval.hpp: Idem 
- 	* inst/include/utilities.hpp: Idem 
- 	* inst/tinytest/test_nanoduration.R: Idem 
- 	* inst/tinytest/test_nanoival.R: Idem 
- 	* inst/tinytest/test_nanoperiod.R: Idem 
- 	* inst/tinytest/test_nanotime.R: Idem 
- 	* src/duration.cpp: Idem 
- 	* src/interval.cpp: Idem 
- 	* src/nanotime.cpp: Idem 
- 	* src/period.cpp: Idem 
-	* man/rep-nanoduration-method.Rd: document 'rep' 
-	* man/rep-nanoival-method.Rd: document 'rep' 
-	* man/rep-nanoperiod-method.Rd: document 'rep' 
-	* man/rep-nanotime-method.Rd: document 'rep' 
+         * R/nanoduration.R: correct NA and negative subsetting; implement 'rep' 
+         * R/nanoival.R: Idem 
+         * R/nanoperiod.R: Idem 
+         * R/nanotime.R: Idem 
+         * inst/include/globals.hpp: correct NA and negative subsetting 
+         * inst/include/interval.hpp: Idem 
+         * inst/include/utilities.hpp: Idem 
+         * inst/tinytest/test_nanoduration.R: Idem 
+         * inst/tinytest/test_nanoival.R: Idem 
+         * inst/tinytest/test_nanoperiod.R: Idem 
+         * inst/tinytest/test_nanotime.R: Idem 
+         * src/duration.cpp: Idem 
+         * src/interval.cpp: Idem 
+         * src/nanotime.cpp: Idem 
+         * src/period.cpp: Idem 
+        * man/rep-nanoduration-method.Rd: document 'rep' 
+        * man/rep-nanoival-method.Rd: document 'rep' 
+        * man/rep-nanoperiod-method.Rd: document 'rep' 
+        * man/rep-nanotime-method.Rd: document 'rep' 
  
 2020-05-10  Leonardo Silvestri  <lsilvestri@ztsdb.org> 
  
-	* DESCRIPTION (Version, Date): Roll minor version 
+        * DESCRIPTION (Version, Date): Roll minor version 
  
-	* R/nanoival.R: check param types before invoking C functions; use 
-	'na.rm' in 'is.unsorted' 
-	* inst/tinytest/test_nanoival.R: Idem 
-	* R/nanoperiod.R: check param types before invoking C functions 
-	* R/nanotime.R: Idem 
-	* inst/tinytest/test_nanoperiod.R: Idem 
-	* src/RcppExports.cpp: Idem 
-	* src/interval.cpp: Idem 
-	* man/nanotime.Rd: document 'tz' param behaviour in constructor 
+        * R/nanoival.R: check param types before invoking C functions; use 
+        'na.rm' in 'is.unsorted' 
+        * inst/tinytest/test_nanoival.R: Idem 
+        * R/nanoperiod.R: check param types before invoking C functions 
+        * R/nanotime.R: Idem 
+        * inst/tinytest/test_nanoperiod.R: Idem 
+        * src/RcppExports.cpp: Idem 
+        * src/interval.cpp: Idem 
+        * man/nanotime.Rd: document 'tz' param behaviour in constructor 
  
 2020-04-25  Leonardo Silvestri  <lsilvestri@ztsdb.org> 
  
-	* DESCRIPTION (Version, Date): Roll minor version 
+        * DESCRIPTION (Version, Date): Roll minor version 
  
-	* NAMESPACE: Added rounding functions 'nano_floor' and 'nano_ceiling' 
-	* R/RcppExports.R: Idem 
- 	* R/nanoduration.R: Idem 
- 	* R/nanoperiod.R: Idem 
- 	* R/nanotime.R: Idem 
- 	* inst/include/period.hpp: Idem 
- 	* inst/tinytest/test_nanoduration.R: Idem 
- 	* inst/tinytest/test_nanoperiod.R: Idem 
- 	* man/rounding.Rd: Idem 
- 	* src/RcppExports.cpp: Idem 
- 	* src/rounding.cpp: Idem 
+        * NAMESPACE: Added rounding functions 'nano_floor' and 'nano_ceiling' 
+        * R/RcppExports.R: Idem 
+         * R/nanoduration.R: Idem 
+         * R/nanoperiod.R: Idem 
+         * R/nanotime.R: Idem 
+         * inst/include/period.hpp: Idem 
+         * inst/tinytest/test_nanoduration.R: Idem 
+         * inst/tinytest/test_nanoperiod.R: Idem 
+         * man/rounding.Rd: Idem 
+         * src/RcppExports.cpp: Idem 
+         * src/rounding.cpp: Idem 
  
-	* vignettes/nanotime-introduction.Rnw: Wrapper as in anytime 
-	* vignettes/nanotime-intro.pdf: Pre-made pdf 
-	* vignettes/nanotime/rmd/nanotime-intro.Rmd: New draft vignette 
-	* vignettes/nanotime/rmd/nanotime-intro.bib: New bibliography 
+        * vignettes/nanotime-introduction.Rnw: Wrapper as in anytime 
+        * vignettes/nanotime-intro.pdf: Pre-made pdf 
+        * vignettes/nanotime/rmd/nanotime-intro.Rmd: New draft vignette 
+        * vignettes/nanotime/rmd/nanotime-intro.bib: New bibliography 
  
 2020-04-09  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* README.md: Add 'last commit' badge 
+        * README.md: Add 'last commit' badge 
  
 2020-03-31  Leonardo Silvestri  <lsilvestri@ztsdb.org> 
  
-	* DESCRIPTION (Version, Date): Roll minor version 
+        * DESCRIPTION (Version, Date): Roll minor version 
  
-	* R/nanoduration.R: Added all.equal 
- 	* R/nanoival.R: Idem 
- 	* R/nanoperiod.R: Idem 
- 	* R/nanotime.R: Idem 
- 	* inst/tinytest/test_nanoduration.R: Idem 
- 	* inst/tinytest/test_nanoival.R: Idem 
- 	* inst/tinytest/test_nanoperiod.R: Idem 
- 	* inst/tinytest/test_nanotime.R: Idem 
- 	* man/all.equal-nanoperiod-ANY-method.Rd: deleted 
-	* man/all.equal.nanotime.Rd: Idem 
- 	* man/all.equal.nanoduration.Rd: Idem 
- 	* man/all.equal.nanoival.Rd: Idem 
- 	* man/all.equal.nanoperiod.Rd: Idem 
+        * R/nanoduration.R: Added all.equal 
+         * R/nanoival.R: Idem 
+         * R/nanoperiod.R: Idem 
+         * R/nanotime.R: Idem 
+         * inst/tinytest/test_nanoduration.R: Idem 
+         * inst/tinytest/test_nanoival.R: Idem 
+         * inst/tinytest/test_nanoperiod.R: Idem 
+         * inst/tinytest/test_nanotime.R: Idem 
+         * man/all.equal-nanoperiod-ANY-method.Rd: deleted 
+        * man/all.equal.nanotime.Rd: Idem 
+         * man/all.equal.nanoduration.Rd: Idem 
+         * man/all.equal.nanoival.Rd: Idem 
+         * man/all.equal.nanoperiod.Rd: Idem 
  
 2020-03-29  Leonardo Silvestri  <lsilvestri@ztsdb.org> 
  
-	* DESCRIPTION: fixed 0-length-vector ops 
-	* R/RcppExports.R: Idem 
- 	* R/nanoperiod.R: Idem 
- 	* inst/include/utilities.hpp: Idem 
- 	* inst/tinytest/test_nanoival.R: Idem 
- 	* inst/tinytest/test_nanoperiod.R: Idem 
- 	* inst/tinytest/test_nanotime.R: Idem 
- 	* src/RcppExports.cpp: Idem 
- 	* src/interval.cpp: Idem 
- 	* src/nanotime.cpp: Idem 
- 	* src/period.cpp: Idem 
+        * DESCRIPTION: fixed 0-length-vector ops 
+        * R/RcppExports.R: Idem 
+         * R/nanoperiod.R: Idem 
+         * inst/include/utilities.hpp: Idem 
+         * inst/tinytest/test_nanoival.R: Idem 
+         * inst/tinytest/test_nanoperiod.R: Idem 
+         * inst/tinytest/test_nanotime.R: Idem 
+         * src/RcppExports.cpp: Idem 
+         * src/interval.cpp: Idem 
+         * src/nanotime.cpp: Idem 
+         * src/period.cpp: Idem 
  
 2020-03-27  Leonardo Silvestri  <lsilvestri@ztsdb.org> 
  
-	* DESCRIPTION: added %in%.nanotime 
-	* NAMESPACE: Idem 
- 	* R/RcppExports.R: Idem 
- 	* R/nanoival.R: Idem 
- 	* R/nanoperiod.R: Idem 
- 	* inst/tinytest/test_nanoival.R: Idem 
- 	* man/nanoduration.Rd: Idem 
- 	* man/nanoival.Rd: Idem 
- 	* man/nanoperiod.Rd: Idem 
- 	* man/nanotime.Rd: Idem 
- 	* man/set_operations.Rd: Idem 
- 	* src/RcppExports.cpp: Idem 
- 	* src/interval.cpp: Idem 
+        * DESCRIPTION: added %in%.nanotime 
+        * NAMESPACE: Idem 
+         * R/RcppExports.R: Idem 
+         * R/nanoival.R: Idem 
+         * R/nanoperiod.R: Idem 
+         * inst/tinytest/test_nanoival.R: Idem 
+         * man/nanoduration.Rd: Idem 
+         * man/nanoival.Rd: Idem 
+         * man/nanoperiod.Rd: Idem 
+         * man/nanotime.Rd: Idem 
+         * man/set_operations.Rd: Idem 
+         * src/RcppExports.cpp: Idem 
+         * src/interval.cpp: Idem 
  
 2020-03-25  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* DESCRIPTION (Version, Date): Roll minor version 
+        * DESCRIPTION (Version, Date): Roll minor version 
  
-	* DESCRIPTION (LinkingTo): Add RcppDate providing date.h 
-	* src/nanotime.cpp (nanotime_wday_impl): Update one accessor for 
-	newer version of date.h 
+        * DESCRIPTION (LinkingTo): Add RcppDate providing date.h 
+        * src/nanotime.cpp (nanotime_wday_impl): Update one accessor for 
+        newer version of date.h 
  
-	* inst/include/date.h: Deleted as no longer needed 
+        * inst/include/date.h: Deleted as no longer needed 
  
-	* .travis.yml (install): Install RcppDate 
+        * .travis.yml (install): Install RcppDate 
  
-	* inst/include/globals.hpp: Add a single #nocov 
+        * inst/include/globals.hpp: Add a single #nocov 
  
 2020-03-23  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* DESCRIPTION (Version, Date): Roll minor version 
+        * DESCRIPTION (Version, Date): Roll minor version 
  
 2020-03-22  Leonardo Silvestri  <lsilvestri@ztsdb.org> 
  
-	* README.md: updated information 
+        * README.md: updated information 
  
 2020-03-21  Leonardo Silvestri  <lsilvestri@ztsdb.org> 
  
-	* inst/include/globals.hpp: parse format ending with 'Z' for data.table compatibility 
-	* src/period.cpp: fix vectorized 'plus'/'minus' ops for 'nanoperiod' 
-	* inst/tinytest/test_nanoperiod.R: Idem 
+        * inst/include/globals.hpp: parse format ending with 'Z' for data.table compatibility 
+        * src/period.cpp: fix vectorized 'plus'/'minus' ops for 'nanoperiod' 
+        * inst/tinytest/test_nanoperiod.R: Idem 
  
 2020-03-20  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* src/duration.cpp: Slightly more idiomatic Rcpp 
-	* src/period.cpp: Idem 
-	* R/nanoduration.R: Idem 
-	* R/nanoperiod.R: Idem 
-	* R/nanotime.R: Idem 
+        * src/duration.cpp: Slightly more idiomatic Rcpp 
+        * src/period.cpp: Idem 
+        * R/nanoduration.R: Idem 
+        * R/nanoperiod.R: Idem 
+        * R/nanotime.R: Idem 
  
 2020-03-19  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* src/interval.cpp: Slightly more idiomatic Rcpp 
-	* R/nanoival.R: Idem 
+        * src/interval.cpp: Slightly more idiomatic Rcpp 
+        * R/nanoival.R: Idem 
  
 2020-03-18  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* DESCRIPTION (Version, Date): Roll minor version 
+        * DESCRIPTION (Version, Date): Roll minor version 
  
-	* DESCRIPTION (Imports): Updated versioned Depends: on RcppCCTZ 
+        * DESCRIPTION (Imports): Updated versioned Depends: on RcppCCTZ 
  
-	* NAMESPACE: Turn on registration 
+        * NAMESPACE: Turn on registration 
  
-	* src/nanotime.cpp: Slightly more idiomatic Rcpp 
-	* R/nanotime.R: Idem 
+        * src/nanotime.cpp: Slightly more idiomatic Rcpp 
+        * R/nanotime.R: Idem 
  
 2020-03-15  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* DESCRIPTION (Version, Date): Roll minor version 
+        * DESCRIPTION (Version, Date): Roll minor version 
  
-	* src/duration.cpp: Small fix to cast to plain old type 
-	* src/interval.cpp: Idem 
-	* src/nanotime.cpp: Idem 
+        * src/duration.cpp: Small fix to cast to plain old type 
+        * src/interval.cpp: Idem 
+        * src/nanotime.cpp: Idem 
  
-	* src/Makevars (PKG_CXXFLAGS): Minor edits 
+        * src/Makevars (PKG_CXXFLAGS): Minor edits 
  
-	* cleanup: Added minor helper 
+        * cleanup: Added minor helper 
  
 2020-03-14  Leonardo Silvestri  <lsilvestri@ztsdb.org> 
  
-	[ The following reflects a fairly substantial set of changes made 
-	over a longer period and are just summarized here ] 
-	* DESCRIPTION: Add versioned Depends on RcppCCTZ 
-	* NAMESPACE: Load dynamic library 
-	* R/duration.R: Add new nanoival, duration, and period 
-	* R/nanoival.R: Idem 
-	* R/nanotime.R: Idem 
-	* R/period.R: Idem 
-	* inst/include/date.h: Idem 
-	* inst/include/duration.hpp: Idem 
-	* inst/include/globals.hpp: Idem 
-	* inst/include/interval.hpp: Idem 
-	* inst/include/period.hpp: Idem 
-	* inst/include/pseudovector.hpp: Idem 
-	* inst/include/utilities.hpp: Idem 
-	* inst/tinytest/test_data.frame.R: Idem 
-	* inst/tinytest/test_duration.R: Idem 
-	* inst/tinytest/test_nanoival.R: Idem 
-	* inst/tinytest/test_nanotime.R: Idem 
-	* inst/tinytest/test_ops.R: Idem 
-	* inst/tinytest/test_period.R: Idem 
-	* man/duration.Rd: Idem 
-	* man/nanoival.Rd: Idem 
-	* man/nanotime.Rd: Idem 
-	* man/period.Rd: Idem 
-	* src/Makevars: Idem 
-	* src/duration.cpp: Idem 
-	* src/interval.cpp: Idem 
-	* src/nanotime.cpp: Idem 
-	* src/period.cpp: Idem 
+        [ The following reflects a fairly substantial set of changes made 
+        over a longer period and are just summarized here ] 
+        * DESCRIPTION: Add versioned Depends on RcppCCTZ 
+        * NAMESPACE: Load dynamic library 
+        * R/duration.R: Add new nanoival, duration, and period 
+        * R/nanoival.R: Idem 
+        * R/nanotime.R: Idem 
+        * R/period.R: Idem 
+        * inst/include/date.h: Idem 
+        * inst/include/duration.hpp: Idem 
+        * inst/include/globals.hpp: Idem 
+        * inst/include/interval.hpp: Idem 
+        * inst/include/period.hpp: Idem 
+        * inst/include/pseudovector.hpp: Idem 
+        * inst/include/utilities.hpp: Idem 
+        * inst/tinytest/test_data.frame.R: Idem 
+        * inst/tinytest/test_duration.R: Idem 
+        * inst/tinytest/test_nanoival.R: Idem 
+        * inst/tinytest/test_nanotime.R: Idem 
+        * inst/tinytest/test_ops.R: Idem 
+        * inst/tinytest/test_period.R: Idem 
+        * man/duration.Rd: Idem 
+        * man/nanoival.Rd: Idem 
+        * man/nanotime.Rd: Idem 
+        * man/period.Rd: Idem 
+        * src/Makevars: Idem 
+        * src/duration.cpp: Idem 
+        * src/interval.cpp: Idem 
+        * src/nanotime.cpp: Idem 
+        * src/period.cpp: Idem 
  
-	* .travis.yml: For now load development version of RcppCCTZ from GitHub 
+        * .travis.yml: For now load development version of RcppCCTZ from GitHub 
  
 ###  2019 
 
 2019-11-21  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* DESCRIPTION (Version, Date): New minor version 
+        * DESCRIPTION (Version, Date): New minor version 
  
-	* inst/tinytest/test_*.R: Moved from ../unitTest, changed to tinytest 
-	* tests/tinytest.R: Add test runner for tinytest 
-	* DESCRIPTION (Suggests): Add tinytest, remove RUnit 
-	* .travis.yml (install): Add r-cran-tinytest, remove r-cran-runit 
-	* tests/runTests.R: Removed RUnit test runner 
+        * inst/tinytest/test_*.R: Moved from ../unitTest, changed to tinytest 
+        * tests/tinytest.R: Add test runner for tinytest 
+        * DESCRIPTION (Suggests): Add tinytest, remove RUnit 
+        * .travis.yml (install): Add r-cran-tinytest, remove r-cran-runit 
+        * tests/runTests.R: Removed RUnit test runner 
  
 2019-11-20  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* DESCRIPTION (Version, Date): New minor version 
+        * DESCRIPTION (Version, Date): New minor version 
  
-	* R/nanotime.R (as.integer64.nanotime): Adding 'Compare' ops for 
-	character and nanotime 
-	* inst/unitTests/test_ops.R: Adjust one existing test, and add six 
-	new ones for character and nanotime comparisons 
-	* man/nanotime.Rd: Document new comparison operators 
+        * R/nanotime.R (as.integer64.nanotime): Adding 'Compare' ops for 
+        character and nanotime 
+        * inst/unitTests/test_ops.R: Adjust one existing test, and add six 
+        new ones for character and nanotime comparisons 
+        * man/nanotime.Rd: Document new comparison operators 
  
 2019-05-25  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* DESCRIPTION (Date, Version): Release 0.2.4 
+        * DESCRIPTION (Date, Version): Release 0.2.4 
  
 2019-05-23  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* DESCRIPTION (Version, Date): Roll minor version 
+        * DESCRIPTION (Version, Date): Roll minor version 
  
-	* R/nanotime.R (as.integer64.nanotime): Define [[ accessor 
-	* inst/unitTests/test_nanotime.R (test_square_bracket): Add test 
-	* man/nanotime.Rd: Add alias 
+        * R/nanotime.R (as.integer64.nanotime): Define [[ accessor 
+        * inst/unitTests/test_nanotime.R (test_square_bracket): Add test 
+        * man/nanotime.Rd: Add alias 
  
 2019-04-03  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* README.md: Add dependencies badge 
+        * README.md: Add dependencies badge 
  
 ###  2018 
 
 2018-09-30  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* DESCRIPTION (Date, Version): Release 0.2.3 
+        * DESCRIPTION (Date, Version): Release 0.2.3 
  
 2018-09-02  Dirk Eddelbuettel  <edd@debian.org> 
  
- 	* .travis.yml: Switch Travis CI to R 3.5 repo 
+         * .travis.yml: Switch Travis CI to R 3.5 repo 
  
 2018-08-31  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* DESCRIPTION (Version, Date): Roll minor version 
+        * DESCRIPTION (Version, Date): Roll minor version 
  
-	* inst/unitTests/test_nanotime.R: Skip some tests on Solaris 
-	* inst/unitTests/test_zoo.R: Idem 
+        * inst/unitTests/test_nanotime.R: Skip some tests on Solaris 
+        * inst/unitTests/test_zoo.R: Idem 
  
 2018-07-18  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* DESCRIPTION (Version, Date): Release 0.2.2 
+        * DESCRIPTION (Version, Date): Release 0.2.2 
  
-	* inst/unitTests/test_xts.R: Continue to disable xts tests even after 
-	0.11.0 release 
+        * inst/unitTests/test_xts.R: Continue to disable xts tests even after 
+        0.11.0 release 
  
 2018-07-01  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* DESCRIPTION (Version, Date): Release 0.2.1 
+        * DESCRIPTION (Version, Date): Release 0.2.1 
  
 2018-06-30  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* R/nanotime.R (format.nanotime): Protect from empty argument 
+        * R/nanotime.R (format.nanotime): Protect from empty argument 
  
 2018-06-23  Dirk Eddelbuettel  <edd@debian.org> 
  
- 	* DESCRIPTION (Version, Date): Roll minor version 
+         * DESCRIPTION (Version, Date): Roll minor version 
  
-	* R/nanotime.R: Two extras casts to integer64 in constructors 
+        * R/nanotime.R: Two extras casts to integer64 in constructors 
  
 2018-04-19  Dirk Eddelbuettel  <edd@debian.org> 
  
- 	* DESCRIPTION (Version, Date): Roll minor version 
+         * DESCRIPTION (Version, Date): Roll minor version 
  
 2018-04-18  Leonardo Silvestri  <lsilvestri@ztsdb.org> 
  
-	* R/nanotime.R (Compare): Added attribute-preserving comparison 
-	* man/nanotime.Rd: Corresponding documentation 
+        * R/nanotime.R (Compare): Added attribute-preserving comparison 
+        * man/nanotime.Rd: Corresponding documentation 
  
 ###  2017 
 
 2017-06-22  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* DESCRIPTION (Version, Date): Release 0.2.0 
+        * DESCRIPTION (Version, Date): Release 0.2.0 
  
 2017-06-21  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* DESCRIPTION (Version, Date): Roll minor version 
+        * DESCRIPTION (Version, Date): Roll minor version 
  
-	* DESCRIPTION (Imports): Require RcppCCTZ (>= 0.2.3) 
+        * DESCRIPTION (Imports): Require RcppCCTZ (>= 0.2.3) 
  
-	* inst/unitTests/test_nanotime.R: No longer condition out Windows 
-	* inst/unitTests/test_nanotime.R: Ditto 
-	* inst/unitTests/test_xts.R: Ditto 
+        * inst/unitTests/test_nanotime.R: No longer condition out Windows 
+        * inst/unitTests/test_nanotime.R: Ditto 
+        * inst/unitTests/test_xts.R: Ditto 
  
-	* .travis.yml (group): Added as required by Travis CI 
+        * .travis.yml (group): Added as required by Travis CI 
  
 2017-06-16  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* R/nanotime.R (nanotime.matrix): Adding '#nocov' tags 
+        * R/nanotime.R (nanotime.matrix): Adding '#nocov' tags 
  
 2017-06-15  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* DESCRIPTION (Version, Date): New minor version 
+        * DESCRIPTION (Version, Date): New minor version 
  
-	* tests/runTests.R: Rewritten test runner 
+        * tests/runTests.R: Rewritten test runner 
  
-	* inst/unitTests/test_zoo.R (test_zoo): Condition on zoo present, and 
-	test not running under Windows 
+        * inst/unitTests/test_zoo.R (test_zoo): Condition on zoo present, and 
+        test not running under Windows 
  
-	* inst/unitTests/test_xts.R (.setUp): Condition on a 'future' xts 
-	version present as we really nedd xts to be nanotime aware for these tests 
+        * inst/unitTests/test_xts.R (.setUp): Condition on a 'future' xts 
+        version present as we really nedd xts to be nanotime aware for these tests 
  
-	* inst/unitTests/test_nanotime.R: Condition a number of tests on not 
-	running under Windows 
+        * inst/unitTests/test_nanotime.R: Condition a number of tests on not 
+        running under Windows 
  
-	* DESCRIPTION (Suggests): Added 'xts' 
-	* .travis.yml (install): Ditto 
+        * DESCRIPTION (Suggests): Added 'xts' 
+        * .travis.yml (install): Ditto 
  
 2017-06-14  Leonardo Silvestri  <lsilvestri@ztsdb.org> 
  
-	* R/nanotime.R: Error on ops not meaningful for type, 
-	also fix handling of NA, NAN, Inf, -Inf 
+        * R/nanotime.R: Error on ops not meaningful for type, 
+        also fix handling of NA, NAN, Inf, -Inf 
  
-	* man/nanotime.Rd: Corresponding documentation 
-	* inst/unitTests/test_nanotime.R: corresponding test 
+        * man/nanotime.Rd: Corresponding documentation 
+        * inst/unitTests/test_nanotime.R: corresponding test 
  
 2017-06-05  Leonardo Silvestri  <lsilvestri@ztsdb.org> 
  
-	* R/nanotime.R: Correct summary() by defining 'names<-'; fix 'c' 
+        * R/nanotime.R: Correct summary() by defining 'names<-'; fix 'c' 
  
-	* man/nanotime.Rd: Corresponding documentation 
-	* inst/unitTests/test_nanotime.R: corresponding test 
+        * man/nanotime.Rd: Corresponding documentation 
+        * inst/unitTests/test_nanotime.R: corresponding test 
  
 2017-06-03  Leonardo Silvestri  <lsilvestri@ztsdb.org> 
  
-	* R/nanotime.R: Prevent print from printing more than 
-	options()$max.print 
+        * R/nanotime.R: Prevent print from printing more than 
+        options()$max.print 
  
 2017-06-02  Leonardo Silvestri  <lsilvestri@ztsdb.org> 
  
-	* R/nanotime.R: Ensure names are kept for nanotime vectors 
-	* inst/unitTests/test_nanotime.R: corresponding test 
+        * R/nanotime.R: Ensure names are kept for nanotime vectors 
+        * inst/unitTests/test_nanotime.R: corresponding test 
  
 2017-05-02  Leonardo Silvestri  <lsilvestri@ztsdb.org> 
  
-	* R/nanotime.R: Ensure 'tz=""' is treated as missing 
+        * R/nanotime.R: Ensure 'tz=""' is treated as missing 
  
 2017-04-04  Leonardo Silvestri  <lsilvestri@ztsdb.org> 
  
-	* R/nanotime.R: Remove spurious debug output 
+        * R/nanotime.R: Remove spurious debug output 
  
 2017-03-29  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* DESCRIPTION (Version, Date): Roll minor version 
+        * DESCRIPTION (Version, Date): Roll minor version 
  
-	* man/nanotime.Rd: Minor update 
+        * man/nanotime.Rd: Minor update 
  
-	* nanotime.Rproj: Use devtools::document to work around a roxygen2 
-	bug with S4 and setOldClass 
+        * nanotime.Rproj: Use devtools::document to work around a roxygen2 
+        bug with S4 and setOldClass 
  
 2017-03-29  Leonardo Silvestri  <lsilvestri@ztsdb.org> 
  
-	[ The following is summary of changes made over several weeks ] 
-	* DESCRIPTION: Convert to S4 class 
-	* NAMESPACE: Idem 
-	* R/nanotime.R: Idem 
-	* inst/unitTests/test_data.frame.R: Idem 
-	* inst/unitTests/test_nanotime.R: Idem 
-	* inst/unitTests/test_ops.R: Idem 
-	* inst/unitTests/test_xts.R: Idem 
-	* inst/unitTests/test_zoo.R: Idem 
-	* man/nanotime-class.Rd: Idem 
-	* man/nanotime-package.Rd: Idem 
-	* man/nanotime.Rd: Idem 
-	* tests/runTests.R: Idem 
-	* tests/simpleTests.R: Idem 
+        [ The following is summary of changes made over several weeks ] 
+        * DESCRIPTION: Convert to S4 class 
+        * NAMESPACE: Idem 
+        * R/nanotime.R: Idem 
+        * inst/unitTests/test_data.frame.R: Idem 
+        * inst/unitTests/test_nanotime.R: Idem 
+        * inst/unitTests/test_ops.R: Idem 
+        * inst/unitTests/test_xts.R: Idem 
+        * inst/unitTests/test_zoo.R: Idem 
+        * man/nanotime-class.Rd: Idem 
+        * man/nanotime-package.Rd: Idem 
+        * man/nanotime.Rd: Idem 
+        * tests/runTests.R: Idem 
+        * tests/simpleTests.R: Idem 
  
 2017-03-27  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* DESCRIPTION (Version, Date): Release 0.1.2 
+        * DESCRIPTION (Version, Date): Release 0.1.2 
  
 2017-02-08  Dirk Eddelbuettel  <edd@max.eddelbuettel.com> 
  
-	* DESCRIPTION (Version, Date): Roll minor version and date 
+        * DESCRIPTION (Version, Date): Roll minor version and date 
  
-	* NAMESPACE: Also (re-)export as.integer64 
-	* R/nanotime.R: Added roxygen2 snippet for as.integer64 
-	* man/nanotime.Rd: Documentation 
+        * NAMESPACE: Also (re-)export as.integer64 
+        * R/nanotime.R: Added roxygen2 snippet for as.integer64 
+        * man/nanotime.Rd: Documentation 
  
 2017-02-04  Dirk Eddelbuettel  <edd@max.eddelbuettel.com> 
  
-	* DESCRIPTION (Version, Date): Release 0.1.1 
+        * DESCRIPTION (Version, Date): Release 0.1.1 
  
 2017-01-31  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* R/nanotime.R: One more updated format string 
+        * R/nanotime.R: One more updated format string 
  
 2017-01-30  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* R/nanotime.R (format.nanotime): Safer transformation to double 
-	(index2char.nanotime): Idem 
+        * R/nanotime.R (format.nanotime): Safer transformation to double 
+        (index2char.nanotime): Idem 
  
 2017-01-29  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* R/nanotime.R: Additional documentation section on default output 
-	format string 
+        * R/nanotime.R: Additional documentation section on default output 
+        format string 
  
-	* .travis.yml (before_install): Use https for curl fetch 
+        * .travis.yml (before_install): Use https for curl fetch 
  
 2017-01-25  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* DESCRIPTION (Version, Date): Roll minor version and date 
+        * DESCRIPTION (Version, Date): Roll minor version and date 
  
-	* R/nanotime.R (nanotime.character): Display of nine dec digits 
-	(format.nanotime): Idem 
-	(print.nanotime): Dispatch to format.nanotime (thanks, Matt!) 
-	(as.integer64.nanotime): New converter to integer64 
-	(Ops.nanotime): Explicit definition with some casts 
+        * R/nanotime.R (nanotime.character): Display of nine dec digits 
+        (format.nanotime): Idem 
+        (print.nanotime): Dispatch to format.nanotime (thanks, Matt!) 
+        (as.integer64.nanotime): New converter to integer64 
+        (Ops.nanotime): Explicit definition with some casts 
  
-	* NAMESPACE: Corresponding exports 
-	* man/nanotime.Rd: Corresponding documentation 
+        * NAMESPACE: Corresponding exports 
+        * man/nanotime.Rd: Corresponding documentation 
  
 2017-01-10  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* DESCRIPTION (Version, Date): Release 0.1.0 
+        * DESCRIPTION (Version, Date): Release 0.1.0 
  
 2017-01-09  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* DESCRIPTION (Version, Date): Roll minor version 
+        * DESCRIPTION (Version, Date): Roll minor version 
  
-	* DESCRIPTION (SystemRequirements, OS_type): Remove constraint on 
-	Unix as RcppCCTZ is now available on Windows too 
+        * DESCRIPTION (SystemRequirements, OS_type): Remove constraint on 
+        Unix as RcppCCTZ is now available on Windows too 
  
-	* demo/nanosecondDelayExample.R: Add missing library() calls; added 
-	save and reload example 
+        * demo/nanosecondDelayExample.R: Add missing library() calls; added 
+        save and reload example 
  
-	* README.md: Small edit showing save and reload 
+        * README.md: Small edit showing save and reload 
  
 ###  2016 
 
 2016-12-22  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* README.md: Updated to reflect CRAN status 
+        * README.md: Updated to reflect CRAN status 
  
 2016-12-18  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* demo/00Index: New file, demo now in package 
-	* demo/nanosecondDelayExample.R: Renamed demo 
+        * demo/00Index: New file, demo now in package 
+        * demo/nanosecondDelayExample.R: Renamed demo 
  
 2016-12-17  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* R/nanotime.R (as.data.frame.nanotime): Documented 
-	(nanotime.character): Support tz and fmt options 
-	(format.nanotime): Idem 
-	(index2char.nanotime): Idem 
-	(as.POSIXct.nanotime): Idem 
-	(as.POSIXlt.nanotime): Idem 
+        * R/nanotime.R (as.data.frame.nanotime): Documented 
+        (nanotime.character): Support tz and fmt options 
+        (format.nanotime): Idem 
+        (index2char.nanotime): Idem 
+        (as.POSIXct.nanotime): Idem 
+        (as.POSIXlt.nanotime): Idem 
  
-	* man/nanotime.Rd: Idem 
+        * man/nanotime.Rd: Idem 
  
-	* tests/data.frame.R: Added simple data.{frame,table} test 
-	* tests/simpleTests.R: Added simple format tests 
+        * tests/data.frame.R: Added simple data.{frame,table} test 
+        * tests/simpleTests.R: Added simple format tests 
  
-	* demo/nanotimeEx.R: Extended somewhat 
+        * demo/nanotimeEx.R: Extended somewhat 
  
-	* DESCRIPTION (Suggests): Added data.table 
-	* .travis.yml: Added r-cran-data.table 
+        * DESCRIPTION (Suggests): Added data.table 
+        * .travis.yml: Added r-cran-data.table 
  
 2016-12-16  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* DESCRIPTION (Version, Date): Rolled minor version 
+        * DESCRIPTION (Version, Date): Rolled minor version 
  
-	* R/nanotime.R (as.data.frame.nanotime): New method 
-	(format.nanotime): Support additional arguments 
+        * R/nanotime.R (as.data.frame.nanotime): New method 
+        (format.nanotime): Support additional arguments 
  
-	* man/nanotime.Rd: Updated for new method 
-	* NAMESPACE: Idem 
+        * man/nanotime.Rd: Updated for new method 
+        * NAMESPACE: Idem 
  
 2016-12-15  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* DESCRIPTION (Version, Date): Release 0.0.1 
+        * DESCRIPTION (Version, Date): Release 0.0.1 
  
-	* R/nanotime.R (as.POSIXct.nanotime,as.POSIXlt.nanotime) 
-	(as.Date.nanotime): New converters 
-	(format.nanotime): Add 'justify' argument 
-	* man/nanotime.Rd: Document new and updated methods 
-	* NAMESPACE: Registered new converters 
+        * R/nanotime.R (as.POSIXct.nanotime,as.POSIXlt.nanotime) 
+        (as.Date.nanotime): New converters 
+        (format.nanotime): Add 'justify' argument 
+        * man/nanotime.Rd: Document new and updated methods 
+        * NAMESPACE: Registered new converters 
  
-	* tests/simpleTests.R: Additional calls to new functions 
+        * tests/simpleTests.R: Additional calls to new functions 
  
-	* inst/NEWS.Rd:  Added 
+        * inst/NEWS.Rd:  Added 
  
-	* DESCRIPTION (SystemRequirements): State RcppCCTZ dependency 
+        * DESCRIPTION (SystemRequirements): State RcppCCTZ dependency 
  
 2016-12-11  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* R/nanotime.R (index2char.nanotime): Added to have zoo() objects 
-	print a nanotime index correctly 
-	(nanotime.default): Switch class order with integer64 last 
-	(print.nanotime): Minor adjustment 
-	(format.nanotime): Added 
-	(showNanotime): Removed 
-	(format.nanotime): Support global option for format 
+        * R/nanotime.R (index2char.nanotime): Added to have zoo() objects 
+        print a nanotime index correctly 
+        (nanotime.default): Switch class order with integer64 last 
+        (print.nanotime): Minor adjustment 
+        (format.nanotime): Added 
+        (showNanotime): Removed 
+        (format.nanotime): Support global option for format 
  
-	* NAMESPACE: Register S3 methods index2char.nanotime, format.nanotime; 
-	import two functions from RcppCCTZ (which are now exported) 
-	* DESCRIPTION: Now Imports: rather than Suggests: zoo 
-	* tests/zooTests.R: Small changes 
+        * NAMESPACE: Register S3 methods index2char.nanotime, format.nanotime; 
+        import two functions from RcppCCTZ (which are now exported) 
+        * DESCRIPTION: Now Imports: rather than Suggests: zoo 
+        * tests/zooTests.R: Small changes 
  
-	* .travis.yml: Added 
-	* .codecov.yml: Ditto 
-	* .Rbuildignore: Adjusted accordingly 
+        * .travis.yml: Added 
+        * .codecov.yml: Ditto 
+        * .Rbuildignore: Adjusted accordingly 
  
-	* tests/simpleTests.R: Two more conversions from integer and numeric 
+        * tests/simpleTests.R: Two more conversions from integer and numeric 
  
 2016-12-10  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* tests/zooTests.R: Simple tests for vectorised time operation 
+        * tests/zooTests.R: Simple tests for vectorised time operation 
  
-	* R/nanotime.R (print.nanotime): Do not default to character 
-	formating here, rather farm out to helper showNanotime 
-	(showNanotime): Simple pretty printer 
+        * R/nanotime.R (print.nanotime): Do not default to character 
+        formating here, rather farm out to helper showNanotime 
+        (showNanotime): Simple pretty printer 
  
-	* tests/simpleTests.R: Added calls to snowNanotime() 
+        * tests/simpleTests.R: Added calls to snowNanotime() 
  
 2016-12-09  Dirk Eddelbuettel  <edd@debian.org> 
  
-	* DESCRIPTION (Version): Very initial pre-release 0.0.0 
+        * DESCRIPTION (Version): Very initial pre-release 0.0.0 
  

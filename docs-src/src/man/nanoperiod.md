@@ -14,184 +14,184 @@ the additional argument `tz`.
 ### Usage
 
     nanoperiod(months = 0, days = 0, duration = as.nanoduration(0))
-    
+
     ## S4 method for signature 'character'
     as.nanoperiod(x)
-    
+
     ## S4 method for signature 'integer64'
     as.nanoperiod(x)
-    
+
     ## S4 method for signature 'numeric'
     as.nanoperiod(x)
-    
+
     ## S4 method for signature 'integer'
     as.nanoperiod(x)
-    
+
     ## S4 method for signature 'nanoduration'
     as.nanoperiod(x)
-    
+
     ## S4 method for signature ''NULL''
     as.nanoperiod(x)
-    
+
     ## S4 method for signature 'missing'
     as.nanoperiod(x)
-    
+
     ## S4 method for signature 'nanoperiod'
     show(object)
-    
+
     ## S4 method for signature 'nanoperiod'
     print(x, quote = FALSE, ...)
-    
+
     ## S3 method for class 'nanoperiod'
     format(x, ...)
-    
+
     ## S4 method for signature 'nanoperiod'
     as.character(x)
-    
+
     ## S4 method for signature 'nanoperiod'
     is.na(x)
-    
+
     ## S4 replacement method for signature 'nanoperiod'
     is.na(x) <- value
-    
+
     ## S4 method for signature 'nanoperiod'
     x[[i, j, ..., drop = FALSE]]
-    
+
     ## S4 method for signature 'nanoperiod,numeric'
     x[i, j, ..., drop = FALSE]
-    
+
     ## S4 method for signature 'nanoperiod,logical'
     x[i, j, ..., drop = FALSE]
-    
+
     ## S4 method for signature 'nanoperiod,character'
     x[i, j, ..., drop = FALSE]
-    
+
     ## S4 method for signature 'nanoperiod,ANY'
     x[i, j, ..., drop = FALSE]
-    
+
     ## S4 replacement method for signature 'nanoperiod,ANY,ANY,ANY'
     x[i, j, ...] <- value
-    
+
     ## S3 method for class 'nanoperiod'
     c(...)
-    
+
     ## S4 method for signature 'nanoperiod'
     names(x)
-    
+
     ## S4 replacement method for signature 'nanoperiod'
     names(x) <- value
-    
+
     ## S4 method for signature 'nanoperiod,ANY'
     e1 - e2
-    
+
     ## S4 method for signature 'nanoperiod,nanoperiod'
     e1 - e2
-    
+
     ## S4 method for signature 'nanoperiod,nanoduration'
     e1 - e2
-    
+
     ## S4 method for signature 'nanoperiod,integer64'
     e1 - e2
-    
+
     ## S4 method for signature 'nanoperiod,numeric'
     e1 - e2
-    
+
     ## S4 method for signature 'nanoduration,nanoperiod'
     e1 - e2
-    
+
     ## S4 method for signature 'integer64,nanoperiod'
     e1 - e2
-    
+
     ## S4 method for signature 'numeric,nanoperiod'
     e1 - e2
-    
+
     ## S4 method for signature 'nanoperiod,ANY'
     e1 + e2
-    
+
     ## S4 method for signature 'nanoperiod,nanoperiod'
     e1 + e2
-    
+
     ## S4 method for signature 'nanoperiod,nanoduration'
     e1 + e2
-    
+
     ## S4 method for signature 'nanoperiod,integer64'
     e1 + e2
-    
+
     ## S4 method for signature 'nanoperiod,nanotime'
     e1 + e2
-    
+
     ## S4 method for signature 'nanoival,nanoperiod'
     e1 + e2
-    
+
     ## S4 method for signature 'nanoperiod,nanoival'
     e1 + e2
-    
+
     ## S4 method for signature 'nanotime,nanoperiod'
     e1 + e2
-    
+
     ## S4 method for signature 'nanoperiod,numeric'
     e1 + e2
-    
+
     ## S4 method for signature 'nanoduration,nanoperiod'
     e1 + e2
-    
+
     ## S4 method for signature 'integer64,nanoperiod'
     e1 + e2
-    
+
     ## S4 method for signature 'numeric,nanoperiod'
     e1 + e2
-    
+
     ## S4 method for signature 'nanoperiod,integer64'
     e1 * e2
-    
+
     ## S4 method for signature 'nanoperiod,numeric'
     e1 * e2
-    
+
     ## S4 method for signature 'integer64,nanoperiod'
     e1 * e2
-    
+
     ## S4 method for signature 'numeric,nanoperiod'
     e1 * e2
-    
+
     ## S4 method for signature 'nanoperiod,integer64'
     e1 / e2
-    
+
     ## S4 method for signature 'nanoperiod,numeric'
     e1 / e2
-    
+
     ## S4 method for signature 'nanoperiod,nanoperiod'
     e1 == e2
-    
+
     ## S4 method for signature 'nanoperiod,nanoperiod'
     e1 != e2
-    
+
     ## S4 method for signature 'nanotime,nanoperiod,character'
     plus(e1, e2, tz)
-    
+
     ## S4 method for signature 'nanoperiod,nanotime,character'
     plus(e1, e2, tz)
-    
+
     ## S4 method for signature 'nanotime,nanoperiod,character'
     minus(e1, e2, tz)
-    
+
     ## S4 method for signature 'nanoperiod,nanotime,character'
     minus(e1, e2, tz)
-    
+
     ## S4 method for signature 'nanoival,nanoperiod,character'
     plus(e1, e2, tz)
-    
+
     ## S4 method for signature 'nanoperiod,nanoival,character'
     plus(e1, e2, tz)
-    
+
     ## S4 method for signature 'nanoival,nanoperiod,character'
     minus(e1, e2, tz)
-    
+
     NA_nanoperiod_
 
 ### Arguments
 
 | Argument   | Description                                                                    |
-| ---------- | ------------------------------------------------------------------------------ |
+|------------|--------------------------------------------------------------------------------|
 | `months`   | Used in the constructor to indicate the number of months of the `nanoperiod`   |
 | `days`     | Used in the constructor to indicate the number of days of the `nanoperiod`     |
 | `duration` | Used in the constructor to indicate the duration component of the `nanoperiod` |
@@ -242,10 +242,10 @@ Leonardo Silvestri
     ## Not run: 
     p <- nanoperiod(months=12, days=7, duration="01:00:00")
     print(p)
-    
+
     #  when adding a \code{nanoperiod} to a \code{nanotime} or to a
     # \code{nanoival}, a time zone must be specified:
     y <- nanotime("1970-01-01T00:00:00+00:00")
     plus(y, p, tz="America/Chicago")
-    
+
     ## End(Not run)

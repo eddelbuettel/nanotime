@@ -12,7 +12,7 @@ Generate a sequence of `nanoival`
 ### Arguments
 
 | Argument     | Description                                                                                                                                                                                      |
-| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+|--------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `from, to`   | the starting and (maximal) end values of the sequence                                                                                                                                            |
 | `by`         | `nanoduration` or `nanoperiod` increment of the sequence; note that if the class is `nanoperiod` the additional argument `tz` must be speficied and is of `character` type indicating a timezone |
 | `length.out` | an integer desired length of the sequence                                                                                                                                                        |
@@ -24,5 +24,5 @@ Generate a sequence of `nanoival`
     ## Not run: 
     from <- as.nanoival("-2018-01-14T13:00:00+00:00 -> 2018-01-14T15:00:00+00:00+")
     seq(from, by=as.nanoperiod("1m"), length.out=5, tz="America/New_York")
-    
+
     ## End(Not run)

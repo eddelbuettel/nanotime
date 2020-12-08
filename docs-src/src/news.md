@@ -1,3 +1,17 @@
+### Version 0.3.3 (unreleased -- 2020-12-xx)
+
+-   New demo `ggplot2Example.R` (Leonardo and Dirk)
+
+-   New documentation website using mkdocs-material (Dirk)
+
+-   Updated unit test to account for r-devel POSIXct changes, and
+    re-enable full testing under r-devel (Dirk)
+
+-   Additional `nanoduration` and `character` ops plus tests (Colin
+    Umansky in [\#88](https://github.com/eddelbuettel/nanotime/pull/88)
+    addressing
+    [\#87](https://github.com/eddelbuettel/nanotime/issues/87))
+
 ### Version 0.3.2 (2020-09-03)
 
 -   Correct for big endian (Elliott Sales de Andrade in

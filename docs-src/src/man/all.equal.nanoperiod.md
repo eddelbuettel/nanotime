@@ -12,14 +12,14 @@ appropriate.
 
     ## S3 method for class 'nanoperiod'
     all.equal(target, current, ..., check.attributes = TRUE)
-    
+
     ## S4 method for signature 'nanoperiod'
     all.equal(target, current, ..., check.attributes = TRUE)
 
 ### Arguments
 
 | Argument           | Description                                                                                                 |
-| ------------------ | ----------------------------------------------------------------------------------------------------------- |
+|--------------------|-------------------------------------------------------------------------------------------------------------|
 | `target, current`  | `nanoperiod` arguments to be compared                                                                       |
 | `...`              | further arguments for different methods                                                                     |
 | `check.attributes` | logical indicating if the `attributes` of `target` and `current` (other than the names) should be compared. |

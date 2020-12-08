@@ -9,188 +9,188 @@ provided, and more will be added as needed.
 ### Usage
 
     nanotime(from, ...)
-    
+
     as.nanotime(from, ...)
-    
+
     ## S4 method for signature 'character'
     nanotime(from, format = "", tz = "")
-    
+
     ## S4 method for signature 'character'
     as.nanotime(from, format = "", tz = "")
-    
+
     nanotime.matrix(x)
-    
+
     ## S4 method for signature 'POSIXct'
     nanotime(from)
-    
+
     ## S4 method for signature 'POSIXct'
     as.nanotime(from)
-    
+
     ## S4 method for signature 'POSIXlt'
     nanotime(from)
-    
+
     ## S4 method for signature 'POSIXlt'
     as.nanotime(from)
-    
+
     ## S4 method for signature 'Date'
     nanotime(from)
-    
+
     ## S4 method for signature 'Date'
     as.nanotime(from)
-    
+
     ## S4 method for signature 'nanotime'
     print(x, format = "", tz = "", quote = FALSE, ...)
-    
+
     ## S4 method for signature 'nanotime'
     show(object)
-    
+
     ## S3 method for class 'nanotime'
     format(x, format = "", tz = "", ...)
-    
+
     ## S3 method for class 'nanotime'
     index2char(x, ...)
-    
+
     ## S3 method for class 'nanotime'
     as.POSIXct(x, tz = "", ...)
-    
+
     ## S3 method for class 'nanotime'
     as.POSIXlt(x, tz = "", ...)
-    
+
     ## S3 method for class 'nanotime'
     as.Date(x, ...)
-    
+
     ## S3 method for class 'nanotime'
     as.data.frame(x, ...)
-    
+
     ## S3 method for class 'nanotime'
     as.integer64(x, ...)
-    
+
     ## S4 method for signature 'nanotime,character'
     e1 - e2
-    
+
     ## S4 method for signature 'nanotime,nanotime'
     e1 - e2
-    
+
     ## S4 method for signature 'nanotime,integer64'
     e1 - e2
-    
+
     ## S4 method for signature 'nanotime,numeric'
     e1 - e2
-    
+
     ## S4 method for signature 'ANY,nanotime'
     e1 - e2
-    
+
     ## S4 method for signature 'nanotime,ANY'
     e1 - e2
-    
+
     ## S4 method for signature 'nanotime,ANY'
     e1 + e2
-    
+
     ## S4 method for signature 'nanotime,integer64'
     e1 + e2
-    
+
     ## S4 method for signature 'nanotime,numeric'
     e1 + e2
-    
+
     ## S4 method for signature 'ANY,nanotime'
     e1 + e2
-    
+
     ## S4 method for signature 'integer64,nanotime'
     e1 + e2
-    
+
     ## S4 method for signature 'numeric,nanotime'
     e1 + e2
-    
+
     ## S4 method for signature 'nanotime,nanotime'
     e1 + e2
-    
+
     ## S4 method for signature 'nanotime,nanotime'
     Arith(e1, e2)
-    
+
     ## S4 method for signature 'nanotime,ANY'
     Arith(e1, e2)
-    
+
     ## S4 method for signature 'ANY,nanotime'
     Arith(e1, e2)
-    
+
     ## S4 method for signature 'nanotime,character'
     Compare(e1, e2)
-    
+
     ## S4 method for signature 'character,nanotime'
     Compare(e1, e2)
-    
+
     ## S4 method for signature 'nanotime,POSIXt'
     Compare(e1, e2)
-    
+
     ## S4 method for signature 'POSIXt,nanotime'
     Compare(e1, e2)
-    
+
     ## S4 method for signature 'nanotime,ANY'
     Compare(e1, e2)
-    
+
     ## S4 method for signature 'nanotime,ANY'
     Logic(e1, e2)
-    
+
     ## S4 method for signature 'ANY,nanotime'
     Logic(e1, e2)
-    
+
     ## S4 method for signature 'nanotime'
     Math(x)
-    
+
     ## S4 method for signature 'nanotime'
     Math2(x, digits)
-    
+
     ## S4 method for signature 'nanotime'
     Summary(x, ..., na.rm = FALSE)
-    
+
     ## S4 method for signature 'nanotime'
     min(x, ..., na.rm = FALSE)
-    
+
     ## S4 method for signature 'nanotime'
     max(x, ..., na.rm = FALSE)
-    
+
     ## S4 method for signature 'nanotime'
     range(x, ..., na.rm = FALSE)
-    
+
     ## S4 method for signature 'nanotime'
     Complex(z)
-    
+
     ## S4 method for signature 'nanotime'
     x[[i, j, ..., drop = FALSE]]
-    
+
     ## S4 method for signature 'nanotime,numeric'
     x[i, j, ..., drop = FALSE]
-    
+
     ## S4 method for signature 'nanotime,logical'
     x[i, j, ..., drop = FALSE]
-    
+
     ## S4 method for signature 'nanotime,character'
     x[i, j, ..., drop = FALSE]
-    
+
     ## S4 method for signature 'nanotime,ANY'
     x[i, j, ..., drop = FALSE]
-    
+
     ## S4 replacement method for signature 'nanotime,ANY,ANY,ANY'
     x[i, j, ...] <- value
-    
+
     ## S3 method for class 'nanotime'
     c(...)
-    
+
     ## S4 replacement method for signature 'nanotime'
     names(x) <- value
-    
+
     ## S4 method for signature 'nanotime'
     is.na(x)
-    
+
     NA_nanotime_
-    
+
     ## S3 method for class 'nanoduration'
     as.data.frame(x, ...)
 
 ### Arguments
 
 | Argument  | Description                                                                                                                                                                                                                            |
-| --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|-----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `...`     | further arguments passed to or from methods.                                                                                                                                                                                           |
 | `format`  | A character string. Can also be set via `options("nanotimeFormat")` and uses ‘%Y-%m-%dT%H:%M:%E9S%Ez’ as a default and fallback                                                                                                        |
 | `tz`      | character specifying a timezone which is required for `as.POSIXct`, `as.POSIXlt` and can be specified for `as.nanotime`, `format` and `print`; it can also be set via `options("nanotimeTz")` and uses ‘UTC’ as a default and fallback |
@@ -290,5 +290,5 @@ Leonardo Silvestri
     format(x)
     nanotime(Sys.time()) + 1:3  # three elements each 1 ns apart
     seq(x, by=as.nanoperiod("1d"), length.out=5, tz="Asia/Tokyo")
-    
+
     ## End(Not run)

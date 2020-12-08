@@ -15,7 +15,8 @@ theme:
 #    primary: blue grey
 #    accent: grey
   features:
-    - tabs
+    - navigation.tabs
+    - navigation.instant
   font:
 #    text: Source Sans Pro
     text: Lato
