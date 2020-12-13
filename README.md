@@ -1,6 +1,7 @@
 ## nanotime: Nanosecond-Resolution Time Objects for R
 
 [![Build Status](https://travis-ci.org/eddelbuettel/nanotime.svg)](https://travis-ci.org/eddelbuettel/nanotime)
+[![CI](https://github.com/eddelbuettel/nanotime/workflows/ci/badge.svg)](https://github.com/eddelbuettel/nanotime/actions?query=workflow%3Aci)
 [![License](https://eddelbuettel.github.io/badges/GPL2+.svg)](https://www.gnu.org/licenses/gpl-2.0.html)
 [![CRAN](https://www.r-pkg.org/badges/version/nanotime)](https://cran.r-project.org/package=nanotime)
 [![Dependencies](https://tinyverse.netlify.com/badge/nanotime)](https://cran.r-project.org/package=nanotime)

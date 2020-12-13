@@ -1,3 +1,7 @@
+2020-12-13  Dirk Eddelbuettel  <edd@debian.org>
+
+	* README.md: Add CI badge
+
 2020-12-06  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): Roll minor version
