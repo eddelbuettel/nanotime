@@ -7,3 +7,4 @@ src/*.so
 src/*.dll
 local/nanotime_*.tar.gz
 docs-src/docs
+docs/mkdmt-src/docs
