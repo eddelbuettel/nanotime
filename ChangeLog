@@ -1,4 +1,9 @@
-2021-08-09 Leonardo Silvestri <lsilvestri@ztsdb.org>
+2021-08-09  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): Roll minor version
+
+2021-08-08  Leonardo Silvestri  <lsilvestri@ztsdb.org>
+
 	* src/period.cpp:  Fix for `plus` and `minus` adjustment
 	* R/nanoperiod.R: Idem
         * inst/tinytest/test_nanoperiod.R: Idem
