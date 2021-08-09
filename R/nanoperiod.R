@@ -26,10 +26,19 @@ setClass("nanoperiod", contains = "complex")
 ##'
 ##'
 ##'
-##' Adding or subtracting \code{nanoperiod} and \code{nanotime} require a
-##' timezone as third argument. For this reason it is not possible to
-##' use the binary operator `code{+}`. Instead the functions
-##' `\code{plus}` and `\code{minus}` are defined.
+##' Adding or subtracting \code{nanoperiod} and \code{nanotime}
+##' require a timezone as third argument. For this reason it is not
+##' possible to use the binary operator `code{+}`. Instead the
+##' functions `\code{plus}` and `\code{minus}` are defined. These
+##' functions attempt to keep the same offset within a day in the
+##' specified timezone: this means for instance that adding a day when
+##' that day crosses a time zone adjustment such as a daylight saving
+##' time, results in a true time increment of less or more than 24
+##' hours to preserve the offset. Preserving the offset works for
+##' increments that are smaller than a day too, provided the increment
+##' results in a datetime where the timezone adjustment is valid. When
+##' this is not the case, adding a `nanoperiod` behaves in the same
+##' way as adding a `nanoduration`.
 ##'
 ##'
 ##' @param x,value An object of class \code{nanoperiod}
