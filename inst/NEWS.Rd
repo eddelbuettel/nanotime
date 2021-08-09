@@ -3,14 +3,16 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/nanotime/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/nanotime/issues/#1}{##1}}
 
-\section{Changes in version 0.3.3 (unreleased -- 2020-12-xx)}{
+\section{Changes in version 0.3.3 (2021-08-09)}{
   \itemize{
-    \item New demo \code{ggplot2Example.R} (Leonardo and Dirk) 
-    \item New documentation website using mkdocs-material (Dirk)
+    \item New demo \code{ggplot2Example.R} (Leonardo and Dirk). 
+    \item New documentation website using mkdocs-material (Dirk).
     \item Updated unit test to account for r-devel POSIXct changes,
-    and re-enable full testing under r-devel (Dirk)
+    and re-enable full testing under r-devel (Dirk).
     \item Additional \code{nanoduration} and \code{character} ops plus
-    tests (Colin Umansky in \ghpr{88} addressing \ghit{87})
+    tests (Colin Umansky in \ghpr{88} addressing \ghit{87}).
+    \item New \code{plus} and \code{minus} functions for periods
+    (Leonardo in \ghpr{91}). 
   }
 }
 

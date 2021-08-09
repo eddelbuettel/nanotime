@@ -10,3 +10,4 @@ vignettes/rmd
 ^docs
 ^docs-src
 ^\.github
+^docker
