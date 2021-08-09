@@ -1,5 +1,38 @@
+###  2021 
+
+2021-08-09  Dirk Eddelbuettel  <edd@debian.org> 
+ 
+        * DESCRIPTION (Version, Date): Release 0.3.3 
+ 
+2021-08-08  Leonardo Silvestri  <lsilvestri@ztsdb.org> 
+ 
+        * src/period.cpp:  Fix for `plus` and `minus` adjustment 
+        * R/nanoperiod.R: Idem 
+        * inst/tinytest/test_nanoperiod.R: Idem 
+        * man/nanoperiod.Rd: Idem 
+ 
+2021-04-06  Dirk Eddelbuettel  <edd@debian.org> 
+ 
+        * DESCRIPTION (URL, BugRreports): Added to DESCRIPTION file 
+ 
+2021-03-28  Dirk Eddelbuettel  <edd@debian.org> 
+ 
+        * docs/mkdmt-src/: Moved mkdocs-material input 
+ 
 ###  2020 
 
+2020-12-30  Dirk Eddelbuettel  <edd@debian.org> 
+ 
+        * .github/workflows/ci.yaml: Rename job from build to ci 
+ 
+2020-12-25  Dirk Eddelbuettel  <edd@debian.org> 
+ 
+        * .github/workflows/ci.yaml: Small tweaks to CI YAML file 
+ 
+2020-12-13  Dirk Eddelbuettel  <edd@debian.org> 
+ 
+        * README.md: Add CI badge 
+ 
 2020-12-06  Dirk Eddelbuettel  <edd@debian.org> 
  
         * DESCRIPTION (Version, Date): Roll minor version 

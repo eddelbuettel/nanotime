@@ -23,11 +23,11 @@ Replicates the values in 'x' similarly to the default method.
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
+<tr class="odd" data-valign="top">
 <td><code>x</code></td>
 <td><p>a vector of <code>nanoduration</code></p></td>
 </tr>
-<tr class="even">
+<tr class="even" data-valign="top">
 <td><code>...</code></td>
 <td><p>further arguments:</p>
 <p>'times' an integer-valued vector giving the (non-negative) number of times to repeat each element if of length 'length(x)', or to repeat the whole vector if of length 1. Negative or 'NA' values are an error. A 'double' vector is accepted, other inputs being coerced to an integer or double vector.</p>
