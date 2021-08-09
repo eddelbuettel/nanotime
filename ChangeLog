@@ -1,3 +1,9 @@
+2021-08-09 Leonardo Silvestri <lsilvestri@ztsdb.org>
+	* src/period.cpp:  Fix for `plus` and `minus` adjustment
+	* R/nanoperiod.R: Idem
+        * inst/tinytest/test_nanoperiod.R: Idem
+	* man/nanoperiod.Rd: Idem
+
 2021-04-06  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (URL, BugRreports): Added to DESCRIPTION file

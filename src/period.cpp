@@ -158,9 +158,15 @@ dtime nanotime::plus(const dtime& dt, const period& p, const std::string& z) {
   offset = getOffsetCnv(dt, z);
   res += p.getDays()*std::chrono::hours(24);
   res += p.getDuration();
-  auto newoffset = getOffsetCnv(res, z);
-  if (newoffset != offset) {
-    res += offset - newoffset; // adjust for DST or any other event that changed the TZ
+  auto new_offset = getOffsetCnv(res, z);
+  // adjust for DST or any other event that changed the TZ, but only
+  // if the adjustment does not put us back in the old offset:
+  if (new_offset != offset) {
+    auto res_potential = res + offset - new_offset; // adjust
+    auto adjusted_offset = getOffsetCnv(res_potential, z);
+    if (adjusted_offset == new_offset) { // are we still in the new offset?
+      res = res_potential;               // if so, then keep the adjustment
+    }
   }
   return res;
 }
