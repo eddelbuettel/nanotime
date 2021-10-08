@@ -1,3 +1,11 @@
+2021-10-08  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): Roll minor version
+
+	* R/nanotime.R (as.character.nanotime): Added
+	* NAMESPACE: Idem
+	* man/nanotime.Rd: Aliases
+
 2021-08-09  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): Release 0.3.3

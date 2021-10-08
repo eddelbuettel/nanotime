@@ -64,6 +64,7 @@
 \alias{names<-,nanotime-method}
 \alias{is.na,nanotime-method}
 \alias{NA_nanotime_}
+\alias{as.character.nanotime}
 \alias{as.data.frame.nanoduration}
 \title{Nanosecond resolution datetime functionality}
 \format{
@@ -189,6 +190,8 @@ nanotime.matrix(x)
 \S4method{is.na}{nanotime}(x)
 
 NA_nanotime_
+
+\method{as.character}{nanotime}(x, ...)
 
 \method{as.data.frame}{nanoduration}(x, ...)
 }

@@ -5,6 +5,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // duration_from_string_impl
 Rcpp::NumericVector duration_from_string_impl(Rcpp::CharacterVector str);
 RcppExport SEXP _nanotime_duration_from_string_impl(SEXP strSEXP) {
