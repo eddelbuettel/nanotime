@@ -62,19 +62,26 @@ expect_identical(as.integer64(as.nanoduration(1:1000)), as.integer64(1:1000))
 ## show/print/format
 ##test_show <- function() {
 d <- nanoduration(1,1,1,1)
-expect_identical(show(d), "01:01:01.000_000_001")
-expect_identical(show(-d), "-01:01:01.000_000_001")
-expect_true(is.na(show(as.nanoduration(as.integer64("-9223372036854775808")))))
+expect_identical(format(d), "01:01:01.000_000_001")
+expect_identical(format(-d), "-01:01:01.000_000_001")
+expect_true(is.na(format(as.nanoduration(as.integer64("-9223372036854775808")))))
+expect_identical(as.character(d), "01:01:01.000_000_001")
+expect_identical(as.character(-d), "-01:01:01.000_000_001")
+expect_true(is.na(as.character(as.nanoduration(as.integer64("-9223372036854775808")))))
+expect_stdout(show(d))
+expect_stdout(show(-d))
+expect_stdout(show(as.nanoduration(as.integer64("-9223372036854775808"))))
 
 ##test_print <- function() {
 d <- nanoduration(1,1,1,1)
-expect_identical(print(d), "01:01:01.000_000_001")
-expect_identical(print(nanoduration()), "nanoduration(0)")
+expect_stdout(print(d))
+expect_stdout(print(nanoduration()))
 
 ##test_print_name <- function() {
 d <- nanoduration(1,1,1,1)
 names(d) <- "a"
-expect_identical(print(d), c(a="01:01:01.000_000_001"))
+expect_identical(format(d), c(a="01:01:01.000_000_001"))
+expect_stdout(print(d))
 
 ##test_format <- function() {
 d <- nanoduration(1,1,1,1)

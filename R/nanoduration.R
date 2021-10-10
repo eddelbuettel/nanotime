@@ -708,3 +708,8 @@ setMethod("nano_floor",   c(x="nanotime", precision="nanoduration"),
 setMethod("rep", c(x = "nanoduration"), function(x, ...) {
     new("nanoduration", callNextMethod())
 })
+
+##' @rdname nanoduration
+as.character.nanoduration <- function(x, ...) {
+    format(x, ...)
+}

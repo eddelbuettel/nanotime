@@ -6,7 +6,11 @@
 
 	* R/nanoperiod.R (as.character.nanoperiod): Added
 	* NAMESPACE: Idem
-	* man/nanoival.Rd: Aliases
+	* man/nanoperiod.Rd: Aliases
+
+	* R/nanoduration.R (as.character.nanoduration): 
+	* NAMESPACE: Idem
+	* man/nanoduration.Rd: Aliases
 
 	* inst/tinytest/test_nanotime.R: Add tests
 	* inst/tinytest/test_nanoival.R: Idem
