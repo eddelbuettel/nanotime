@@ -4,8 +4,13 @@
 	* NAMESPACE: Idem
 	* man/nanoival.Rd: Aliases
 
+	* R/nanoperiod.R (as.character.nanoperiod): Added
+	* NAMESPACE: Idem
+	* man/nanoival.Rd: Aliases
+
 	* inst/tinytest/test_nanotime.R: Add tests
 	* inst/tinytest/test_nanoival.R: Idem
+	* inst/tinytest/test_nanoperiod.R: Idem
 
 2021-10-08  Dirk Eddelbuettel  <edd@debian.org>
 

@@ -80,6 +80,7 @@
 \alias{plus,nanoperiod,nanoival,character-method}
 \alias{minus,nanoival,nanoperiod,character-method}
 \alias{NA_nanoperiod_}
+\alias{as.character.nanoperiod}
 \title{Period type with nanosecond precision}
 \format{
 An object of class \code{nanoperiod} of length 1.
@@ -202,6 +203,8 @@ nanoperiod(months = 0, days = 0, duration = as.nanoduration(0))
 \S4method{minus}{nanoival,nanoperiod,character}(e1, e2, tz)
 
 NA_nanoperiod_
+
+\method{as.character}{nanoperiod}(x, ...)
 }
 \arguments{
 \item{months}{Used in the constructor to indicate the number of

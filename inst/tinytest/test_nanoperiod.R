@@ -99,13 +99,14 @@ expect_identical(nanoperiod.nanoduration(p1), as.nanoduration(expected))
 
 ## show/print/as.character/format
 ##test_show <- function() {
-p1 <- show(as.nanoperiod("1m1d/1:00:00.1"))
+p1 <- format(as.nanoperiod("1m1d/1:00:00.1"))
 expect_identical(p1, "1m1d/01:00:00.100")
+expect_stdout(show(as.nanoperiod("1m1d/1:00:00.1")))
 
 ##test_print <- function() {
-p1 <- print(as.nanoperiod("2m2d/2:02:02.2"))
+p1 <- format(as.nanoperiod("2m2d/2:02:02.2"))
 expect_identical(p1, "2m2d/02:02:02.200")
-expect_identical(print(nanoperiod()), "nanoperiod(0)")
+expect_stdout(print(nanoperiod()))
 
 ##test_as.character <- function() {
 p1 <- as.character(as.nanoperiod("2m2d/2:02:02.20001"))
@@ -120,6 +121,7 @@ expect_identical(p1, c(a="2m2d/02:02:02.200_010", b="2m2d/02:02:02.200_020"))
 ##test_format <- function() {
 p1 <- as.nanoperiod("2m2d/2:02:02.20001")
 expect_identical(format(p1), "2m2d/02:02:02.200_010")
+expect_identical(as.character(p1), "2m2d/02:02:02.200_010")
 
 
 ## subset:
