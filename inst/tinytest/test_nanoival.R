@@ -1,4 +1,5 @@
 library(nanotime)
+suppressMessages(library(bit64))
 
 isSolaris <- Sys.info()[["sysname"]] == "SunOS"
 
@@ -105,28 +106,32 @@ expect_identical(nanoival(starts[1], ends, sopens, eopens[1]),
 ##test_show <- function() {
 ival_str <- "+2013-01-01 00:00:00 -> 2014-01-01 00:00:00-"
 ival <- as.nanoival(ival_str)
-expect_identical(show(ival), ival_str)
+expect_identical(format(ival), ival_str)
+expect_stdout(show(ival))
 
 ival_str <- "-2013-01-01 00:00:00 -> 2014-01-01 00:00:00+"
 ival <- as.nanoival(ival_str)
-expect_identical(show(ival), ival_str)
+expect_identical(format(ival), ival_str)
+expect_stdout(show(ival))
 
 ival_str <- c(a="+2013-01-01 00:00:00 -> 2014-01-01 00:00:00-")
 ival <- as.nanoival(ival_str)
-expect_identical(show(ival), ival_str)
+expect_identical(format(ival), ival_str)
+expect_stdout(show(ival))
 
-  
-expect_identical(print(as.nanoival(vector("character", 0))), "nanoival(0)")
+expect_identical(format(as.nanoival(vector("character", 0))), "nanoival(0)")
 
 
 ##test_format <- function() {
 ival_str <- "+2013-01-01 00:00:00 -> 2014-01-01 00:00:00-"
 ival <- as.nanoival(ival_str)
 expect_identical(format(ival), ival_str)
+expect_identical(as.character(ival), ival_str)
 
 ival_str <- "-2013-01-01 00:00:00 -> 2014-01-01 00:00:00+"
 ival <- as.nanoival(ival_str)
 expect_identical(format(ival), ival_str)
+expect_identical(as.character(ival), ival_str)
 
 
 ## as.data.frame

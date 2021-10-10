@@ -974,3 +974,7 @@ setMethod("rep", c(x = "nanoival"), function(x, ...) {
     new("nanoival", callNextMethod())
 })
 
+##' @rdname nanoival
+as.character.nanoival <- function(x, ...) {
+    format(x, ...)
+}

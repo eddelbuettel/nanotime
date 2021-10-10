@@ -1,3 +1,12 @@
+2021-10-10  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/nanoival.R (as.character.nanoival): Added
+	* NAMESPACE: Idem
+	* man/nanoival.Rd: Aliases
+
+	* inst/tinytest/test_nanotime.R: Add tests
+	* inst/tinytest/test_nanoival.R: Idem
+
 2021-10-08  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): Roll minor version
