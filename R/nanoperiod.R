@@ -797,5 +797,5 @@ setMethod("rep", c(x = "nanoperiod"), function(x, ...) {
 
 ##' @rdname nanoperiod
 as.character.nanoperiod <- function(x, ...) {
-    format(x, ...)
+    format(x, ...)						## #nocov
 }
