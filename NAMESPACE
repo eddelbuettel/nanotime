@@ -104,8 +104,6 @@ S3method(format,nanoival)
 S3method(format,nanoduration)
 S3method(format,nanoperiod)
 S3method(as.character,nanoival)
-S3method(as.character,nanoduration)
-S3method(as.character,nanoperiod)
 
 exportMethods(nano_wday)
 exportMethods(nano_mday)

@@ -709,7 +709,3 @@ setMethod("rep", c(x = "nanoduration"), function(x, ...) {
     new("nanoduration", callNextMethod())
 })
 
-##' @rdname nanoduration
-as.character.nanoduration <- function(x, ...) {
-    format(x, ...)						## #nocov
-}

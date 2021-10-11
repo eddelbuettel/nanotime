@@ -1,3 +1,12 @@
+2021-10-11  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/nanoduration.R (all.equal.nanoduration): Remove
+	as.character.nanotime as proper S4 method already defined
+ 	* R/nanoperiod.R (all.equal.nanoperiod): Idem
+	* NAMESPACE: Removed exports
+	* man/nanoduration.Rd: Updated
+	* man/nanoperiod.Rd: Idem
+
 2021-10-10  Dirk Eddelbuettel  <edd@debian.org>
 
 	* R/nanoival.R (as.character.nanoival): Added
@@ -8,7 +17,7 @@
 	* NAMESPACE: Idem
 	* man/nanoperiod.Rd: Aliases
 
-	* R/nanoduration.R (as.character.nanoduration): 
+	* R/nanoduration.R (as.character.nanoduration):
 	* NAMESPACE: Idem
 	* man/nanoduration.Rd: Aliases
 

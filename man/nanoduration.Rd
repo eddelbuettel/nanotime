@@ -73,7 +73,6 @@
 \alias{[<-,nanoduration,ANY,ANY,ANY-method}
 \alias{c.nanoduration}
 \alias{NA_nanoduration_}
-\alias{as.character.nanoduration}
 \title{Duration type with nanosecond precision}
 \format{
 An object of class \code{nanoduration} of length 1.
@@ -190,8 +189,6 @@ nanoduration(hours, minutes, seconds, nanoseconds)
 \method{c}{nanoduration}(...)
 
 NA_nanoduration_
-
-\method{as.character}{nanoduration}(x, ...)
 }
 \arguments{
 \item{hours}{number of hours}
