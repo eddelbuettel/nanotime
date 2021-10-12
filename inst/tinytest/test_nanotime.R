@@ -168,7 +168,7 @@ n <- nanotime(c(a=l, b=l))
 expect_identical(names(n), c("a","b"))
 
 
-## format
+## format, and as.character
 ##test_format_default <- function() {
 oldFormat <- getOption("nanotimeFormat")
 oldTz <- getOption("nanotimeTz")
@@ -181,6 +181,13 @@ expect_identical(format(nanotime("1680-07-17T00:00:01.000000000+00:00")),
 expect_identical(format(nanotime("2120-01-01T00:00:59.987654321+00:00")),
                  "2120-01-01T00:00:59.987654321+00:00")
 expect_identical(format(nanotime(NULL)), "nanotime(0)")
+expect_identical(as.character(nanotime("1970-01-01T00:00:00.000000000+00:00")),
+                 "1970-01-01T00:00:00+00:00")
+expect_identical(as.character(nanotime("1680-07-17T00:00:01.000000000+00:00")),
+                 "1680-07-17T00:00:01+00:00")
+expect_identical(as.character(nanotime("2120-01-01T00:00:59.987654321+00:00")),
+                 "2120-01-01T00:00:59.987654321+00:00")
+expect_identical(as.character(format(nanotime(NULL))), "nanotime(0)")
 options(nanotimeFormat=oldFormat)
 options(nanotimeTz=oldTz)
 

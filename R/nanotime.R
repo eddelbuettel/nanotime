@@ -1021,3 +1021,7 @@ setMethod("rep", c(x = "nanotime"), function(x, ...) {
     new("nanotime", callNextMethod())
 })
 
+##' @rdname nanotime
+as.character.nanotime <- function(x, ...) {
+    format(x, ...)
+}

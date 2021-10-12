@@ -58,6 +58,7 @@
 \alias{t,nanoival-method}
 \alias{[,nanotime,nanoival-method}
 \alias{NA_nanoival_}
+\alias{as.character.nanoival}
 \title{Interval type with nanosecond precision}
 \format{
 An object of class \code{nanoival} of length 1.
@@ -132,6 +133,8 @@ nanoival(start, end, sopen = FALSE, eopen = TRUE)
 \S4method{[}{nanotime,nanoival}(x, i, j, ..., drop = TRUE)
 
 NA_nanoival_
+
+\method{as.character}{nanoival}(x, ...)
 }
 \arguments{
 \item{start}{\code{nanotime} start of interval}

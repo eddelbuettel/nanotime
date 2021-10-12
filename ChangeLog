@@ -1,3 +1,38 @@
+2021-10-11  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/nanoduration.R (all.equal.nanoduration): Remove
+	as.character.nanotime as proper S4 method already defined
+ 	* R/nanoperiod.R (all.equal.nanoperiod): Idem
+	* NAMESPACE: Removed exports
+	* man/nanoduration.Rd: Updated
+	* man/nanoperiod.Rd: Idem
+
+2021-10-10  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/nanoival.R (as.character.nanoival): Added
+	* NAMESPACE: Idem
+	* man/nanoival.Rd: Aliases
+
+	* R/nanoperiod.R (as.character.nanoperiod): Added
+	* NAMESPACE: Idem
+	* man/nanoperiod.Rd: Aliases
+
+	* R/nanoduration.R (as.character.nanoduration):
+	* NAMESPACE: Idem
+	* man/nanoduration.Rd: Aliases
+
+	* inst/tinytest/test_nanotime.R: Add tests
+	* inst/tinytest/test_nanoival.R: Idem
+	* inst/tinytest/test_nanoperiod.R: Idem
+
+2021-10-08  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): Roll minor version
+
+	* R/nanotime.R (as.character.nanotime): Added
+	* NAMESPACE: Idem
+	* man/nanotime.Rd: Aliases
+
 2021-08-09  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): Release 0.3.3
