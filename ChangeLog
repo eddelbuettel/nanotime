@@ -7,6 +7,9 @@
 	* man/nanoduration.Rd: Updated
 	* man/nanoperiod.Rd: Idem
 
+	* .codecov.yml (coverage): Ensure PRs will not get a red 'fail' just
+	because coverage metrices dropped a miniscule amount
+
 2021-10-10  Dirk Eddelbuettel  <edd@debian.org>
 
 	* R/nanoival.R (as.character.nanoival): Added
