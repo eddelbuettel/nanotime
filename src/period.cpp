@@ -33,32 +33,6 @@ std::ostream &operator<<(std::ostream &stream,
 }
 
 
-static inline duration getOffsetCnv(const dtime& dt, const std::string& z) {
-  int offset;
-  int res = RcppCCTZ::getOffset(std::chrono::duration_cast<std::chrono::seconds>(dt.time_since_epoch()).count(), z.c_str(), offset);
-  if (res < 0) {
-    Rcpp::stop("Cannot retrieve timezone '%s'.", z.c_str()); // ## nocov
-  }
-
-  return duration(offset).count() * std::chrono::seconds(1);
-}
-
-period::period() : months(0), days(0), dur(std::chrono::seconds(0)) { }
-
-period::period(int32_t months_p, int32_t days_p, duration dur_p) : months(months_p), days(days_p), dur(dur_p) {
-  // we have to ensure that NA is uniform across all construction
-  // possibilities so that functions that compare equality do so
-  // correctly:
-  if (months == std::numeric_limits<int32_t>::min() ||
-      days   == std::numeric_limits<int32_t>::min() ||
-      dur    == duration::min()) {
-    months = std::numeric_limits<int32_t>::min();
-    days = std::numeric_limits<int32_t>::min();
-    dur = duration::zero();
-  }
-}
-
-
 period::period(const std::string& str) {
   const char* s = str.c_str();
   const char* e = s + str.size();
@@ -134,72 +108,6 @@ std::string nanotime::to_string(const period& p) {
   return ss.str();
 }
 
-
-period nanotime::plus(const period&    p, duration d) {
-  return period(p.getMonths(), p.getDays(), p.getDuration() + d);
-}
-period nanotime::minus(const period&    p, duration d){
-  return period(p.getMonths(), p.getDays(), p.getDuration() - d);
-}
-period nanotime::minus(duration d, const period& p) {
-  return period(-p.getMonths(), -p.getDays(), -p.getDuration() + d);
-}
-
-dtime nanotime::plus(const dtime& dt, const period& p, const std::string& z) {
-  auto res = dt;
-  auto offset = getOffsetCnv(res, z);
-  if (p.getMonths()) {
-    auto dt_floor = date::floor<date::days>(dt + offset);
-    auto timeofday_offset = (dt + offset) - dt_floor;
-    auto dt_ymd = date::year_month_day{dt_floor};
-    dt_ymd += date::months(p.getMonths());
-    res = date::sys_days(dt_ymd) - offset + timeofday_offset;
-  }
-  offset = getOffsetCnv(dt, z);
-  res += p.getDays()*std::chrono::hours(24);
-  res += p.getDuration();
-  auto new_offset = getOffsetCnv(res, z);
-  // adjust for DST or any other event that changed the TZ, but only
-  // if the adjustment does not put us back in the old offset:
-  if (new_offset != offset) {
-    auto res_potential = res + offset - new_offset; // adjust
-    auto adjusted_offset = getOffsetCnv(res_potential, z);
-    if (adjusted_offset == new_offset) { // are we still in the new offset?
-      res = res_potential;               // if so, then keep the adjustment
-    }
-  }
-  return res;
-}
-
-dtime nanotime::minus(const dtime& dt, const period& p, const std::string& z) {
-  return plus(dt, -p, z);
-}
-
-interval nanotime::plus(const interval& i, const period& p, const std::string& z) {
-  return interval(plus(dtime{duration{i.s}}, p, z),
-                  plus(dtime{duration{i.e}}, p, z), i.sopen, i.eopen);
-}
-  
-interval nanotime::minus(const interval& i, const period& p, const std::string& z) {
-  return plus(i, -p, z);
-}
-
-
-period nanotime::operator+(const period& p1, const period& p2) {
-  return period(p1.getMonths()+p2.getMonths(), 
-                p1.getDays()+p2.getDays(), 
-                p1.getDuration()+p2.getDuration());
-}
-
-period nanotime::operator-(const period& p) {
-  return period(-p.getMonths(), -p.getDays(), -p.getDuration());
-}
-
-period nanotime::operator-(const period& p1, const period& p2) {
-  return period(p1.getMonths()-p2.getMonths(), 
-                p1.getDays()-p2.getDays(),
-                p1.getDuration()-p2.getDuration());
-}
 
 template <typename T>
 period nanotime::operator*(const period& p, T d) {
