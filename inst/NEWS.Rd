@@ -3,6 +3,14 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/nanotime/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/nanotime/issues/#1}{##1}}
 
+\section{Changes in version 0.3.4 (2021-xx-yy)}{
+  \itemize{
+    \item Added a few more \code{as.character} conversion function (Dirk)
+    \item Expose \code{nanoperiod} functionality via header file for use
+    by other packages (Leonardo in \ghpr{95} fixing \ghit{94}).
+  }
+}
+
 \section{Changes in version 0.3.3 (2021-08-09)}{
   \itemize{
     \item New demo \code{ggplot2Example.R} (Leonardo and Dirk). 

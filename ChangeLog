@@ -1,3 +1,14 @@
+2021-11-21  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): Roll minor version
+
+2021-11-21  Leonardo Silvestri  <lsilvestri@ztsdb.org>
+
+	* inst/include/nanotime/period.hpp: Regroup and expose nanoperiod
+	interface for use by other packages
+	* src/period.cpp: Moved code to period.hpp header
+	* src/rounding.cpp: Idem
+
 2021-11-17  Dirk Eddelbuettel  <edd@debian.org>
 
         * README.md: Remove Travis badge
