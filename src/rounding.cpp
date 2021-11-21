@@ -7,17 +7,6 @@
 using namespace nanotime;
 
 
-// import function from 'RcppCCTZ':
-static inline duration getOffsetCnv(const dtime& dt, const std::string& z) {
-  int offset;
-  int res = RcppCCTZ::getOffset(std::chrono::duration_cast<std::chrono::seconds>(dt.time_since_epoch()).count(), z.c_str(), offset);
-  if (res < 0) {
-    Rcpp::stop("Cannot retrieve timezone '%s'.", z.c_str()); // ## nocov
-  }
-  return duration(offset).count() * std::chrono::seconds(1);
-}
-
-
 // C++-level floor and ceiling functions:
 
 // support for rounding 'dtime':
