@@ -1,5 +1,63 @@
 ###  2021 
 
+2021-11-23  Dirk Eddelbuettel  <edd@debian.org> 
+ 
+        * DESCRIPTION (Version, Date): Release 0.3.3 
+ 
+2021-11-21  Dirk Eddelbuettel  <edd@debian.org> 
+ 
+        * DESCRIPTION (Version, Date): Roll minor version 
+ 
+2021-11-21  Leonardo Silvestri  <lsilvestri@ztsdb.org> 
+ 
+        * inst/include/nanotime/period.hpp: Regroup and expose nanoperiod 
+        interface for use by other packages 
+        * src/period.cpp: Moved code to period.hpp header 
+        * src/rounding.cpp: Idem 
+ 
+2021-11-17  Dirk Eddelbuettel  <edd@debian.org> 
+ 
+        * README.md: Remove Travis badge 
+        * .travis.yml: Remove Travis YAML config 
+ 
+2021-10-11  Dirk Eddelbuettel  <edd@debian.org> 
+ 
+        * R/nanoduration.R (all.equal.nanoduration): Remove 
+        as.character.nanotime as proper S4 method already defined 
+         * R/nanoperiod.R (all.equal.nanoperiod): Idem 
+        * NAMESPACE: Removed exports 
+        * man/nanoduration.Rd: Updated 
+        * man/nanoperiod.Rd: Idem 
+ 
+        * .codecov.yml (coverage): Ensure PRs will not get a red 'fail' just 
+        because coverage metrices dropped a miniscule amount 
+ 
+2021-10-10  Dirk Eddelbuettel  <edd@debian.org> 
+ 
+        * R/nanoival.R (as.character.nanoival): Added 
+        * NAMESPACE: Idem 
+        * man/nanoival.Rd: Aliases 
+ 
+        * R/nanoperiod.R (as.character.nanoperiod): Added 
+        * NAMESPACE: Idem 
+        * man/nanoperiod.Rd: Aliases 
+ 
+        * R/nanoduration.R (as.character.nanoduration): 
+        * NAMESPACE: Idem 
+        * man/nanoduration.Rd: Aliases 
+ 
+        * inst/tinytest/test_nanotime.R: Add tests 
+        * inst/tinytest/test_nanoival.R: Idem 
+        * inst/tinytest/test_nanoperiod.R: Idem 
+ 
+2021-10-08  Dirk Eddelbuettel  <edd@debian.org> 
+ 
+        * DESCRIPTION (Version, Date): Roll minor version 
+ 
+        * R/nanotime.R (as.character.nanotime): Added 
+        * NAMESPACE: Idem 
+        * man/nanotime.Rd: Aliases 
+ 
 2021-08-09  Dirk Eddelbuettel  <edd@debian.org> 
  
         * DESCRIPTION (Version, Date): Release 0.3.3 
