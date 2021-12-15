@@ -1,3 +1,7 @@
+2021-12-14  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): Release 0.3.4
+
 2021-12-09  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/Makevars.ucrt: Based on patch by Tomas Kalibera that is part of

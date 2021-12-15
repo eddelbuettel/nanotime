@@ -3,6 +3,13 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/nanotime/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/nanotime/issues/#1}{##1}}
 
+\section{Changes in version 0.3.5 (2021-12-14)}{
+  \itemize{
+    \item Applied patch by Tomas Kalibera for Windows UCRT under the
+    upcoming R 4.2.0 expected for April.
+  }
+}
+
 \section{Changes in version 0.3.4 (2021-11-24)}{
   \itemize{
     \item Added a few more \code{as.character} conversion function (Dirk)
