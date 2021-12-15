@@ -1,189 +1,92 @@
-
-### Version 0.3.4 (2021-11-24)
-
--   Added a few more `as.character` conversion function (Dirk)
-
--   Expose `nanoperiod` functionality via header file for use by other
-    packages (Leonardo in
-    [\#95](https://github.com/eddelbuettel/nanotime/pull/95) fixing
-    [\#94](https://github.com/eddelbuettel/nanotime/issues/94)).
-
-### Version 0.3.3 (2021-08-09)
-
--   New demo `ggplot2Example.R` (Leonardo and Dirk).
-
--   New documentation website using mkdocs-material (Dirk).
-
--   Updated unit test to account for r-devel POSIXct changes, and
-    re-enable full testing under r-devel (Dirk).
-
--   Additional `nanoduration` and `character` ops plus tests (Colin
-    Umansky in [\#88](https://github.com/eddelbuettel/nanotime/pull/88)
-    addressing
-    [\#87](https://github.com/eddelbuettel/nanotime/issues/87)).
-
--   New `plus` and `minus` functions for periods (Leonardo in
-    [\#91](https://github.com/eddelbuettel/nanotime/pull/91)).
-
-### Version 0.3.2 (2020-09-03)
-
--   Correct for big endian (Elliott Sales de Andrade in
-    [\#81](https://github.com/eddelbuettel/nanotime/pull/81)).
-
--   Use the `RcppCCTZ_API.h` header (Dirk in
-    [\#82](https://github.com/eddelbuettel/nanotime/pull/82)).
-
--   Conditionally reduce test coverage (Dirk in
-    [\#83](https://github.com/eddelbuettel/nanotime/pull/83)).
-
-### Version 0.3.1 (2020-08-09)
-
--   Several small cleanups to ensure a more robust compilation (Leonardo
-    and Dirk in [\#75](https://github.com/eddelbuettel/nanotime/pull/75)
-    fixing [\#74](https://github.com/eddelbuettel/nanotime/issues/74)).
-
--   Show Solaris some extra love by skipping tests and examples with a
-    timezone (Dirk in
-    [\#76](https://github.com/eddelbuettel/nanotime/pull/76)).
-
-### Version 0.3.0 (2020-08-06)
-
--   Use `tzstr=` instead of `tz=` in call to `RcppCCTZ::parseDouble()`)
-    (Matt Dowle in
-    [\#49](https://github.com/eddelbuettel/nanotime/pull/49)).
-
--   Add new comparison operators for `nanotime` and `charcters` (Dirk in
-    [\#54](https://github.com/eddelbuettel/nanotime/pull/54) fixing
-    [\#52](https://github.com/eddelbuettel/nanotime/issues/52)).
-
--   Switch from `RUnit` to [tinytest]{.pkg} (Dirk in
-    [\#55](https://github.com/eddelbuettel/nanotime/pull/55))
-
--   Substantial functionality extension in with new types
-    `nanoduration`, `nanoival` and `nanoperiod` (Leonardo in
-    [\#58](https://github.com/eddelbuettel/nanotime/pull/58),
-    [\#60](https://github.com/eddelbuettel/nanotime/pull/60),
-    [\#62](https://github.com/eddelbuettel/nanotime/pull/62),
-    [\#63](https://github.com/eddelbuettel/nanotime/pull/63),
-    [\#65](https://github.com/eddelbuettel/nanotime/pull/65),
-    [\#67](https://github.com/eddelbuettel/nanotime/pull/67),
-    [\#70](https://github.com/eddelbuettel/nanotime/pull/70) fixing
-    [\#47](https://github.com/eddelbuettel/nanotime/issues/47),
-    [\#51](https://github.com/eddelbuettel/nanotime/issues/51),
-    [\#57](https://github.com/eddelbuettel/nanotime/issues/57),
-    [\#61](https://github.com/eddelbuettel/nanotime/issues/61),
-    [\#64](https://github.com/eddelbuettel/nanotime/issues/64) with
-    assistance from Dirk).
-
--   A new (yet still draft-ish) vignette was added describing the four
-    core types (Leonardo and Dirk in
-    [\#71](https://github.com/eddelbuettel/nanotime/pull/71)).
-
--   A required compilation flag for Windows was added (Leonardo in
-    [\#72](https://github.com/eddelbuettel/nanotime/pull/72)).
-
--   `RcppCCTZ` function are called in new \'non-throwing\' variants to
-    not trigger exeception errors (Leonardo in
-    [\#73](https://github.com/eddelbuettel/nanotime/pull/73)).
-
-### Version 0.2.4 (2019-05-25)
-
--   Define \[\[ method (Dirk in
-    [\#45](https://github.com/eddelbuettel/nanotime/pull/45) fixing
-    [\#44](https://github.com/eddelbuettel/nanotime/issues/44)).
-
-### Version 0.2.3 (2018-09-30)
-
--   Skip some tests on Solaris which seems borked with timezones. As we
-    have no real access, no real fix possible (Dirk in
-    [\#42](https://github.com/eddelbuettel/nanotime/pull/42)).
-
--   Update Travis setup
-
-### Version 0.2.2 (2018-07-18)
-
--   Unit tests depending on future
-    [[xts]{.pkg}](https://CRAN.R-project.org/package=xts) behaviour
-    remain disabled (Dirk in
-    [\#41](https://github.com/eddelbuettel/nanotime/pull/41)).
-
-### Version 0.2.1 (2018-07-01)
-
--   Added attribute-preserving comparison (Leonardo in
-    [\#33](https://github.com/eddelbuettel/nanotime/pull/33)).
-
--   Added two `integer64` casts in constructors (Dirk in
-    [\#36](https://github.com/eddelbuettel/nanotime/pull/36)).
-
--   Added two checks for empty arguments (Dirk in
-    [\#37](https://github.com/eddelbuettel/nanotime/pull/37)).
-
-### Version 0.2.0 (2017-06-22)
-
--   Rewritten in S4 to provide more robust operations
-    ([\#17](https://github.com/eddelbuettel/nanotime/pull/17) by
-    Leonardo)
-
--   Ensure `tz=""` is treated as unset (Leonardo in
-    [\#20](https://github.com/eddelbuettel/nanotime/pull/20))
-
--   Added `format` and `tz` arguments to `nanotime`, `format`, `print`
-    ([\#22](https://github.com/eddelbuettel/nanotime/pull/22) by
-    Leonardo and Dirk)
-
--   Ensure printing respect `options()$max.print`, ensure names are kept
-    with vector
-    ([\#23](https://github.com/eddelbuettel/nanotime/pull/23) by
-    Leonardo)
-
--   Correct `summary()` by defining `names<-` (Leonardo in
-    [\#25](https://github.com/eddelbuettel/nanotime/pull/25) fixing
-    [\#24](https://github.com/eddelbuettel/nanotime/issues/24))
-
--   Report error on operations that are meaningful for type; handled NA,
-    NaN, Inf, -Inf correctly (Leonardo in
-    [\#27](https://github.com/eddelbuettel/nanotime/pull/27) fixing
-    [\#26](https://github.com/eddelbuettel/nanotime/issues/26))
-
-### Version 0.1.2 (2017-03-27)
-
--   The `as.integer64` function is now exported as well.
-
-### Version 0.1.1 (2017-02-04)
-
--   The default display format now always shows nine digits
-    ([\#10](https://github.com/eddelbuettel/nanotime/pull/10) closing
-    [\#9](https://github.com/eddelbuettel/nanotime/pull/9))
-
--   The default print method was updated to use formated output, and a
-    new new converter `as.integer64` was added
-
--   Several \'Ops\' method are now explicitly defined allowing casting
-    of results (rather than falling back on bit64 behaviour)
-
--   The format routine is now more careful about not loosing precision
-    ([\#13](https://github.com/eddelbuettel/nanotime/issues/13) closing
-    [\#12](https://github.com/eddelbuettel/nanotime/issues/12))
-
-### Version 0.1.0 (2017-01-10)
-
--   Added Windows support thanks to expanded
-    [[RcppCCTZ]{.pkg}](https://CRAN.R-project.org/package=RcppCCTZ)
-    (closes [\#6](https://github.com/eddelbuettel/nanotime/issues/6))
-
--   Added \"mocked up\" demo with nanosecond delay networking analysis
-
--   Added \'fmt\' and \'tz\' options to output functions, expanded
-    `format.nanotime` (closing
-    [\#2](https://github.com/eddelbuettel/nanotime/issues/2) and
-    [\#3](https://github.com/eddelbuettel/nanotime/issues/3))
-
--   Added data.frame support
-
--   Expanded tests
-
-### Version 0.0.1 (2016-12-15)
-
--   Initial CRAN upload.
-
--   Package is functional and provides examples.
+<div class="container">
+<h3 id="version-0.3.5-2021-12-14">Version 0.3.5 (2021-12-14)</h3>
+<ul>
+<li><p>Applied patch by Tomas Kalibera for Windows UCRT under the upcoming R 4.2.0 expected for April.</p></li>
+</ul>
+<h3 id="version-0.3.4-2021-11-24">Version 0.3.4 (2021-11-24)</h3>
+<ul>
+<li><p>Added a few more <code>as.character</code> conversion function (Dirk)</p></li>
+<li><p>Expose <code>nanoperiod</code> functionality via header file for use by other packages (Leonardo in <a href="https://github.com/eddelbuettel/nanotime/pull/95">#95</a> fixing <a href="https://github.com/eddelbuettel/nanotime/issues/94">#94</a>).</p></li>
+</ul>
+<h3 id="version-0.3.3-2021-08-09">Version 0.3.3 (2021-08-09)</h3>
+<ul>
+<li><p>New demo <code>ggplot2Example.R</code> (Leonardo and Dirk).</p></li>
+<li><p>New documentation website using mkdocs-material (Dirk).</p></li>
+<li><p>Updated unit test to account for r-devel POSIXct changes, and re-enable full testing under r-devel (Dirk).</p></li>
+<li><p>Additional <code>nanoduration</code> and <code>character</code> ops plus tests (Colin Umansky in <a href="https://github.com/eddelbuettel/nanotime/pull/88">#88</a> addressing <a href="https://github.com/eddelbuettel/nanotime/issues/87">#87</a>).</p></li>
+<li><p>New <code>plus</code> and <code>minus</code> functions for periods (Leonardo in <a href="https://github.com/eddelbuettel/nanotime/pull/91">#91</a>).</p></li>
+</ul>
+<h3 id="version-0.3.2-2020-09-03">Version 0.3.2 (2020-09-03)</h3>
+<ul>
+<li><p>Correct for big endian (Elliott Sales de Andrade in <a href="https://github.com/eddelbuettel/nanotime/pull/81">#81</a>).</p></li>
+<li><p>Use the <code>RcppCCTZ_API.h</code> header (Dirk in <a href="https://github.com/eddelbuettel/nanotime/pull/82">#82</a>).</p></li>
+<li><p>Conditionally reduce test coverage (Dirk in <a href="https://github.com/eddelbuettel/nanotime/pull/83">#83</a>).</p></li>
+</ul>
+<h3 id="version-0.3.1-2020-08-09">Version 0.3.1 (2020-08-09)</h3>
+<ul>
+<li><p>Several small cleanups to ensure a more robust compilation (Leonardo and Dirk in <a href="https://github.com/eddelbuettel/nanotime/pull/75">#75</a> fixing <a href="https://github.com/eddelbuettel/nanotime/issues/74">#74</a>).</p></li>
+<li><p>Show Solaris some extra love by skipping tests and examples with a timezone (Dirk in <a href="https://github.com/eddelbuettel/nanotime/pull/76">#76</a>).</p></li>
+</ul>
+<h3 id="version-0.3.0-2020-08-06">Version 0.3.0 (2020-08-06)</h3>
+<ul>
+<li><p>Use <code>tzstr=</code> instead of <code>tz=</code> in call to <code>RcppCCTZ::parseDouble()</code>) (Matt Dowle in <a href="https://github.com/eddelbuettel/nanotime/pull/49">#49</a>).</p></li>
+<li><p>Add new comparison operators for <code>nanotime</code> and <code>charcters</code> (Dirk in <a href="https://github.com/eddelbuettel/nanotime/pull/54">#54</a> fixing <a href="https://github.com/eddelbuettel/nanotime/issues/52">#52</a>).</p></li>
+<li><p>Switch from <code>RUnit</code> to <span class="pkg">tinytest</span> (Dirk in <a href="https://github.com/eddelbuettel/nanotime/pull/55">#55</a>)</p></li>
+<li><p>Substantial functionality extension in with new types <code>nanoduration</code>, <code>nanoival</code> and <code>nanoperiod</code> (Leonardo in <a href="https://github.com/eddelbuettel/nanotime/pull/58">#58</a>, <a href="https://github.com/eddelbuettel/nanotime/pull/60">#60</a>, <a href="https://github.com/eddelbuettel/nanotime/pull/62">#62</a>, <a href="https://github.com/eddelbuettel/nanotime/pull/63">#63</a>, <a href="https://github.com/eddelbuettel/nanotime/pull/65">#65</a>, <a href="https://github.com/eddelbuettel/nanotime/pull/67">#67</a>, <a href="https://github.com/eddelbuettel/nanotime/pull/70">#70</a> fixing <a href="https://github.com/eddelbuettel/nanotime/issues/47">#47</a>, <a href="https://github.com/eddelbuettel/nanotime/issues/51">#51</a>, <a href="https://github.com/eddelbuettel/nanotime/issues/57">#57</a>, <a href="https://github.com/eddelbuettel/nanotime/issues/61">#61</a>, <a href="https://github.com/eddelbuettel/nanotime/issues/64">#64</a> with assistance from Dirk).</p></li>
+<li><p>A new (yet still draft-ish) vignette was added describing the four core types (Leonardo and Dirk in <a href="https://github.com/eddelbuettel/nanotime/pull/71">#71</a>).</p></li>
+<li><p>A required compilation flag for Windows was added (Leonardo in <a href="https://github.com/eddelbuettel/nanotime/pull/72">#72</a>).</p></li>
+<li><p><code>RcppCCTZ</code> function are called in new 'non-throwing' variants to not trigger exeception errors (Leonardo in <a href="https://github.com/eddelbuettel/nanotime/pull/73">#73</a>).</p></li>
+</ul>
+<h3 id="version-0.2.4-2019-05-25">Version 0.2.4 (2019-05-25)</h3>
+<ul>
+<li><p>Define [[ method (Dirk in <a href="https://github.com/eddelbuettel/nanotime/pull/45">#45</a> fixing <a href="https://github.com/eddelbuettel/nanotime/issues/44">#44</a>).</p></li>
+</ul>
+<h3 id="version-0.2.3-2018-09-30">Version 0.2.3 (2018-09-30)</h3>
+<ul>
+<li><p>Skip some tests on Solaris which seems borked with timezones. As we have no real access, no real fix possible (Dirk in <a href="https://github.com/eddelbuettel/nanotime/pull/42">#42</a>).</p></li>
+<li><p>Update Travis setup</p></li>
+</ul>
+<h3 id="version-0.2.2-2018-07-18">Version 0.2.2 (2018-07-18)</h3>
+<ul>
+<li><p>Unit tests depending on future <a href="https://CRAN.R-project.org/package=xts"><span class="pkg">xts</span></a> behaviour remain disabled (Dirk in <a href="https://github.com/eddelbuettel/nanotime/pull/41">#41</a>).</p></li>
+</ul>
+<h3 id="version-0.2.1-2018-07-01">Version 0.2.1 (2018-07-01)</h3>
+<ul>
+<li><p>Added attribute-preserving comparison (Leonardo in <a href="https://github.com/eddelbuettel/nanotime/pull/33">#33</a>).</p></li>
+<li><p>Added two <code>integer64</code> casts in constructors (Dirk in <a href="https://github.com/eddelbuettel/nanotime/pull/36">#36</a>).</p></li>
+<li><p>Added two checks for empty arguments (Dirk in <a href="https://github.com/eddelbuettel/nanotime/pull/37">#37</a>).</p></li>
+</ul>
+<h3 id="version-0.2.0-2017-06-22">Version 0.2.0 (2017-06-22)</h3>
+<ul>
+<li><p>Rewritten in S4 to provide more robust operations (<a href="https://github.com/eddelbuettel/nanotime/pull/17">#17</a> by Leonardo)</p></li>
+<li><p>Ensure <code>tz=""</code> is treated as unset (Leonardo in <a href="https://github.com/eddelbuettel/nanotime/pull/20">#20</a>)</p></li>
+<li><p>Added <code>format</code> and <code>tz</code> arguments to <code>nanotime</code>, <code>format</code>, <code>print</code> (<a href="https://github.com/eddelbuettel/nanotime/pull/22">#22</a> by Leonardo and Dirk)</p></li>
+<li><p>Ensure printing respect <code>options()$max.print</code>, ensure names are kept with vector (<a href="https://github.com/eddelbuettel/nanotime/pull/23">#23</a> by Leonardo)</p></li>
+<li><p>Correct <code>summary()</code> by defining <code>names&lt;-</code> (Leonardo in <a href="https://github.com/eddelbuettel/nanotime/pull/25">#25</a> fixing <a href="https://github.com/eddelbuettel/nanotime/issues/24">#24</a>)</p></li>
+<li><p>Report error on operations that are meaningful for type; handled NA, NaN, Inf, -Inf correctly (Leonardo in <a href="https://github.com/eddelbuettel/nanotime/pull/27">#27</a> fixing <a href="https://github.com/eddelbuettel/nanotime/issues/26">#26</a>)</p></li>
+</ul>
+<h3 id="version-0.1.2-2017-03-27">Version 0.1.2 (2017-03-27)</h3>
+<ul>
+<li><p>The <code>as.integer64</code> function is now exported as well.</p></li>
+</ul>
+<h3 id="version-0.1.1-2017-02-04">Version 0.1.1 (2017-02-04)</h3>
+<ul>
+<li><p>The default display format now always shows nine digits (<a href="https://github.com/eddelbuettel/nanotime/pull/10">#10</a> closing <a href="https://github.com/eddelbuettel/nanotime/pull/9">#9</a>)</p></li>
+<li><p>The default print method was updated to use formated output, and a new new converter <code>as.integer64</code> was added</p></li>
+<li><p>Several 'Ops' method are now explicitly defined allowing casting of results (rather than falling back on bit64 behaviour)</p></li>
+<li><p>The format routine is now more careful about not loosing precision (<a href="https://github.com/eddelbuettel/nanotime/issues/13">#13</a> closing <a href="https://github.com/eddelbuettel/nanotime/issues/12">#12</a>)</p></li>
+</ul>
+<h3 id="version-0.1.0-2017-01-10">Version 0.1.0 (2017-01-10)</h3>
+<ul>
+<li><p>Added Windows support thanks to expanded <a href="https://CRAN.R-project.org/package=RcppCCTZ"><span class="pkg">RcppCCTZ</span></a> (closes <a href="https://github.com/eddelbuettel/nanotime/issues/6">#6</a>)</p></li>
+<li><p>Added "mocked up" demo with nanosecond delay networking analysis</p></li>
+<li><p>Added 'fmt' and 'tz' options to output functions, expanded <code>format.nanotime</code> (closing <a href="https://github.com/eddelbuettel/nanotime/issues/2">#2</a> and <a href="https://github.com/eddelbuettel/nanotime/issues/3">#3</a>)</p></li>
+<li><p>Added data.frame support</p></li>
+<li><p>Expanded tests</p></li>
+</ul>
+<h3 id="version-0.0.1-2016-12-15">Version 0.0.1 (2016-12-15)</h3>
+<ul>
+<li><p>Initial CRAN upload.</p></li>
+<li><p>Package is functional and provides examples.</p></li>
+</ul>
+</div>

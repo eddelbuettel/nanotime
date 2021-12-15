@@ -1,8 +1,17 @@
 ###  2021 
 
+2021-12-14  Dirk Eddelbuettel  <edd@debian.org> 
+ 
+        * DESCRIPTION (Version, Date): Release 0.3.5 
+ 
+2021-12-09  Dirk Eddelbuettel  <edd@debian.org> 
+ 
+        * src/Makevars.ucrt: Based on patch by Tomas Kalibera that is part of 
+        his changes for the Windows utf8-enhabced ucrt3 builds of R 4.2.0 
+ 
 2021-11-23  Dirk Eddelbuettel  <edd@debian.org> 
  
-        * DESCRIPTION (Version, Date): Release 0.3.3 
+        * DESCRIPTION (Version, Date): Release 0.3.4 
  
 2021-11-21  Dirk Eddelbuettel  <edd@debian.org> 
  
