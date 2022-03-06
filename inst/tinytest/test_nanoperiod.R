@@ -38,6 +38,10 @@ expect_identical(as.character(as.nanoperiod("1y/00:01:01")), "12m0d/00:01:01")
 expect_identical(as.character(as.nanoperiod("1w/00:01:01")), "0m7d/00:01:01")
 expect_identical(names(as.nanoperiod(c(a="1m"))), "a")
 
+## check negative duration
+expect_identical(as.nanoperiod("-00:00:01"), as.nanoperiod(as.nanoduration("-00:00:01")))
+expect_identical(as.nanoperiod("-0:00:01"), as.nanoperiod(as.nanoduration("-00:00:01")))
+
 ##test_as.nanoperiod_character_error <- function() {
 expect_error(as.nanoperiod("1wm00:01:01"), "cannot parse nanoperiod")
 expect_error(as.nanoperiod("1ym00:01:01"), "cannot parse nanoperiod")

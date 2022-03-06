@@ -739,7 +739,7 @@ setMethod("intersect.idx",
 
 
 ##' @rdname set_operations
-##' @aliases %in%.nanotime
+##' @method %in% nanotime
 `%in%.nanotime` <- function(x, table) {
     if (class(table) == "nanoival") {
         if (is.unsorted(x)) stop("x must be sorted")
@@ -750,15 +750,14 @@ setMethod("intersect.idx",
     }
 }
 
-## ##' @rdname set_operations
-## ##' @aliases %in%,nanotime,nanoival-method
-## setMethod("%in%",
-##           c("nanotime", "nanoival"),
-##           function(x, table) {
-##               if (is.unsorted(x)) stop("x must be sorted")
-##               table <- sort(table)
-##               nanoival_intersect_idx_time_interval_logical_impl(x, table)
-##           })
+##' @rdname set_operations
+setMethod("%in%",
+          c("nanotime", "nanoival"),
+          function(x, table) {
+              if (is.unsorted(x)) stop("x must be sorted")
+              table <- sort(table)
+              nanoival_intersect_idx_time_interval_logical_impl(x, table)
+          })
 
 ##' @rdname set_operations
 setMethod("intersect",

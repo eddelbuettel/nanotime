@@ -112,5 +112,5 @@ exportMethods(nano_year)
 exportMethods(nano_ceiling)
 exportMethods(nano_floor)
 
-export("%in%.nanotime")
 S3method("%in%", nanotime)
+exportMethods("%in%")

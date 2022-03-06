@@ -42,7 +42,13 @@ period::period(const std::string& str) {
   dur    = std::chrono::seconds(0);
 
   int n;
-  if (s < e && (*s == '/' || (s+2 < e && s[2] == ':'))) goto getduration;
+  if (s < e && (*s == '/' || (*s != '-' && s+2 < e && s[2] == ':'))) goto getduration;
+  // test the case where we have only a negative duration:
+  if (s < e && *s == '-' &&
+      ((s+3 < e && s[3] == ':') || (s+2 < e && s[2] == ':'))) {      
+    --s;  // because getduration will increment it
+    goto getduration;
+  }
   if (!readNumber(s, e, n, true) || s == e) throw std::range_error("cannot parse nanoperiod");
   if (*s == 'y') {
     months += 12*n;
