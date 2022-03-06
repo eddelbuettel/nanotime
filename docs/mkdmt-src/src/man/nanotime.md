@@ -1,3 +1,4 @@
+
 ## Nanosecond resolution datetime functionality
 
 ### Description
@@ -184,6 +185,9 @@ provided, and more will be added as needed.
 
     NA_nanotime_
 
+    ## S3 method for class 'nanotime'
+    as.character(x, ...)
+
     ## S3 method for class 'nanoduration'
     as.data.frame(x, ...)
 
@@ -292,3 +296,4 @@ Leonardo Silvestri
     seq(x, by=as.nanoperiod("1d"), length.out=5, tz="Asia/Tokyo")
 
     ## End(Not run)
+

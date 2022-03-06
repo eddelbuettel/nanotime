@@ -1,3 +1,4 @@
+
 ## Interval type with nanosecond precision
 
 ### Description
@@ -114,6 +115,9 @@ interval are open (true) or closed (false).
 
     NA_nanoival_
 
+    ## S3 method for class 'nanoival'
+    as.character(x, ...)
+
 ### Arguments
 
 | Argument  | Description                                                                                                                     |
@@ -211,3 +215,4 @@ Leonardo Silvestri
     a[idx]
 
     ## End(Not run)
+

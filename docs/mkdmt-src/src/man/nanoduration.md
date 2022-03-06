@@ -1,3 +1,4 @@
+
 ## Duration type with nanosecond precision
 
 ### Description
@@ -243,3 +244,4 @@ Leonardo Silvestri
     as.nanoduration("10:03:02.999_999_999") == 36182999999999
     as.nanoduration("10:03:02.999_999_999") > as.nanoduration("10:03:02.999_999_998")
     as.nanoduration("10:03:02.999_999_998") < "10:03:02.999_999_999"
+

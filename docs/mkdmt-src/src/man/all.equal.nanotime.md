@@ -1,3 +1,4 @@
+
 ## Test if Two Objects are (Nearly) Equal
 
 ### Description
@@ -49,3 +50,4 @@ appropriate.
 ### See Also
 
 `identical`, `isTRUE`, `==`, and `all` for exact equality testing.
+

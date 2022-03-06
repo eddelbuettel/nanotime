@@ -1,4 +1,10 @@
 <div class="container">
+<h3 id="version-0.3.6-2022-03-06">Version 0.3.6 (2022-03-06)</h3>
+<ul>
+<li><p>Fix incorrect subsetting with operator <code>%in%</code> (Leonardo in <a href="https://github.com/eddelbuettel/nanotime/pull/100">#100</a> fixing <a href="https://github.com/eddelbuettel/nanotime/issues/99">#99</a>).</p></li>
+<li><p>Fix incorrect parsing for negative nanoperiod (Leonardo in <a href="https://github.com/eddelbuettel/nanotime/pull/100">#100</a> fixing <a href="https://github.com/eddelbuettel/nanotime/issues/96">#96</a>).</p></li>
+<li><p>Test for <code>class</code> via <code>inherits()</code> (Dirk).</p></li>
+</ul>
 <h3 id="version-0.3.5-2021-12-14">Version 0.3.5 (2021-12-14)</h3>
 <ul>
 <li><p>Applied patch by Tomas Kalibera for Windows UCRT under the upcoming R 4.2.0 expected for April.</p></li>

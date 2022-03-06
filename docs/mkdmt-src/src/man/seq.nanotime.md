@@ -1,3 +1,4 @@
+
 ## Sequence Generation
 
 ### Description
@@ -31,3 +32,4 @@ Generate a sequence of `nanotime`
     seq(from, by=as.nanoperiod("1y"), length.out=4, tz="Europe/London")
 
     ## End(Not run)
+

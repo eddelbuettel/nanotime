@@ -1,3 +1,4 @@
+
 ## Rounding down or up a `nanotime` type
 
 ### Description
@@ -97,3 +98,4 @@ allowing arbitrary specification of the reference point of the rounding.
                   by=nano_ceiling(idx, as.nanoperiod("1d"), tz="America/New_York")]
 
     ## End(Not run)
+

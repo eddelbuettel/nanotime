@@ -740,7 +740,7 @@ NA_nanoperiod_ <- new("nanoperiod", complex(1, -1.0609978954826362e-314, 0))
 ##' @param tz a \code{character} scalar indicating the time zone in which to conduct the rounding
 setMethod("nano_ceiling", c(x="nanotime", precision="nanoperiod"),
           function(x, precision, origin=nanotime(), tz) {
-              if (class(origin) != "nanotime") {
+              if (!inherits(origin, "nanotime")) {
                   stop("'origin' must be of class 'nanotime'")
               }
               if (!is.character(tz)) {
@@ -755,7 +755,7 @@ setMethod("nano_ceiling", c(x="nanotime", precision="nanoperiod"),
 ##' @rdname rounding
 setMethod("nano_floor",   c(x="nanotime", precision="nanoperiod"),
           function(x, precision, origin=nanotime(), tz) {
-              if (class(origin) != "nanotime") {
+              if (!inherits(origin, "nanotime")) {
                   stop("'origin' must be of class 'nanotime'")
               }
               if (!is.character(tz)) {

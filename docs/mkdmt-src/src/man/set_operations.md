@@ -1,3 +1,4 @@
+
 ## Set operations
 
 ### Description
@@ -20,6 +21,9 @@ temporal types from the `nanotime` package.
     intersect.idx(x, y)
 
     ## S3 method for class 'nanotime'
+    x %in% table
+
+    ## S4 method for signature 'nanotime,nanoival'
     x %in% table
 
     ## S4 method for signature 'nanotime,nanoival'
@@ -104,3 +108,4 @@ removed.
     a %in% idx
 
     ## End(Not run)
+

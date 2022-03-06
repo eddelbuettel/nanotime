@@ -1,3 +1,4 @@
+
 ## Replicate Elements
 
 ### Description
@@ -36,3 +37,4 @@ Replicates the values in 'x' similarly to the default method.
 </tr>
 </tbody>
 </table>
+

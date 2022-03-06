@@ -741,7 +741,7 @@ setMethod("intersect.idx",
 ##' @rdname set_operations
 ##' @method %in% nanotime
 `%in%.nanotime` <- function(x, table) {
-    if (class(table) == "nanoival") {
+    if (inherits(table, "nanoival")) {
         if (is.unsorted(x)) stop("x must be sorted")
         table <- sort(table)
         nanoival_intersect_idx_time_interval_logical_impl(x, table)

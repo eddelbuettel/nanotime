@@ -6,9 +6,10 @@
 \section{Changes in version 0.3.6 (2022-03-06)}{
   \itemize{
     \item Fix incorrect subsetting with operator \code{\%in\%} (Leonardo
-    in \ghpr{100} fixing \ghit{99}
+    in \ghpr{100} fixing \ghit{99}).
     \item Fix incorrect parsing for negative nanoperiod (Leonardo in
-    \ghpr{x} fixing \ghit{96}
+    \ghpr{100} fixing \ghit{96}).
+    \item Test for \code{class} via \code{inherits()} (Dirk).
   }
 }
 

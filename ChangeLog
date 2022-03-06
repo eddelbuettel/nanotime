@@ -1,10 +1,17 @@
-2021-03-06  Leonardo Silvestri  <lsilvestri@ztsdb.org>
+2022-03-06  Leonardo Silvestri  <lsilvestri@ztsdb.org>
 
 	* DESCRIPTION (Version, Date): Release 0.3.6
 	* R/nanoival.R: Fix incorrect subsetting with operator `%in%`
 	* NAMESPACE: Added export
 	* man/set_operations.Rd: Added file
 	* src/period.cpp: Fix parse of negative period
+
+2022-03-06  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/nanoduration.R: Use 'inherits()' instead of 'class() =='
+	* R/nanoival.R: Idem
+	* R/nanoperiod.R: Idem
+	* R/nanotime.R: Idem
 
 2021-12-14  Dirk Eddelbuettel  <edd@debian.org>
 

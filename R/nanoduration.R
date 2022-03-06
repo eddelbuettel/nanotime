@@ -649,8 +649,8 @@ all.equal.nanoduration <- function(target, current, tolerance = sqrt(.Machine$do
     ## we have to redefine 'all.equal.nanotime' and it is correct for
     ## all 'integer64'-based S4 classes; in theory they would all
     ## three be the same function:
-    if (class(target)  == "nanoduration") target  <- as.nanotime(target)
-    if (class(current) == "nanoduration") current <- as.nanotime(current)
+    if (inherits(target, "nanoduration")) target  <- as.nanotime(target)
+    if (inherits(current, "nanoduration")) current <- as.nanotime(current)
     all.equal.nanotime(target, current, tolerance, scale, countEQ, formatFUN, ..., check.attributes=check.attributes)
 }
 
@@ -666,7 +666,7 @@ NA_nanoduration_  <- as.nanoduration(NA_integer_)
 ##' @rdname rounding
 setMethod("nano_ceiling", c(x="nanotime", precision="nanoduration"),
           function(x, precision, origin=nanotime()) {
-              if (class(origin) != "nanotime") {
+              if (!inherits(origin, "nanotime")) {
                   stop("'origin' must be of class 'nanotime'")
               }
               ceiling_impl(x, precision, origin)
@@ -675,7 +675,7 @@ setMethod("nano_ceiling", c(x="nanotime", precision="nanoduration"),
 ##' @rdname rounding
 setMethod("nano_floor",   c(x="nanotime", precision="nanoduration"),
           function(x, precision, origin=nanotime()) {
-              if (class(origin) != "nanotime") {
+              if (!inherits(origin, "nanotime")) {
                   stop("'origin' must be of class 'nanotime'")
               }
               floor_impl(x, precision, origin)

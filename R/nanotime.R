@@ -492,7 +492,7 @@ setMethod("Compare", c("POSIXt", "nanotime"),
 ##' @rdname nanotime
 setMethod("Compare", c("nanotime", "ANY"),
           function(e1, e2) {
-              if (class(e2) == "nanotime") {
+              if (inherits(e2, "nanotime")) {
                   e2 <- S3Part(e2, strictS3=TRUE)
               }
               callNextMethod(S3Part(e1, strictS3=TRUE), e2)
@@ -704,7 +704,7 @@ seq.nanotime <-
 	    stop("'by' must be specified if 'length.out' is NULL")
 	else { # dealing with 'by'
             if (length(by) != 1L) stop("'by' must be of length 1")
-            if (class(by) == "nanoperiod") {
+            if (inherits(by, "nanoperiod")) {
                 ## fish out the 'tz' parameter:
                 args <- list(...)
                 if (!any("tz" %in% names(args))) {
@@ -727,7 +727,7 @@ seq.nanotime <-
     }
     else if (missing(to) || is.null(to)) {
         if (length(by) != 1L) stop("'by' must be of length 1")
-        if (class(by) == "nanoperiod") {
+        if (inherits(by, "nanoperiod")) {
             ## fish out the 'tz' parameter:
             args <- list(...)
             if (!any("tz" %in% names(args))) {
@@ -784,8 +784,8 @@ setMethod("seq", c("nanotime"), seq.nanotime)
 all.equal.nanotime <- function(target, current, tolerance = sqrt(.Machine$double.eps), 
                                scale = NULL, countEQ = FALSE,
                                formatFUN = function(err, what) format(err), ..., check.attributes = TRUE) {
-    if (class(target)  == "nanotime") target  <- as.integer64(target)
-    if (class(current) == "nanotime") current <- as.integer64(current)
+    if (inherits(target, "nanotime")) target  <- as.integer64(target)
+    if (inherits(current, "nanotime")) current <- as.integer64(current)
     
     if (!is.numeric(tolerance)) 
         stop("'tolerance' should be numeric")

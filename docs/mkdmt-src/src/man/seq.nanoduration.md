@@ -1,3 +1,4 @@
+
 ## Sequence Generation
 
 ### Description
@@ -22,3 +23,4 @@ Generate a sequence of `nanoduration`
 ### Examples
 
     seq(from=as.nanoduration(0), by=as.nanoduration("01:00:00"), length.out=10)
+

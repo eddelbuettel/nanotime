@@ -1,3 +1,4 @@
+
 ## Period type with nanosecond precision
 
 ### Description
@@ -257,3 +258,4 @@ Leonardo Silvestri
     plus(y, p, tz="America/Chicago")
 
     ## End(Not run)
+

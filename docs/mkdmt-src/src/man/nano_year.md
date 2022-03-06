@@ -1,3 +1,4 @@
+
 ## Get a component of a date time
 
 ### Description
@@ -43,3 +44,4 @@ timezone as it is just an offset in nanoseconds from the epoch.
     nano_year(as.nanotime("2020-12-31 23:32:00 America/New_York"), "Europe/Paris")
 
     ## End(Not run)
+

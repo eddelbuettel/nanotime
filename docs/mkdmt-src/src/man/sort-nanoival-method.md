@@ -1,3 +1,4 @@
+
 ## Sorting or Ordering Vectors
 
 ### Description
@@ -20,3 +21,4 @@ order
 ### See Also
 
 `is.unsorted`
+

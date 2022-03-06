@@ -1,3 +1,4 @@
+
 ## Sequence Generation
 
 ### Description
@@ -26,3 +27,4 @@ Generate a sequence of `nanoival`
     seq(from, by=as.nanoperiod("1m"), length.out=5, tz="America/New_York")
 
     ## End(Not run)
+
