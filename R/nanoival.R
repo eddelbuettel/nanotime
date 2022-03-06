@@ -754,9 +754,9 @@ setMethod("intersect.idx",
 setMethod("%in%",
           c("nanotime", "nanoival"),
           function(x, table) {
-              if (is.unsorted(x)) stop("x must be sorted")
-              table <- sort(table)
-              nanoival_intersect_idx_time_interval_logical_impl(x, table)
+              if (is.unsorted(x)) stop("x must be sorted")   ## #nocov
+              table <- sort(table)                           ## #nocov
+              nanoival_intersect_idx_time_interval_logical_impl(x, table)  ## #nocov
           })
 
 ##' @rdname set_operations
