@@ -3,6 +3,15 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/nanotime/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/nanotime/issues/#1}{##1}}
 
+\section{Changes in version 0.3.6 (2022-03-06)}{
+  \itemize{
+    \item Fix incorrect subsetting with operator \code{\%in\%} (Leonardo
+    in \ghpr{100} fixing \ghit{99}
+    \item Fix incorrect parsing for negative nanoperiod (Leonardo in
+    \ghpr{x} fixing \ghit{96}
+  }
+}
+
 \section{Changes in version 0.3.5 (2021-12-14)}{
   \itemize{
     \item Applied patch by Tomas Kalibera for Windows UCRT under the

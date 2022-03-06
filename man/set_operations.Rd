@@ -7,6 +7,7 @@
 \alias{intersect.idx,nanotime,nanoival-method}
 \alias{intersect.idx}
 \alias{\%in\%.nanotime}
+\alias{\%in\%,nanotime,nanoival-method}
 \alias{intersect,nanotime,nanoival-method}
 \alias{setdiff,nanotime,nanoival-method}
 \alias{setdiff.idx,nanotime,nanoival-method}
@@ -25,6 +26,8 @@
 \S4method{intersect.idx}{nanotime,nanoival}(x, y)
 
 \method{\%in\%}{nanotime}(x, table)
+
+\S4method{\%in\%}{nanotime,nanoival}(x, table)
 
 \S4method{intersect}{nanotime,nanoival}(x, y)
 
