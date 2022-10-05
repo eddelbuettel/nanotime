@@ -19,7 +19,10 @@ theme:
     text: Lato
   favicon: assets/Rlogo.png
   logo: assets/Rlogo.svg
-    
+
+extra_css:
+  - stylesheets/extra.css
+  
 extra:
   social:
     - icon: fontawesome/brands/github
