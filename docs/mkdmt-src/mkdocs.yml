@@ -1,41 +1,34 @@
 site_name: nanotime
 site_url: https://github.com/eddelbuettel/nanotime
-
 ## input directory, usually 'docs' which we use for output
 docs_dir: src
 ## output directory, i.e. docs/ on a GH repo
 ## has to be a subdirectory so need to then copy to ../docs
 site_dir: docs
+copyright: Copyright &copy; 2016 - present Dirk Eddelbuettel and Leonardo Silvestri
+repo_url: https://github.com/eddelbuettel/nanotime
+edit_uri: ""
 
 theme:
   name: material
   custom_dir: overrides
-#  palette:
-#    scheme: default
-#    primary: blue grey
-#    accent: grey
   features:
     - navigation.tabs
     - navigation.instant
   font:
-#    text: Source Sans Pro
     text: Lato
-#    text: Oswald
-#    code: Roboto Mono
   favicon: assets/Rlogo.png
   logo: assets/Rlogo.svg
     
-extra_css:
-  - assets/extra.css
-    
 extra:
   social:
-    #- icon: fontawesome/brands/twitter
-    #  link: https://twitter.com/eddelbuettel
     - icon: fontawesome/brands/github
       link: https://github.com/eddelbuettel/nanotime
+      name: nanotime on GitHub
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/eddelbuettel
+      name: eddelbuettel on Twitter
 
-# repo_url: https://github.com/eddelbuettel/nanotime
 nav:
   - Home:
     - index.md
