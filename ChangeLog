@@ -1,5 +1,6 @@
 2022-10-13  Trevor L Davis  <trevor.l.davis@gmail.com>
 
+	* R/nanoduration.R (nanoduration): Add default arguments equal to zero
 	* R/nanotime.R: Use 'inherits()' instead of 'class() =='
 
 2022-03-06  Leonardo Silvestri  <lsilvestri@ztsdb.org>

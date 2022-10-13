@@ -77,7 +77,7 @@ setClass("nanoduration", contains = "integer64")
 ##' @aliases  Summary,nanoduration-method
 ##'
 ##' @rdname nanoduration
-nanoduration <- function(hours, minutes, seconds, nanoseconds) {
+nanoduration <- function(hours = 0L, minutes = 0L, seconds = 0L, nanoseconds = 0L) {
     if (nargs()==0) {
         as.nanoduration(NULL)
     } else {
