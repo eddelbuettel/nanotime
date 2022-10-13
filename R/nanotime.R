@@ -697,7 +697,7 @@ seq.nanotime <-
     }
     if (length(from) != 1L) stop("'from' must be of length 1")
     if (!missing(to) && !is.null(to) && length(to) != 1L) stop("'to' must be of length 1")
-    if (!missing(to) && !is.null(to) && !(class(to) == "nanotime"))
+    if (!missing(to) && !is.null(to) && !(inherits(to, "nanotime")))
 	stop("'to' must be a 'nanotime'")
     if (is.null(length.out)) {
 	if (missing(by) || is.null(by))
