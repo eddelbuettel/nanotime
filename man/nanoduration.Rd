@@ -78,7 +78,7 @@
 An object of class \code{nanoduration} of length 1.
 }
 \usage{
-nanoduration(hours, minutes, seconds, nanoseconds)
+nanoduration(hours = 0L, minutes = 0L, seconds = 0L, nanoseconds = 0L)
 
 \S4method{as.nanoduration}{character}(x)
 
