@@ -1,7 +1,7 @@
 2022-10-15  Trevor L Davis  <trevor.l.davis@gmail.com>
 
-	* R/nanoduration.R: Add '+' / '-' methods for 'diffitme()'
-	and 'nanoduration()' objects
+	* R/nanoduration.R: Add '+' / '-' methods for 'difftime()'
+	and 'nanoduration()' / 'nanotime()' objects
 	* man/nanoduration.Rd: Updated
 	* inst/tinytest/test_nanoduration.R: Add tests
 

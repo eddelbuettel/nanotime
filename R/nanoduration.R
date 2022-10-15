@@ -260,6 +260,11 @@ setMethod("-", c("nanotime", "nanoduration"),
               new("nanotime", S3Part(e1, strictS3=TRUE) - e2)
           })
 ##' @rdname nanoduration
+setMethod("-", c("nanotime", "difftime"),
+          function(e1, e2) {
+              e1 - as.nanoduration(e2)
+          })
+##' @rdname nanoduration
 setMethod("-", c("integer64", "nanoduration"),
           function(e1, e2) {
               new("nanoduration", e1 - S3Part(e2, strictS3=TRUE))
@@ -317,11 +322,25 @@ setMethod("+", c("nanoduration", "difftime"),
           function(e1, e2) {
               e1 + as.nanoduration(e2)
           })
-
 ##' @rdname nanoduration
 setMethod("+", c("nanotime", "nanoduration"),
           function(e1, e2) {
               new("nanotime", S3Part(e1, strictS3=TRUE) + S3Part(e2, strictS3=TRUE))
+          })
+##' @rdname nanoduration
+setMethod("+", c("nanotime", "difftime"),
+          function(e1, e2) {
+              e1 + as.nanoduration(e2)
+          })
+##' @rdname nanoduration
+setMethod("+", c("nanoduration", "nanotime"),
+          function(e1, e2) {
+              new("nanotime", S3Part(e1, strictS3=TRUE) + S3Part(e2, strictS3=TRUE))
+          })
+##' @rdname nanoduration
+setMethod("+", c("difftime", "nanotime"),
+          function(e1, e2) {
+              as.nanoduration(e1) + e2
           })
 
 ##' @rdname nanoduration

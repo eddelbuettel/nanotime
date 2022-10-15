@@ -626,3 +626,7 @@ dt_1sec <- as.difftime(1, units = "secs")
 nd_1sec <- nanoduration(seconds = 1L)
 expect_identical((dt_1sec - (dt_1sec + (nd_1sec - dt_1sec))) + dt_1sec,
 		 nanoduration(seconds = 1L))
+		 
+nt <- as.nanotime("2010-10-10 12:23:23.123456789 UTC")
+expect_identical((nd_1sec + (dt_1sec + (nt - dt_1sec))) + dt_1sec,
+                 as.nanotime("2010-10-10 12:23:25.123456789 UTC"))
