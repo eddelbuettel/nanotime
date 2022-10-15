@@ -621,3 +621,8 @@ expect_identical(as.nanoduration(as.difftime(2.5, units = "secs")),
                  nanoduration(seconds = 2, nanoseconds = 5e8))
 expect_identical(as.nanoduration(as.difftime(2, units = "hours")),
                  nanoduration(hours = 2))
+                 
+dt_1sec <- as.difftime(1, units = "secs")
+nd_1sec <- nanoduration(seconds = 1L)
+expect_identical((dt_1sec - (dt_1sec + (nd_1sec - dt_1sec))) + dt_1sec,
+		 nanoduration(seconds = 1L))

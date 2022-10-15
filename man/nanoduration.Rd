@@ -35,20 +35,24 @@
 \alias{-,nanoduration,integer64-method}
 \alias{-,nanoduration,integer-method}
 \alias{-,nanoduration,numeric-method}
+\alias{-,nanoduration,difftime-method}
 \alias{-,nanoduration,ANY-method}
 \alias{-,nanotime,nanoduration-method}
 \alias{-,integer64,nanoduration-method}
 \alias{-,integer,nanoduration-method}
 \alias{-,numeric,nanoduration-method}
+\alias{-,difftime,nanoduration-method}
 \alias{-,ANY,nanoduration-method}
 \alias{+,nanoduration,ANY-method}
 \alias{+,nanoduration,nanoduration-method}
 \alias{+,nanoduration,integer64-method}
 \alias{+,nanoduration,numeric-method}
+\alias{+,nanoduration,difftime-method}
 \alias{+,nanotime,nanoduration-method}
 \alias{+,nanoival,nanoduration-method}
 \alias{+,integer64,nanoduration-method}
 \alias{+,numeric,nanoduration-method}
+\alias{+,difftime,nanoduration-method}
 \alias{*,nanoduration,numeric-method}
 \alias{*,nanoduration,integer64-method}
 \alias{*,numeric,nanoduration-method}
@@ -115,6 +119,8 @@ nanoduration(hours = 0L, minutes = 0L, seconds = 0L, nanoseconds = 0L)
 
 \S4method{-}{nanoduration,numeric}(e1, e2)
 
+\S4method{-}{nanoduration,difftime}(e1, e2)
+
 \S4method{-}{nanoduration,ANY}(e1, e2)
 
 \S4method{-}{nanotime,nanoduration}(e1, e2)
@@ -124,6 +130,8 @@ nanoduration(hours = 0L, minutes = 0L, seconds = 0L, nanoseconds = 0L)
 \S4method{-}{integer,nanoduration}(e1, e2)
 
 \S4method{-}{numeric,nanoduration}(e1, e2)
+
+\S4method{-}{difftime,nanoduration}(e1, e2)
 
 \S4method{-}{ANY,nanoduration}(e1, e2)
 
@@ -135,6 +143,8 @@ nanoduration(hours = 0L, minutes = 0L, seconds = 0L, nanoseconds = 0L)
 
 \S4method{+}{nanoduration,numeric}(e1, e2)
 
+\S4method{+}{nanoduration,difftime}(e1, e2)
+
 \S4method{+}{nanotime,nanoduration}(e1, e2)
 
 \S4method{+}{nanoival,nanoduration}(e1, e2)
@@ -142,6 +152,8 @@ nanoduration(hours = 0L, minutes = 0L, seconds = 0L, nanoseconds = 0L)
 \S4method{+}{integer64,nanoduration}(e1, e2)
 
 \S4method{+}{numeric,nanoduration}(e1, e2)
+
+\S4method{+}{difftime,nanoduration}(e1, e2)
 
 \S4method{*}{nanoduration,numeric}(e1, e2)
 
