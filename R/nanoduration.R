@@ -143,6 +143,19 @@ setAs("integer", "nanoduration", function(from) as.nanoduration(from))
 
 ##' @rdname nanoduration
 setMethod("as.nanoduration",
+          "difftime",
+          function(x) {
+              x <- as.numeric(x, units = "secs")
+              s <- as.integer(x) # seconds
+              n <- as.integer(1e9 * (x - s)) # nanoseconds
+              nanoduration(seconds = s, nanoseconds = n)
+})
+
+setAs("difftime", "nanoduration", function(from) as.nanoduration(from))
+
+
+##' @rdname nanoduration
+setMethod("as.nanoduration",
           "NULL",
           function(x) {
               new("nanoduration", as.integer64(NULL))

@@ -613,3 +613,11 @@ expect_identical(nano_floor(as.nanotime("2010-10-10 12:23:23.123456789 UTC"), as
 ## rep
 expect_identical(rep(as.nanoduration(1), 2), as.nanoduration(rep(1,2)))
 expect_identical(rep(as.nanoduration(1:2), each=2), as.nanoduration(rep(1:2, each=2)))
+
+## difftime
+expect_identical(as.nanoduration(as.difftime(2, units = "secs")),
+                 nanoduration(seconds = 2))
+expect_identical(as.nanoduration(as.difftime(2.5, units = "secs")),
+                 nanoduration(seconds = 2, nanoseconds = 5e8))
+expect_identical(as.nanoduration(as.difftime(2, units = "hours")),
+                 nanoduration(hours = 2))

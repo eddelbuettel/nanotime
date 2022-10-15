@@ -22,6 +22,7 @@
 \alias{as.nanoduration,integer64-method}
 \alias{as.nanoduration,numeric-method}
 \alias{as.nanoduration,integer-method}
+\alias{as.nanoduration,difftime-method}
 \alias{as.nanoduration,NULL-method}
 \alias{as.nanoduration,missing-method}
 \alias{show,nanoduration-method}
@@ -87,6 +88,8 @@ nanoduration(hours = 0L, minutes = 0L, seconds = 0L, nanoseconds = 0L)
 \S4method{as.nanoduration}{numeric}(x)
 
 \S4method{as.nanoduration}{integer}(x)
+
+\S4method{as.nanoduration}{difftime}(x)
 
 \S4method{as.nanoduration}{`NULL`}(x)
 
