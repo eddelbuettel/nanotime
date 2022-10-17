@@ -54,6 +54,11 @@
 \alias{+,nanoduration,nanotime-method}
 \alias{+,difftime,nanotime-method}
 \alias{+,nanoival,nanoduration-method}
+\alias{-,nanoival,nanoduration-method}
+\alias{+,nanoduration,nanoival-method}
+\alias{+,nanoival,difftime-method}
+\alias{-,nanoival,difftime-method}
+\alias{+,difftime,nanoival-method}
 \alias{+,integer64,nanoduration-method}
 \alias{+,numeric,nanoduration-method}
 \alias{+,difftime,nanoduration-method}
@@ -160,6 +165,16 @@ nanoduration(hours = 0L, minutes = 0L, seconds = 0L, nanoseconds = 0L)
 \S4method{+}{difftime,nanotime}(e1, e2)
 
 \S4method{+}{nanoival,nanoduration}(e1, e2)
+
+\S4method{-}{nanoival,nanoduration}(e1, e2)
+
+\S4method{+}{nanoduration,nanoival}(e1, e2)
+
+\S4method{+}{nanoival,difftime}(e1, e2)
+
+\S4method{-}{nanoival,difftime}(e1, e2)
+
+\S4method{+}{difftime,nanoival}(e1, e2)
 
 \S4method{+}{integer64,nanoduration}(e1, e2)
 

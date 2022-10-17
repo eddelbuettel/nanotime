@@ -348,6 +348,31 @@ setMethod("+", c("nanoival", "nanoduration"),
           function(e1, e2) {
               new("nanoival", nanoival_plus_impl(e1, e2))
           })
+##' @rdname nanoduration
+setMethod("-", c("nanoival", "nanoduration"),
+          function(e1, e2) {
+              new("nanoival", nanoival_plus_impl(e1, -e2))
+          })
+##' @rdname nanoduration
+setMethod("+", c("nanoduration", "nanoival"),
+          function(e1, e2) {
+              new("nanoival", nanoival_plus_impl(e2, e1))
+          })
+##' @rdname nanoduration
+setMethod("+", c("nanoival", "difftime"),
+          function(e1, e2) {
+              new("nanoival", nanoival_plus_impl(e1, as.nanoduration(e2)))
+          })
+##' @rdname nanoduration
+setMethod("-", c("nanoival", "difftime"),
+          function(e1, e2) {
+              new("nanoival", nanoival_plus_impl(e1, -as.nanoduration(e2)))
+          })
+##' @rdname nanoduration
+setMethod("+", c("difftime", "nanoival"),
+          function(e1, e2) {
+              new("nanoival", nanoival_plus_impl(e2, as.nanoduration(e1)))
+          })
 
 ##' @noRd
 setMethod("+", c("ANY", "nanoduration"),

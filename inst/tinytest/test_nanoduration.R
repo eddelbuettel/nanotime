@@ -634,3 +634,13 @@ expect_identical(nt + dt_1sec, as.nanotime("2010-10-10 12:23:24.123456789 UTC"))
 expect_identical(dt_1sec + nt, as.nanotime("2010-10-10 12:23:24.123456789 UTC"))
 expect_identical(nt - dt_1sec, as.nanotime("2010-10-10 12:23:22.123456789 UTC"))
 expect_identical(nd_1sec + nt, as.nanotime("2010-10-10 12:23:24.123456789 UTC"))
+
+savedFormat <- options()$nanotimeFormat
+options(nanotimeFormat="%Y-%m-%d %H:%M:%S")
+ni <- as.nanoival("+2013-01-04 15:00:00 -> 2013-01-04 17:00:00-")
+expect_identical(ni + dt_1sec, as.nanoival("+2013-01-04 15:00:01 -> 2013-01-04 17:00:01-"))
+expect_identical(dt_1sec + ni, as.nanoival("+2013-01-04 15:00:01 -> 2013-01-04 17:00:01-"))
+expect_identical(nd_1sec + ni, as.nanoival("+2013-01-04 15:00:01 -> 2013-01-04 17:00:01-"))
+expect_identical(ni - dt_1sec, as.nanoival("+2013-01-04 14:59:59 -> 2013-01-04 16:59:59-"))
+expect_identical(ni - nd_1sec, as.nanoival("+2013-01-04 14:59:59 -> 2013-01-04 16:59:59-"))
+options(nanotimeFormat=savedFormat)
