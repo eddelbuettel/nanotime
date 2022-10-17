@@ -624,9 +624,13 @@ expect_identical(as.nanoduration(as.difftime(2, units = "hours")),
                  
 dt_1sec <- as.difftime(1, units = "secs")
 nd_1sec <- nanoduration(seconds = 1L)
-expect_identical((dt_1sec - (dt_1sec + (nd_1sec - dt_1sec))) + dt_1sec,
-		 nanoduration(seconds = 1L))
+expect_identical(dt_1sec + nd_1sec, nanoduration(seconds = 2L))
+expect_identical(nd_1sec + dt_1sec, nanoduration(seconds = 2L))
+expect_identical(dt_1sec - nd_1sec, nanoduration(seconds = 0L))
+expect_identical(nd_1sec - dt_1sec, nanoduration(seconds = 0L))
 		 
 nt <- as.nanotime("2010-10-10 12:23:23.123456789 UTC")
-expect_identical((nd_1sec + (dt_1sec + (nt - dt_1sec))) + dt_1sec,
-                 as.nanotime("2010-10-10 12:23:25.123456789 UTC"))
+expect_identical(nt + dt_1sec, as.nanotime("2010-10-10 12:23:24.123456789 UTC"))
+expect_identical(dt_1sec + nt, as.nanotime("2010-10-10 12:23:24.123456789 UTC"))
+expect_identical(nt - dt_1sec, as.nanotime("2010-10-10 12:23:22.123456789 UTC"))
+expect_identical(nd_1sec + nt, as.nanotime("2010-10-10 12:23:24.123456789 UTC"))
