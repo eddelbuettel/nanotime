@@ -88,6 +88,7 @@ nanoduration <- function(hours = 0L, minutes = 0L, seconds = 0L, nanoseconds = 0
     }
 }
 
+setOldClass("difftime")
 
 ##' @noRd
 setGeneric("as.nanoduration", function(x) standardGeneric("as.nanoduration"))
