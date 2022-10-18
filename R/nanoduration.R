@@ -88,6 +88,7 @@ nanoduration <- function(hours = 0L, minutes = 0L, seconds = 0L, nanoseconds = 0
     }
 }
 
+setOldClass("difftime")
 
 ##' @noRd
 setGeneric("as.nanoduration", function(x) standardGeneric("as.nanoduration"))
@@ -237,6 +238,11 @@ setMethod("-", c("nanoduration", "numeric"),
               new("nanoduration", S3Part(e1, strictS3=TRUE) - e2)
           })
 ##' @rdname nanoduration
+setMethod("-", c("nanoduration", "difftime"),
+          function(e1, e2) {
+              e1 - as.nanoduration(e2)
+          })
+##' @rdname nanoduration
 setMethod("-", c("nanoduration", "ANY"),
           function(e1, e2) {
               if (missing(e2)) {
@@ -255,6 +261,11 @@ setMethod("-", c("nanotime", "nanoduration"),
               new("nanotime", S3Part(e1, strictS3=TRUE) - e2)
           })
 ##' @rdname nanoduration
+setMethod("-", c("nanotime", "difftime"),
+          function(e1, e2) {
+              e1 - as.nanoduration(e2)
+          })
+##' @rdname nanoduration
 setMethod("-", c("integer64", "nanoduration"),
           function(e1, e2) {
               new("nanoduration", e1 - S3Part(e2, strictS3=TRUE))
@@ -268,6 +279,11 @@ setMethod("-", c("integer", "nanoduration"),
 setMethod("-", c("numeric", "nanoduration"),
           function(e1, e2) {
               new("nanoduration", e1 - S3Part(e2, strictS3=TRUE))
+          })
+##' @rdname nanoduration
+setMethod("-", c("difftime", "nanoduration"),
+          function(e1, e2) {
+              as.nanoduration(e1) - e2
           })
 ##' @rdname nanoduration
 setMethod("-", c("ANY", "nanoduration"),
@@ -302,17 +318,61 @@ setMethod("+", c("nanoduration", "numeric"),
           function(e1, e2) {
               new("nanoduration", S3Part(e1, strictS3=TRUE) + e2)
           })
-
+##' @rdname nanoduration
+setMethod("+", c("nanoduration", "difftime"),
+          function(e1, e2) {
+              e1 + as.nanoduration(e2)
+          })
 ##' @rdname nanoduration
 setMethod("+", c("nanotime", "nanoduration"),
           function(e1, e2) {
               new("nanotime", S3Part(e1, strictS3=TRUE) + S3Part(e2, strictS3=TRUE))
+          })
+##' @rdname nanoduration
+setMethod("+", c("nanotime", "difftime"),
+          function(e1, e2) {
+              e1 + as.nanoduration(e2)
+          })
+##' @rdname nanoduration
+setMethod("+", c("nanoduration", "nanotime"),
+          function(e1, e2) {
+              new("nanotime", S3Part(e1, strictS3=TRUE) + S3Part(e2, strictS3=TRUE))
+          })
+##' @rdname nanoduration
+setMethod("+", c("difftime", "nanotime"),
+          function(e1, e2) {
+              as.nanoduration(e1) + e2
           })
 
 ##' @rdname nanoduration
 setMethod("+", c("nanoival", "nanoduration"),
           function(e1, e2) {
               new("nanoival", nanoival_plus_impl(e1, e2))
+          })
+##' @rdname nanoduration
+setMethod("-", c("nanoival", "nanoduration"),
+          function(e1, e2) {
+              new("nanoival", nanoival_plus_impl(e1, -e2))
+          })
+##' @rdname nanoduration
+setMethod("+", c("nanoduration", "nanoival"),
+          function(e1, e2) {
+              new("nanoival", nanoival_plus_impl(e2, e1))
+          })
+##' @rdname nanoduration
+setMethod("+", c("nanoival", "difftime"),
+          function(e1, e2) {
+              new("nanoival", nanoival_plus_impl(e1, as.nanoduration(e2)))
+          })
+##' @rdname nanoduration
+setMethod("-", c("nanoival", "difftime"),
+          function(e1, e2) {
+              new("nanoival", nanoival_plus_impl(e1, -as.nanoduration(e2)))
+          })
+##' @rdname nanoduration
+setMethod("+", c("difftime", "nanoival"),
+          function(e1, e2) {
+              new("nanoival", nanoival_plus_impl(e2, as.nanoduration(e1)))
           })
 
 ##' @noRd
@@ -329,6 +389,11 @@ setMethod("+", c("integer64", "nanoduration"),
 setMethod("+", c("numeric", "nanoduration"),
           function(e1, e2) {
               new("nanoduration", e1 + S3Part(e2, strictS3=TRUE))
+          })
+##' @rdname nanoduration
+setMethod("+", c("difftime", "nanoduration"),
+          function(e1, e2) {
+              as.nanoduration(e1) + e2
           })
 
 ## ----------- `*`
