@@ -3,6 +3,20 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/nanotime/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/nanotime/issues/#1}{##1}}
 
+\section{Changes in version 0.3.7 (2022-10-23)}{
+  \itemize{
+    \item Update mkdocs for material docs generator (Dirk in \ghpr{102})
+    \item Use \code{inherits()} instead comparing to \code{class()}
+    (Trevor Davis in \ghpr{104})
+    \item Set default arguments in \code{nanoduration()} (Trevor Davis
+    in \ghpr{105})
+    \item Add \code{as.nanoduration.difftime()} support (Trevor Davis
+    in \ghpr{106})
+    \item Add +/- methods for \code{nanotime} and \code{difftime}
+    objects (Trevor Davis in \ghpr{110} closing \ghit{108}, \ghit{107}) 
+  }
+}
+
 \section{Changes in version 0.3.6 (2022-03-06)}{
   \itemize{
     \item Fix incorrect subsetting with operator \code{\%in\%} (Leonardo
