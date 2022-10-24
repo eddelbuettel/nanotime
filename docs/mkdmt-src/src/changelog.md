@@ -1,5 +1,31 @@
 ###  2022 
 
+2022-10-23  Dirk Eddelbuettel  <edd@debian.org> 
+ 
+        * DESCRIPTION (Version, Date): Release 0.3.7 
+ 
+2022-10-16  Trevor L Davis  <trevor.l.davis@gmail.com> 
+ 
+        * R/nanoduration.R: Add '+' / '-' methods for 'difftime()' 
+        and 'nanoduration()' / 'nanoival()' / 'nanotime()' objects 
+        * man/nanoduration.Rd: Updated 
+        * inst/tinytest/test_nanoduration.R: Add tests 
+ 
+2022-10-14  Trevor L Davis  <trevor.l.davis@gmail.com> 
+ 
+        * R/nanoduration.R (as.nanoduration.difftime): Added 
+        * man/nanoduration.Rd: Updated 
+        * inst/tinytest/test_nanoduration.R: Add tests 
+ 
+2022-10-13  Trevor L Davis  <trevor.l.davis@gmail.com> 
+ 
+        * R/nanoduration.R (nanoduration): Add default arguments equal to zero 
+        * R/nanotime.R: Use 'inherits()' instead of 'class() ==' 
+ 
+2022-10-04  Dirk Eddelbuettel  <edd@debian.org> 
+ 
+        * docs/mkdmt-src/: Updated for mkdocs-for-material 8.5.5 
+ 
 2022-03-06  Leonardo Silvestri  <lsilvestri@ztsdb.org> 
  
         * DESCRIPTION (Version, Date): Release 0.3.6 

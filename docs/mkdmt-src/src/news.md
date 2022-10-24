@@ -1,4 +1,12 @@
 <div class="container">
+<h3 id="version-0.3.7-2022-10-23">Version 0.3.7 (2022-10-23)</h3>
+<ul>
+<li><p>Update mkdocs for material docs generator (Dirk in <a href="https://github.com/eddelbuettel/nanotime/pull/102">#102</a>)</p></li>
+<li><p>Use <code>inherits()</code> instead comparing to <code>class()</code> (Trevor Davis in <a href="https://github.com/eddelbuettel/nanotime/pull/104">#104</a>)</p></li>
+<li><p>Set default arguments in <code>nanoduration()</code> (Trevor Davis in <a href="https://github.com/eddelbuettel/nanotime/pull/105">#105</a>)</p></li>
+<li><p>Add <code>as.nanoduration.difftime()</code> support (Trevor Davis in <a href="https://github.com/eddelbuettel/nanotime/pull/106">#106</a>)</p></li>
+<li><p>Add +/- methods for <code>nanotime</code> and <code>difftime</code> objects (Trevor Davis in <a href="https://github.com/eddelbuettel/nanotime/pull/110">#110</a> closing <a href="https://github.com/eddelbuettel/nanotime/issues/108">#108</a>, <a href="https://github.com/eddelbuettel/nanotime/issues/107">#107</a>)</p></li>
+</ul>
 <h3 id="version-0.3.6-2022-03-06">Version 0.3.6 (2022-03-06)</h3>
 <ul>
 <li><p>Fix incorrect subsetting with operator <code>%in%</code> (Leonardo in <a href="https://github.com/eddelbuettel/nanotime/pull/100">#100</a> fixing <a href="https://github.com/eddelbuettel/nanotime/issues/99">#99</a>).</p></li>

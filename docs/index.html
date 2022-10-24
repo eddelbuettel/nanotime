@@ -369,6 +369,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#documentation" class="md-nav__link">
+    Documentation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#demo" class="md-nav__link">
     Demo
   </a>
@@ -1007,6 +1014,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#documentation" class="md-nav__link">
+    Documentation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#demo" class="md-nav__link">
     Demo
   </a>
@@ -1140,13 +1154,14 @@
 
 
 <h1 id="nanosecond-resolution-time-objects-for-r">Nanosecond-Resolution Time Objects for R</h1>
-<p><a href="https://travis-ci.org/eddelbuettel/nanotime"><img alt="Build Status" src="https://travis-ci.org/eddelbuettel/nanotime.svg" /></a> 
-<a href="https://www.gnu.org/licenses/gpl-2.0.html"><img alt="License" src="https://eddelbuettel.github.io/badges/GPL2+.svg" /></a> 
-<a href="https://cran.r-project.org/package=nanotime"><img alt="CRAN" src="https://www.r-pkg.org/badges/version/nanotime" /></a> 
-<a href="https://cran.r-project.org/package=nanotime"><img alt="Dependencies" src="https://tinyverse.netlify.com/badge/nanotime" /></a> 
-<a href="https://www.r-pkg.org/pkg/nanotime"><img alt="Downloads" src="https://cranlogs.r-pkg.org/badges/nanotime?color=brightgreen" /></a> 
-<a href="https://codecov.io/gh/eddelbuettel/nanotime"><img alt="Code Coverage" src="https://codecov.io/gh/eddelbuettel/nanotime/graph/badge.svg" /></a>
-<a href="https://github.com/eddelbuettel/nanotime"><img alt="Last Commit" src="https://img.shields.io/github/last-commit/eddelbuettel/nanotime" /></a></p>
+<p><a href="https://github.com/eddelbuettel/nanotime/actions?query=workflow%3Aci"><img alt="CI" src="https://github.com/eddelbuettel/nanotime/workflows/ci/badge.svg" /></a>
+<a href="https://www.gnu.org/licenses/gpl-2.0.html"><img alt="License" src="https://eddelbuettel.github.io/badges/GPL2+.svg" /></a>
+<a href="https://cran.r-project.org/package=nanotime"><img alt="CRAN" src="https://www.r-pkg.org/badges/version/nanotime" /></a>
+<a href="https://cran.r-project.org/package=nanotime"><img alt="Dependencies" src="https://tinyverse.netlify.com/badge/nanotime" /></a>
+<a href="https://www.r-pkg.org/pkg/nanotime"><img alt="Downloads" src="https://cranlogs.r-pkg.org/badges/nanotime?color=brightgreen" /></a>
+<a href="https://app.codecov.io/gh/eddelbuettel/nanotime"><img alt="Code Coverage" src="https://codecov.io/gh/eddelbuettel/nanotime/graph/badge.svg" /></a>
+<a href="https://github.com/eddelbuettel/nanotime"><img alt="Last Commit" src="https://img.shields.io/github/last-commit/eddelbuettel/nanotime" /></a>
+<a href="https://eddelbuettel.github.io/nanotime/"><img alt="Documentation" src="https://img.shields.io/badge/documentation-is_here-blue" /></a></p>
 <h3 id="motivation">Motivation</h3>
 <p>R has excellent tools for dates and times. The <code>Date</code> and <code>POSIXct</code> classes (as well as the 'wide'
 representation in <code>POSIXlt</code>) are versatile, and a lot of useful tooling has been built around them.</p>
@@ -1160,8 +1175,8 @@ since the epoch.</p>
 <p>And while R does not have a <em>native</em> type for this, the <a href="https://cran.r-project.org/package=bit64">bit64</a>
 package by <a href="https://github.com/joehl">Jens Oehlschlägel</a> offers a performant one implemented as a
 lightweight S3 class. So this package uses the <code>integer64</code> class, along with multiple helper functions
-for parsing and formatting at nano-second resolution from the <a href="https://dirk.eddelbuettel.com/code/rcpp.cctz.html">RcppCCTZ</a> 
-package which wraps the <a href="https://github.com/google/cctz">CCTZ library</a> from Google. CCTZ is a modern C++11 library 
+for parsing and formatting at nano-second resolution from the <a href="https://dirk.eddelbuettel.com/code/rcpp.cctz.html">RcppCCTZ</a>
+package which wraps the <a href="https://github.com/google/cctz">CCTZ library</a> from Google. CCTZ is a modern C++11 library
 extending the (C++11-native) <code>chrono</code> type.</p>
 <p>In addition to the point-in-time type <code>nanotime</code>, this package also provides an interval type
 <code>nanoival</code> which may have open or closed start/end, a period type <code>nanoperiod</code> that is a human
@@ -1172,11 +1187,14 @@ correctly handle instances across different time zones. Because these temporal t
 built-in types, most functions have an efficient implementation and the types are suitable for use
 in <code>data.frame</code> and <code>data.table</code>. <code>nanotime</code> is also a better choice than the native <code>POSIXct</code> in
 most of the cases where fractional seconds are needed because it avoids floating point issues.</p>
+<h3 id="documentation">Documentation</h3>
+<p>Package documentation, help pages, a vignette, and more is available
+<a href="https://eddelbuettel.github.io/nanotime/">here</a>.</p>
 <h3 id="demo">Demo</h3>
-<p>See the included demo script <a href="https://github.com/eddelbuettel/nanotime/blob/master/demo/nanosecondDelayExample.R">nanosecondDelayExample.R</a> 
-for a (completely simulated and hence made-up) study of network latency measured 
+<p>See the included demo script <a href="https://github.com/eddelbuettel/nanotime/blob/master/demo/nanosecondDelayExample.R">nanosecondDelayExample.R</a>
+for a (completely simulated and hence made-up) study of network latency measured
 in nanoseconds resulting in the figure below</p>
-<p><img alt="" src="https://eddelbuettel.github.io/nanotime/local/images/nanotimeDelayDemo.png" title="network delay demo image" /></p>
+<p><img alt="" src="https://eddelbuettel.github.io/nanotime/assets/nanotimeDelayDemo.png" /></p>
 <h3 id="examples">Examples</h3>
 <h4 id="simple-parsing-and-arithmetic">Simple Parsing and Arithmetic</h4>
 <pre><code class="language-r">R&gt; x &lt;- as.nanotime(&quot;1970-01-01T00:00:00.000000001+00:00&quot;)
@@ -1287,8 +1305,10 @@ Google, when the parsing cannot be done using a fast built-in parser. <code>inte
 the type <code>nanoduration</code>, whereas <code>nanoival</code> and <code>nanoperiod</code> are stored in a <code>complex</code>, i.e. over
 128 bits.</p>
 <h3 id="status">Status</h3>
-<p>The package is in the very early stages. Expect changes, maybe even
-breaking ones. But the package has some tests, and code coverage.</p>
+<p>The package is by now fairly mature, has been rewritten once (to go from S3
+to S4) and has recently received a sizeable feature extension. There may
+still be changes, though there should generally never be breaking ones. The
+package also has an extensive test suite, and very good code coverage.</p>
 <p>See the <a href="https://github.com/eddelbuettel/nanotime/issues">issue tickets</a> for an up to date list of
 potentially desirable, possibly planned, or at least discussed items.</p>
 <h3 id="installation">Installation</h3>
@@ -1298,7 +1318,7 @@ potentially desirable, possibly planned, or at least discussed items.</p>
 <p>whereas in order to install development versions a</p>
 <pre><code class="language-r">remotes::install_github(&quot;eddelbuettel/nanotime&quot;)  # dev version
 </code></pre>
-<p>should suffice. </p>
+<p>should suffice.</p>
 <h3 id="authors">Authors</h3>
 <p>Dirk Eddelbuettel and Leonardo Silvestri</p>
 <h3 id="license">License</h3>
