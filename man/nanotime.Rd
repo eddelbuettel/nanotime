@@ -311,6 +311,7 @@ print(x)
 as.nanotime("1970-01-01T00:00:00.000000001+00:00")
 as.nanotime("2020-03-10 Europe/Berlin")
 as.nanotime("2020-03-10 18:31:23.001", tz="America/New_York")
+as.nanotime("2020-03-10T040947190301440", format="\%Y-\%m-\%dT\%H\%M\%S\%E*f")
 x <- x + 1
 print(x)
 format(x)
@@ -323,7 +324,8 @@ seq(x, by=as.nanoperiod("1d"), length.out=5, tz="Asia/Tokyo")
 }
 \seealso{
 \code{\link{nanoival}}, \code{\link{nanoduration}},
-    \code{\link{nanoperiod}}, \code{\link{seq.nanotime}}
+\code{\link{nanoperiod}}, \code{\link{seq.nanotime}} as well as
+the documentation in package \pkg{RcppCCTZ}.
 }
 \author{
 Dirk Eddelbuettel
