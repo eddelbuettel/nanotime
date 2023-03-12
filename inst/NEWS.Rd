@@ -3,6 +3,12 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/nanotime/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/nanotime/issues/#1}{##1}}
 
+\section{Changes in version 0.3.8 (2023-xx-yy)}{
+  \itemize{
+    \item Time format documentation now has a reference to \pkg{RcppCCTZ}
+  }
+}
+
 \section{Changes in version 0.3.7 (2022-10-23)}{
   \itemize{
     \item Update mkdocs for material docs generator (Dirk in \ghpr{102})
