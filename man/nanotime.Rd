@@ -81,9 +81,9 @@ as.nanotime(from, ...)
 
 nanotime.matrix(x)
 
-\S4method{nanotime}{POSIXct}(from)
+\S4method{nanotime}{POSIXct}(from, accurate = TRUE)
 
-\S4method{as.nanotime}{POSIXct}(from)
+\S4method{as.nanotime}{POSIXct}(from, accurate = TRUE)
 
 \S4method{nanotime}{POSIXlt}(from)
 
@@ -210,6 +210,13 @@ also be set via \code{options("nanotimeTz")} and uses
 \sQuote{UTC} as a default and fallback}
 
 \item{x, from}{\code{nanotime} objects}
+
+\item{accurate}{in the conversion from \code{POSIXct} to
+\code{nanotime}, indicates if one wants to preserve the
+maximum precision possible; the default is \code{TRUE}, but in
+most situations the loss of precision is negligible, and
+setting this parameter to \code{TRUE} will make the conversion
+nearly an order of magnitude faster}
 
 \item{quote}{indicates if the output of \code{print} should be
 quoted}
