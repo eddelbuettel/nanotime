@@ -3,7 +3,7 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/nanotime/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/nanotime/issues/#1}{##1}}
 
-\section{Changes in version 0.3.8 (2023-07-06)}{
+\section{Changes in version 0.3.8 (2023-07-xx)}{
   \itemize{
     \item Time format documentation now has a reference to \pkg{RcppCCTZ}
     \item New \code{accurate} parameter for conversion from
