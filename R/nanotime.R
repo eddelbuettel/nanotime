@@ -86,6 +86,12 @@ setClass("nanotime", contains = "integer64")
 ##' @param value argument for \code{nanotime-class}
 ##' @param quote indicates if the output of \code{print} should be
 ##'     quoted
+##' @param accurate in the conversion from \code{POSIXct} to
+##'     \code{nanotime}, indicates if one wants to preserve the
+##'     maximum precision possible; the default is \code{TRUE}, but in
+##'     most situations the loss of precision is negligible, and
+##'     setting this parameter to \code{FALSE} will make the
+##'     conversion nearly an order of magnitude faster
 ##' @return A nanotime object
 ##' @author Dirk Eddelbuettel
 ##' @author Leonardo Silvestri
@@ -194,10 +200,15 @@ nanotime.matrix <- function(x) {
 }
 
 
-.nanotime_posixct <- function(from) {
-    ## force last three digits to be zero
+.nanotime_posixct <- function(from, accurate=TRUE) {
     n <- names(from)
-    res <- new("nanotime", as.integer64(as.numeric(from) * 1e6) * 1000)
+    from <- as.numeric(from)
+    if (accurate) {
+        frac <- from - trunc(from)
+        res  <- new("nanotime", bit64::as.integer64(from)*1e9 + round(frac*1e9))
+    } else {
+        res <- new("nanotime", bit64::as.integer64(as.numeric(from) * 1e9))
+    }
     if (!is.null(n)) {
         names(S3Part(res, strictS3=TRUE)) <- n
     }
@@ -210,7 +221,7 @@ setMethod("nanotime", signature(from="POSIXct"), .nanotime_posixct)
 ##' @rdname nanotime
 setMethod("as.nanotime", signature(from="POSIXct"), .nanotime_posixct)
 
-setAs("POSIXct", "nanotime", .nanotime_posixct)
+setAs("POSIXct", "nanotime", function(from) .nanotime_posixct(from))
 
 
 ##' @rdname nanotime

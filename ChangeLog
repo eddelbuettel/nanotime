@@ -1,3 +1,11 @@
+2023-07-06  Leonardo Silvestri  <lsilvestri@ztsdb.org>
+
+	* DESCRIPTION (Version, Date): Roll minor version
+        * R/nanotime.R: added parameter 'accurate' to functions 'nanotime'
+	and 'as.nanotime' when the argument is a 'POSIXct'.
+	* inst/tinytest/test_nanotime.R: added tests for 'accurate' parameter.
+	* man/nanotime.Rd: added documentation for 'accurate' parameter.
+
 2023-03-12  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): Roll minor version

@@ -3,9 +3,14 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/nanotime/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/nanotime/issues/#1}{##1}}
 
-\section{Changes in version 0.3.8 (2023-xx-yy)}{
+\section{Changes in version 0.3.8 (2023-07-xx)}{
   \itemize{
     \item Time format documentation now has a reference to \pkg{RcppCCTZ}
+    \item The package no longer sets a default C++ compilation standard (Dirk
+    in \ghpr{114})
+    \item New \code{accurate} parameter for conversion from \code{POSIXct} to
+    \code{nanotime} (Davor Josipovic and Leonardo in \ghpr{116} closing
+    \ghit{115})
   }
 }
 
