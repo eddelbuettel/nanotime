@@ -3,6 +3,7 @@
 [![CI](https://github.com/eddelbuettel/nanotime/workflows/ci/badge.svg)](https://github.com/eddelbuettel/nanotime/actions?query=workflow%3Aci)
 [![License](https://eddelbuettel.github.io/badges/GPL2+.svg)](https://www.gnu.org/licenses/gpl-2.0.html)
 [![CRAN](https://www.r-pkg.org/badges/version/nanotime)](https://cran.r-project.org/package=nanotime)
+[![r-universe](https://eddelbuettel.r-universe.dev/badges/nanotime)](https://eddelbuettel.r-universe.dev/nanotime)
 [![Dependencies](https://tinyverse.netlify.com/badge/nanotime)](https://cran.r-project.org/package=nanotime)
 [![Downloads](https://cranlogs.r-pkg.org/badges/nanotime?color=brightgreen)](https://www.r-pkg.org/pkg/nanotime)
 [![Code Coverage](https://codecov.io/gh/eddelbuettel/nanotime/graph/badge.svg)](https://app.codecov.io/gh/eddelbuettel/nanotime)
