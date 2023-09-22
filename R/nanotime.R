@@ -338,7 +338,13 @@ setAs("nanotime", "POSIXlt", function(from) as.POSIXlt.nanotime(from))
 
 ##' @rdname nanotime
 as.Date.nanotime <- function(x, ...) {
-    as.Date(as.POSIXct(x))
+    args <- list(...)
+    if (!("tz" %in% names(args))) {
+        stop("'as.Date' call is missing mandatory timezone argument 'tz'")        
+    }
+    as.Date(ISOdate(year = nano_year(x, args$tz),
+                    month = nano_month(x, args$tz),
+                    day = nano_mday(x, args$tz)))
 }
 
 setAs("nanotime", "Date", function(from) as.Date(as.POSIXct(from)))

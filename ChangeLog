@@ -1,3 +1,9 @@
+2023-09-21  Leonardo Silvestri  <lsilvestri@ztsdb.org>
+
+	* DESCRIPTION (Version, Date): Roll minor version
+	* R/nanotime.R: fixed 'as.Date' to force use of timezone and to
+	allow the timezone argument to be a vector
+
 2023-07-11  Dirk Eddelbuettel  <edd@debian.org>
 
 	* README.md: Add r-universe badge

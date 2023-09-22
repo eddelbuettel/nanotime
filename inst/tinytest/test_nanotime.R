@@ -344,8 +344,15 @@ expect_equal(p, as.POSIXct("1970-01-01 00:00:00", tz="UTC"), check.tzone=FALSE)
 options(nanotimeTz=oldTz)
 
 ##test_as_Date <- function() {
-expect_identical(as.Date(nanotime(0)), as.Date("1970-01-01"))
-
+## test scalar
+nanotime_scalar <- nanotime("2023-09-21T22:00:00 America/New_York")
+expect_identical(as.Date(nanotime_scalar, tz="UTC"), as.Date("2023-09-22"))
+## test vector
+nanotime_vec <- rep(nanotime("2023-09-21T22:00:00 America/New_York"), 2)
+tz_vec <- c("UTC", "America/New_York")
+expect_identical(as.Date(nanotime_vec, tz=tz_vec), as.Date(c("2023-09-22", "2023-09-21")))
+## test missing argument 'tz':
+expect_error(as.Date(nanotime_vec), "'as.Date' call is missing mandatory timezone argument 'tz'")
 
 ## c, subset, subassign and binds
 ##test_c <- function() {
