@@ -339,6 +339,9 @@ setAs("nanotime", "POSIXlt", function(from) as.POSIXlt.nanotime(from))
 ##' @rdname nanotime
 as.Date.nanotime <- function(x, ...) {
     args <- list(...)
+    if (length(args) == 0) {
+        args <- list(tz="UTC")
+    }
     if (!("tz" %in% names(args))) {
         stop("'as.Date' call is missing mandatory timezone argument 'tz'")        
     }

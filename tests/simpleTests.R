@@ -34,6 +34,7 @@ as.POSIXct(x)
 as.POSIXct(x+1000)
 as.POSIXlt(x)
 as.POSIXlt(x+1000)
+as.Date(x)
 as.Date(x, tz="UTC")
 options("digits.secs"=od)
 

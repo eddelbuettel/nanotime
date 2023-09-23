@@ -1,3 +1,9 @@
+2023-09-22  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/nanotime.R: Provide default UTC timezone in 'as.Date()'
+	* tests/simpleTests.R: Adjist a test accordingly
+	* inst/tinytest/test_nanotime.R: Idem
+
 2023-09-21  Leonardo Silvestri  <lsilvestri@ztsdb.org>
 
 	* DESCRIPTION (Version, Date): Roll minor version
