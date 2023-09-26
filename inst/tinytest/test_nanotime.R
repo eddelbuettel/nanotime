@@ -353,6 +353,11 @@ tz_vec <- c("UTC", "America/New_York")
 expect_identical(as.Date(nanotime_vec, tz=tz_vec), as.Date(c("2023-09-22", "2023-09-21")))
 ## test missing argument 'tz': now UTC filled in
 expect_silent(as.Date(nanotime_vec))
+expect_identical(as.Date(nanotime_vec), as.Date(nanotime_vec, tz="UTC"))
+## test exception for extraneous argument:
+expect_error(as.Date(nanotime_vec, y=2, z=3), "'as.Date' called with arguments other than 'tz':  'y', 'z'")
+expect_silent(as.Date(x=nanotime_vec))  # check we can still name 'x' without an exception
+
 
 ## c, subset, subassign and binds
 ##test_c <- function() {
