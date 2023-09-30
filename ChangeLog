@@ -1,3 +1,8 @@
+2023-09-26  Leonardo Silvestri  <lsilvestri@ztsdb.org>
+
+	* R/nanotime.R: Further refinement for default UTC timezone
+	* inst/tinytest/test_nanotime.R: Idem
+
 2023-09-22  Dirk Eddelbuettel  <edd@debian.org>
 
 	* R/nanotime.R: Provide default UTC timezone in 'as.Date()'
@@ -7,7 +12,7 @@
 2023-09-21  Leonardo Silvestri  <lsilvestri@ztsdb.org>
 
 	* DESCRIPTION (Version, Date): Roll minor version
-	* R/nanotime.R: fixed 'as.Date' to force use of timezone and to
+	* R/nanotime.R: Fixed 'as.Date' to force use of timezone and to
 	allow the timezone argument to be a vector
 
 2023-07-11  Dirk Eddelbuettel  <edd@debian.org>
