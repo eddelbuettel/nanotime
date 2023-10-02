@@ -11,6 +11,8 @@
     \item New \code{accurate} parameter for conversion from \code{POSIXct} to
     \code{nanotime} (Davor Josipovic and Leonardo in \ghpr{116} closing
     \ghit{115})
+    \item The \code{as.Date()} function is now vectorized and can take a TZ
+    argument (Leonardo and Dirk in \ghpr{119} closing \ghit{118})
   }
 }
 
