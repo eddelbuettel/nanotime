@@ -1,3 +1,8 @@
+2024-02-16  Dirk Eddelbuettel  <edd@debian.org>
+
+	* .github/workflows/ci.yaml (jobs): Update to actions/checkout@v4,
+	add r-ci-setup actions
+
 2023-09-26  Leonardo Silvestri  <lsilvestri@ztsdb.org>
 
 	* R/nanotime.R: Further refinement for default UTC timezone
