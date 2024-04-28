@@ -1,3 +1,10 @@
+2024-04-28  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): Roll minor version and date
+
+	* R/nanoperiod.R: Add missing backslash in code call
+	* man/nanoperiod.Rd: Idem
+
 2024-02-16  Dirk Eddelbuettel  <edd@debian.org>
 
 	* .github/workflows/ci.yaml (jobs): Update to actions/checkout@v4,
