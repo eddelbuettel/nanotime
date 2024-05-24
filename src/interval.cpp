@@ -644,8 +644,9 @@ Rcpp::NumericVector nanoival_get_start_impl(const Rcpp::ComplexVector cv) {
       res[i] = d;
     }
   }
+  assignS4("nanotime", res, "integer64");
   res.names() = cv.names();
-  return assignS4("nanotime", res, "integer64");
+  return res;
 }
 
 
@@ -668,9 +669,11 @@ Rcpp::NumericVector nanoival_get_end_impl(const Rcpp::ComplexVector cv) {
       res[i] = d;
     }
   }
+  assignS4("nanotime", res, "integer64");
   res.names() = cv.names();
-  return assignS4("nanotime", res, "integer64");
+  return res;
 }
+
 
 // [[Rcpp::export]]
 Rcpp::LogicalVector nanoival_get_sopen_impl(const Rcpp::ComplexVector cv) {

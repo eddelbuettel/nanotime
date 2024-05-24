@@ -49,7 +49,7 @@ namespace nanotime {
     Rcpp::CharacterVector cl = Rcpp::CharacterVector::create(classname);
     cl.attr("package") = "nanotime";
     res.attr("class") = cl;
-    SET_S4_OBJECT(res);
+    res = Rf_asS4(res, TRUE, FALSE);
     return Rcpp::S4(res);
   }
 
@@ -64,7 +64,7 @@ namespace nanotime {
     // use 'install' here as in R source code attrib.c: LLL
     Rcpp::CharacterVector oc = Rcpp::CharacterVector::create(oldClass);
     res.attr(".S3Class") = oc;
-    SET_S4_OBJECT(res);
+    res = Rf_asS4(res, TRUE, FALSE);
     return Rcpp::S4(res);
   }
 
