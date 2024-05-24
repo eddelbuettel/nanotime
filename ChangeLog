@@ -1,3 +1,9 @@
+2024-05-24  Leonardo Silvestri  <lsilvestr@ztsdb.org>
+
+	* inst/include/nanotime/utilities.hpp: Use interface function Rf_asS4
+	instead of internal SET_S4_OBJECT
+	* src/interval.cpp: Change setting of S4 bit before names assigment
+
 2024-04-28  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): Roll minor version and date
