@@ -301,7 +301,10 @@ expect_error(1.5 / as.nanoduration("00:01:00"), "invalid operand types")
 expect_error(as.nanoduration("1:00:00") / "a", "invalid operand types")
 
 ##test_nanoduration_div_nanoduration <- function() {
-expect_identical(as.nanoduration(6) / as.nanoduration(2), as.integer64(3))
+expect_identical(as.nanoduration(6) / as.nanoduration(2), 3.0)
+
+##test_nanoduration_div_nanoduration <- function() {
+expect_identical(as.nanoduration(7) / as.nanoduration(2), 3.5)
 
 
 ## unary
