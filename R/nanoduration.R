@@ -439,7 +439,7 @@ setMethod("*", c("ANY", "nanoduration"),
 ##' @rdname nanoduration
 setMethod("/", c("nanoduration", "nanoduration"),
           function(e1, e2) {
-              as.integer64(S3Part(e1, strictS3=TRUE) / S3Part(e2, strictS3=TRUE))
+              S3Part(e1, strictS3=TRUE) / S3Part(e2, strictS3=TRUE)
           })
 ##' @rdname nanoduration
 setMethod("/", c("nanoduration", "integer64"),

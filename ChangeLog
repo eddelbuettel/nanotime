@@ -1,4 +1,8 @@
 2024-05-24  Leonardo Silvestri  <lsilvestr@ztsdb.org>
+	* R/nanoduration.R: duration divided by duration returns double
+	* inst/tinytest/test_nanoduration.R: additional test for the above
+
+2024-05-24  Leonardo Silvestri  <lsilvestr@ztsdb.org>
 
 	* inst/include/nanotime/utilities.hpp: Use interface function Rf_asS4
 	instead of internal SET_S4_OBJECT
