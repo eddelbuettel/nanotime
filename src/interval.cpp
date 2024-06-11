@@ -58,7 +58,7 @@ std::ostream &operator<<(std::ostream &stream,
 
 #if 0
 static void print(const interval& i) {
-  Rcpp::Rcout << (i.sopen ? "-" : "+") << i.s << "->" << i.e << (i.eopen ? "-" : "+") << std::endl;
+  Rcpp::Rcout << (i.sopen() ? "-" : "+") << i.s() << "->" << i.e() << (i.eopen() ? "-" : "+") << std::endl;
 }
 #endif
 
@@ -229,7 +229,7 @@ Rcpp::ComplexVector nanoival_union_impl(const Rcpp::ComplexVector nv1,
   if (nv1.size() > 0 && nv2.size() > 0) {
     auto v1_lt_v2 = start_lt(v1[i1], v2[i2]);
     auto start = v1_lt_v2 ? v1[i1].getStart() : v2[i2].getStart();
-    auto sopen = v1_lt_v2 ? v1[i1].sopen : v2[i2].sopen;
+    auto sopen = v1_lt_v2 ? v1[i1].sopen() : v2[i2].sopen();
   
     for (;;) {
       if (union_end_ge_start(v1[i1], v2[i2]) && union_end_le(v1[i1], v2[i2])) {
@@ -237,7 +237,7 @@ Rcpp::ComplexVector nanoival_union_impl(const Rcpp::ComplexVector nv1,
         // v2      |------------|         |------------|
         if (i1 >= nv1.size() - 1) {
           // if equal ends, have to do the union of the eopens:
-          auto eopen = union_end_le(v2[i2], v1[i1]) ? v1[i1].eopen && v2[i2].eopen : v2[i2].eopen;
+          auto eopen = union_end_le(v2[i2], v1[i1]) ? v1[i1].eopen() && v2[i2].eopen() : v2[i2].eopen();
           // v2 interval done, as there's no more v1 elts to overlap
           res.push_back(interval(start, v2[i2].getEnd(), sopen, eopen));
           ++i1; ++i2;
@@ -249,7 +249,7 @@ Rcpp::ComplexVector nanoival_union_impl(const Rcpp::ComplexVector nv1,
         // v2 |------------|                |--------|
         if (i2 >= nv2.size() - 1) {
           // if equal ends, have to do the union of the eopens:
-          auto eopen = union_end_le(v1[i1], v2[i2]) ? v1[i1].eopen && v2[i2].eopen : v1[i1].eopen;
+          auto eopen = union_end_le(v1[i1], v2[i2]) ? v1[i1].eopen() && v2[i2].eopen() : v1[i1].eopen();
           // v1 interval done, as there's no more v2 elts to overlap
           res.push_back(interval(start, v1[i1].getEnd(), sopen, eopen));
           ++i1; ++i2;
@@ -257,24 +257,24 @@ Rcpp::ComplexVector nanoival_union_impl(const Rcpp::ComplexVector nv1,
         }
         ++i2;
       } else {
-        if (v1[i1].getEnd() == v2[i2].getEnd() && v1[i1].eopen && v2[i2].eopen) {
+        if (v1[i1].getEnd() == v2[i2].getEnd() && v1[i1].eopen() && v2[i2].eopen()) {
           // special case where the intervals are ends are equal and open:
-          res.push_back(interval(start, v1[i1].getEnd(), sopen, v1[i1].eopen));
+          res.push_back(interval(start, v1[i1].getEnd(), sopen, v1[i1].eopen()));
           ++i1; ++i2;
         } else if (union_end_lt(v1[i1], v2[i2])) {
           // no interval overlap
-          res.push_back(interval(start, v1[i1].getEnd(), sopen, v1[i1].eopen));
+          res.push_back(interval(start, v1[i1].getEnd(), sopen, v1[i1].eopen()));
           ++i1;
           } else {
           // no interval overlap
-          res.push_back(interval(start, v2[i2].getEnd(), sopen, v2[i2].eopen));
+          res.push_back(interval(start, v2[i2].getEnd(), sopen, v2[i2].eopen()));
           ++i2;
         }
         // set the start of the next interval:
         if (i1 < nv1.size() && i2 < nv2.size()) {
           auto v1_lt_v2 = start_lt(v1[i1], v2[i2]);
           start = v1_lt_v2 ? v1[i1].getStart() : v2[i2].getStart();
-          sopen = v1_lt_v2 ? v1[i1].sopen : v2[i2].sopen;
+          sopen = v1_lt_v2 ? v1[i1].sopen() : v2[i2].sopen();
         } else {
           break;
         }
@@ -305,22 +305,22 @@ Rcpp::ComplexVector nanoival_intersect_impl(const Rcpp::ComplexVector nv1,
 
   R_xlen_t i1 = 0, i2 = 0;
   while (i1 < nv1.size() && i2 < nv2.size()) {
-    if (v1[i1].getEnd() < v2[i2].getStart() || (v1[i1].getEnd() == v2[i2].getStart() && (v1[i1].eopen || v2[i2].sopen))) {
+    if (v1[i1].getEnd() < v2[i2].getStart() || (v1[i1].getEnd() == v2[i2].getStart() && (v1[i1].eopen() || v2[i2].sopen()))) {
       ++i1;
       continue;
-    } else if (v2[i2].getEnd() < v1[i1].getStart() || (v2[i2].getEnd() == v1[i1].getStart() && (v1[i1].sopen || v2[i2].eopen))) {
+    } else if (v2[i2].getEnd() < v1[i1].getStart() || (v2[i2].getEnd() == v1[i1].getStart() && (v1[i1].sopen() || v2[i2].eopen()))) {
       ++i2;
       continue;
     } else {
       auto v1_gt_v2 = start_gt(v1[i1], v2[i2]);
       auto start = v1_gt_v2 ? v1[i1].getStart() : v2[i2].getStart();
-      auto sopen = v1_gt_v2 ? v1[i1].sopen : v2[i2].sopen;
+      auto sopen = v1_gt_v2 ? v1[i1].sopen() : v2[i2].sopen();
         
       if (end_lt(v1[i1], v2[i2])) {
-        res.push_back(interval(start, v1[i1].getEnd(), sopen, v1[i1].eopen));
+        res.push_back(interval(start, v1[i1].getEnd(), sopen, v1[i1].eopen()));
         ++i1;
       } else {
-        res.push_back(interval(start, v2[i2].getEnd(), sopen, v2[i2].eopen));
+        res.push_back(interval(start, v2[i2].getEnd(), sopen, v2[i2].eopen()));
         ++i2;
       }
     }
@@ -342,55 +342,55 @@ Rcpp::ComplexVector nanoival_setdiff_impl(const Rcpp::ComplexVector nv1,
 
   R_xlen_t i1 = 0, i2 = 0;
   auto start = v1[i1].getStart();
-  auto sopen = v1[i1].sopen;
+  auto sopen = v1[i1].sopen();
   while (i1 < nv1.size() && i2 < nv2.size()) {
     if (end_lt_start(v1[i1], v2[i2])) {
       // |-------------|
       //                 |------------|
-      res.push_back(interval(start, v1[i1].getEnd(), sopen, v1[i1].eopen));
+      res.push_back(interval(start, v1[i1].getEnd(), sopen, v1[i1].eopen()));
       if (++i1 >= nv1.size()) break;
       start = v1[i1].getStart();
-      sopen = v1[i1].sopen;
-    } else if (start_lt(v2[i2].getEnd(), v2[i2].eopen, start, sopen)) {
+      sopen = v1[i1].sopen();
+    } else if (start_lt(v2[i2].getEnd(), v2[i2].eopen(), start, sopen)) {
       //                 |------------|
       // |-------------|
       ++i2;
-    } else if (start_lt(start, sopen, v2[i2].getStart(), v2[i2].sopen)) {
+    } else if (start_lt(start, sopen, v2[i2].getStart(), v2[i2].sopen())) {
       // |-------------|         or   |-------------|
       //        |------------|           |-------|
-      res.push_back(interval(start, v2[i2].getStart(), sopen, !v2[i2].sopen));
+      res.push_back(interval(start, v2[i2].getStart(), sopen, !v2[i2].sopen()));
       if (end_gt(v1[i1], v2[i2])) {
         // |-------------|
         //    |-------|
         start = v2[i2].getEnd();
-        sopen = !v2[i2].eopen;
+        sopen = !v2[i2].eopen();
         ++i2;
       } else {
         // |-------------|
         //        |------------|
         if (++i1 >= nv1.size()) break;
         start = v1[i1].getStart();
-        sopen = v1[i1].sopen;
+        sopen = v1[i1].sopen();
       }
-    } else if (start_ge(start, sopen, v2[i2].getStart(), v2[i2].sopen) &&
+    } else if (start_ge(start, sopen, v2[i2].getStart(), v2[i2].sopen()) &&
                end_ge(v2[i2], v1[i1])) {
       //    |-------|
       // |-------------|
       if (++i1 >= nv1.size()) break;
       start = v1[i1].getStart();
-      sopen = v1[i1].sopen;
+      sopen = v1[i1].sopen();
     } else {
       //         |------------|
       //     |----------|
       start = v2[i2].getEnd();
-      sopen = !v2[i2].eopen;
+      sopen = !v2[i2].eopen();
       ++i2;
     }
 
   }
   // remaining non-overlapping intervals in v1:
   if (i1 < nv1.size()) {
-    res.push_back(interval(start, v1[i1].getEnd(), sopen, v1[i1].eopen));
+    res.push_back(interval(start, v1[i1].getEnd(), sopen, v1[i1].eopen()));
     ++i1;
     while (i1 < nv1.size()) {
       res.push_back(v1[i1++]);
@@ -592,7 +592,7 @@ static Rcpp::NumericVector setdiff_idx(const T* v1, size_t v1_size, const U* v2,
 Rcpp::NumericVector nanoival_setdiff_idx_time_interval_impl(const Rcpp::NumericVector nv1,
                                                             const Rcpp::ComplexVector cv2) {
   const dtime* v1 = reinterpret_cast<const dtime*>(&nv1[0]);
-  const interval*      v2 = reinterpret_cast<const interval*>(&cv2[0]);
+  const interval* v2 = reinterpret_cast<const interval*>(&cv2[0]);
   return setdiff_idx(v1, nv1.size(), v2, cv2.size());
 }
 
@@ -638,7 +638,7 @@ Rcpp::NumericVector nanoival_get_start_impl(const Rcpp::ComplexVector cv) {
       res[i] = d;
     }
     else {
-      std::int64_t start = ival.s;
+      std::int64_t start = ival.s();
       double d;
       memcpy(&d, reinterpret_cast<const char*>(&start), sizeof(start));
       res[i] = d;
@@ -663,7 +663,7 @@ Rcpp::NumericVector nanoival_get_end_impl(const Rcpp::ComplexVector cv) {
       res[i] = d;
     }
     else {
-      std::int64_t end = ival.e;
+      std::int64_t end = ival.e();
       double d;
       memcpy(&d, reinterpret_cast<const char*>(&end), sizeof(end));
       res[i] = d;
@@ -686,7 +686,7 @@ Rcpp::LogicalVector nanoival_get_sopen_impl(const Rcpp::ComplexVector cv) {
       res[i] = NA_LOGICAL;
     }
     else {
-      res[i] = ival.sopen;
+      res[i] = ival.sopen();
     }
   }
   res.names() = cv.names();
@@ -705,7 +705,7 @@ Rcpp::LogicalVector nanoival_get_eopen_impl(const Rcpp::ComplexVector cv) {
       res[i] = NA_LOGICAL;
     }
     else {
-      res[i] = ival.eopen;
+      res[i] = ival.eopen();
     }
   }
   res.names() = cv.names();
@@ -809,10 +809,10 @@ Rcpp::ComplexVector nanoival_make_impl(const Rcpp::CharacterVector nt_v,
 }
 
 
-static Rcomplex getNA_ival() {
+Rcomplex getNA_ival() {
   static const auto p = interval(dtime(duration::min()),
                                  dtime(duration::min()), // #nocov (seems like the cov tool fails us here!)
-                                 true, true);
+                                 NA_INTEGER, NA_INTEGER);
   Rcomplex c;
   memcpy(&c, &p, sizeof(p));
   return c;

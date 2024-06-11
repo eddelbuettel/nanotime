@@ -125,8 +125,8 @@ namespace nanotime {
 
   
   inline interval plus (const interval& i, const period& p,   const std::string& z) {
-    return interval(plus(dtime{duration{i.s}}, p, z),
-                    plus(dtime{duration{i.e}}, p, z), i.sopen, i.eopen);
+    return interval(plus(dtime{duration{i.s()}}, p, z),
+                    plus(dtime{duration{i.e()}}, p, z), i.sopen(), i.eopen());
   }
   inline interval plus (const period& p,   const interval& i, const std::string& z) {
     return plus(i, p, z);
