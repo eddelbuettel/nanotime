@@ -48,18 +48,24 @@ namespace nanotime {
       }
     }
 
-    dtime getStart() const { return dtime(duration(s_impl)); }
-    dtime getEnd() const { return dtime(duration(e_impl)); }
+    dtime getStart() const { return dtime(duration(s())); }
+    dtime getEnd() const { return dtime(duration(e())); }
+
+    // below we do some bit gynmastic to use the uppermost bit to store whether the
+    // interval is opened or closed; bitfields would give us all that for free,
+    // but we can't rely upon them because of Windows:
     bool sopen() const { return (s_impl & (std::int64_t{1} << 63)) != 0; }
     bool eopen() const { return (e_impl & (std::int64_t{1} << 63)) != 0; }
-    std::int64_t s() const { return s_impl & ~(std::int64_t{1} << 63); }
-    std::int64_t e() const { return e_impl & ~(std::int64_t{1} << 63); }
-    
+    static const std::int64_t bit64_compl = ~(std::int64_t{1} << 63);
+    static const std::int64_t bit63 = std::int64_t{1} << 62;
+    std::int64_t s() const { return s_impl & bit64_compl | ((bit63 & s_impl) << 1); }
+    std::int64_t e() const { return e_impl & bit64_compl | ((bit63 & e_impl) << 1); }
+
     bool isNA() const { return s_impl == IVAL_NA; }
     
     static const std::int64_t IVAL_MAX =  4611686018427387903LL;
     static const std::int64_t IVAL_MIN = -4611686018427387903LL;
-    static const std::int64_t IVAL_NA  = -9223372036854775807LL - 1;
+    static const std::int64_t IVAL_NA  = -9223372036854775807LL;
 
   private:
     std::int64_t s_impl;    // start of ival; last bit encodes if boundary is open (1) or closed (0)
