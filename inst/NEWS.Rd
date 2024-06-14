@@ -3,7 +3,7 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/nanotime/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/nanotime/issues/#1}{##1}}
 
-\section{Changes in version 0.3.8 (2023-07-xx)}{
+\section{Changes in version 0.3.8 (2024-xx-xx)}{
   \itemize{
     \item Time format documentation now has a reference to \pkg{RcppCCTZ}
     \item The package no longer sets a default C++ compilation standard (Dirk
@@ -13,6 +13,10 @@
     \ghit{115})
     \item The \code{as.Date()} function is now vectorized and can take a TZ
     argument (Leonardo and Dirk in \ghpr{119} closing \ghit{118})
+    \item Use of internal function \code{SET_S4_OBJECT} has been replaced by
+    API function \code{Rf_asS4} (Leonardo in \ghpr{121} closing \ghit{120})
+    \item An \code{nanoduration} / \code{nanoduration} expression now returns
+    a double (Leonardo in \ghpr{122} closing \ghit{117})
   }
 }
 
