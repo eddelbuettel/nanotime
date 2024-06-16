@@ -17,6 +17,8 @@
     API function \code{Rf_asS4} (Leonardo in \ghpr{121} closing \ghit{120})
     \item An \code{nanoduration} / \code{nanoduration} expression now returns
     a double (Leonardo in \ghpr{122} closing \ghit{117})
+    \item Bitfield calculations no longer require an Windows-only compiler
+    switch (Leonardo in \ghpr{124})
   }
 }
 

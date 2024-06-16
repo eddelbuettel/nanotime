@@ -1,5 +1,7 @@
 2024-06-16  Dirk Eddelbuettel  <edd@debian.org>
 
+	* DESCRIPTION (Version, Date): Roll minor version and date
+
 	* inst/include/nanotime/interval.hpp: Add extra braces
 	* src/interval.cpp: Updated output stream helper
 	* src/period.cpp: Idem
