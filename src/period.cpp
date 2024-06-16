@@ -13,23 +13,12 @@ using namespace nanotime;
 
 
 // for debug reasons...
-// the following code from: https://stackoverflow.com/a/16692519
+// cf https://stackoverflow.com/a/16692519
 template<typename Clock, typename Duration>
 std::ostream &operator<<(std::ostream &stream,
                          const std::chrono::time_point<Clock, Duration> &time_point) {
-  const time_t time = Clock::to_time_t(time_point);
-#if __GNUC__ > 4 || \
-   ((__GNUC__ == 4) && __GNUC_MINOR__ > 8 && __GNUC_REVISION__ > 1)
-    // Maybe the put_time will be implemented later?
-    struct tm tm;
-  localtime_r(&time, &tm);
-  return stream << std::put_time(&tm, "%c"); // Print standard date&time
-#else
-  char buffer[26];
-  ctime_r(&time, buffer);
-  buffer[24] = '\0';  // Removes the newline that is added
-  return stream << buffer;
-#endif
+  // updated with https://stackoverflow.com/a/71442312/23224962 and using C++17
+  return stream << std::chrono::duration_cast<std::chrono::nanoseconds>(time_point.time_since_epoch()).count();
 }
 
 

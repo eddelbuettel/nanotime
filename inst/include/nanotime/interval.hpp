@@ -58,8 +58,8 @@ namespace nanotime {
     bool eopen() const { return (e_impl & (std::int64_t{1} << 63)) != 0; }
     static const std::int64_t bit64_compl = ~(std::int64_t{1} << 63);
     static const std::int64_t bit63 = std::int64_t{1} << 62;
-    std::int64_t s() const { return s_impl & bit64_compl | ((bit63 & s_impl) << 1); }
-    std::int64_t e() const { return e_impl & bit64_compl | ((bit63 & e_impl) << 1); }
+    std::int64_t s() const { return s_impl & (bit64_compl | ((bit63 & s_impl) << 1)); }
+    std::int64_t e() const { return e_impl & (bit64_compl | ((bit63 & e_impl) << 1)); }
 
     bool isNA() const { return s_impl == IVAL_NA; }
     
