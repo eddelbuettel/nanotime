@@ -1,8 +1,8 @@
 Package: nanotime
 Type: Package
 Title: Nanosecond-Resolution Time Support for R
-Version: 0.3.7.5
-Date: 2024-04-28
+Version: 0.3.7.6
+Date: 2024-06-16
 Author: Dirk Eddelbuettel and Leonardo Silvestri
 Maintainer: Dirk Eddelbuettel <edd@debian.org>
 Description: Full 64-bit resolution date and time functionality with
@@ -16,10 +16,7 @@ License: GPL (>= 2)
 URL: https://github.com/eddelbuettel/nanotime, https://eddelbuettel.github.io/nanotime/, https://dirk.eddelbuettel.com/code/nanotime.html
 BugReports: https://github.com/eddelbuettel/nanotime/issues
 RoxygenNote: 7.3.1
-Collate:
-  'nanotime.R'
-  'nanoival.R'
-  'nanoduration.R'
-  'nanoperiod.R'
-  'RcppExports.R'
+Collate: 'nanotime.R' 'nanoival.R' 'nanoduration.R' 'nanoperiod.R' 'RcppExports.R'
 Encoding: UTF-8
+NeedsCompilation: yes
+Packaged: 2024-05-25 13:30:56 UTC; edd
