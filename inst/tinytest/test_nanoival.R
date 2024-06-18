@@ -2,6 +2,7 @@ library(nanotime)
 suppressMessages(library(bit64))
 
 isSolaris <- Sys.info()[["sysname"]] == "SunOS"
+extended_tests <- Sys.getenv("CI", "") != ""
 
 savedFormat <- NULL
 one_second  <- 1e9
@@ -555,12 +556,15 @@ expect_true(is.null(names(c_xy)))
 ## --------------------------------------------------------------------------
 
 ## time - interval
+## N=143
 
 ## test_intersect_time_interval_null_interval <- function() {
-i1 <- as.nanoival(NULL)
-s1 <- seq(nanotime("2015-01-01 12:00:00"), length.out=10, by=one_second)
-expect_identical(s1[i1], as.nanotime())
-expect_identical(s1 %in% i1, rep(FALSE, 10))
+if (extended_tests) {
+    i1 <- as.nanoival(NULL)
+    s1 <- seq(nanotime("2015-01-01 12:00:00"), length.out=10, by=one_second)
+    expect_identical(s1[i1], as.nanotime())
+    expect_identical(s1 %in% i1, rep(FALSE, 10))
+}
 
 ##test_intersect.idx_unsorted <- function() {
 a <- c(nanotime("2013-12-12 12:12:12"), nanotime("2012-12-12 12:12:12"))
@@ -1432,19 +1436,21 @@ expect_identical(nanoival.sopen(nanoival()), logical())
 expect_identical(nanoival.eopen(nanoival()), logical())
 
 ## set ops:
-expect_identical(union(nanoival(nanotime(1), nanotime(2)), nanoival()), nanoival(nanotime(1), nanotime(2)))
-expect_identical(intersect(nanoival(nanotime(1), nanotime(2)), nanoival()), nanoival())
-expect_identical(setdiff(nanoival(nanotime(1), nanotime(2)), nanoival()), nanoival(nanotime(1), nanotime(2)))
-expect_identical(setdiff.idx(nanotime(), nanoival()), numeric())
-expect_identical(setdiff.idx(nanotime(1), nanoival()), 1)
-expect_identical(setdiff.idx(nanotime(), nanoival(nanotime(1), nanotime(2))), numeric())
-expect_identical(intersect(nanotime(1), nanoival()), nanotime())
-expect_identical(intersect(nanotime(), nanoival(nanotime(1), nanotime(2))), nanotime())
-expect_identical(intersect.idx(nanotime(1), nanoival()), list(x=numeric(), y=numeric()))
-expect_identical(intersect.idx(nanotime(), nanoival(nanotime(1), nanotime(2))), list(x=numeric(), y=numeric()))
-expect_identical(nanotime() %in% nanoival(nanotime(1), nanotime(2)), logical(0))
-expect_identical(nanotime(1:10) %in% nanoival(), rep(FALSE, 10))
-expect_identical(is.na(as.nanoival()), logical())
+if (extended_tests) {
+    expect_identical(union(nanoival(nanotime(1), nanotime(2)), nanoival()), nanoival(nanotime(1), nanotime(2)))
+    expect_identical(intersect(nanoival(nanotime(1), nanotime(2)), nanoival()), nanoival())
+    expect_identical(setdiff(nanoival(nanotime(1), nanotime(2)), nanoival()), nanoival(nanotime(1), nanotime(2)))
+    expect_identical(setdiff.idx(nanotime(), nanoival()), numeric())
+    expect_identical(setdiff.idx(nanotime(1), nanoival()), 1)
+    expect_identical(setdiff.idx(nanotime(), nanoival(nanotime(1), nanotime(2))), numeric())
+    expect_identical(intersect(nanotime(1), nanoival()), nanotime())
+    expect_identical(intersect(nanotime(), nanoival(nanotime(1), nanotime(2))), nanotime())
+    expect_identical(intersect.idx(nanotime(1), nanoival()), list(x=numeric(), y=numeric()))
+    expect_identical(intersect.idx(nanotime(), nanoival(nanotime(1), nanotime(2))), list(x=numeric(), y=numeric()))
+    expect_identical(nanotime() %in% nanoival(nanotime(1), nanotime(2)), logical(0))
+    expect_identical(nanotime(1:10) %in% nanoival(), rep(FALSE, 10))
+    expect_identical(is.na(as.nanoival()), logical())
+}
 
 ## all.equal:
 expect_identical(all.equal(nanoival(nanotime(1), nanotime(2)), nanoival(nanotime(1), nanotime(2))), TRUE)
