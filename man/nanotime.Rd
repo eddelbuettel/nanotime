@@ -278,7 +278,7 @@ January 1, 1970.
 
 
 Formatting and character conversion for \code{nanotime} objects is
-done by functions from the \code{\link{RcppCCTZ}} package relying
+done by functions from the \pkg{RcppCCTZ} package relying
 on code from its embedded \code{CCTZ} library. The default format
 is ISO3339 compliant: \code{\%Y-\%m-\%dT\%H:\%M:\%E9S\%Ez}. It
 specifies a standard ISO 8601 part for date and time --- as well
