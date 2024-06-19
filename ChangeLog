@@ -2,6 +2,8 @@
 
 	* DESCRIPTION (Version, Date): Release 0.3.8
 
+	* README.md: Use tinyverse.netlify.app for dependency badge
+
 2024-06-18  Dirk Eddelbuettel  <edd@debian.org>
 
 	* R/nanotime.R: Simplify one reference to RcppCCTZ

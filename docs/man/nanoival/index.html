@@ -65,11 +65,6 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
-        
-        <a href="#interval-type-with-nanosecond-precision" class="md-skip">
-          Skip to content
-        </a>
-      
     </div>
     <div data-md-component="announce">
       
@@ -411,114 +406,9 @@
       
       
       
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Nanoival
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
       <a href="./" class="md-nav__link md-nav__link--active">
         Nanoival
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#interval-type-with-nanosecond-precision" class="md-nav__link">
-    Interval type with nanosecond precision
-  </a>
-  
-    <nav class="md-nav" aria-label="Interval type with nanosecond precision">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#description" class="md-nav__link">
-    Description
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    Usage
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#arguments" class="md-nav__link">
-    Arguments
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#format" class="md-nav__link">
-    Format
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#details" class="md-nav__link">
-    Details
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#value" class="md-nav__link">
-    Value
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#output-format" class="md-nav__link">
-    Output Format
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#authors" class="md-nav__link">
-    Author(s)
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#see-also" class="md-nav__link">
-    See Also
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#examples" class="md-nav__link">
-    Examples
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
       
     </li>
   
@@ -945,97 +835,6 @@
   
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#interval-type-with-nanosecond-precision" class="md-nav__link">
-    Interval type with nanosecond precision
-  </a>
-  
-    <nav class="md-nav" aria-label="Interval type with nanosecond precision">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#description" class="md-nav__link">
-    Description
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    Usage
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#arguments" class="md-nav__link">
-    Arguments
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#format" class="md-nav__link">
-    Format
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#details" class="md-nav__link">
-    Details
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#value" class="md-nav__link">
-    Value
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#output-format" class="md-nav__link">
-    Output Format
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#authors" class="md-nav__link">
-    Author(s)
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#see-also" class="md-nav__link">
-    See Also
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#examples" class="md-nav__link">
-    Examples
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -1051,16 +850,23 @@
 
   <h1>Nanoival</h1>
 
-<h2 id="interval-type-with-nanosecond-precision">Interval type with nanosecond precision</h2>
-<h3 id="description">Description</h3>
-<p><code>nanoival</code> is a time interval type (an S4 class) with nanosecond
+<div role="main">
+
+## Interval type with nanosecond precision
+
+### Description
+
+`nanoival` is a time interval type (an S4 class) with nanosecond
 precision. One of its purposes is to allow quick subsetting of a
-<code>nanotime</code> vector. <code>nanoival</code> is composed of a <code>nanotime</code> pair which
+`nanotime` vector. `nanoival` is composed of a `nanotime` pair which
 defines the start and end of the time interval. Additionally, it has a
 pair of logical values which determine if the start and end of the time
-interval are open (true) or closed (false).</p>
-<h3 id="usage">Usage</h3>
-<pre><code>nanoival(start, end, sopen = FALSE, eopen = TRUE)
+interval are open (true) or closed (false).
+
+### Usage
+
+
+<pre><code class="language-R">nanoival(start, end, sopen = FALSE, eopen = TRUE)
 
 ## S4 method for signature 'nanoival'
 nanoival.start(x)
@@ -1084,13 +890,13 @@ print(x, quote = FALSE, ...)
 show(object)
 
 ## S4 method for signature 'character'
-as.nanoival(from, format = "", tz = "")
+as.nanoival(from, format = &quot;&quot;, tz = &quot;&quot;)
 
 ## S4 method for signature ''NULL''
-as.nanoival(from, format = "", tz = "")
+as.nanoival(from, format = &quot;&quot;, tz = &quot;&quot;)
 
 ## S4 method for signature 'missing'
-as.nanoival(from, format = "", tz = "")
+as.nanoival(from, format = &quot;&quot;, tz = &quot;&quot;)
 
 ## S4 method for signature 'nanoival'
 is.na(x)
@@ -1166,137 +972,103 @@ NA_nanoival_
 ## S3 method for class 'nanoival'
 as.character(x, ...)
 </code></pre>
-<h3 id="arguments">Arguments</h3>
-<table>
-<thead>
-<tr>
-<th>Argument</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>start</code></td>
-<td><code>nanotime</code> start of interval</td>
-</tr>
-<tr>
-<td><code>end</code></td>
-<td><code>nanotime</code> end of interval</td>
-</tr>
-<tr>
-<td><code>sopen</code></td>
-<td>logical indicating if the start of the interval is open</td>
-</tr>
-<tr>
-<td><code>eopen</code></td>
-<td>logical indicating if the end of the interval is open</td>
-</tr>
-<tr>
-<td><code>x, from</code></td>
-<td>a <code>nanoival</code> object</td>
-</tr>
-<tr>
-<td><code>...</code></td>
-<td>further arguments passed to or from methods.</td>
-</tr>
-<tr>
-<td><code>quote</code></td>
-<td>indicates if the output of <code>print</code> should be quoted</td>
-</tr>
-<tr>
-<td><code>object</code></td>
-<td>argument for method <code>show</code></td>
-</tr>
-<tr>
-<td><code>format</code></td>
-<td>A character string. Can also be set via <code>options("nanotimeFormat")</code> and uses ‘%Y-%m-%dT%H:%M:%E9S%Ez’ as a default and fallback</td>
-</tr>
-<tr>
-<td><code>tz</code></td>
-<td><code>character</code> indicating a timezone</td>
-</tr>
-<tr>
-<td><code>value</code></td>
-<td>argument for <code>nanoival-class</code></td>
-</tr>
-<tr>
-<td><code>e1</code></td>
-<td>Operand of class <code>nanoival</code></td>
-</tr>
-<tr>
-<td><code>e2</code></td>
-<td>Operand of class <code>nanoival</code></td>
-</tr>
-<tr>
-<td><code>i</code></td>
-<td>index specifying elements to extract or replace.</td>
-</tr>
-<tr>
-<td><code>j</code></td>
-<td>Required for <code>[</code> signature but ignored here</td>
-</tr>
-<tr>
-<td><code>drop</code></td>
-<td>Required for <code>[</code> signature but ignored here</td>
-</tr>
-</tbody>
-</table>
-<h3 id="format">Format</h3>
-<p>An object of class <code>nanoival</code> of length 1.</p>
-<h3 id="details">Details</h3>
-<p>An interval object can be constructed with the constructor <code>nanoival</code>
-which takes as arguments two <code>nanotime</code> objects that define the start
-and the end of the interval, together with two <code>logical</code> arguments that
+
+
+### Arguments
+
+|             |                                                                                                                                 |
+|-------------|---------------------------------------------------------------------------------------------------------------------------------|
+| `start`     | `nanotime` start of interval                                                                                                    |
+| `end`       | `nanotime` end of interval                                                                                                      |
+| `sopen`     | logical indicating if the start of the interval is open                                                                         |
+| `eopen`     | logical indicating if the end of the interval is open                                                                           |
+| `x`, `from` | a `nanoival` object                                                                                                             |
+| `...`       | further arguments passed to or from methods.                                                                                    |
+| `quote`     | indicates if the output of `print` should be quoted                                                                             |
+| `object`    | argument for method `show`                                                                                                      |
+| `format`    | A character string. Can also be set via `options("nanotimeFormat")` and uses ‘%Y-%m-%dT%H:%M:%E9S%Ez’ as a default and fallback |
+| `tz`        | `character` indicating a timezone                                                                                               |
+| `value`     | argument for `nanoival-class`                                                                                                   |
+| `e1`        | Operand of class `nanoival`                                                                                                     |
+| `e2`        | Operand of class `nanoival`                                                                                                     |
+| `i`         | index specifying elements to extract or replace.                                                                                |
+| `j`         | Required for `[` signature but ignored here                                                                                     |
+| `drop`      | Required for `[` signature but ignored here                                                                                     |
+
+### Format
+
+An object of class `nanoival` of length 1.
+
+### Details
+
+An interval object can be constructed with the constructor `nanoival`
+which takes as arguments two `nanotime` objects that define the start
+and the end of the interval, together with two `logical` arguments that
 define if the start and the end of the interval are open (true) or
 closed (false) (note that these objects can all be vector, and therefore
 the interval object is not necessarily scalar). Alternatively, an
-interval can be constructed with a <code>character</code>: the format follows that
-of <code>nanotime</code>; the start time is preceeded by either <code>-</code> or <code>+</code>
+interval can be constructed with a `character`: the format follows that
+of `nanotime`; the start time is preceeded by either `-` or `+`
 indicating if the interval start is open (-) or closed (+); the start
-and end times are separated by an arrow <code>-&gt;</code>; the end is folloed by
-either <code>-</code> or <code>+</code> which have the same semantics as the start time.</p>
-<p>The most important set of methods defined for <code>interval</code> are set
-functions <code>intersect</code>, <code>union</code> and <code>setdiff</code>.</p>
-<p>Additionally, <code>interval</code> allows the subsetting into a <code>nanotime</code> vector.
-Note that subsetting is allowed only if the <code>nanotime</code> vector is sorted.</p>
-<p>Finally, accessors are provided to get the interval start (<code>start</code>), the
-end (<code>end</code>), the open/close status of the start (<code>sopen</code>) and the
-open/close status of the end (<code>eopen</code>). The former return a <code>nanotime</code>
-while the latter return a <code>logical</code>.</p>
-<h3 id="value">Value</h3>
-<p>A nanoival object</p>
-<h3 id="output-format">Output Format</h3>
-<p>Formatting and character conversion for <code>nanoival</code> objects is identical
-to <code>nanotime</code> objects. The default format is ISO3339 compliant:
-<code>%Y-%m-%dT%H:%M:%E9S%Ez</code>. It specifies a standard ISO 8601 part for date
+and end times are separated by an arrow `->`; the end is folloed by
+either `-` or `+` which have the same semantics as the start time.
+
+The most important set of methods defined for `interval` are set
+functions `intersect`, `union` and `setdiff`.
+
+Additionally, `interval` allows the subsetting into a `nanotime` vector.
+Note that subsetting is allowed only if the `nanotime` vector is sorted.
+
+Finally, accessors are provided to get the interval start (`start`), the
+end (`end`), the open/close status of the start (`sopen`) and the
+open/close status of the end (`eopen`). The former return a `nanotime`
+while the latter return a `logical`.
+
+### Value
+
+A nanoival object
+
+### Output Format
+
+Formatting and character conversion for `nanoival` objects is identical
+to `nanotime` objects. The default format is ISO3339 compliant:
+`%Y-%m-%dT%H:%M:%E9S%Ez`. It specifies a standard ISO 8601 part for date
 and time — as well as nine digits of precision for fractional seconds
 (down to nanoseconds) and on offset (typically zero as we default to
-UTC). It can be overriden by using <code>options()</code> with the key of
-<code>nanotimeFormat</code> and a suitable value. Similarly, <code>nanotimeTz</code> can be
-used to select a different timezone.</p>
-<h3 id="authors">Author(s)</h3>
-<p>Dirk Eddelbuettel</p>
-<p>Leonardo Silvestri</p>
-<h3 id="see-also">See Also</h3>
-<p><code>intersect.idx</code>, <code>setdiff.idx</code>,</p>
-<h3 id="examples">Examples</h3>
-<pre><code>## Not run: 
+UTC). It can be overriden by using `options()` with the key of
+`nanotimeFormat` and a suitable value. Similarly, `nanotimeTz` can be
+used to select a different timezone.
+
+### Author(s)
+
+Dirk Eddelbuettel
+
+Leonardo Silvestri
+
+### See Also
+
+`intersect.idx`, `setdiff.idx`,
+
+### Examples
+
+
+<pre><code class="language-R">## Not run: 
 ## creating a \code{nanoival}, with the start time included ('+') and the end
 ## time excluded ('-')
-as.nanoival("+2012-03-01T21:21:00.000000001+00:00-&gt;2015-01-01T21:22:00.000000999+04:00-")
+as.nanoival(&quot;+2012-03-01T21:21:00.000000001+00:00-&gt;2015-01-01T21:22:00.000000999+04:00-&quot;)
 
 ## a \code{nanoival} can also be created with a pair of \code{nanotime} objects, a start
 ## and an end, and optionally two logicals determining if the interval start(end) are open
 ## or closed; by default the start is closed and end is open:
-start &lt;- nanotime("2012-03-01T21:21:00.000000001+00:00")
-end &lt;- nanotime("2013-03-01T21:21:00.000000001+00:00")
+start &lt;- nanotime(&quot;2012-03-01T21:21:00.000000001+00:00&quot;)
+end &lt;- nanotime(&quot;2013-03-01T21:21:00.000000001+00:00&quot;)
 nanoival(start, end)
 
 ## a vector of 'nanotime' can be subsetted by a 'nanoival':
 one_second &lt;- 1e9
-a &lt;- seq(nanotime("2012-12-12 12:12:12+00:00"), length.out=10, by=one_second)
-idx &lt;- c(as.nanoival("-2012-12-12 12:12:10+00:00 -&gt; 2012-12-12 12:12:14+00:00-"),
-         as.nanoival("+2012-12-12 12:12:18+00:00 -&gt; 2012-12-12 12:12:20+00:00+"))
+a &lt;- seq(nanotime(&quot;2012-12-12 12:12:12+00:00&quot;), length.out=10, by=one_second)
+idx &lt;- c(as.nanoival(&quot;-2012-12-12 12:12:10+00:00 -&gt; 2012-12-12 12:12:14+00:00-&quot;),
+         as.nanoival(&quot;+2012-12-12 12:12:18+00:00 -&gt; 2012-12-12 12:12:20+00:00+&quot;))
 a[idx]
 
 ## End(Not run)

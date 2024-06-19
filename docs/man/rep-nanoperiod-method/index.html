@@ -65,11 +65,6 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
-        
-        <a href="#replicate-elements" class="md-skip">
-          Skip to content
-        </a>
-      
     </div>
     <div data-md-component="announce">
       
@@ -565,65 +560,9 @@
       
       
       
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Rep nanoperiod method
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
       <a href="./" class="md-nav__link md-nav__link--active">
         Rep nanoperiod method
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#replicate-elements" class="md-nav__link">
-    Replicate Elements
-  </a>
-  
-    <nav class="md-nav" aria-label="Replicate Elements">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#description" class="md-nav__link">
-    Description
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    Usage
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#arguments" class="md-nav__link">
-    Arguments
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
       
     </li>
   
@@ -896,48 +835,6 @@
   
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#replicate-elements" class="md-nav__link">
-    Replicate Elements
-  </a>
-  
-    <nav class="md-nav" aria-label="Replicate Elements">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#description" class="md-nav__link">
-    Description
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    Usage
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#arguments" class="md-nav__link">
-    Arguments
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -953,36 +850,48 @@
 
   <h1>Rep nanoperiod method</h1>
 
-<h2 id="replicate-elements">Replicate Elements</h2>
-<h3 id="description">Description</h3>
-<p>Replicates the values in 'x' similarly to the default method.</p>
-<h3 id="usage">Usage</h3>
-<pre><code>## S4 method for signature 'nanoperiod'
+<div role="main">
+
+## Replicate Elements
+
+### Description
+
+Replicates the values in 'x' similarly to the default method.
+
+### Usage
+
+
+<pre><code class="language-R">## S4 method for signature 'nanoperiod'
 rep(x, ...)
 </code></pre>
-<h3 id="arguments">Arguments</h3>
-<table data-summary="R argblock">
+
+
+### Arguments
+
+<table>
 <colgroup>
 <col style="width: 50%" />
 <col style="width: 50%" />
 </colgroup>
-<thead>
-<tr class="header">
-<th>Argument</th>
-<th>Description</th>
-</tr>
-</thead>
 <tbody>
-<tr class="odd" data-valign="top">
-<td><code>x</code></td>
+<tr class="odd">
+<td><code id="x">x</code></td>
 <td><p>a vector of <code>nanoperiod</code></p></td>
 </tr>
-<tr class="even" data-valign="top">
-<td><code>...</code></td>
+<tr class="even">
+<td><code id="...">...</code></td>
 <td><p>further arguments:</p>
-<p>'times' an integer-valued vector giving the (non-negative) number of times to repeat each element if of length 'length(x)', or to repeat the whole vector if of length 1. Negative or 'NA' values are an error. A 'double' vector is accepted, other inputs being coerced to an integer or double vector.</p>
-<p>'length.out' non-negative integer. The desired length of the output vector. Other inputs will be coerced to a double vector and the first element taken. Ignored if 'NA' or invalid.</p>
-<p>'each' non-negative integer. Each element of 'x' is repeated 'each' times. Other inputs will be coerced to an integer or double vector and the first element taken. Treated as '1' if 'NA' or invalid.</p></td>
+<p>'times' an integer-valued vector giving the (non-negative) number of
+times to repeat each element if of length 'length(x)', or to repeat the
+whole vector if of length 1. Negative or 'NA' values are an error. A
+'double' vector is accepted, other inputs being coerced to an integer or
+double vector.</p>
+<p>'length.out' non-negative integer. The desired length of the output
+vector. Other inputs will be coerced to a double vector and the first
+element taken. Ignored if 'NA' or invalid.</p>
+<p>'each' non-negative integer. Each element of 'x' is repeated 'each'
+times. Other inputs will be coerced to an integer or double vector and
+the first element taken. Treated as '1' if 'NA' or invalid.</p></td>
 </tr>
 </tbody>
 </table>

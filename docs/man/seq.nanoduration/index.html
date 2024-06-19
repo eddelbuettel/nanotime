@@ -65,11 +65,6 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
-        
-        <a href="#sequence-generation" class="md-skip">
-          Skip to content
-        </a>
-      
     </div>
     <div data-md-component="announce">
       
@@ -607,72 +602,9 @@
       
       
       
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Seq.nanoduration
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
       <a href="./" class="md-nav__link md-nav__link--active">
         Seq.nanoduration
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#sequence-generation" class="md-nav__link">
-    Sequence Generation
-  </a>
-  
-    <nav class="md-nav" aria-label="Sequence Generation">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#description" class="md-nav__link">
-    Description
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    Usage
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#arguments" class="md-nav__link">
-    Arguments
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#examples" class="md-nav__link">
-    Examples
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
       
     </li>
   
@@ -903,55 +835,6 @@
   
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#sequence-generation" class="md-nav__link">
-    Sequence Generation
-  </a>
-  
-    <nav class="md-nav" aria-label="Sequence Generation">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#description" class="md-nav__link">
-    Description
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    Usage
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#arguments" class="md-nav__link">
-    Arguments
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#examples" class="md-nav__link">
-    Examples
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -967,46 +850,36 @@
 
   <h1>Seq.nanoduration</h1>
 
-<h2 id="sequence-generation">Sequence Generation</h2>
-<h3 id="description">Description</h3>
-<p>Generate a sequence of <code>nanoduration</code></p>
-<h3 id="usage">Usage</h3>
-<pre><code>## S3 method for class 'nanoduration'
+<div role="main">
+
+## Sequence Generation
+
+### Description
+
+Generate a sequence of `nanoduration`
+
+### Usage
+
+
+<pre><code class="language-R">## S3 method for class 'nanoduration'
 seq(from, to = NULL, by = NULL, length.out = NULL, along.with = NULL, ...)
 </code></pre>
-<h3 id="arguments">Arguments</h3>
-<table>
-<thead>
-<tr>
-<th>Argument</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>from, to</code></td>
-<td>the starting and (maximal) end values of the sequence</td>
-</tr>
-<tr>
-<td><code>by</code></td>
-<td>the increment of the sequence</td>
-</tr>
-<tr>
-<td><code>length.out</code></td>
-<td>integer indicating the desired length of the sequence</td>
-</tr>
-<tr>
-<td><code>along.with</code></td>
-<td>take the length from the length of this argument.</td>
-</tr>
-<tr>
-<td><code>...</code></td>
-<td>arguments passed to or from methods</td>
-</tr>
-</tbody>
-</table>
-<h3 id="examples">Examples</h3>
-<pre><code>seq(from=as.nanoduration(0), by=as.nanoduration("01:00:00"), length.out=10)
+
+
+### Arguments
+
+|              |                                                       |
+|--------------|-------------------------------------------------------|
+| `from`, `to` | the starting and (maximal) end values of the sequence |
+| `by`         | the increment of the sequence                         |
+| `length.out` | integer indicating the desired length of the sequence |
+| `along.with` | take the length from the length of this argument.     |
+| `...`        | arguments passed to or from methods                   |
+
+### Examples
+
+
+<pre><code class="language-R">seq(from=as.nanoduration(0), by=as.nanoduration(&quot;01:00:00&quot;), length.out=10)
 </code></pre>
 
 

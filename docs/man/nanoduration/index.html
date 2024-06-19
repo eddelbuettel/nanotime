@@ -65,11 +65,6 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
-        
-        <a href="#duration-type-with-nanosecond-precision" class="md-skip">
-          Skip to content
-        </a>
-      
     </div>
     <div data-md-component="announce">
       
@@ -397,107 +392,9 @@
       
       
       
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Nanoduration
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
       <a href="./" class="md-nav__link md-nav__link--active">
         Nanoduration
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#duration-type-with-nanosecond-precision" class="md-nav__link">
-    Duration type with nanosecond precision
-  </a>
-  
-    <nav class="md-nav" aria-label="Duration type with nanosecond precision">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#description" class="md-nav__link">
-    Description
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    Usage
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#arguments" class="md-nav__link">
-    Arguments
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#format" class="md-nav__link">
-    Format
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#details" class="md-nav__link">
-    Details
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#value" class="md-nav__link">
-    Value
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#authors" class="md-nav__link">
-    Author(s)
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#see-also" class="md-nav__link">
-    See Also
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#examples" class="md-nav__link">
-    Examples
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
       
     </li>
   
@@ -938,90 +835,6 @@
   
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#duration-type-with-nanosecond-precision" class="md-nav__link">
-    Duration type with nanosecond precision
-  </a>
-  
-    <nav class="md-nav" aria-label="Duration type with nanosecond precision">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#description" class="md-nav__link">
-    Description
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    Usage
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#arguments" class="md-nav__link">
-    Arguments
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#format" class="md-nav__link">
-    Format
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#details" class="md-nav__link">
-    Details
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#value" class="md-nav__link">
-    Value
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#authors" class="md-nav__link">
-    Author(s)
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#see-also" class="md-nav__link">
-    See Also
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#examples" class="md-nav__link">
-    Examples
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -1037,14 +850,21 @@
 
   <h1>Nanoduration</h1>
 
-<h2 id="duration-type-with-nanosecond-precision">Duration type with nanosecond precision</h2>
-<h3 id="description">Description</h3>
-<p>The type <code>nanoduration</code> is a length of time (implemented as an S4 class)
+<div role="main">
+
+## Duration type with nanosecond precision
+
+### Description
+
+The type `nanoduration` is a length of time (implemented as an S4 class)
 with nanosecond precision. It is a count of nanoseconds and may be
 negative. The expected arithmetic operations are provided, including
-sequence generation.</p>
-<h3 id="usage">Usage</h3>
-<pre><code>nanoduration(hours, minutes, seconds, nanoseconds)
+sequence generation.
+
+### Usage
+
+
+<pre><code class="language-R">nanoduration(hours = 0L, minutes = 0L, seconds = 0L, nanoseconds = 0L)
 
 ## S4 method for signature 'character'
 as.nanoduration(x)
@@ -1056,6 +876,9 @@ as.nanoduration(x)
 as.nanoduration(x)
 
 ## S4 method for signature 'integer'
+as.nanoduration(x)
+
+## S4 method for signature 'difftime'
 as.nanoduration(x)
 
 ## S4 method for signature ''NULL''
@@ -1094,10 +917,16 @@ e1 - e2
 ## S4 method for signature 'nanoduration,numeric'
 e1 - e2
 
+## S4 method for signature 'nanoduration,difftime'
+e1 - e2
+
 ## S4 method for signature 'nanoduration,ANY'
 e1 - e2
 
 ## S4 method for signature 'nanotime,nanoduration'
+e1 - e2
+
+## S4 method for signature 'nanotime,difftime'
 e1 - e2
 
 ## S4 method for signature 'integer64,nanoduration'
@@ -1107,6 +936,9 @@ e1 - e2
 e1 - e2
 
 ## S4 method for signature 'numeric,nanoduration'
+e1 - e2
+
+## S4 method for signature 'difftime,nanoduration'
 e1 - e2
 
 ## S4 method for signature 'ANY,nanoduration'
@@ -1124,16 +956,46 @@ e1 + e2
 ## S4 method for signature 'nanoduration,numeric'
 e1 + e2
 
+## S4 method for signature 'nanoduration,difftime'
+e1 + e2
+
 ## S4 method for signature 'nanotime,nanoduration'
 e1 + e2
 
+## S4 method for signature 'nanotime,difftime'
+e1 + e2
+
+## S4 method for signature 'nanoduration,nanotime'
+e1 + e2
+
+## S4 method for signature 'difftime,nanotime'
+e1 + e2
+
 ## S4 method for signature 'nanoival,nanoduration'
+e1 + e2
+
+## S4 method for signature 'nanoival,nanoduration'
+e1 - e2
+
+## S4 method for signature 'nanoduration,nanoival'
+e1 + e2
+
+## S4 method for signature 'nanoival,difftime'
+e1 + e2
+
+## S4 method for signature 'nanoival,difftime'
+e1 - e2
+
+## S4 method for signature 'difftime,nanoival'
 e1 + e2
 
 ## S4 method for signature 'integer64,nanoduration'
 e1 + e2
 
 ## S4 method for signature 'numeric,nanoduration'
+e1 + e2
+
+## S4 method for signature 'difftime,nanoduration'
 e1 + e2
 
 ## S4 method for signature 'nanoduration,numeric'
@@ -1210,111 +1072,77 @@ c(...)
 
 NA_nanoduration_
 </code></pre>
-<h3 id="arguments">Arguments</h3>
-<table>
-<thead>
-<tr>
-<th>Argument</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>hours</code></td>
-<td>number of hours</td>
-</tr>
-<tr>
-<td><code>minutes</code></td>
-<td>number of minutes</td>
-</tr>
-<tr>
-<td><code>seconds</code></td>
-<td>number of seconds</td>
-</tr>
-<tr>
-<td><code>nanoseconds</code></td>
-<td>number of nanoseconds</td>
-</tr>
-<tr>
-<td><code>x</code></td>
-<td>a <code>nanoduration</code> object</td>
-</tr>
-<tr>
-<td><code>object</code></td>
-<td>argument for method <code>show</code></td>
-</tr>
-<tr>
-<td><code>quote</code></td>
-<td>indicates if the output of <code>print</code> should be quoted</td>
-</tr>
-<tr>
-<td><code>...</code></td>
-<td>further arguments passed to or from methods.</td>
-</tr>
-<tr>
-<td><code>e1</code></td>
-<td>Operand of class <code>nanoival</code></td>
-</tr>
-<tr>
-<td><code>e2</code></td>
-<td>Operand of class <code>nanoival</code></td>
-</tr>
-<tr>
-<td><code>na.rm</code></td>
-<td>if <code>TRUE</code> NA values are removed for the computation</td>
-</tr>
-<tr>
-<td><code>i</code></td>
-<td>index specifying elements to extract or replace.</td>
-</tr>
-<tr>
-<td><code>j</code></td>
-<td>Required for <code>[</code> signature but ignored here</td>
-</tr>
-<tr>
-<td><code>drop</code></td>
-<td>Required for <code>[</code> signature but ignored here</td>
-</tr>
-<tr>
-<td><code>value</code></td>
-<td>argument for <code>nanoduration-class</code></td>
-</tr>
-</tbody>
-</table>
-<h3 id="format">Format</h3>
-<p>An object of class <code>nanoduration</code> of length 1.</p>
-<h3 id="details">Details</h3>
-<p>A <code>nanoduration</code> can be constructed with the function <code>as.nanoduration</code>
-which can take the types <code>integer64</code>, <code>integer</code> and <code>numeric</code> (all
-indicating the count in nanosecond units) or the type <code>character</code>.</p>
-<p>It can also be constructed by specifying with individual arguments the
-hours, minutes, seconds and nanoseconds with a call to <code>nanoduration</code>.</p>
-<p>A <code>nanoduration</code> is displayed as hours, minutes, seconds and nanoseconds
-like this: <code>110:12:34.123_453_001</code>. The nanosecond precision displayed
-is adjusted as necessary, so e.g. 1 second is displayed as <code>00:00:01</code>.</p>
-<h3 id="value">Value</h3>
-<p>A nanoduration object</p>
-<h3 id="authors">Author(s)</h3>
-<p>Dirk Eddelbuettel</p>
-<p>Leonardo Silvestri</p>
-<h3 id="see-also">See Also</h3>
-<p><code>nanotime</code></p>
-<h3 id="examples">Examples</h3>
-<pre><code>## constructors:
+
+
+### Arguments
+
+|               |                                                     |
+|---------------|-----------------------------------------------------|
+| `hours`       | number of hours                                     |
+| `minutes`     | number of minutes                                   |
+| `seconds`     | number of seconds                                   |
+| `nanoseconds` | number of nanoseconds                               |
+| `x`           | a `nanoduration` object                             |
+| `object`      | argument for method `show`                          |
+| `quote`       | indicates if the output of `print` should be quoted |
+| `...`         | further arguments passed to or from methods.        |
+| `e1`          | Operand of class `nanoival`                         |
+| `e2`          | Operand of class `nanoival`                         |
+| `na.rm`       | if `TRUE` NA values are removed for the computation |
+| `i`           | index specifying elements to extract or replace.    |
+| `j`           | Required for `[` signature but ignored here         |
+| `drop`        | Required for `[` signature but ignored here         |
+| `value`       | argument for `nanoduration-class`                   |
+
+### Format
+
+An object of class `nanoduration` of length 1.
+
+### Details
+
+A `nanoduration` can be constructed with the function `as.nanoduration`
+which can take the types `integer64`, `integer` and `numeric` (all
+indicating the count in nanosecond units) or the type `character`.
+
+It can also be constructed by specifying with individual arguments the
+hours, minutes, seconds and nanoseconds with a call to `nanoduration`.
+
+A `nanoduration` is displayed as hours, minutes, seconds and nanoseconds
+like this: `110:12:34.123_453_001`. The nanosecond precision displayed
+is adjusted as necessary, so e.g. 1 second is displayed as `00:00:01`.
+
+### Value
+
+A nanoduration object
+
+### Author(s)
+
+Dirk Eddelbuettel
+
+Leonardo Silvestri
+
+### See Also
+
+`nanotime`
+
+### Examples
+
+
+<pre><code class="language-R">## constructors:
 nanoduration(hours=10, minutes=3, seconds=2, nanoseconds=999999999)
-as.nanoduration("10:03:02.999_999_999")
+as.nanoduration(&quot;10:03:02.999_999_999&quot;)
 as.nanoduration(36182999999999)
 
 ## arithmetic:
 as.nanoduration(10e9) - as.nanoduration(9e9)
 as.nanoduration(10e9) + as.nanoduration(-9e9)
-as.nanoduration("24:00:00") / 2
-as.nanoduration("24:00:00") / as.nanoduration("12:00:00")
+as.nanoduration(&quot;24:00:00&quot;) / 2
+as.nanoduration(&quot;24:00:00&quot;) / as.nanoduration(&quot;12:00:00&quot;)
 
 ## comparison:
-as.nanoduration("10:03:02.999_999_999") == 36182999999999
-as.nanoduration("10:03:02.999_999_999") &gt; as.nanoduration("10:03:02.999_999_998")
-as.nanoduration("10:03:02.999_999_998") &lt; "10:03:02.999_999_999"
+as.nanoduration(&quot;10:03:02.999_999_999&quot;) == 36182999999999
+as.nanoduration(&quot;10:03:02.999_999_999&quot;) &gt; as.nanoduration(&quot;10:03:02.999_999_998&quot;)
+as.nanoduration(&quot;10:03:02.999_999_998&quot;) &lt; &quot;10:03:02.999_999_999&quot;
 </code></pre>
 
 

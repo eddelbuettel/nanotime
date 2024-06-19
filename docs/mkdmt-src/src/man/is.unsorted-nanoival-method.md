@@ -1,4 +1,6 @@
 
+<div role="main">
+
 ## Test if a `nanoival` vector is Not Sorted
 
 ### Description
@@ -8,12 +10,14 @@ of sorting it.
 
 ### Usage
 
-    ## S4 method for signature 'nanoival'
-    is.unsorted(x, na.rm = FALSE, strictly = FALSE)
+``` R
+## S4 method for signature 'nanoival'
+is.unsorted(x, na.rm = FALSE, strictly = FALSE)
+```
 
 ### Arguments
 
-| Argument   | Description                                                                   |
+|            |                                                                               |
 |------------|-------------------------------------------------------------------------------|
 | `x`        | a `nanoival` vector                                                           |
 | `na.rm`    | logical. Should missing values be removed before checking?                    |
@@ -22,4 +26,5 @@ of sorting it.
 ### See Also
 
 `sort`
+
 

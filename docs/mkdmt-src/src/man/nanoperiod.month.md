@@ -1,4 +1,6 @@
 
+<div role="main">
+
 ## Nanoperiod accessors
 
 ### Description
@@ -7,20 +9,22 @@ These functions allow access to the components of a `nanoperiod`
 
 ### Usage
 
-    ## S4 method for signature 'nanoperiod'
-    nanoperiod.month(x)
+``` R
+## S4 method for signature 'nanoperiod'
+nanoperiod.month(x)
 
-    ## S4 method for signature 'nanoperiod'
-    nanoperiod.day(x)
+## S4 method for signature 'nanoperiod'
+nanoperiod.day(x)
 
-    ## S4 method for signature 'nanoperiod'
-    nanoperiod.nanoduration(x)
+## S4 method for signature 'nanoperiod'
+nanoperiod.nanoduration(x)
+```
 
 ### Arguments
 
-| Argument | Description    |
-|----------|----------------|
-| `x`      | A `nanoperiod` |
+|     |                |
+|-----|----------------|
+| `x` | A `nanoperiod` |
 
 ### Value
 
@@ -39,8 +43,11 @@ Leonardo Silvestri
 
 ### Examples
 
-    p <- as.nanoperiod("2y1m1d/12:00:00")
-    nanoperiod.month(p)
-    nanoperiod.day(p)
-    nanoperiod.nanoduration(p)
+``` R
+p <- as.nanoperiod("2y1m1d/12:00:00")
+nanoperiod.month(p)
+nanoperiod.day(p)
+nanoperiod.nanoduration(p)
+```
+
 

@@ -1,5 +1,123 @@
+###  2024 
+
+2024-06-19  Dirk Eddelbuettel  <edd@debian.org> 
+ 
+        * DESCRIPTION (Version, Date): Release 0.3.8 
+ 
+        * README.md: Use tinyverse.netlify.app for dependency badge 
+ 
+2024-06-18  Dirk Eddelbuettel  <edd@debian.org> 
+ 
+        * R/nanotime.R: Simplify one reference to RcppCCTZ 
+        * man/nanotime.Rd: Idem 
+ 
+        * inst/tinytest/test_nanoival.R: Condition some tests on being in an 
+        'extended' run 
+ 
+2024-06-16  Dirk Eddelbuettel  <edd@debian.org> 
+ 
+        * DESCRIPTION (Version, Date): Roll minor version and date 
+ 
+        * inst/include/nanotime/interval.hpp: Add extra braces 
+        * src/interval.cpp: Updated output stream helper 
+        * src/period.cpp: Idem 
+ 
+        * src/Makevars (CXX_STD): Set C++17 
+        * src/Makevars.win (CXX_STD): Idem 
+        * src/Makevars.ucrt: Removed 
+ 
+2024-06-14  Leonardo Silvestri  <lsilvestr@ztsdb.org> 
+ 
+        * src/Makevars.win: Remove -mno-ms-bitfields 
+ 
+2024-06-13  Leonardo Silvestri  <lsilvestr@ztsdb.org> 
+ 
+        * inst/include/nanotime/interval.hpp: NA behavior for bitfield 
+ 
+2024-06-11  Leonardo Silvestri  <lsilvestr@ztsdb.org> 
+ 
+        * inst/include/nanotime/interval.hpp: Initial fix for bitfield 
+        * inst/include/nanotime/period.hppL Idem 
+        * src/interval.cpp: Idem 
+ 
+2024-06-09  Dirk Eddelbuettel  <edd@debian.org> 
+ 
+        * README.md: Use tinyverse.netlify.app for dependency badge 
+ 
+2024-05-24  Leonardo Silvestri  <lsilvestr@ztsdb.org> 
+ 
+        * R/nanoduration.R: duration divided by duration returns double 
+        * inst/tinytest/test_nanoduration.R: additional test for the above 
+ 
+        * inst/include/nanotime/utilities.hpp: Use interface function Rf_asS4 
+        instead of internal SET_S4_OBJECT 
+        * src/interval.cpp: Change setting of S4 bit before names assigment 
+ 
+2024-04-28  Dirk Eddelbuettel  <edd@debian.org> 
+ 
+        * DESCRIPTION (Version, Date): Roll minor version and date 
+ 
+        * R/nanoperiod.R: Add missing backslash in code call 
+        * man/nanoperiod.Rd: Idem 
+ 
+2024-02-16  Dirk Eddelbuettel  <edd@debian.org> 
+ 
+        * .github/workflows/ci.yaml (jobs): Update to actions/checkout@v4, 
+        add r-ci-setup actions 
+ 
+###  2023 
+
+2023-09-26  Leonardo Silvestri  <lsilvestri@ztsdb.org> 
+ 
+        * R/nanotime.R: Further refinement for default UTC timezone 
+        * inst/tinytest/test_nanotime.R: Idem 
+ 
+2023-09-22  Dirk Eddelbuettel  <edd@debian.org> 
+ 
+        * R/nanotime.R: Provide default UTC timezone in 'as.Date()' 
+        * tests/simpleTests.R: Adjist a test accordingly 
+        * inst/tinytest/test_nanotime.R: Idem 
+ 
+2023-09-21  Leonardo Silvestri  <lsilvestri@ztsdb.org> 
+ 
+        * DESCRIPTION (Version, Date): Roll minor version 
+        * R/nanotime.R: Fixed 'as.Date' to force use of timezone and to 
+        allow the timezone argument to be a vector 
+ 
+2023-07-11  Dirk Eddelbuettel  <edd@debian.org> 
+ 
+        * README.md: Add r-universe badge 
+ 
+2023-07-06  Leonardo Silvestri  <lsilvestri@ztsdb.org> 
+ 
+        * DESCRIPTION (Version, Date): Roll minor version 
+        * R/nanotime.R: added parameter 'accurate' to functions 'nanotime' 
+        and 'as.nanotime' when the argument is a 'POSIXct'. 
+        * inst/tinytest/test_nanotime.R: added tests for 'accurate' parameter. 
+        * man/nanotime.Rd: added documentation for 'accurate' parameter. 
+ 
+2023-03-12  Dirk Eddelbuettel  <edd@debian.org> 
+ 
+        * DESCRIPTION (Version, Date): Roll minor version 
+ 
+        * src/Makevars: No longer set compilation standard 
+        * src/Makevars.win: Idem 
+        * src/Makevars.ucrt: Idem 
+ 
 ###  2022 
 
+2022-12-06  Dirk Eddelbuettel  <edd@debian.org> 
+ 
+        * DESCRIPTION (Version, Date): Roll minor version 
+ 
+        * R/nanotime.R: Add example for additional format plus reference to 
+        \pkg{RcppCCTZ} documentation which has format details 
+        * man/nanotime.Rd: Idem 
+ 
+2022-11-08  Dirk Eddelbuettel  <edd@debian.org> 
+ 
+        * .github/workflows/ci.yaml (jobs): Update to actions/checkout@v3 
+ 
 2022-10-23  Dirk Eddelbuettel  <edd@debian.org> 
  
         * DESCRIPTION (Version, Date): Release 0.3.7 

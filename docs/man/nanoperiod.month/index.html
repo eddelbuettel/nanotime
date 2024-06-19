@@ -65,11 +65,6 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
-        
-        <a href="#nanoperiod-accessors" class="md-skip">
-          Skip to content
-        </a>
-      
     </div>
     <div data-md-component="announce">
       
@@ -509,93 +504,9 @@
       
       
       
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Nanoperiod.month
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
       <a href="./" class="md-nav__link md-nav__link--active">
         Nanoperiod.month
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#nanoperiod-accessors" class="md-nav__link">
-    Nanoperiod accessors
-  </a>
-  
-    <nav class="md-nav" aria-label="Nanoperiod accessors">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#description" class="md-nav__link">
-    Description
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    Usage
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#arguments" class="md-nav__link">
-    Arguments
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#value" class="md-nav__link">
-    Value
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#authors" class="md-nav__link">
-    Author(s)
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#see-also" class="md-nav__link">
-    See Also
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#examples" class="md-nav__link">
-    Examples
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
       
     </li>
   
@@ -924,76 +835,6 @@
   
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#nanoperiod-accessors" class="md-nav__link">
-    Nanoperiod accessors
-  </a>
-  
-    <nav class="md-nav" aria-label="Nanoperiod accessors">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#description" class="md-nav__link">
-    Description
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    Usage
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#arguments" class="md-nav__link">
-    Arguments
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#value" class="md-nav__link">
-    Value
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#authors" class="md-nav__link">
-    Author(s)
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#see-also" class="md-nav__link">
-    See Also
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#examples" class="md-nav__link">
-    Examples
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -1009,11 +850,18 @@
 
   <h1>Nanoperiod.month</h1>
 
-<h2 id="nanoperiod-accessors">Nanoperiod accessors</h2>
-<h3 id="description">Description</h3>
-<p>These functions allow access to the components of a <code>nanoperiod</code></p>
-<h3 id="usage">Usage</h3>
-<pre><code>## S4 method for signature 'nanoperiod'
+<div role="main">
+
+## Nanoperiod accessors
+
+### Description
+
+These functions allow access to the components of a `nanoperiod`
+
+### Usage
+
+
+<pre><code class="language-R">## S4 method for signature 'nanoperiod'
 nanoperiod.month(x)
 
 ## S4 method for signature 'nanoperiod'
@@ -1022,31 +870,33 @@ nanoperiod.day(x)
 ## S4 method for signature 'nanoperiod'
 nanoperiod.nanoduration(x)
 </code></pre>
-<h3 id="arguments">Arguments</h3>
-<table>
-<thead>
-<tr>
-<th>Argument</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>x</code></td>
-<td>A <code>nanoperiod</code></td>
-</tr>
-</tbody>
-</table>
-<h3 id="value">Value</h3>
-<p><code>nanoperiod.month</code> and <code>nanoperiod.day</code> return an <code>integer64</code> whereas
-<code>nanoperiod.nanoduration</code> returns a <code>nanoduration</code></p>
-<h3 id="authors">Author(s)</h3>
-<p>Dirk Eddelbuettel</p>
-<p>Leonardo Silvestri</p>
-<h3 id="see-also">See Also</h3>
-<p><code>nanoduration</code></p>
-<h3 id="examples">Examples</h3>
-<pre><code>p &lt;- as.nanoperiod("2y1m1d/12:00:00")
+
+
+### Arguments
+
+|     |                |
+|-----|----------------|
+| `x` | A `nanoperiod` |
+
+### Value
+
+`nanoperiod.month` and `nanoperiod.day` return an `integer64` whereas
+`nanoperiod.nanoduration` returns a `nanoduration`
+
+### Author(s)
+
+Dirk Eddelbuettel
+
+Leonardo Silvestri
+
+### See Also
+
+`nanoduration`
+
+### Examples
+
+
+<pre><code class="language-R">p &lt;- as.nanoperiod(&quot;2y1m1d/12:00:00&quot;)
 nanoperiod.month(p)
 nanoperiod.day(p)
 nanoperiod.nanoduration(p)

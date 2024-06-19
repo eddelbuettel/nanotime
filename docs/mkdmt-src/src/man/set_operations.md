@@ -1,4 +1,6 @@
 
+<div role="main">
+
 ## Set operations
 
 ### Description
@@ -8,47 +10,49 @@ temporal types from the `nanotime` package.
 
 ### Usage
 
-    ## S4 method for signature 'nanoival,nanoival'
-    intersect(x, y)
+``` R
+## S4 method for signature 'nanoival,nanoival'
+intersect(x, y)
 
-    ## S4 method for signature 'nanoival,nanoival'
-    union(x, y)
+## S4 method for signature 'nanoival,nanoival'
+union(x, y)
 
-    ## S4 method for signature 'nanoival,nanoival'
-    setdiff(x, y)
+## S4 method for signature 'nanoival,nanoival'
+setdiff(x, y)
 
-    ## S4 method for signature 'nanotime,nanoival'
-    intersect.idx(x, y)
+## S4 method for signature 'nanotime,nanoival'
+intersect.idx(x, y)
 
-    ## S3 method for class 'nanotime'
-    x %in% table
+## S3 method for class 'nanotime'
+x %in% table
 
-    ## S4 method for signature 'nanotime,nanoival'
-    x %in% table
+## S4 method for signature 'nanotime,nanoival'
+x %in% table
 
-    ## S4 method for signature 'nanotime,nanoival'
-    intersect(x, y)
+## S4 method for signature 'nanotime,nanoival'
+intersect(x, y)
 
-    ## S4 method for signature 'nanotime,nanoival'
-    setdiff(x, y)
+## S4 method for signature 'nanotime,nanoival'
+setdiff(x, y)
 
-    ## S4 method for signature 'nanotime,nanoival'
-    setdiff.idx(x, y)
+## S4 method for signature 'nanotime,nanoival'
+setdiff.idx(x, y)
 
-    ## S4 method for signature 'nanotime,nanotime'
-    intersect(x, y)
+## S4 method for signature 'nanotime,nanotime'
+intersect(x, y)
 
-    ## S4 method for signature 'nanotime,nanotime'
-    union(x, y)
+## S4 method for signature 'nanotime,nanotime'
+union(x, y)
 
-    ## S4 method for signature 'nanotime,nanotime'
-    setdiff(x, y)
+## S4 method for signature 'nanotime,nanotime'
+setdiff(x, y)
+```
 
 ### Arguments
 
-| Argument | Description                |
+|          |                            |
 |----------|----------------------------|
-| `x, y`   | a temporal type            |
+| `x`, `y` | a temporal type            |
 | `table`  | `nanoival`: used in `%in%` |
 
 ### Details
@@ -75,37 +79,40 @@ removed.
 
 ### Examples
 
-    ## Not run: 
-    ## a vector of 'nanotime' can be subsetted by a 'nanoival' which is equivalent to 'intersect':
-    one_second <- 1e9
-    a <- seq(nanotime("2012-12-12 12:12:12+00:00"), length.out=10, by=one_second)
-    idx <- c(as.nanoival("-2012-12-12 12:12:10+00:00 -> 2012-12-12 12:12:14+00:00-"),
-             as.nanoival("+2012-12-12 12:12:18+00:00 -> 2012-12-12 12:12:20+00:00+"))
-    a[idx]
-    intersect(a, idx)
+``` R
+## Not run: 
+## a vector of 'nanotime' can be subsetted by a 'nanoival' which is equivalent to 'intersect':
+one_second <- 1e9
+a <- seq(nanotime("2012-12-12 12:12:12+00:00"), length.out=10, by=one_second)
+idx <- c(as.nanoival("-2012-12-12 12:12:10+00:00 -> 2012-12-12 12:12:14+00:00-"),
+         as.nanoival("+2012-12-12 12:12:18+00:00 -> 2012-12-12 12:12:20+00:00+"))
+a[idx]
+intersect(a, idx)
 
-    ## 'nanoival' also has the set operations 'union', 'intersect', 'setdiff':
-    a <- seq(nanotime("2012-12-12 12:12:12+00:00"), length.out=10, by=one_second)
-    i <- as.nanoival("-2012-12-12 12:12:14+00:00 -> 2012-12-12 12:12:18+00:00-")
-    setdiff(a, i)
+## 'nanoival' also has the set operations 'union', 'intersect', 'setdiff':
+a <- seq(nanotime("2012-12-12 12:12:12+00:00"), length.out=10, by=one_second)
+i <- as.nanoival("-2012-12-12 12:12:14+00:00 -> 2012-12-12 12:12:18+00:00-")
+setdiff(a, i)
 
-    i1 <- as.nanoival("+2012-12-12 12:12:14+00:00 -> 2012-12-12 12:12:17+00:00-")
-    i2 <- as.nanoival("+2012-12-12 12:12:16+00:00 -> 2012-12-12 12:12:18+00:00-")
-    union(i1, i2)
+i1 <- as.nanoival("+2012-12-12 12:12:14+00:00 -> 2012-12-12 12:12:17+00:00-")
+i2 <- as.nanoival("+2012-12-12 12:12:16+00:00 -> 2012-12-12 12:12:18+00:00-")
+union(i1, i2)
 
-    ## 'intersect.idx' returns the indices of the intersection:
-    a <- seq(nanotime("2012-12-12 12:12:12+00:00"), length.out=10, by=one_second)
-    idx <- as.nanoival("+2012-12-12 12:12:14+00:00 -> 2012-12-12 12:12:19+00:00+")
-    idx_intersect <- intersect.idx(a, idx)
+## 'intersect.idx' returns the indices of the intersection:
+a <- seq(nanotime("2012-12-12 12:12:12+00:00"), length.out=10, by=one_second)
+idx <- as.nanoival("+2012-12-12 12:12:14+00:00 -> 2012-12-12 12:12:19+00:00+")
+idx_intersect <- intersect.idx(a, idx)
 
-    ## Intersection can be performed using these indices:
-    a[idx_intersect$x]
+## Intersection can be performed using these indices:
+a[idx_intersect$x]
 
-    ## which is equivalent to:
-    a[idx]
+## which is equivalent to:
+a[idx]
 
-    ## The logical vector indicating intersection can be obtained like this:
-    a %in% idx
+## The logical vector indicating intersection can be obtained like this:
+a %in% idx
 
-    ## End(Not run)
+## End(Not run)
+```
+
 

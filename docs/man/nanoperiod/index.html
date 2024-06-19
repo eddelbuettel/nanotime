@@ -65,11 +65,6 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
-        
-        <a href="#period-type-with-nanosecond-precision" class="md-skip">
-          Skip to content
-        </a>
-      
     </div>
     <div data-md-component="announce">
       
@@ -425,114 +420,9 @@
       
       
       
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Nanoperiod
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
       <a href="./" class="md-nav__link md-nav__link--active">
         Nanoperiod
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#period-type-with-nanosecond-precision" class="md-nav__link">
-    Period type with nanosecond precision
-  </a>
-  
-    <nav class="md-nav" aria-label="Period type with nanosecond precision">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#description" class="md-nav__link">
-    Description
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    Usage
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#arguments" class="md-nav__link">
-    Arguments
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#format" class="md-nav__link">
-    Format
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#constructors" class="md-nav__link">
-    Constructors
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#output-format" class="md-nav__link">
-    Output Format
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#details" class="md-nav__link">
-    Details
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#authors" class="md-nav__link">
-    Author(s)
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#see-also" class="md-nav__link">
-    See Also
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#examples" class="md-nav__link">
-    Examples
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
       
     </li>
   
@@ -945,97 +835,6 @@
   
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#period-type-with-nanosecond-precision" class="md-nav__link">
-    Period type with nanosecond precision
-  </a>
-  
-    <nav class="md-nav" aria-label="Period type with nanosecond precision">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#description" class="md-nav__link">
-    Description
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    Usage
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#arguments" class="md-nav__link">
-    Arguments
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#format" class="md-nav__link">
-    Format
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#constructors" class="md-nav__link">
-    Constructors
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#output-format" class="md-nav__link">
-    Output Format
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#details" class="md-nav__link">
-    Details
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#authors" class="md-nav__link">
-    Author(s)
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#see-also" class="md-nav__link">
-    See Also
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#examples" class="md-nav__link">
-    Examples
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -1051,18 +850,25 @@
 
   <h1>Nanoperiod</h1>
 
-<h2 id="period-type-with-nanosecond-precision">Period type with nanosecond precision</h2>
-<h3 id="description">Description</h3>
-<p><code>nanoperiod</code> is a length of time type (implemented as an S4 class) with
-nanosecond precision. It differs from <code>nanoduration</code> because it is
+<div role="main">
+
+## Period type with nanosecond precision
+
+### Description
+
+`nanoperiod` is a length of time type (implemented as an S4 class) with
+nanosecond precision. It differs from `nanoduration` because it is
 capable of representing calendar months and days. It can thus represent
 years (12 months) and weeks (7 days). A period is a somewhat abstract
 representation of time: it is only when anchored to a point in time and
 in a specific time zone that it is possible to convert it to a specific
 duration. This means that many of the operations involving periods need
-the additional argument <code>tz</code>.</p>
-<h3 id="usage">Usage</h3>
-<pre><code>nanoperiod(months = 0, days = 0, duration = as.nanoduration(0))
+the additional argument `tz`.
+
+### Usage
+
+
+<pre><code class="language-R">nanoperiod(months = 0, days = 0, duration = as.nanoduration(0))
 
 ## S4 method for signature 'character'
 as.nanoperiod(x)
@@ -1237,80 +1043,44 @@ minus(e1, e2, tz)
 
 NA_nanoperiod_
 </code></pre>
-<h3 id="arguments">Arguments</h3>
-<table>
-<thead>
-<tr>
-<th>Argument</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>months</code></td>
-<td>Used in the constructor to indicate the number of months of the <code>nanoperiod</code></td>
-</tr>
-<tr>
-<td><code>days</code></td>
-<td>Used in the constructor to indicate the number of days of the <code>nanoperiod</code></td>
-</tr>
-<tr>
-<td><code>duration</code></td>
-<td>Used in the constructor to indicate the duration component of the <code>nanoperiod</code></td>
-</tr>
-<tr>
-<td><code>x, value</code></td>
-<td>An object of class <code>nanoperiod</code></td>
-</tr>
-<tr>
-<td><code>object</code></td>
-<td>argument for method <code>show</code></td>
-</tr>
-<tr>
-<td><code>quote</code></td>
-<td>indicates if the output of <code>print</code> should be quoted</td>
-</tr>
-<tr>
-<td><code>...</code></td>
-<td>further arguments</td>
-</tr>
-<tr>
-<td><code>i</code></td>
-<td>index specifying elements to extract or replace.</td>
-</tr>
-<tr>
-<td><code>j</code></td>
-<td>Required for <code>[</code> signature but ignored here</td>
-</tr>
-<tr>
-<td><code>drop</code></td>
-<td>Required for <code>[</code> signature but ignored here</td>
-</tr>
-<tr>
-<td><code>e1</code></td>
-<td>Operand of class <code>nanoperiod</code></td>
-</tr>
-<tr>
-<td><code>e2</code></td>
-<td>Operand of class <code>nanoperiod</code></td>
-</tr>
-<tr>
-<td><code>tz</code></td>
-<td><code>character</code> indicating a timezone</td>
-</tr>
-</tbody>
-</table>
-<h3 id="format">Format</h3>
-<p>An object of class <code>nanoperiod</code> of length 1.</p>
-<h3 id="constructors">Constructors</h3>
-<p>The true constructor is</p>
-<h3 id="output-format">Output Format</h3>
-<p>A <code>nanoperiod</code> is displayed as months, days, and <code>nanoduration</code> like
-this: <code>10m2d/10:12:34.123_453_000</code>.</p>
-<h3 id="details">Details</h3>
-<p>Adding or subtracting <code>nanoperiod</code> and <code>nanotime</code> require a timezone as
+
+
+### Arguments
+
+|              |                                                                                |
+|--------------|--------------------------------------------------------------------------------|
+| `months`     | Used in the constructor to indicate the number of months of the `nanoperiod`   |
+| `days`       | Used in the constructor to indicate the number of days of the `nanoperiod`     |
+| `duration`   | Used in the constructor to indicate the duration component of the `nanoperiod` |
+| `x`, `value` | An object of class `nanoperiod`                                                |
+| `object`     | argument for method `show`                                                     |
+| `quote`      | indicates if the output of `print` should be quoted                            |
+| `...`        | further arguments                                                              |
+| `i`          | index specifying elements to extract or replace.                               |
+| `j`          | Required for `[` signature but ignored here                                    |
+| `drop`       | Required for `[` signature but ignored here                                    |
+| `e1`         | Operand of class `nanoperiod`                                                  |
+| `e2`         | Operand of class `nanoperiod`                                                  |
+| `tz`         | `character` indicating a timezone                                              |
+
+### Format
+
+An object of class `nanoperiod` of length 1.
+
+### Constructors
+
+The true constructor is
+
+### Output Format
+
+A `nanoperiod` is displayed as months, days, and `nanoduration` like
+this: `10m2d/10:12:34.123_453_000`.
+
+### Details
+
+Adding or subtracting `nanoperiod` and `nanotime` require a timezone as
 third argument. For this reason it is not possible to use the binary
-operator 'code+'. Instead the functions '<code>plus</code>' and '<code>minus</code>' are
+operator '`+`'. Instead the functions '`plus`' and '`minus`' are
 defined. These functions attempt to keep the same offset within a day in
 the specified timezone: this means for instance that adding a day when
 that day crosses a time zone adjustment such as a daylight saving time,
@@ -1319,22 +1089,30 @@ preserve the offset. Preserving the offset works for increments that are
 smaller than a day too, provided the increment results in a datetime
 where the timezone adjustment is valid. When this is not the case,
 adding a 'nanoperiod' behaves in the same way as adding a
-'nanoduration'.</p>
-<h3 id="authors">Author(s)</h3>
-<p>Dirk Eddelbuettel</p>
-<p>Leonardo Silvestri</p>
-<h3 id="see-also">See Also</h3>
-<p><code>nanotime</code>, <code>nanoduration</code>, <code>nanoival</code>,
-<code>nanoperiod.month,nanoperiod-method</code></p>
-<h3 id="examples">Examples</h3>
-<pre><code>## Not run: 
-p &lt;- nanoperiod(months=12, days=7, duration="01:00:00")
+'nanoduration'.
+
+### Author(s)
+
+Dirk Eddelbuettel
+
+Leonardo Silvestri
+
+### See Also
+
+`nanotime`, `nanoduration`, `nanoival`,
+`nanoperiod.month,nanoperiod-method`
+
+### Examples
+
+
+<pre><code class="language-R">## Not run: 
+p &lt;- nanoperiod(months=12, days=7, duration=&quot;01:00:00&quot;)
 print(p)
 
 #  when adding a \code{nanoperiod} to a \code{nanotime} or to a
 # \code{nanoival}, a time zone must be specified:
-y &lt;- nanotime("1970-01-01T00:00:00+00:00")
-plus(y, p, tz="America/Chicago")
+y &lt;- nanotime(&quot;1970-01-01T00:00:00+00:00&quot;)
+plus(y, p, tz=&quot;America/Chicago&quot;)
 
 ## End(Not run)
 </code></pre>

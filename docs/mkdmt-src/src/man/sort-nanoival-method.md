@@ -1,4 +1,6 @@
 
+<div role="main">
+
 ## Sorting or Ordering Vectors
 
 ### Description
@@ -8,12 +10,14 @@ order
 
 ### Usage
 
-    ## S4 method for signature 'nanoival'
-    sort(x, decreasing = FALSE)
+``` R
+## S4 method for signature 'nanoival'
+sort(x, decreasing = FALSE)
+```
 
 ### Arguments
 
-| Argument     | Description                                           |
+|              |                                                       |
 |--------------|-------------------------------------------------------|
 | `x`          | a vector of `nanoival`                                |
 | `decreasing` | logical. Should the sort be increasing or decreasing? |
@@ -21,4 +25,5 @@ order
 ### See Also
 
 `is.unsorted`
+
 
