@@ -1,7 +1,14 @@
+2024-06-19  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): Release 0.3.8
+
 2024-06-18  Dirk Eddelbuettel  <edd@debian.org>
 
 	* R/nanotime.R: Simplify one reference to RcppCCTZ
 	* man/nanotime.Rd: Idem
+
+	* inst/tinytest/test_nanoival.R: Condition some tests on being in an
+	'extended' run
 
 2024-06-16  Dirk Eddelbuettel  <edd@debian.org>
 

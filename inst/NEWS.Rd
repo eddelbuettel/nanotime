@@ -3,11 +3,11 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/nanotime/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/nanotime/issues/#1}{##1}}
 
-\section{Changes in version 0.3.8 (2024-xx-xx)}{
+\section{Changes in version 0.3.8 (2024-06-19)}{
   \itemize{
     \item Time format documentation now has a reference to \pkg{RcppCCTZ}
-    \item The package no longer sets a default C++ compilation standard (Dirk
-    in \ghpr{114})
+    \item The package no longer sets a default C++ compilation standard of
+    C++11 (Dirk initially in \ghpr{114}, and later switched to C++17)
     \item New \code{accurate} parameter for conversion from \code{POSIXct} to
     \code{nanotime} (Davor Josipovic and Leonardo in \ghpr{116} closing
     \ghit{115})
@@ -19,6 +19,10 @@
     a double (Leonardo in \ghpr{122} closing \ghit{117})
     \item Bitfield calculations no longer require an Windows-only compiler
     switch (Leonardo in \ghpr{124})
+    \item A simple manual page format nag involving has been addressed (Dirk
+    in \ghpr{126} fixing \ghit{125})
+    \item An set of tests tickling an UBSAN issue via \pkg{Rcpp} code no
+    longer run unless \code{CI} is set (Dirk in \ghpr{127} fixing \ghit{123})
   }
 }
 
