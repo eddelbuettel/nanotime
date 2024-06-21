@@ -1,5 +1,4 @@
 
-<div role="main">
 
 ## Interval type with nanosecond precision
 

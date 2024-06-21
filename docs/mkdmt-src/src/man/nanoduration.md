@@ -1,5 +1,4 @@
 
-<div role="main">
 
 ## Duration type with nanosecond precision
 

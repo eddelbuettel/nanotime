@@ -1,5 +1,4 @@
 
-<div role="main">
 
 ## Period type with nanosecond precision
 

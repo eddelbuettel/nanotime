@@ -1,5 +1,4 @@
 
-<div role="main">
 
 ## Test if Two Objects are (Nearly) Equal
 

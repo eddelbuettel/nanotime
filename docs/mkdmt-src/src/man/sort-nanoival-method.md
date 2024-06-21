@@ -1,5 +1,4 @@
 
-<div role="main">
 
 ## Sorting or Ordering Vectors
 

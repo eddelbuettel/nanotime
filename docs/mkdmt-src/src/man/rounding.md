@@ -1,5 +1,4 @@
 
-<div role="main">
 
 ## Rounding down or up a `nanotime` type
 

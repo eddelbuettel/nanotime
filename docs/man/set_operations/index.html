@@ -65,6 +65,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#set-operations" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -644,9 +649,86 @@
       
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Set operations
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         Set operations
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#set-operations" class="md-nav__link">
+    Set operations
+  </a>
+  
+    <nav class="md-nav" aria-label="Set operations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#description" class="md-nav__link">
+    Description
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arguments" class="md-nav__link">
+    Arguments
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#details" class="md-nav__link">
+    Details
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#value" class="md-nav__link">
+    Value
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    Examples
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -835,6 +917,69 @@
   
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#set-operations" class="md-nav__link">
+    Set operations
+  </a>
+  
+    <nav class="md-nav" aria-label="Set operations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#description" class="md-nav__link">
+    Description
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arguments" class="md-nav__link">
+    Arguments
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#details" class="md-nav__link">
+    Details
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#value" class="md-nav__link">
+    Value
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    Examples
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -850,18 +995,11 @@
 
   <h1>Set operations</h1>
 
-<div role="main">
-
-## Set operations
-
-### Description
-
-Performs set intersection, union and difference between vectors of
-temporal types from the `nanotime` package.
-
-### Usage
-
-
+<h2 id="set-operations">Set operations</h2>
+<h3 id="description">Description</h3>
+<p>Performs set intersection, union and difference between vectors of
+temporal types from the <code>nanotime</code> package.</p>
+<h3 id="usage">Usage</h3>
 <pre><code class="language-R">## S4 method for signature 'nanoival,nanoival'
 intersect(x, y)
 
@@ -898,40 +1036,44 @@ union(x, y)
 ## S4 method for signature 'nanotime,nanotime'
 setdiff(x, y)
 </code></pre>
-
-
-### Arguments
-
-|          |                            |
-|----------|----------------------------|
-| `x`, `y` | a temporal type            |
-| `table`  | `nanoival`: used in `%in%` |
-
-### Details
-
-Set operations between `nanoival` operands allow the construction of
-complex interval vectors (i.e. a `nanoival` vector can specify any
+<h3 id="arguments">Arguments</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>x</code>, <code>y</code></td>
+<td>a temporal type</td>
+</tr>
+<tr>
+<td><code>table</code></td>
+<td><code>nanoival</code>: used in <code>%in%</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="details">Details</h3>
+<p>Set operations between <code>nanoival</code> operands allow the construction of
+complex interval vectors (i.e. a <code>nanoival</code> vector can specify any
 number of inclusions and exclusions of time). Set operations between
-`nanotime` and `nanoival` allow to subset time vectors with interval
+<code>nanotime</code> and <code>nanoival</code> allow to subset time vectors with interval
 vectors. In addition to the generic set functions, the function
-`intersect.idx` is defined which returns the indices of the
-intersection, and the operator `%in%` is overloaded for
-`nanotime-nanoival` which returns a logical vector that indicates which
-elements belong to the interval vector.
-
-### Value
-
-`intersect`, `union`, `setdiff` return temporal types that are the
+<code>intersect.idx</code> is defined which returns the indices of the
+intersection, and the operator <code>%in%</code> is overloaded for
+<code>nanotime-nanoival</code> which returns a logical vector that indicates which
+elements belong to the interval vector.</p>
+<h3 id="value">Value</h3>
+<p><code>intersect</code>, <code>union</code>, <code>setdiff</code> return temporal types that are the
 result of the intersection. For instance, set operations on two
-`nanoival` return a `nanoival`, whereas intersection between a
-`nanoival` and a `nanotime` returns a `nanotime`. `intersect.idx` return
+<code>nanoival</code> return a <code>nanoival</code>, whereas intersection between a
+<code>nanoival</code> and a <code>nanotime</code> returns a <code>nanotime</code>. <code>intersect.idx</code> return
 a list of vectors representing the element indices that intersect and
-`setdiff.idx` returns a vector representing the element indices to be
-removed.
-
-### Examples
-
-
+<code>setdiff.idx</code> returns a vector representing the element indices to be
+removed.</p>
+<h3 id="examples">Examples</h3>
 <pre><code class="language-R">## Not run: 
 ## a vector of 'nanotime' can be subsetted by a 'nanoival' which is equivalent to 'intersect':
 one_second &lt;- 1e9

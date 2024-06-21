@@ -1,5 +1,4 @@
 
-<div role="main">
 
 ## Nanosecond resolution datetime functionality
 

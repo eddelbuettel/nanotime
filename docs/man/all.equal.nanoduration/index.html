@@ -65,6 +65,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#test-if-two-objects-are-nearly-equal" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -434,9 +439,72 @@
       
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          All.equal.nanoduration
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         All.equal.nanoduration
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#test-if-two-objects-are-nearly-equal" class="md-nav__link">
+    Test if Two Objects are (Nearly) Equal
+  </a>
+  
+    <nav class="md-nav" aria-label="Test if Two Objects are (Nearly) Equal">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#description" class="md-nav__link">
+    Description
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arguments" class="md-nav__link">
+    Arguments
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    See Also
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -835,6 +903,55 @@
   
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#test-if-two-objects-are-nearly-equal" class="md-nav__link">
+    Test if Two Objects are (Nearly) Equal
+  </a>
+  
+    <nav class="md-nav" aria-label="Test if Two Objects are (Nearly) Equal">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#description" class="md-nav__link">
+    Description
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arguments" class="md-nav__link">
+    Arguments
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    See Also
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -850,21 +967,14 @@
 
   <h1>All.equal.nanoduration</h1>
 
-<div role="main">
-
-## Test if Two Objects are (Nearly) Equal
-
-### Description
-
-Compare `target` and `current` testing ‘near equality’. If they are
+<h2 id="test-if-two-objects-are-nearly-equal">Test if Two Objects are (Nearly) Equal</h2>
+<h3 id="description">Description</h3>
+<p>Compare <code>target</code> and <code>current</code> testing ‘near equality’. If they are
 different, comparison is still made to some extent, and a report of the
-differences is returned. Do not use `all.equal` directly in `if`
-expressions—either use `isTRUE(all.equal(....))` or `identical` if
-appropriate.
-
-### Usage
-
-
+differences is returned. Do not use <code>all.equal</code> directly in <code>if</code>
+expressions—either use <code>isTRUE(all.equal(....))</code> or <code>identical</code> if
+appropriate.</p>
+<h3 id="usage">Usage</h3>
 <pre><code class="language-R">## S3 method for class 'nanoduration'
 all.equal(
   target,
@@ -889,23 +999,47 @@ all.equal(
   check.attributes = TRUE
 )
 </code></pre>
-
-
-### Arguments
-
-|                     |                                                                                                                                                                                                                                                                          |
-|---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `target`, `current` | `nanoduration` arguments to be compared                                                                                                                                                                                                                                  |
-| `tolerance`         | numeric \>= 0. Differences smaller than `tolerance` are not reported. The default value is close to `1.5e-8`.                                                                                                                                                            |
-| `scale`             | `NULL` or numeric \> 0, typically of length 1 or `length(target)`. See ‘Details’.                                                                                                                                                                                        |
-| `countEQ`           | logical indicating if the `target == current` cases should be counted when computing the mean (absolute or relative) differences. The default, `FALSE` may seem misleading in cases where `target` and `current` only differ in a few places; see the extensive example. |
-| `formatFUN`         | a `function` of two arguments, `err`, the relative, absolute or scaled error, and `what`, a character string indicating the \_kind\_ of error; maybe used, e.g., to format relative and absolute errors differently.                                                     |
-| `...`               | further arguments for different methods                                                                                                                                                                                                                                  |
-| `check.attributes`  | logical indicating if the `attributes` of `target` and `current` (other than the names) should be compared.                                                                                                                                                              |
-
-### See Also
-
-`identical`, `isTRUE`, `==`, and `all` for exact equality testing.
+<h3 id="arguments">Arguments</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>target</code>, <code>current</code></td>
+<td><code>nanoduration</code> arguments to be compared</td>
+</tr>
+<tr>
+<td><code>tolerance</code></td>
+<td>numeric >= 0. Differences smaller than <code>tolerance</code> are not reported. The default value is close to <code>1.5e-8</code>.</td>
+</tr>
+<tr>
+<td><code>scale</code></td>
+<td><code>NULL</code> or numeric > 0, typically of length 1 or <code>length(target)</code>. See ‘Details’.</td>
+</tr>
+<tr>
+<td><code>countEQ</code></td>
+<td>logical indicating if the <code>target == current</code> cases should be counted when computing the mean (absolute or relative) differences. The default, <code>FALSE</code> may seem misleading in cases where <code>target</code> and <code>current</code> only differ in a few places; see the extensive example.</td>
+</tr>
+<tr>
+<td><code>formatFUN</code></td>
+<td>a <code>function</code> of two arguments, <code>err</code>, the relative, absolute or scaled error, and <code>what</code>, a character string indicating the _kind_ of error; maybe used, e.g., to format relative and absolute errors differently.</td>
+</tr>
+<tr>
+<td><code>...</code></td>
+<td>further arguments for different methods</td>
+</tr>
+<tr>
+<td><code>check.attributes</code></td>
+<td>logical indicating if the <code>attributes</code> of <code>target</code> and <code>current</code> (other than the names) should be compared.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="see-also">See Also</h3>
+<p><code>identical</code>, <code>isTRUE</code>, <code>==</code>, and <code>all</code> for exact equality testing.</p>
 
 
 

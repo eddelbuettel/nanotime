@@ -1,5 +1,15 @@
 ###  2024 
 
+2024-06-21  Dirk Eddelbuettel  <edd@debian.org> 
+ 
+         * DESCRIPTION (Version, Date): Release 0.3.9 
+ 
+2024-06-20  Dirk Eddelbuettel  <edd@debian.org> 
+ 
+        * inst/tinytest/test_nanotime.R: Condition two tests to not run on arm64 
+ 
+        * .github/workflows/ci.yaml (jobs): Add macOS-latest back to matrix 
+ 
 2024-06-19  Dirk Eddelbuettel  <edd@debian.org> 
  
         * DESCRIPTION (Version, Date): Release 0.3.8 

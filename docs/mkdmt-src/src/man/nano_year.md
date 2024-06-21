@@ -1,5 +1,4 @@
 
-<div role="main">
 
 ## Get a component of a date time
 

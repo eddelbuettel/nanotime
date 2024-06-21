@@ -65,6 +65,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#rounding-down-or-up-a-nanotime-type" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -588,9 +593,79 @@
       
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Rounding
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         Rounding
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#rounding-down-or-up-a-nanotime-type" class="md-nav__link">
+    Rounding down or up a nanotime type
+  </a>
+  
+    <nav class="md-nav" aria-label="Rounding down or up a nanotime type">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#description" class="md-nav__link">
+    Description
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arguments" class="md-nav__link">
+    Arguments
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#details" class="md-nav__link">
+    Details
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    Examples
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -835,6 +910,62 @@
   
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#rounding-down-or-up-a-nanotime-type" class="md-nav__link">
+    Rounding down or up a nanotime type
+  </a>
+  
+    <nav class="md-nav" aria-label="Rounding down or up a nanotime type">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#description" class="md-nav__link">
+    Description
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arguments" class="md-nav__link">
+    Arguments
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#details" class="md-nav__link">
+    Details
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    Examples
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -850,28 +981,21 @@
 
   <h1>Rounding</h1>
 
-<div role="main">
-
-## Rounding down or up a `nanotime` type
-
-### Description
-
-The functions `nano_floor` and `nano_ceiling` round down or up,
-respectively. Although the underlying implementation of `nanotime` has
+<h2 id="rounding-down-or-up-a-nanotime-type">Rounding down or up a <code>nanotime</code> type</h2>
+<h3 id="description">Description</h3>
+<p>The functions <code>nano_floor</code> and <code>nano_ceiling</code> round down or up,
+respectively. Although the underlying implementation of <code>nanotime</code> has
 negative numbers for values before 1970-01-01 UTC, the rounding is
-always done backward in time for `nano_floor` and forward in time for
-`nano_ceiling`. The functions take a `nanotime` argument `x` which is
-the instance to round, together with a second argument `precision` which
+always done backward in time for <code>nano_floor</code> and forward in time for
+<code>nano_ceiling</code>. The functions take a <code>nanotime</code> argument <code>x</code> which is
+the instance to round, together with a second argument <code>precision</code> which
 indicates an arbitrary precision to which the rounding should be
-performed. This argument can be either a `nanoduration` or or a
-`nanoperiod`. In the latter case, the argument `tz` must also be
-specified in order to give the `nanoperiod` a meaning. Finally, the
-`nanotime` argument `origin` can be optionally specified to fix the
-rounding to a specific point in time.
-
-### Usage
-
-
+performed. This argument can be either a <code>nanoduration</code> or or a
+<code>nanoperiod</code>. In the latter case, the argument <code>tz</code> must also be
+specified in order to give the <code>nanoperiod</code> a meaning. Finally, the
+<code>nanotime</code> argument <code>origin</code> can be optionally specified to fix the
+rounding to a specific point in time.</p>
+<h3 id="usage">Usage</h3>
 <pre><code class="language-R">nano_ceiling(x, precision, ...)
 
 nano_floor(x, precision, ...)
@@ -888,48 +1012,61 @@ nano_ceiling(x, precision, origin = nanotime(), tz)
 ## S4 method for signature 'nanotime,nanoperiod'
 nano_floor(x, precision, origin = nanotime(), tz)
 </code></pre>
-
-
-### Arguments
-
-|             |                                                                                |
-|-------------|--------------------------------------------------------------------------------|
-| `x`         | a `nanotime` object which must be sorted                                       |
-| `precision` | a `nanoduration` or `nanoperiod` object indicating the rounding precision      |
-| `...`       | for future additional arguments                                                |
-| `origin`    | a `nanotime` scalar indicating the origin at which the rounding is considered  |
-| `tz`        | a `character` scalar indicating the time zone in which to conduct the rounding |
-
-### Details
-
-This flexible rounding must be understood in the context of a vector.
+<h3 id="arguments">Arguments</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>x</code></td>
+<td>a <code>nanotime</code> object which must be sorted</td>
+</tr>
+<tr>
+<td><code>precision</code></td>
+<td>a <code>nanoduration</code> or <code>nanoperiod</code> object indicating the rounding precision</td>
+</tr>
+<tr>
+<td><code>...</code></td>
+<td>for future additional arguments</td>
+</tr>
+<tr>
+<td><code>origin</code></td>
+<td>a <code>nanotime</code> scalar indicating the origin at which the rounding is considered</td>
+</tr>
+<tr>
+<td><code>tz</code></td>
+<td>a <code>character</code> scalar indicating the time zone in which to conduct the rounding</td>
+</tr>
+</tbody>
+</table>
+<h3 id="details">Details</h3>
+<p>This flexible rounding must be understood in the context of a vector.
 The rounding precision can then be considered as an interval that
 defines a grid over which the elements are either assigned to the
-starting value of the interval to which they belong (`nano_floor`) or
-the ending value of the interval to which they belong (`nano_ceiling`).
-This allows for a grouping of a `nanotime` vector on which a statistic
+starting value of the interval to which they belong (<code>nano_floor</code>) or
+the ending value of the interval to which they belong (<code>nano_ceiling</code>).
+This allows for a grouping of a <code>nanotime</code> vector on which a statistic
 may then be run. In the examples below, such a use case is shown in the
-context of a `data.table` object.
-
-If "business" concepts such as month or days are needed, the `argument`
-precision must be of type `period`. It is then mandatory to specify the
-timezone argument `tz` as this ensures timezone correctness of the
+context of a <code>data.table</code> object.</p>
+<p>If "business" concepts such as month or days are needed, the <code>argument</code>
+precision must be of type <code>period</code>. It is then mandatory to specify the
+timezone argument <code>tz</code> as this ensures timezone correctness of the
 intervals including for example for the rare hourly transitions of some
 countries going from a timezone with a whole hour difference with UTC to
-one with a fractional hour difference. In the case of a `period`, the
+one with a fractional hour difference. In the case of a <code>period</code>, the
 functions align the rounding if the precision is an integer divisor of a
 larger quantity. For instance, if one specifies a rounding of 6 hours, a
 divisor of a day, the hours are aligned on days and the rounding is made
 to a grid at hours 0, 6, 12 and 18 in the specified timezone. If the
 precision is not a divisor, the grid is aligned to the nearest hour
-before the first element of the vector to round.
-
-The argument `origin` controls the reference point of the rounding,
-allowing arbitrary specification of the reference point of the rounding.
-
-### Examples
-
-
+before the first element of the vector to round.</p>
+<p>The argument <code>origin</code> controls the reference point of the rounding,
+allowing arbitrary specification of the reference point of the rounding.</p>
+<h3 id="examples">Examples</h3>
 <pre><code class="language-R">## Not run: 
 ## &quot;classic&quot; rounding:
 nano_floor(as.nanotime(&quot;2010-10-10 11:12:15 UTC&quot;), as.nanoduration(&quot;01:00:00&quot;))

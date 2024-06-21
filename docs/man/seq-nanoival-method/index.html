@@ -65,6 +65,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#sequence-generation" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -616,9 +621,72 @@
       
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Seq nanoival method
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         Seq nanoival method
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#sequence-generation" class="md-nav__link">
+    Sequence Generation
+  </a>
+  
+    <nav class="md-nav" aria-label="Sequence Generation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#description" class="md-nav__link">
+    Description
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arguments" class="md-nav__link">
+    Arguments
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    Examples
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -835,6 +903,55 @@
   
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#sequence-generation" class="md-nav__link">
+    Sequence Generation
+  </a>
+  
+    <nav class="md-nav" aria-label="Sequence Generation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#description" class="md-nav__link">
+    Description
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arguments" class="md-nav__link">
+    Arguments
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    Examples
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -850,35 +967,45 @@
 
   <h1>Seq nanoival method</h1>
 
-<div role="main">
-
-## Sequence Generation
-
-### Description
-
-Generate a sequence of `nanoival`
-
-### Usage
-
-
+<h2 id="sequence-generation">Sequence Generation</h2>
+<h3 id="description">Description</h3>
+<p>Generate a sequence of <code>nanoival</code></p>
+<h3 id="usage">Usage</h3>
 <pre><code class="language-R">## S4 method for signature 'nanoival'
 seq(from, to = NULL, by = NULL, length.out = NULL, along.with = NULL, ...)
 </code></pre>
-
-
-### Arguments
-
-|              |                                                                                                                                                                                                  |
-|--------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `from`, `to` | the starting and (maximal) end values of the sequence                                                                                                                                            |
-| `by`         | `nanoduration` or `nanoperiod` increment of the sequence; note that if the class is `nanoperiod` the additional argument `tz` must be speficied and is of `character` type indicating a timezone |
-| `length.out` | an integer desired length of the sequence                                                                                                                                                        |
-| `along.with` | take the length from the length of this argument.                                                                                                                                                |
-| `...`        | arguments passed to or from methods; the only interesting additional argument is `tz` where the `to` argument is of type `nanoperiod`                                                            |
-
-### Examples
-
-
+<h3 id="arguments">Arguments</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>from</code>, <code>to</code></td>
+<td>the starting and (maximal) end values of the sequence</td>
+</tr>
+<tr>
+<td><code>by</code></td>
+<td><code>nanoduration</code> or <code>nanoperiod</code> increment of the sequence; note that if the class is <code>nanoperiod</code> the additional argument <code>tz</code> must be speficied and is of <code>character</code> type indicating a timezone</td>
+</tr>
+<tr>
+<td><code>length.out</code></td>
+<td>an integer desired length of the sequence</td>
+</tr>
+<tr>
+<td><code>along.with</code></td>
+<td>take the length from the length of this argument.</td>
+</tr>
+<tr>
+<td><code>...</code></td>
+<td>arguments passed to or from methods; the only interesting additional argument is <code>tz</code> where the <code>to</code> argument is of type <code>nanoperiod</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="examples">Examples</h3>
 <pre><code class="language-R">## Not run: 
 from &lt;- as.nanoival(&quot;-2018-01-14T13:00:00+00:00 -&gt; 2018-01-14T15:00:00+00:00+&quot;)
 seq(from, by=as.nanoperiod(&quot;1m&quot;), length.out=5, tz=&quot;America/New_York&quot;)

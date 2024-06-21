@@ -1,5 +1,12 @@
 <div class="container">
 <div role="main">
+<h3 id="version-0.3.9-2024-06-21">Version 0.3.9 (2024-06-21)</h3>
+<ul>
+<li><p>Condition two tests to not run on arm64 (Dirk in <a
+href="https://github.com/eddelbuettel/nanotime/pull/129">#129</a> fixing
+<a
+href="https://github.com/eddelbuettel/nanotime/issues/128">#128</a>)</p></li>
+</ul>
 <h3 id="version-0.3.8-2024-06-19">Version 0.3.8 (2024-06-19)</h3>
 <ul>
 <li><p>Time format documentation now has a reference to
