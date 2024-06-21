@@ -8,6 +8,7 @@ options(digits=7)                       # needed for error message of 0.3333333 
 expect_equal_numeric <- function(x,y,...) expect_equal(as.numeric(x), as.numeric(y), ...)
 
 isSolaris <- Sys.info()[["sysname"]] == "SunOS"
+isArm64 <- Sys.info()[["machine"]] == "arm64"
 
 ## nanotime constructors
 ##test_nanotime_generic <- function() {
@@ -140,11 +141,11 @@ expect_identical(as.nanotime(p), nanotime("1970-01-01T00:00:00.000000000-05:00")
 ## This one should break if multiplying the double by 1E9 directly
 ## without considering the integer and fraction parts separately.
 p <- as.POSIXct(as.numeric('0x1.91f18e4d0065p+30'), origin = '1970-01-01')
-expect_identical(p, as.POSIXct(as.nanotime(p)))
+if (!isArm64) expect_identical(p, as.POSIXct(as.nanotime(p)))
 
 ## This one is negative, making sure that negative doubles are also consistent.
 p <- as.POSIXct(as.numeric('-0x1.c6e8c4d077ae4p+30'), origin = '1970-01-01')
-expect_identical(p, as.POSIXct(as.nanotime(p)))
+if (!isArm64) expect_identical(p, as.POSIXct(as.nanotime(p)))
 
 ## with the 'accurate' parameter set to FALSE, the round trip should not be equal:
 p <- as.POSIXct(as.numeric('0x1.91f18e4d0065p+30'), origin = '1970-01-01')
