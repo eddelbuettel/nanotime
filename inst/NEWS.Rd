@@ -3,6 +3,13 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/nanotime/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/nanotime/issues/#1}{##1}}
 
+\section{Changes in version 0.3.9 (2024-06-21)}{
+  \itemize{
+    \item Condition two tests to not run on arm64 (Dirk in \ghpr{129} fixing
+    \ghit{128}) 
+  }
+}
+
 \section{Changes in version 0.3.8 (2024-06-19)}{
   \itemize{
     \item Time format documentation now has a reference to \pkg{RcppCCTZ}
