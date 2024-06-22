@@ -1,10 +1,6 @@
 
 library(nanotime)
 
-isSolaris <- Sys.info()[["sysname"]] == "SunOS"
-
-if (isSolaris) exit_file("Skipping tests on Solaris.")
-
 #test_zoo <- function() {
 suppressMessages(library(zoo))
 set.seed(42)
