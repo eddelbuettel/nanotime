@@ -1,3 +1,12 @@
+2024-06-22  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): Roll minor version and date
+
+	* inst/tinytest/test_nanotime.R: Retire test for Solaris
+	* inst/tinytest/test_nanoperiod.R: Idem
+	* inst/tinytest/test_nanoival.R: Idem
+	* inst/tinytest/test_zoo.R: Idem
+
 2024-06-21  Dirk Eddelbuettel  <edd@debian.org>
 
  	* DESCRIPTION (Version, Date): Release 0.3.9
