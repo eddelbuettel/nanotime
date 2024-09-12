@@ -1048,3 +1048,14 @@ setMethod("rep", c(x = "nanotime"), function(x, ...) {
 as.character.nanotime <- function(x, ...) {
     format(x, ...)
 }
+
+if (getRversion() > "4.5.0")  {
+##' @rdname nanotime
+setMethod("unique",
+          "nanotime",
+          function(x) {
+              res <- callNextMethod()
+              oldClass(res) <- "integer64"
+              new("nanotime", res)
+          })
+}

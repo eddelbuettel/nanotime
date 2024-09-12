@@ -114,3 +114,5 @@ exportMethods(nano_floor)
 
 S3method("%in%", nanotime)
 exportMethods("%in%")
+
+if (getRversion() > "4.5.0") exportMethods(unique)
