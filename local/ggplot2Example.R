@@ -12,7 +12,7 @@ if (requireNamespace("ggplot2", quietly=TRUE) &&
 
     nanotime_format <- function(format = getOption("nanotimeFormat", default="%Y-%m-%dT%H:%M:%EXS%Ez"),
                                 tz     = getOption("nanotimeTz", default="UTC")) {
-        function(x) format(x, format, tz=tz)
+        function(x) format(x, format, tz)
     }
 
     nanotime_trans <- function(tz = NULL) {

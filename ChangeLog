@@ -1,3 +1,8 @@
+2024-09-15  Dirk Eddelbuettel  <edd@debian.org>
+
+	* demo/ggplot2Example.R: Removed to local/
+	* demo/00Index: Removed entry for gpplot2Example
+
 2024-09-09  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): Roll minor version and date
