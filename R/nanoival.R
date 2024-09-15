@@ -818,7 +818,7 @@ setMethod("union",
 setMethod("setdiff",
           c("nanotime", "nanotime"),
           function(x, y) {
-              res <- callNextMethod()
+              res <- if (getRversion() >= "4.5.0") setdiff(as.integer64(x), as.integer64(y)) else callNextMethod()
               oldClass(res) <- "integer64"
               new("nanotime", res)
           })

@@ -16,6 +16,7 @@
 \alias{as.nanotime,Date-method}
 \alias{print,nanotime-method}
 \alias{show,nanotime-method}
+\alias{unique,nanotime-method}
 \alias{format.nanotime}
 \alias{index2char.nanotime}
 \alias{as.POSIXct.nanotime}
