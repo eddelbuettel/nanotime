@@ -3,6 +3,16 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/nanotime/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/nanotime/issues/#1}{##1}}
 
+\section{Changes in version 0.3.10 (2024-09-16)}{
+  \itemize{
+    \item Retire several checks for Solaris in test suite (Dirk in \ghpr{130})
+    \item Switch to Authors@R in DESCRIPTION as now required by CRAN 
+    \item Accommodate R-devel change for setdiff (Dirk in \ghpr{133} fixing
+    \ghit{132})
+    \item No longer ship defunction ggplot2 demo (Dirk fixing \ghit{131})
+  }
+}
+
 \section{Changes in version 0.3.9 (2024-06-21)}{
   \itemize{
     \item Condition two tests to not run on arm64 (Dirk in \ghpr{129} fixing

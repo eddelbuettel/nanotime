@@ -1,3 +1,7 @@
+2024-09-16  Dirk Eddelbuettel  <edd@debian.org>
+
+ 	* DESCRIPTION (Version, Date): Release 0.3.10
+
 2024-09-15  Dirk Eddelbuettel  <edd@debian.org>
 
 	* demo/ggplot2Example.R: Removed to local/
