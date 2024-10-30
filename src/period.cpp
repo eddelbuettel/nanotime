@@ -11,8 +11,8 @@
 // See comment in <R_Ext/Complex.h> in R>=4.3.0. As of 2024-10-30
 //   clang trunk with -Wmissing-braces requires the double-braced
 //   approach for creating Rcomplex objects.
-Rcomplex makeComplex(double *re, double *im) {
-#if R_VERSION >= R_Version(4, 3, 0)
+inline Rcomplex makeComplex(double *re, double *im) {
+#if R_VERSION >= R_Version(4, 3, 0) && !defined(R_LEGACY_RCOMPLEX)
   return Rcomplex{{*re, *im}};
 #else
   return Rcomplex{*re, *im};
