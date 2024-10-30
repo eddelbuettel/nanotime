@@ -1,7 +1,7 @@
 2024-10-30  Michael Chirico  <chiricom@google.com>
 
-    * src/period.cpp: Create `Rcomplex` objects in a more robust
-	  way that appeases `Wmissing-braces` compiler warnings on `clang`.
+	* src/period.cpp: Create `Rcomplex` objects in a more robust
+	way that appeases `Wmissing-braces` compiler warnings on `clang`.
 
 2024-09-16  Dirk Eddelbuettel  <edd@debian.org>
 
