@@ -11,10 +11,10 @@
 // See comment in <R_Ext/Complex.h> in R>=4.3.0 and #134. Old
 //   approach to do `Rcomplex{ re, im }` now gives compiler issue
 //   on some compilers, R versions.
-inline Rcomplex makeComplex(double *re, double *im) {
+inline Rcomplex makeComplex(double re, double im) {
   Rcomplex ret;
-  ret.r = *re;
-  ret.i = *im;
+  ret.r = re;
+  ret.i = im;
   return ret;
 }
 
