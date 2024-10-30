@@ -12,7 +12,7 @@
 //   clang trunk with -Wmissing-braces requires the double-braced
 //   approach for creating Rcomplex objects.
 Rcomplex makeComplex(double *re, double *im) {
-#if R_VERSION >= R_Version(4, 4, 0)
+#if R_VERSION >= R_Version(4, 3, 0)
   return Rcomplex{{*re, *im}};
 #else
   return Rcomplex{*re, *im};
