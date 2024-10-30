@@ -8,6 +8,14 @@
 #include "nanotime/pseudovector.hpp"
 #include "nanotime/utilities.hpp"
 
+// See comment in <R_Ext/Complex.h> in R>=4.3.0. As of 2024-10-30
+//   clang trunk with -Wmissing-braces requires the double-braced
+//   approach for creating Rcomplex objects.
+#if R_VERSION >= R_Version(4, 3, 0)
+#define RCOMPLEX(RE, IM) Rcomplex{{RE, IM}}
+#else
+#define RCOMPLEX(RE, IM) Rcomplex{RE, IM}
+#endif
 
 using namespace nanotime;
 
@@ -185,7 +193,7 @@ Rcpp::ComplexVector period_from_string_impl(Rcpp::CharacterVector str) {
   for (R_xlen_t i=0; i<str.size(); ++i) {
     period prd(Rcpp::as<std::string>(str[i]));
     period_union pu = { { prd.getMonths(), prd.getDays(), prd.getDuration().count() } };
-    res[i] = Rcomplex{pu.dbl2.d1, pu.dbl2.d2 };
+    res[i] = RCOMPLEX(pu.dbl2.d1, pu.dbl2.d2 );
   }
   if (str.hasAttribute("names")) {
     res.names() = str.names();
@@ -206,7 +214,7 @@ Rcpp::ComplexVector period_from_parts_impl(Rcpp::IntegerVector months_v, Rcpp::I
     for (R_xlen_t i=0; i<res.size(); ++i) {
       const auto dur_i = *reinterpret_cast<const int64_t*>(&dur[i]);
       period_union pu = { { months[i], days[i], dur_i } };
-      res[i] = Rcomplex{pu.dbl2.d1, pu.dbl2.d2 };
+      res[i] = RCOMPLEX(pu.dbl2.d1, pu.dbl2.d2 );
     }
   }
   return assignS4("nanoperiod", res);
@@ -249,11 +257,11 @@ Rcpp::ComplexVector period_from_integer64_impl(Rcpp::NumericVector i64) {
     auto elt = *reinterpret_cast<std::int64_t*>(&i64[i]);
     if (elt == NA_INTEGER64) {
       period_union pu = { { NA_INTEGER, NA_INTEGER, NA_INTEGER64 } };
-      res[i] = Rcomplex{pu.dbl2.d1, pu.dbl2.d2 };
+      res[i] = RCOMPLEX(pu.dbl2.d1, pu.dbl2.d2 );
     }
     else {
       period_union pu = { { 0, 0, elt } };
-      res[i] = Rcomplex{pu.dbl2.d1, pu.dbl2.d2 };
+      res[i] = RCOMPLEX(pu.dbl2.d1, pu.dbl2.d2 );
     }
   }
   if (i64.hasAttribute("names")) {
@@ -269,11 +277,11 @@ Rcpp::ComplexVector period_from_integer_impl(Rcpp::IntegerVector iint) {
   for (R_xlen_t i=0; i<iint.size(); ++i) {
     if (iint[i] == NA_INTEGER) {
       period_union pu = { { NA_INTEGER, NA_INTEGER, NA_INTEGER64 } };
-      res[i] = Rcomplex{pu.dbl2.d1, pu.dbl2.d2 };
+      res[i] = RCOMPLEX(pu.dbl2.d1, pu.dbl2.d2 );
     }
     else {
       period_union pu = { { 0, 0, static_cast<std::int64_t>(iint[i]) } };
-      res[i] = Rcomplex{pu.dbl2.d1, pu.dbl2.d2 };
+      res[i] = RCOMPLEX(pu.dbl2.d1, pu.dbl2.d2 );
     }
   }
   if (iint.hasAttribute("names")) {
@@ -289,11 +297,11 @@ Rcpp::ComplexVector period_from_double_impl(Rcpp::NumericVector dbl) {
   for (R_xlen_t i=0; i<dbl.size(); ++i) {
     if (ISNA(dbl[i])) {
       period_union pu = { { NA_INTEGER, NA_INTEGER, NA_INTEGER64 } };
-      res[i] = Rcomplex{pu.dbl2.d1, pu.dbl2.d2 };
+      res[i] = RCOMPLEX(pu.dbl2.d1, pu.dbl2.d2 );
     }
     else {
       period_union pu = { { 0, 0, static_cast<std::int64_t>(dbl[i]) } };
-      res[i] = Rcomplex{pu.dbl2.d1, pu.dbl2.d2 };
+      res[i] = RCOMPLEX(pu.dbl2.d1, pu.dbl2.d2 );
     }
   }
   if (dbl.hasAttribute("names")) {
