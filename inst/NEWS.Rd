@@ -3,6 +3,13 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/nanotime/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/nanotime/issues/#1}{##1}}
 
+\section{Changes in version 0.3.11 (202x-yy-zz)}{
+  \itemize{
+    \item Explicit \code{Rcomplex} assignment accommodates pickier compilers
+    over newer R struct (Michael Chirico in \ghpr{135} fixing \ghit{134}) 
+  }
+}
+
 \section{Changes in version 0.3.10 (2024-09-16)}{
   \itemize{
     \item Retire several checks for Solaris in test suite (Dirk in \ghpr{130})
