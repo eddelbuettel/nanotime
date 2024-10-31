@@ -8,9 +8,11 @@
 #include "nanotime/pseudovector.hpp"
 #include "nanotime/utilities.hpp"
 
-// See comment in <R_Ext/Complex.h> in R>=4.3.0 and #134. Old
-//   approach to do `Rcomplex{ re, im }` now gives compiler issue
-//   on some compilers, R versions.
+// From R>=4.3.0 the typedef of Rcomplex changed. Some modern strict
+//   compilers (e.g. 2024 clang -Wmissing-braces) get tripped up by
+//   'Rcomplex{re, im}' vs. 'Rcomplex{{re, im}}', the latter being technically
+//   more correct for the new typedef, though for many compilers this will
+//   "just work". See #134 and the comments in R_Ext/Complex.h.
 inline Rcomplex makeComplex(double re, double im) {
   Rcomplex ret;
   ret.r = re;
