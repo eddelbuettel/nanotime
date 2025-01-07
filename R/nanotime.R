@@ -296,8 +296,13 @@ format.nanotime <- function(x, format="", tz="", ...)
             }
         }
 
+        isna <- is.na(x)
+        if (any(isna)) {
+            secs[isna] <- 0
+            nanos[isna] <- 0
+        }
         res <- RcppCCTZ::formatDouble(as.double(secs), as.double(nanos), fmt=format, tgttzstr=tz)
-        res[is.na(x)] <- as.character(NA)
+        res[isna] <- as.character(NA)
         n <- names(x)
         if (!is.null(n)) {
             names(res) <- n
