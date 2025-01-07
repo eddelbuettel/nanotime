@@ -1,5 +1,7 @@
 2025-01-07  Dirk Eddelbuettel  <edd@debian.org>
 
+	* DESCRIPTION (Date, Version): Roll micro version and date
+
 	* R/nanotime.R (format.nanotime): Index and override NA values prior
 	to CCTZ call, flag after call avoiding a UBSAN warning in client code
 
