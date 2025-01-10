@@ -3,10 +3,12 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/nanotime/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/nanotime/issues/#1}{##1}}
 
-\section{Changes in version 0.3.11 (202x-yy-zz)}{
+\section{Changes in version 0.3.11 (2025-01-10)}{
   \itemize{
     \item Explicit \code{Rcomplex} assignment accommodates pickier compilers
-    over newer R struct (Michael Chirico in \ghpr{135} fixing \ghit{134}) 
+    over newer R struct (Michael Chirico in \ghpr{135} fixing \ghit{134})
+    \item When formatting, \code{NA} are flagged before \code{CCTZ} call to
+    to not trigger santizier, and set to NA after call (Dirk in \ghpr{136})
   }
 }
 
