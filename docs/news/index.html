@@ -852,6 +852,31 @@
 
 <div class="container">
 <div role="main">
+<h3 id="version-0.3.11-2025-01-10">Version 0.3.11 (2025-01-10)</h3>
+<ul>
+<li><p>Explicit <code>Rcomplex</code> assignment accommodates pickier
+compilers over newer R struct (Michael Chirico in <a
+href="https://github.com/eddelbuettel/nanotime/pull/135">#135</a> fixing
+<a
+href="https://github.com/eddelbuettel/nanotime/issues/134">#134</a>)</p></li>
+<li><p>When formatting, <code>NA</code> are flagged before
+<code>CCTZ</code> call to to not trigger santizier, and set to NA after
+call (Dirk in <a
+href="https://github.com/eddelbuettel/nanotime/pull/136">#136</a>)</p></li>
+</ul>
+<h3 id="version-0.3.10-2024-09-16">Version 0.3.10 (2024-09-16)</h3>
+<ul>
+<li><p>Retire several checks for Solaris in test suite (Dirk in <a
+href="https://github.com/eddelbuettel/nanotime/pull/130">#130</a>)</p></li>
+<li><p>Switch to Authors@R in DESCRIPTION as now required by
+CRAN</p></li>
+<li><p>Accommodate R-devel change for setdiff (Dirk in <a
+href="https://github.com/eddelbuettel/nanotime/pull/133">#133</a> fixing
+<a
+href="https://github.com/eddelbuettel/nanotime/issues/132">#132</a>)</p></li>
+<li><p>No longer ship defunction ggplot2 demo (Dirk fixing <a
+href="https://github.com/eddelbuettel/nanotime/issues/131">#131</a>)</p></li>
+</ul>
 <h3 id="version-0.3.9-2024-06-21">Version 0.3.9 (2024-06-21)</h3>
 <ul>
 <li><p>Condition two tests to not run on arm64 (Dirk in <a

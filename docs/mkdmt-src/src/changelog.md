@@ -1,5 +1,58 @@
+###  2025 
+
+2025-01-10  Dirk Eddelbuettel  <edd@debian.org> 
+ 
+         * DESCRIPTION (Version, Date): Release 0.3.11 
+ 
+2025-01-07  Dirk Eddelbuettel  <edd@debian.org> 
+ 
+        * DESCRIPTION (Date, Version): Roll micro version and date 
+ 
+        * R/nanotime.R (format.nanotime): Index and override NA values prior 
+        to CCTZ call, flag after call avoiding a UBSAN warning in client code 
+ 
 ###  2024 
 
+2024-10-31  Dirk Eddelbuettel  <edd@debian.org> 
+ 
+        * DESCRIPTION (Version, Date): Roll minor version and date 
+ 
+2024-10-30  Michael Chirico  <chiricom@google.com> 
+ 
+        * src/period.cpp: Create `Rcomplex` objects in a more robust 
+        way that appeases `Wmissing-braces` compiler warnings on `clang`. 
+ 
+2024-09-16  Dirk Eddelbuettel  <edd@debian.org> 
+ 
+         * DESCRIPTION (Version, Date): Release 0.3.10 
+ 
+2024-09-15  Dirk Eddelbuettel  <edd@debian.org> 
+ 
+        * demo/ggplot2Example.R: Removed to local/ 
+        * demo/00Index: Removed entry for gpplot2Example 
+ 
+2024-09-09  Dirk Eddelbuettel  <edd@debian.org> 
+ 
+        * DESCRIPTION (Version, Date): Roll minor version and date 
+ 
+        * R/nanoival.R (setdiff): Under R 4.5.0, call setdiff for integer64 
+        * R/nanotime.R (setMethod): Under R 4.5.0, define unique method 
+        * NAMESPACE: Conditionally export unique 
+        * man/nanotime.Rd: Alias unique 
+ 
+2024-08-31  Dirk Eddelbuettel  <edd@debian.org> 
+ 
+        * DESCRIPTION (Authors@R): Added 
+ 
+2024-06-22  Dirk Eddelbuettel  <edd@debian.org> 
+ 
+        * DESCRIPTION (Version, Date): Roll minor version and date 
+ 
+        * inst/tinytest/test_nanotime.R: Retire test for Solaris 
+        * inst/tinytest/test_nanoperiod.R: Idem 
+        * inst/tinytest/test_nanoival.R: Idem 
+        * inst/tinytest/test_zoo.R: Idem 
+ 
 2024-06-21  Dirk Eddelbuettel  <edd@debian.org> 
  
          * DESCRIPTION (Version, Date): Release 0.3.9 
