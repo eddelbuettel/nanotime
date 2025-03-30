@@ -1054,7 +1054,7 @@ as.character.nanotime <- function(x, ...) {
     format(x, ...)
 }
 
-if (getRversion() > "4.5.0")  {
+if (getRversion() >= "4.5.0")  {
 ##' @rdname nanotime
 setMethod("unique",
           "nanotime",
