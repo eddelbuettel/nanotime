@@ -3,6 +3,14 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/nanotime/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/nanotime/issues/#1}{##1}}
 
+\section{Changes in version 0.3.12 (2025-04-02)}{
+  \itemize{
+    \item Update continuous integration to use r-ci action with bootstrap
+    \item Add ggplot2 to Suggests due to use in demo/ which is now scanned
+    \item Refine a version comparison for R 4.5.0 to be greater or equal
+  }
+}
+
 \section{Changes in version 0.3.11 (2025-01-10)}{
   \itemize{
     \item Explicit \code{Rcomplex} assignment accommodates pickier compilers

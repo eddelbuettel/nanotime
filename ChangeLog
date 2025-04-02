@@ -1,3 +1,7 @@
+2025-04-02  Dirk Eddelbuettel  <edd@debian.org>
+
+ 	* DESCRIPTION (Version, Date): Release 0.3.12
+
 2025-03-26  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Suggests): Add ggplot2 now that demo/ is scanned
