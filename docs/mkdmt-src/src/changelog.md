@@ -1,5 +1,19 @@
 ###  2025 
 
+2025-04-02  Dirk Eddelbuettel  <edd@debian.org> 
+ 
+         * DESCRIPTION (Version, Date): Release 0.3.12 
+ 
+2025-03-26  Dirk Eddelbuettel  <edd@debian.org> 
+ 
+        * DESCRIPTION (Suggests): Add ggplot2 now that demo/ is scanned 
+ 
+        * R/nanotime.R (as.character.nanotime): Refine a version comparison 
+ 
+2025-02-10  Dirk Eddelbuettel  <edd@debian.org> 
+ 
+        * .github/workflows/ci.yaml (jobs): Use r-ci action with bootstrap 
+ 
 2025-01-10  Dirk Eddelbuettel  <edd@debian.org> 
  
          * DESCRIPTION (Version, Date): Release 0.3.11 

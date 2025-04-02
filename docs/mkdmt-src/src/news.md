@@ -1,5 +1,14 @@
 <div class="container">
 <div role="main">
+<h3 id="version-0.3.12-2025-04-02">Version 0.3.12 (2025-04-02)</h3>
+<ul>
+<li><p>Update continuous integration to use r-ci action with
+bootstrap</p></li>
+<li><p>Add ggplot2 to Suggests due to use in demo/ which is now
+scanned</p></li>
+<li><p>Refine a version comparison for R 4.5.0 to be greater or
+equal</p></li>
+</ul>
 <h3 id="version-0.3.11-2025-01-10">Version 0.3.11 (2025-01-10)</h3>
 <ul>
 <li><p>Explicit <code>Rcomplex</code> assignment accommodates pickier
