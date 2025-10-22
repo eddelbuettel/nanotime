@@ -3,6 +3,14 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/nanotime/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/nanotime/issues/#1}{##1}}
 
+\section{Changes in version 0.3.12.1 (unreleased)}{
+  \itemize{
+    \item The \code{methods} package is now a Depends as WRE recommends
+    (Michael Chirico in \ghpr{141} based on suggestion by Dirk in \ghit{140})
+    \item The mkdocs-material documentation site is now generated via \pkg{altdoc}
+  }
+}
+
 \section{Changes in version 0.3.12 (2025-04-02)}{
   \itemize{
     \item Update continuous integration to use r-ci action with bootstrap

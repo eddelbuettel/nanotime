@@ -8,3 +8,5 @@ src/*.dll
 local/nanotime_*.tar.gz
 docs-src/docs
 docs/mkdmt-src/docs
+.venv_altdoc
+altdoc/freeze.rds

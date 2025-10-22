@@ -11,3 +11,6 @@ vignettes/rmd
 ^docs-src
 ^\.github
 ^docker
+.venv_altdoc
+^docs$
+^altdoc$

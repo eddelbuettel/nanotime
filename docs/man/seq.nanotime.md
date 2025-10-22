@@ -1,0 +1,79 @@
+
+
+# Sequence Generation
+
+[**Source code**](https://github.com/eddelbuettel/nanotime/tree/master/R/#L)
+
+## Description
+
+Generate a sequence of <code>nanotime</code>
+
+## Usage
+
+<pre><code class='language-R'>## S3 method for class 'nanotime'
+seq(from, to = NULL, by = NULL, length.out = NULL, along.with = NULL, ...)
+
+# S4 method for signature 'nanotime'
+seq(from, to = NULL, by = NULL, length.out = NULL, along.with = NULL, ...)
+</code></pre>
+
+## Arguments
+
+<table role="presentation">
+<tr>
+<td style="white-space: nowrap; font-family: monospace; vertical-align: top">
+<code id="from">from</code>, <code id="to">to</code>
+</td>
+<td>
+the starting and (maximal) end values of the sequence
+</td>
+</tr>
+<tr>
+<td style="white-space: nowrap; font-family: monospace; vertical-align: top">
+<code id="by">by</code>
+</td>
+<td>
+<code>nanoduration</code> or <code>nanoperiod</code> increment of the
+sequence; note that if the class is <code>nanoperiod</code> the
+additional argument <code>tz</code> must be speficied and is of
+<code>character</code> type indicating a timezone
+</td>
+</tr>
+<tr>
+<td style="white-space: nowrap; font-family: monospace; vertical-align: top">
+<code id="length.out">length.out</code>
+</td>
+<td>
+integer indicating the desired length of the sequence
+</td>
+</tr>
+<tr>
+<td style="white-space: nowrap; font-family: monospace; vertical-align: top">
+<code id="along.with">along.with</code>
+</td>
+<td>
+take the length from the length of this argument.
+</td>
+</tr>
+<tr>
+<td style="white-space: nowrap; font-family: monospace; vertical-align: top">
+<code id="...">…</code>
+</td>
+<td>
+arguments passed to or from methods; the only interesting additional
+argument is <code>tz</code> where the <code>to</code> argument is of
+type <code>nanoperiod</code>
+</td>
+</tr>
+</table>
+
+## Examples
+
+``` r
+library("nanotime")
+
+from <- as.nanotime("2018-01-14T12:44:00+00:00")
+to   <- as.nanotime("2019-01-14T12:44:00+00:00")
+seq(from, to, by=as.nanoperiod("1m"), tz="America/New_York")
+seq(from, by=as.nanoperiod("1y"), length.out=4, tz="Europe/London")
+```
