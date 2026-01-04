@@ -1,3 +1,7 @@
+2026-01-04  Dirk Eddelbuettel  <edd@debian.org>
+
+	* .github/workflows/ci.yaml: Switch to actions/checkout@v6
+
 2025-10-22  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Date, Version): Roll micro version and date
