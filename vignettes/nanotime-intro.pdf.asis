@@ -1,0 +1,5 @@
+%\VignetteIndexEntry{nanotime: A datetime library with nanosecond precision}
+%\VignetteKeywords{nanotime, date, datetime, conversion, nanosecond, high-resulution}
+%\VignettePackage{nanotime}
+%\VignetteEncoding{UTF-8}
+%\VignetteEngine{Rcpp::asis}

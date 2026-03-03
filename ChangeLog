@@ -1,3 +1,12 @@
+2026-03-03  Dirk Eddelbuettel  <edd@debian.org>
+
+	* vignettes/nanotime-intro.pdf.asis: Use 'asis' vignette builder
+	* DESCRIPTION (VignetteBuilder): Add 'VignetteBuilder: Rcpp' along
+	with versioned Imports: on version 1.1.1 or newer
+	* NAMESPACE: Import Rcpp as needed by vignette building
+	* vignettes/nanotime-introduction.Rnw: Removed
+	* vignettes/rmd/nanotime-intro.bib: Updated throughout
+
 2026-02-27  Dirk Eddelbuettel  <edd@debian.org>
 
 	* inst/include/nanotime/globals.hpp: Updated to not require Rf_error
