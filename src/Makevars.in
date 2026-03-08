@@ -1,5 +1,6 @@
-## Compile as C++17
-CXX_STD = CXX17
+
+## We may need to enable C++17 on older R versions, but since R 4.3.0 it is default
+@CXXSTD@
 
 ## We need headers from our package, the directory is not automatically included
 PKG_CXXFLAGS = -I../inst/include
