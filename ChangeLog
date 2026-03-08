@@ -6,6 +6,8 @@
 	* src/Makevars.in: Use conditional @CXXSTD@ filled in by tools
 	* src/Makevars.win.in: Idem
 	* cleanup: Remove generated Makevars{,.win}
+	* vignettes/rmd/nanotime-intro.bib: Updated
+	* vignettes/rmd/Makefile: Added
 
 2026-03-03  Dirk Eddelbuettel  <edd@debian.org>
 
