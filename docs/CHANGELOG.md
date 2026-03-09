@@ -1,3 +1,34 @@
+2026-03-08  Dirk Eddelbuettel  <edd@debian.org>
+
+ 	* DESCRIPTION (Version, Date): Release 0.3.13
+
+	* tools/configure.R: Check R version and if older than 4.3.0 set C++17
+	* configure: Call new helper configure.R
+	* configure.win: Idem
+	* src/Makevars.in: Use conditional @CXXSTD@ filled in by tools
+	* src/Makevars.win.in: Idem
+	* cleanup: Remove generated Makevars{,.win}
+	* vignettes/rmd/nanotime-intro.bib: Updated
+	* vignettes/rmd/Makefile: Added
+
+2026-03-03  Dirk Eddelbuettel  <edd@debian.org>
+
+	* vignettes/nanotime-intro.pdf.asis: Use 'asis' vignette builder
+	* DESCRIPTION (VignetteBuilder): Add 'VignetteBuilder: Rcpp' along
+	with versioned Imports: on version 1.1.1 or newer
+	* NAMESPACE: Import Rcpp as needed by vignette building
+	* vignettes/nanotime-introduction.Rnw: Removed
+	* vignettes/rmd/nanotime-intro.bib: Updated throughout
+
+2026-02-27  Dirk Eddelbuettel  <edd@debian.org>
+
+	* inst/include/nanotime/globals.hpp: Updated to not require Rf_error
+	as Rcpp unwinding of exceptions is preferred
+
+2026-01-04  Dirk Eddelbuettel  <edd@debian.org>
+
+	* .github/workflows/ci.yaml: Switch to actions/checkout@v6
+
 2025-10-22  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Date, Version): Roll micro version and date

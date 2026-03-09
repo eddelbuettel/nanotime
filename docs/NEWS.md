@@ -2,7 +2,7 @@
 
 # News for Package <span class="pkg">nanotime</span>
 
-## Changes in version 0.3.12.1 (unreleased)
+## Changes in version 0.3.13 (2026-03-08)
 
 <ul>
 <li>
@@ -10,7 +10,7 @@
 The <code>methods</code> package is now a Depends as WRE recommends
 (Michael Chirico in
 <a href="https://github.com/eddelbuettel/nanotime/pull/141">[#141](https://github.com/eddelbuettel/nanotime/issues/141)</a>
-based on suggestion by Dirk in
+based on a suggestion by Dirk in
 <a href="https://github.com/eddelbuettel/nanotime/issues/140">[#140](https://github.com/eddelbuettel/nanotime/issues/140)</a>)
 
 </li>
@@ -18,6 +18,41 @@ based on suggestion by Dirk in
 
 The mkdocs-material documentation site is now generated via
 <span class="pkg">altdoc</span>
+
+</li>
+<li>
+
+Continuous Integration scripts have been updated
+
+</li>
+<li>
+
+Replace <code>Rf_error</code> with <code>Rcpp::stop</code>, turn
+remaining one into <code>(Rf_error)</code> (Dirk in
+<a href="https://github.com/eddelbuettel/nanotime/pull/143">[#143](https://github.com/eddelbuettel/nanotime/issues/143)</a>)
+
+</li>
+<li>
+
+Vignette now uses the <code>Rcpp::asis</code> builder for pre-made pdfs
+(Dirk in
+<a href="https://github.com/eddelbuettel/nanotime/pull/146">[#146](https://github.com/eddelbuettel/nanotime/issues/146)</a>
+fixing
+<a href="https://github.com/eddelbuettel/nanotime/issues/144">[#144](https://github.com/eddelbuettel/nanotime/issues/144)</a>)
+
+</li>
+<li>
+
+The C++ compilation standard is explicitly set to C++17 if an R version
+older than 4.3.0 is used (Dirk in
+<a href="https://github.com/eddelbuettel/nanotime/pull/148">[#148](https://github.com/eddelbuettel/nanotime/issues/148)</a>
+fixing
+<a href="https://github.com/eddelbuettel/nanotime/issues/147">[#147](https://github.com/eddelbuettel/nanotime/issues/147)</a>)
+
+</li>
+<li>
+
+The vignette references have been updated
 
 </li>
 </ul>
