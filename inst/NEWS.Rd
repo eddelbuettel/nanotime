@@ -3,11 +3,20 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/nanotime/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/nanotime/issues/#1}{##1}}
 
-\section{Changes in version 0.3.12.1 (unreleased)}{
+\section{Changes in version 0.3.13 (2026-03-08)}{
   \itemize{
     \item The \code{methods} package is now a Depends as WRE recommends
-    (Michael Chirico in \ghpr{141} based on suggestion by Dirk in \ghit{140})
-    \item The mkdocs-material documentation site is now generated via \pkg{altdoc}
+    (Michael Chirico in \ghpr{141} based on a suggestion by Dirk in \ghit{140})
+    \item The mkdocs-material documentation site is now generated via
+    \pkg{altdoc}
+    \item Continuous Integration scripts have been updated
+    \item Replace \code{Rf_error} with \code{Rcpp::stop}, turn remaining one
+    into \code{(Rf_error)} (Dirk in \ghpr{143})
+    \item Vignette now uses the \code{Rcpp::asis} builder for pre-made pdfs
+    (Dirk in \ghpr{146} fixing \ghit{144})
+    \item The C++ compilation standard is explicitly set to C++17 if an R
+    version older than 4.3.0 is used (Dirk in \ghpr{148} fixing \ghit{147})
+    \item The vignette references have been updated
   }
 }
 

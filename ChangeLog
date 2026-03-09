@@ -1,5 +1,7 @@
 2026-03-08  Dirk Eddelbuettel  <edd@debian.org>
 
+ 	* DESCRIPTION (Version, Date): Release 0.3.13
+
 	* tools/configure.R: Check R version and if older than 4.3.0 set C++17
 	* configure: Call new helper configure.R
 	* configure.win: Idem

@@ -1,4 +1,4 @@
-# nanotime: Nanosecond-Resolution Time Objects for R
+# nanotime: Nanosecond-Resolution Time for R
 
 [![CI](https://github.com/eddelbuettel/nanotime/workflows/ci/badge.svg)](https://github.com/eddelbuettel/nanotime/actions?query=workflow%3Aci)
 [![License](https://eddelbuettel.github.io/badges/GPL2+.svg)](https://www.gnu.org/licenses/gpl-2.0.html)
