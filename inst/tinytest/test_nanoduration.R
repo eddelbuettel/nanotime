@@ -30,7 +30,6 @@ expect_identical(as.nanoduration("0:00:01"), as.nanoduration(sec))
 expect_identical(as.nanoduration("0:00:00.001"), as.nanoduration(milli))
 expect_identical(c(as.nanoduration("1:00:00"), c(as.nanoduration("2:00:00"))),
                  c(as.nanoduration(hour), as.nanoduration(2*hour)))
-expect_identical(as.nanoduration(NA_integer64_), as.nanoduration(as.integer64("-9223372036854775808")))
 
 ## check name:
 n1 <- as.nanoduration(hour)
@@ -64,13 +63,13 @@ expect_identical(as.integer64(as.nanoduration(1:1000)), as.integer64(1:1000))
 d <- nanoduration(1,1,1,1)
 expect_identical(format(d), "01:01:01.000_000_001")
 expect_identical(format(-d), "-01:01:01.000_000_001")
-expect_true(is.na(format(as.nanoduration(as.integer64("-9223372036854775808")))))
+expect_true(is.na(format(as.nanoduration(NA_integer64_))))
 expect_identical(as.character(d), "01:01:01.000_000_001")
 expect_identical(as.character(-d), "-01:01:01.000_000_001")
-expect_true(is.na(as.character(as.nanoduration(as.integer64("-9223372036854775808")))))
+expect_true(is.na(as.character(as.nanoduration(NA_integer64_))))
 expect_stdout(show(d))
 expect_stdout(show(-d))
-expect_stdout(show(as.nanoduration(as.integer64("-9223372036854775808"))))
+expect_stdout(show(as.nanoduration(NA_integer64_)))
 
 ##test_print <- function() {
 d <- nanoduration(1,1,1,1)
