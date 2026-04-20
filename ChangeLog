@@ -1,5 +1,13 @@
 2026-04-19  Michael Chirico  <michaelchirico4@gmail.com>
 
+	* inst/tinytest/test_nanoduration.R: Attach nanotime after bit64 to ensure expected symbol resolution
+	* inst/tinytest/test_nanoival.R: Idem, and also resolve set operation functions correctly
+	* inst/tinytest/test_nanoperiod.R: Idem
+	* inst/tinytest/test_nanotime.R: Idem
+	* inst/tinytest/test_ops.R: Idem
+
+2026-04-19  Michael Chirico  <michaelchirico4@gmail.com>
+
  	* R/nanoduration.R: Add a branch calling seq.integer64 more directly thanks to upstream fix
 
 2026-03-08  Dirk Eddelbuettel  <edd@debian.org>
