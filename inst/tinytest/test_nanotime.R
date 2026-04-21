@@ -1,7 +1,7 @@
 
 suppressMessages({
-    library(nanotime)
     library(bit64)
+    library(nanotime)
 })
 options(digits=7)                       # needed for error message of 0.3333333 below
 
