@@ -1,3 +1,8 @@
+2026-04-22  Dirk Eddelbuettel  <edd@debian.org>
+
+	* inst/tinytest/test_nanoduration.R: Add a test for expected warning
+	on cast from character when re-creating NA_integer64_
+
 2026-04-21  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): Roll micro version and date
