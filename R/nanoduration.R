@@ -674,14 +674,7 @@ as.data.frame.nanoduration <- function(x, ...) {
 ##' seq(from=as.nanoduration(0), by=as.nanoduration("01:00:00"), length.out=10)
 ##' @method seq nanoduration
 seq.nanoduration <- function(from, to=NULL, by=NULL, length.out=NULL, along.with=NULL, ...) {
-    ## workaroud 'bit64' bug:
-    if (is.null(by)) {
-        if (is.null(length.out)) {
-            length.out  <- length(along.with)
-        }
-        by = (to - from) / (length.out - 1)
-    }
-    as.nanoduration(seq(as.integer64(from), to, as.integer64(by), length.out, along.with, ...))
+    return(as.nanoduration(seq(as.integer64(from), to, by, length.out, along.with, ...)))
 }
 
 

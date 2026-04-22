@@ -1,7 +1,7 @@
 
 suppressMessages({
-    library(nanotime)
     library(bit64)
+    library(nanotime)
 })
 
 ## constructors

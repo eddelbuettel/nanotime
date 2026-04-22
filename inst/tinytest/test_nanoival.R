@@ -1,5 +1,10 @@
-library(nanotime)
 suppressMessages(library(bit64))
+library(nanotime)
+
+# force nanotime S4 generics to resolve, not bit64 S3 generics
+intersect <- nanotime::intersect
+union <- nanotime::union
+setdiff <- nanotime::setdiff
 
 extended_tests <- Sys.getenv("CI", "") != ""
 

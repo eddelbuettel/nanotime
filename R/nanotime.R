@@ -119,7 +119,9 @@ nanotime <- function(from, ...) {
     if (missing(from)) {
         from = NULL
     }
-    new("nanotime", as.integer64(from, keep.names=TRUE))
+    res <- as.integer64(from)
+    names(res) <- names(from)
+    new("nanotime", res)
 }
 ##' @noRd
 setGeneric("nanotime")
@@ -129,12 +131,18 @@ as.nanotime <- function(from, ...) {
     if (missing(from)) {
         from = NULL
     }
-    new("nanotime", as.integer64(from, keep.names=TRUE))
+    res <- as.integer64(from)
+    names(res) <- names(from)
+    new("nanotime", res)
 }
 ##' @noRd
 setGeneric("as.nanotime")
 
-setAs("integer64", "nanotime", function(from) new("nanotime", as.integer64(from, keep.names=TRUE)))
+setAs("integer64", "nanotime", function(from) {
+    res <- as.integer64(from)
+    names(res) <- names(from)
+    new("nanotime", res)
+})
 
 
 .getTz <- function(x, tz="") {
