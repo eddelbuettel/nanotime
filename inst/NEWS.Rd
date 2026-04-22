@@ -3,6 +3,21 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/nanotime/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/nanotime/issues/#1}{##1}}
 
+\section{Changes in version 0.3.14 (2026-04-22)}{
+  \itemize{
+    \item Tests were refactored to use \code{NA_integer64_} (Michael Chirico
+    in \ghpr{149} and Dirk in \ghpr{156}) 
+    \item \code{nanoduration} was updated for changes in \pkg{nanotime} 4.8.0
+    (Michael Chirico in \ghpr{152} fixing \ghit{151})
+    \item Use of \code{as.integer64(keep.names=TRUE)} has been refactored
+    (Michael Chirico in \ghpr{154} fixing \ghit{153})
+    \item In tests, \pkg{nanotime} is attached after \pkg{bit64}; this still
+    needs a better fix (Michael Chirico in \ghpr{155})
+    \item The package now has a hard dependency on the just released
+    \pkg{bit64} version 4.8.0
+  }
+}
+
 \section{Changes in version 0.3.13 (2026-03-08)}{
   \itemize{
     \item The \code{methods} package is now a Depends as WRE recommends

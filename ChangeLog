@@ -1,5 +1,7 @@
 2026-04-22  Dirk Eddelbuettel  <edd@debian.org>
 
+	* DESCRIPTION (Version, Date): Release 0.3.14
+
 	* inst/tinytest/test_nanoduration.R: Add a test for expected warning
 	on cast from character when re-creating NA_integer64_
 
@@ -19,7 +21,7 @@
 	* inst/tinytest/test_nanoperiod.R: Idem
 	* inst/tinytest/test_nanotime.R: Idem
 	* inst/tinytest/test_ops.R: Idem
- 	* R/nanoduration.R: Add a branch calling seq.integer64 more directly
+	* R/nanoduration.R: Add a branch calling seq.integer64 more directly
 	thanks to upstream fix
 
 2026-03-18  Michael Chirico  <chiricom@google.com>
@@ -29,8 +31,8 @@
 
 2026-03-17  Michael Chirico  <chiricom@google.com>
 
-        * inst/tinytest/test_nanoduration.R Refactor tests using
-        `as.integer64("-9223372036854775808")` to denote `NA_integer64_`.
+	* inst/tinytest/test_nanoduration.R Refactor tests using
+	`as.integer64("-9223372036854775808")` to denote `NA_integer64_`.
 
 2026-03-08  Dirk Eddelbuettel  <edd@debian.org>
 
