@@ -30,6 +30,8 @@ expect_identical(as.nanoduration("0:00:01"), as.nanoduration(sec))
 expect_identical(as.nanoduration("0:00:00.001"), as.nanoduration(milli))
 expect_identical(c(as.nanoduration("1:00:00"), c(as.nanoduration("2:00:00"))),
                  c(as.nanoduration(hour), as.nanoduration(2*hour)))
+expect_identical(as.nanoduration(NA_integer64_),
+                 as.nanoduration(as.integer64("-9223372036854775808")))
 
 ## check name:
 n1 <- as.nanoduration(hour)
