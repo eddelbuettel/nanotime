@@ -1167,6 +1167,37 @@
   <h1>ChangeLog</h1>
 
 <h3 id="2026">2026</h3>
+<p>2026-04-22  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
+<div class="language-text highlight"><pre><span></span><code>    * DESCRIPTION (Version, Date): Release 0.3.14
+
+    * inst/tinytest/test_nanoduration.R: Add a test for expected warning 
+    on cast from character when re-creating NA_integer64_
+</code></pre></div>
+<p>2026-04-21  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
+<div class="language-text highlight"><pre><span></span><code>    * DESCRIPTION (Version, Date): Roll micro version and date 
+    * DESCRIPTION (Imports): Versioned on bit64 4.8.0 or later
+
+    * tests/tinytest.R: Simplify, removing no-longer-needed initializatons
+</code></pre></div>
+<p>2026-04-19  Michael Chirico  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#109;&#105;&#99;&#104;&#97;&#101;&#108;&#99;&#104;&#105;&#114;&#105;&#99;&#111;&#52;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;">&#109;&#105;&#99;&#104;&#97;&#101;&#108;&#99;&#104;&#105;&#114;&#105;&#99;&#111;&#52;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;</a> </p>
+<div class="language-text highlight"><pre><span></span><code>    * inst/tinytest/test_nanoduration.R: Attach nanotime after bit64 to 
+    ensure expected symbol resolution 
+    * inst/tinytest/test_nanoival.R: Idem, and also resolve set operation 
+    functions correctly 
+    * inst/tinytest/test_nanoperiod.R: Idem 
+    * inst/tinytest/test_nanotime.R: Idem 
+    * inst/tinytest/test_ops.R: Idem 
+    * R/nanoduration.R: Add a branch calling seq.integer64 more directly 
+    thanks to upstream fix
+</code></pre></div>
+<p>2026-03-18  Michael Chirico  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#99;&#104;&#105;&#114;&#105;&#99;&#111;&#109;&#64;&#103;&#111;&#111;&#103;&#108;&#101;&#46;&#99;&#111;&#109;">&#99;&#104;&#105;&#114;&#105;&#99;&#111;&#109;&#64;&#103;&#111;&#111;&#103;&#108;&#101;&#46;&#99;&#111;&#109;</a> </p>
+<div class="language-text highlight"><pre><span></span><code>    * R/nanotime.R: Adapt to changing bit64::as.integer64 API and avoid 
+    keep.names=
+</code></pre></div>
+<p>2026-03-17  Michael Chirico  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#99;&#104;&#105;&#114;&#105;&#99;&#111;&#109;&#64;&#103;&#111;&#111;&#103;&#108;&#101;&#46;&#99;&#111;&#109;">&#99;&#104;&#105;&#114;&#105;&#99;&#111;&#109;&#64;&#103;&#111;&#111;&#103;&#108;&#101;&#46;&#99;&#111;&#109;</a> </p>
+<div class="language-text highlight"><pre><span></span><code>    * inst/tinytest/test_nanoduration.R Refactor tests using 
+    `as.integer64(&quot;-9223372036854775808&quot;)` to denote `NA_integer64_`.
+</code></pre></div>
 <p>2026-03-08  Dirk Eddelbuettel  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;">&#101;&#100;&#100;&#64;&#100;&#101;&#98;&#105;&#97;&#110;&#46;&#111;&#114;&#103;</a> </p>
 <div class="language-text highlight"><pre><span></span><code>     * DESCRIPTION (Version, Date): Release 0.3.13
 

@@ -2,6 +2,52 @@
 
 # News for Package <span class="pkg">nanotime</span>
 
+## Changes in version 0.3.14 (2026-04-22)
+
+<ul>
+<li>
+
+Tests were refactored to use <code>NA_integer64\_</code> (Michael
+Chirico in
+<a href="https://github.com/eddelbuettel/nanotime/pull/149">[#149](https://github.com/eddelbuettel/nanotime/issues/149)</a> and
+Dirk in
+<a href="https://github.com/eddelbuettel/nanotime/pull/156">[#156](https://github.com/eddelbuettel/nanotime/issues/156)</a>)
+
+</li>
+<li>
+
+<code>nanoduration</code> was updated for changes in
+<span class="pkg">nanotime</span> 4.8.0 (Michael Chirico in
+<a href="https://github.com/eddelbuettel/nanotime/pull/152">[#152](https://github.com/eddelbuettel/nanotime/issues/152)</a>
+fixing
+<a href="https://github.com/eddelbuettel/nanotime/issues/151">[#151](https://github.com/eddelbuettel/nanotime/issues/151)</a>)
+
+</li>
+<li>
+
+Use of <code>as.integer64(keep.names=TRUE)</code> has been refactored
+(Michael Chirico in
+<a href="https://github.com/eddelbuettel/nanotime/pull/154">[#154](https://github.com/eddelbuettel/nanotime/issues/154)</a>
+fixing
+<a href="https://github.com/eddelbuettel/nanotime/issues/153">[#153](https://github.com/eddelbuettel/nanotime/issues/153)</a>)
+
+</li>
+<li>
+
+In tests, <span class="pkg">nanotime</span> is attached after
+<span class="pkg">bit64</span>; this still needs a better fix (Michael
+Chirico in
+<a href="https://github.com/eddelbuettel/nanotime/pull/155">[#155](https://github.com/eddelbuettel/nanotime/issues/155)</a>)
+
+</li>
+<li>
+
+The package now has a hard dependency on the just released
+<span class="pkg">bit64</span> version 4.8.0
+
+</li>
+</ul>
+
 ## Changes in version 0.3.13 (2026-03-08)
 
 <ul>
