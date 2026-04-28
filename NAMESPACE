@@ -5,6 +5,7 @@ import(Rcpp)
 importFrom(RcppCCTZ, parseDouble, formatDouble)
 importFrom(zoo, index2char)
 importFrom(utils, head, tail)
+importFrom(generics, union, intersect, setdiff, setequal, is.element)
 
 S3method(as.Date,nanotime)
 S3method(as.POSIXct,nanotime)
