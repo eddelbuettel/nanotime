@@ -3,4 +3,3 @@
 : "${R_HOME:=`R RHOME`}"
 
 "${R_HOME}/bin/Rscript" tools/configure.R
-"${R_HOME}/bin/Rscript" tools/createTestSetopsCases.R

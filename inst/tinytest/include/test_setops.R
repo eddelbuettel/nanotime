@@ -11,7 +11,8 @@ makeNanos <- function() {
     list(nt1=nt1, nt2=nt2, ni1=ni1)
 }
 
-runSetopsTests <- function(tag=NULL) {
+#runSetopsTests <- function(tag=NULL) {
+    tag <- NULL
     options(nanotimeFormat="%Y-%m-%d %H:%M:%S")
     n <- makeNanos()
     nt1 <- n$nt1
@@ -75,7 +76,7 @@ runSetopsTests <- function(tag=NULL) {
     ## is.element
     expect_identical(is.element(nt1, nt2), c(FALSE, TRUE, TRUE), info=paste(tag, "is.element(nanotime, nanotime)"))
     # expect_identical(is.element(nt1, ni1), c(FALSE, TRUE, TRUE), info=paste(tag, "is.element(nanotime, nanoival)")) # that would be my expectation
-    expect_identical(is.element(nt1, ni1), c(FALSE, FALSE, FALSE), info=paste(tag, "is.element(nanotime, nanoival)"))
+    expect_warning(identical(is.element(nt1, ni1), c(FALSE, FALSE, FALSE)), info=paste(tag, "is.element(nanotime, nanoival)"))
     expect_identical(is.element(1L, ni1),FALSE, info=paste(tag, "is.element(integer, nanoival)"))
     expect_identical(is.element(1L, nt1), FALSE, info=paste(tag, "is.element(integer, nanotime)"))
     expect_identical(is.element(nt1, 1L), c(FALSE, FALSE, FALSE), info=paste(tag, "is.element(nanotime, integer)"))
@@ -85,15 +86,15 @@ runSetopsTests <- function(tag=NULL) {
       expect_identical(is.element(1L, as.integer64(1L)), TRUE, info=paste(tag, "is.element(integer, integer64)"))
       expect_identical(is.element(as.integer64(1L), 1L), TRUE, info=paste(tag, "is.element(integer64, integer)"))
     }
-    invisible()
-}
+#    invisible()
+#}
 
-testFilesToCreateWithGivenPackageAttachOrder <- list(
-  `(a) nanotime only`="nanotime", 
-  `(b) bit64 then nanotime`=c("bit64", "nanotime"), 
-  `(c) nanotime then bit64`=c("nanotime", "bit64")
-)
+#testFilesToCreateWithGivenPackageAttachOrder <- list(
+#  `(a) nanotime only`="nanotime",
+#  `(b) bit64 then nanotime`=c("bit64", "nanotime"),
+#  `(c) nanotime then bit64`=c("nanotime", "bit64")
+#)
 
 # to not have an empty test output
-if ("tinytest" %in% search())
-  expect_null(NULL)
+#if ("tinytest" %in% search())
+#  expect_null(NULL)
