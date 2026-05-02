@@ -213,7 +213,7 @@ Rcpp::NumericVector ceiling_tz_impl(const Rcpp::NumericVector&   nt_v,      // v
 
   // period must be strictly positive
   if ((prd.getMonths() < 0 || prd.getDays() < 0 || prd.getDuration() < duration::zero()) ||
-      prd == period{0, 0, duration::zero()}) {
+      const_cast<period&>(prd) == period{0, 0, duration::zero()}) {
     Rcpp::stop("'precision' must be strictly positive");
   }
 
@@ -292,7 +292,7 @@ Rcpp::NumericVector floor_tz_impl(const Rcpp::NumericVector&   nt_v,      // vec
 
   // period must be strictly positive
   if ((prd.getMonths() < 0 || prd.getDays() < 0 || prd.getDuration() < duration::zero()) ||
-      prd == period{0, 0, duration::zero()}) {
+      const_cast<period&>(prd) == period{0, 0, duration::zero()}) {
     Rcpp::stop("'precision' must be strictly positive");
   }
 
