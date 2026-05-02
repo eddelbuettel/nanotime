@@ -1,5 +1,7 @@
 2026-05-02  Dirk Eddelbuettel  <edd@debian.org>
 
+	* DESCRIPTION (Version, Date): Roll micro version and date
+
 	* src/rounding.cpp (ceiling_tz_impl): Suppress a warning from older
 	clang compiler on operator==() by adding a const_cast<>
 	(floor_tz_impl): Idem
