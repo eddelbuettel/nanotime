@@ -8,7 +8,7 @@ on:
 
 env:
   _R_CHECK_FORCE_SUGGESTS_: "false"
-
+  
 jobs:
   ci:
     strategy:
@@ -29,9 +29,10 @@ jobs:
       - name: Dependencies
         run: ./run.sh install_all
 
-      - name: macOS stop gap
-        run: Rscript -e 'install.packages("bit64", type="source")'
-        if: ${{ matrix.os == 'macOS-latest' }}
+      - name: Use bit64 PR 
+        run: Rscript -e 'remotes::install_github("r-lib/bit64", ref=remotes::github_pull("321"), type="source")'
+        env:
+          GITHUB_PAT: ${{ secrets.PAT_GITHUB }}
 
       - name: Test
         run: ./run.sh run_tests
