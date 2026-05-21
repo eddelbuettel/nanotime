@@ -1,10 +1,18 @@
+2026-05-20  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): Release 0.3.15
+
+2026-05-19  Dirk Eddelbuettel  <edd@debian.org>
+
+	* tools/configure.R: Fall back to C++17 in another case where C++20
+	is at best aspirational
+
 2026-05-02  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): Roll micro version and date
 
-	* src/rounding.cpp (ceiling_tz_impl): Suppress a warning from older
-	clang compiler on operator==() by adding a const_cast<>
-	(floor_tz_impl): Idem
+	* src/rounding.cpp (ceiling_tz_impl,floor_tz_impl): Suppress warning
+	from older clang compiler on operator==() via added const_cast<>
 
 2026-04-22  Dirk Eddelbuettel  <edd@debian.org>
 

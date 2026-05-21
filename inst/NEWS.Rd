@@ -3,6 +3,15 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/nanotime/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/nanotime/issues/#1}{##1}}
 
+\section{Changes in version 0.3.15 (2026-05-21)}{
+  \itemize{
+    \item Add extra \code{const_cast} as one CRAN machine with more ancient
+    setup whines otherwise and is obviously less C++20 ready than it thinks
+    \item `tools/configure` also checks where this is being built and 'as
+    needed' downgrades the compilationt to C++17
+  }
+}
+
 \section{Changes in version 0.3.14 (2026-04-22)}{
   \itemize{
     \item Tests were refactored to use \code{NA_integer64_} (Michael Chirico
