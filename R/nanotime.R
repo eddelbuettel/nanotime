@@ -662,7 +662,7 @@ setMethod("[<-",
 
 ##' @rdname nanotime
 c.nanotime <- function(...) {
-    nanotime(c.integer64(...))
+    nanotime(c(integer64(), ...))
 }
 
 ##' @rdname nanotime

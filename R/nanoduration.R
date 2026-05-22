@@ -647,7 +647,7 @@ setMethod("[<-",
 
 ##' @rdname nanoduration
 c.nanoduration <- function(...) {
-    as.nanoduration(c.integer64(...))
+    as.nanoduration(c(integer64(), ...))
 }
 
 ##' @rdname nanotime
