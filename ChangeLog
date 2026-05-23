@@ -1,3 +1,10 @@
+2026-05-21  Michael Chirico  <chiricom@google.com>
+
+	* R/nanoduration.R: Use `c()` with S3 dispatch, not `c.integer64()`
+	* R/nanotime.R: Use `c()` with S3 dispatch, not `c.integer64()`
+	* inst/tinytest/test_nanoduration.R: Use `as.integer64()` with S3
+	dispatch, not `as.integer64.character()`
+
 2026-05-20  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): Release 0.3.15
