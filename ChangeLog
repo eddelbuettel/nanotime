@@ -1,3 +1,7 @@
+2026-05-23  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): Roll micro version and date
+
 2026-05-21  Michael Chirico  <chiricom@google.com>
 
 	* R/nanoduration.R: Use `c()` with S3 dispatch, not `c.integer64()`
