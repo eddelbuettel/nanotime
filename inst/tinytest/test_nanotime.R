@@ -7,7 +7,7 @@ options(digits=7)                       # needed for error message of 0.3333333 
 
 expect_equal_numeric <- function(x,y,...) expect_equal(as.numeric(x), as.numeric(y), ...)
 
-isArm64 <- Sys.info()[["machine"]] == "arm64"
+isArm64 <- Sys.info()[["machine"]] %in% c("arm64", "aarch64")
 
 ## nanotime constructors
 ##test_nanotime_generic <- function() {

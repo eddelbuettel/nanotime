@@ -1,3 +1,7 @@
+2026-07-28  Dirk Eddelbuettel  <edd@debian.org>
+
+	* inst/tinytest/test_nanotime.R: Also accept 'aarch64' for arm platforms
+
 2026-07-26  Dirk Eddelbuettel  <edd@debian.org>
 
 	* .github/workflows/ci.yaml (jobs): Add 'workflow_dispatch' trigger,
